@@ -11,12 +11,10 @@ def main():
     incomeStatement = si.get_income_statement(stockName)
 
     info = si.get_company_info(stockName)
-
     country = info.loc["country"][0]
     sector= info.loc['sector'][0]
 
     revenue = incomeStatement.loc["totalRevenue"][0]
-
     retainedEarnings = bs.loc["retainedEarnings"][0]
     equity = bs.loc["totalStockholderEquity"][0]
     cfo = cf.loc["totalCashFromOperatingActivities"][0]
@@ -32,7 +30,7 @@ def main():
     totalAssets = bs.loc["totalAssets"][0]
     totalLiab = bs.loc["totalLiab"][0]
 
-    ebit = incomeStatement.loc["ebit"][0]
+    EBIT = incomeStatement.loc["ebit"][0]
 
     #PRINTING*****
     print(stockName,country, sector)
@@ -50,14 +48,13 @@ def main():
     print("********ALTMAN**********")
     print("current ratio", totalCurrentAssets/totalCurrentLiab)
     print("debt equity ratio", totalLiab/(totalAssets-totalLiab))
-    print("ebit", ebit/1000000000,"B")
+    print("EBIT", EBIT/1000000000,"B")
     print("CFO", cfo/1000000000,"B")
     print("CFI", cfi/1000000000,"B")
     print("CFF", cff / 1000000000, "B")
     print("retailed earnings", retainedEarnings/1000000000,"B")
     print("retailed earnings/totalAssets", retainedEarnings/totalAssets)
     print("revenue/totalAssets",revenue/totalAssets)
-
 
 
 if __name__ == "__main__":
