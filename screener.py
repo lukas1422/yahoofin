@@ -14,8 +14,8 @@ def main():
         # print(comp, country)
         if (country.lower()) == "china":
             print(comp, "NO CHINA")
-        elif not ("retainedEarnings" in bs.index):
-            print(comp, "has no retained earnings")
+        # elif not ("retainedEarnings" in bs.index):
+        #     print(comp, "has no retained earnings")
         else:
             print(comp, country)
             # bs = si.get_balance_sheet(comp)
