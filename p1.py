@@ -5,7 +5,7 @@ def fo(number):
     return str(f"{number:,}")
 
 def main():
-    stockName = "BABA"
+    stockName = "WMT"
     bs = si.get_balance_sheet(stockName)
     cf = si.get_cash_flow(stockName)
     incomeStatement = si.get_income_statement(stockName)
@@ -47,7 +47,7 @@ def main():
     print("                         ")
     print("********ALTMAN**********")
     print("current ratio", totalCurrentAssets/totalCurrentLiab)
-    print("debt equity ratio", totalLiab/(totalAssets-totalLiab))
+    print("D/E ratio", totalLiab/(totalAssets-totalLiab))
     print("EBIT", EBIT/1000000000,"B")
     print("CFO", cfo/1000000000,"B")
     print("CFI", cfi/1000000000,"B")
