@@ -14,9 +14,20 @@ def main():
     country = info.loc["country"][0]
     sector= info.loc['sector'][0]
 
-    revenue = incomeStatement.loc["totalRevenue"][0]
+
+    #BS
     retainedEarnings = bs.loc["retainedEarnings"][0]
     equity = bs.loc["totalStockholderEquity"][0]
+    totalCurrentAssets= bs.loc["totalCurrentAssets"][0]
+    totalCurrentLiab = bs.loc["totalCurrentLiabilities"][0]
+    totalAssets = bs.loc["totalAssets"][0]
+    totalLiab = bs.loc["totalLiab"][0]
+
+    #IS
+    revenue = incomeStatement.loc["totalRevenue"][0]
+    EBIT = incomeStatement.loc["ebit"][0]
+
+    #CF
     cfo = cf.loc["totalCashFromOperatingActivities"][0]
     cfi = cf.loc["totalCashflowsFromInvestingActivities"][0]
     cff = cf.loc["totalCashFromFinancingActivities"][0]
@@ -24,13 +35,6 @@ def main():
     marketPrice = si.get_live_price(stockName)
     shares = si.get_quote_data(stockName)['sharesOutstanding']
 
-    totalCurrentAssets= bs.loc["totalCurrentAssets"][0]
-    totalCurrentLiab = bs.loc["totalCurrentLiabilities"][0]
-
-    totalAssets = bs.loc["totalAssets"][0]
-    totalLiab = bs.loc["totalLiab"][0]
-
-    EBIT = incomeStatement.loc["ebit"][0]
 
     #PRINTING*****
     print(stockName,country, sector)
