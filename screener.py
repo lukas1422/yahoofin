@@ -27,20 +27,35 @@ def main():
             totalLiab = bs.loc["totalLiab"][0]
 
             # IS
-            revenue = incomeStatement.loc["totalRevenue"][0]
-            EBIT = incomeStatement.loc["ebit"][0]
+            # revenue = incomeStatement.loc["totalRevenue"][0]
+            ebit = incomeStatement.loc["ebit"][0]
 
             # CF
             cfo = cf.loc["totalCashFromOperatingActivities"][0]
-            cfi = cf.loc["totalCashflowsFromInvestingActivities"][0]
-            cff = cf.loc["totalCashFromFinancingActivities"][0]
+            # cfi = cf.loc["totalCashflowsFromInvestingActivities"][0]
+            # cff = cf.loc["totalCashFromFinancingActivities"][0]
+            marketPrice = si.get_live_price(comp)
+            shares = si.get_quote_data(comp)['sharesOutstanding']
+            marketCap = marketPrice * shares
 
-            print(comp, country,
-                  "CR", round(totalCurrentAssets / totalCurrentLiab, 2),
-                  "D/E", round(totalLiab / (totalAssets - totalLiab), 2),
-                  "RE/A", round(retainedEarnings / totalAssets, 2),
-                  "cfo/A", round(cfo / totalAssets, 2),
-                  "EBIT/A", round(EBIT / totalAssets, 2))
+            currentRatio = totalCurrentAssets / totalCurrentLiab
+            debtEquityRatio = totalLiab / (totalAssets - totalLiab)
+            retainedEarningsAssetRatio = retainedEarnings / totalAssets
+            cfoAssetRatio = cfo / totalAssets
+            ebitAssetRatio = ebit / totalAssets
+
+            if (currentRatio > 1 and debtEquityRatio < 5 and retainedEarnings > 0
+                    and cfo > 0 and ebit > 0):
+
+                print(comp, country, sector,
+                      "MV USD", round(marketCap / 1000000000.0, 2),
+                      "CR", round(currentRatio, 2),
+                      "D/E", round(debtEquityRatio, 2),
+                      "RE/A", round(retainedEarningsAssetRatio, 2),
+                      "cfo/A", round(cfoAssetRatio, 2),
+                      "ebit/A", round(ebitAssetRatio, 2))
+
+            # print(comp,country, "CR",currentRatio, "DE",debt<1, RE>0, CFO>0, EBIT>0")
 
 
 if __name__ == "__main__":
