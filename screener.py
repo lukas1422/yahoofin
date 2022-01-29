@@ -17,7 +17,7 @@ def main():
         # elif not ("retainedEarnings" in bs.index):
         #     print(comp, "has no retained earnings")
         else:
-            print(comp, country)
+            # print(comp, country)
             # bs = si.get_balance_sheet(comp)
             cf = si.get_cash_flow(comp)
             incomeStatement = si.get_income_statement(comp)
