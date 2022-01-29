@@ -10,16 +10,25 @@ def main():
         info = si.get_company_info(comp)
         country = info.loc["country"][0]
         sector = info.loc['sector'][0]
+        bs = si.get_balance_sheet(comp)
         # print(comp, country)
         if (country.lower()) == "china":
             print(comp, "NO CHINA")
+        elif not ("retainedEarnings" in bs.index):
+            print(comp, "has no retained earnings")
         else:
-            # print(comp, country)
-            bs = si.get_balance_sheet(comp)
+            print(comp, country)
+            # bs = si.get_balance_sheet(comp)
             cf = si.get_cash_flow(comp)
             incomeStatement = si.get_income_statement(comp)
 
-            retainedEarnings = bs.loc["retainedEarnings"][0]
+            if "retainedEarnings" in bs.index:
+                retainedEarnings = bs.loc["retainedEarnings"][0]
+            else:
+                print("retained earnings does not exist for ", comp)
+                retainedEarnings = 0.0
+
+
             equity = bs.loc["totalStockholderEquity"][0]
             totalCurrentAssets = bs.loc["totalCurrentAssets"][0]
             totalCurrentLiab = bs.loc["totalCurrentLiabilities"][0]
@@ -44,9 +53,8 @@ def main():
             cfoAssetRatio = cfo / totalAssets
             ebitAssetRatio = ebit / totalAssets
 
-            if (currentRatio > 1 and debtEquityRatio < 5 and retainedEarnings > 0
+            if (currentRatio > 1 and debtEquityRatio < 1 and retainedEarnings > 0
                     and cfo > 0 and ebit > 0):
-
                 print(comp, country, sector,
                       "MV USD", round(marketCap / 1000000000.0, 2),
                       "CR", round(currentRatio, 2),
