@@ -20,22 +20,9 @@ for comp in lines:
     except Exception as e:
         print(comp, "exception on info or BS")
     else:
-        # print(comp, country)
         if (country.lower()) == "china":
             print(comp, "NO CHINA")
-        # elif not ("retainedEarnings" in bs.index):
-        #     print(comp, "has no retained earnings")
         else:
-            # print(comp, country)
-            # bs = si.get_balance_sheet(comp)
-
-            #
-            # if "retainedEarnings" in bs.index:
-            #     retainedEarnings = bs.loc["retainedEarnings"][0]
-            # else:
-            #     print("retained earnings does not exist for ", comp)
-            #     retainedEarnings = 0.0
-
             try:
                 cf = si.get_cash_flow(comp)
                 incomeStatement = si.get_income_statement(comp)
@@ -105,18 +92,14 @@ for comp in lines:
                             and cfo > 0 and ebit > 0):
                         pb = marketCap / equity
                         data = si.get_data(comp, start_date=START_DATE, interval=PRICE_INTERVAL)
-                        # print("data ", data)
 
                         try:
                             dataSize = data['adjclose'].size
-                            # print("data size is ", data.size)
                             percentile = 100.0 * (data['adjclose'][-1] - data['adjclose'].min()) / (
                                     data['adjclose'].max() - data['adjclose'].min())
-                            # percentile = data['adjclose'].rank(method='max').apply(lambda x: 100 * (x - 1) / dataSize)[-1]
                         except Exception as e:
                             print(comp, "percentile issue ", e)
                         else:
-
                             outputString = "SUCCESS " + comp + " " + country + " " + sector \
                                            + " MV:" + str(round(marketCap / 1000000000.0, 1)) + 'B' \
                                            + " Equity:" + str(round((totalAssets-totalLiab) / 1000000000.0, 1)) + 'B' \

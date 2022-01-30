@@ -1,17 +1,5 @@
-# #https://finviz.com/screener.ashx?v=121&f=sec_industrials&o=pb&r=381
-#
-#
-# from bs4 import BeautifulSoup
-# from urllib.request import urlopen
-#
-
-########
-
 fileOutput = open('tickerList', 'w')
-# fileOutput.write("\n")
 
-import pandas as pd
-import numpy as np
 from bs4 import BeautifulSoup
 from urllib.request import Request, urlopen
 
@@ -20,10 +8,6 @@ url = "http://finviz.com/screener.ashx?v=121&f=sec_industrials&o=pb&r=" + str(st
 req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
 webpage = urlopen(req).read()
 soup = BeautifulSoup(webpage, "html.parser")
-# print(soup.prettify())
-# ab = soup.find_all('a',attrs={"class":"screener-link-primary"})
-# for link in ab:
-#     print(link.get_text(strip=True))
 
 last = 0
 
