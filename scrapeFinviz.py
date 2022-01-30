@@ -3,16 +3,18 @@ fileOutput = open('tickerList', 'w')
 from bs4 import BeautifulSoup
 from urllib.request import Request, urlopen
 
-stockNum = 700
-url = "http://finviz.com/screener.ashx?v=121&f=sec_industrials&o=pb&r=" + str(stockNum)
-req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
-webpage = urlopen(req).read()
-soup = BeautifulSoup(webpage, "html.parser")
+stockNum = 8700
+# url = "http://finviz.com/screener.ashx?v=121&f=sec_industrials&o=pb&r=" + str(stockNum)
+# url = "https://finviz.com/screener.ashx?v=121&o=pb&r=" + str(stockNum)
+# req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+# webpage = urlopen(req).read()
+# soup = BeautifulSoup(webpage, "html.parser")
 
 last = 0
+NumPBExceedingOne = 0
 
 for i in range(1, stockNum, 20):
-    url = "http://finviz.com/screener.ashx?v=121&f=sec_industrials&o=pb&r=" + str(i)
+    url = "https://finviz.com/screener.ashx?v=121&o=pb&r=" + str(i)
     req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
     webpage = urlopen(req).read()
     soup = BeautifulSoup(webpage, "html.parser")
@@ -23,11 +25,15 @@ for i in range(1, stockNum, 20):
         value = tr.find_all('td')[1].get_text(strip=True)
         pb = tr.find_all('td')[7].get_text(strip=True)
         print("index", index, "value", value, pb, "pb")
-        if index == last:
+        if index == last or NumPBExceedingOne >= 5:
             break
         else:
             print(index, value)
             last = index
-            #print("last", last)
-            fileOutput.write(str(value) + "\n")
-            fileOutput.flush()
+            # print("last", last)
+            if (float(pb) < 1.0):
+                fileOutput.write(str(value) + "\n")
+                fileOutput.flush()
+            else:
+                print("pb > 1 ", value)
+                NumPBExceedingOne = NumPBExceedingOne + 1
