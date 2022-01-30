@@ -17,7 +17,6 @@ for comp in lines:
         country = info.loc["country"][0]
         sector = info.loc['sector'][0]
         bs = si.get_balance_sheet(comp)
-
     except Exception as e:
         print(comp, "exception on info or BS")
     else:
