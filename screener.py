@@ -1,8 +1,8 @@
 import yahoo_fin.stock_info as si
 import datetime
 
-START_DATE = '1/1/2021'
-PRICE_INTERVAL = '1wk'
+START_DATE = '1/1/2020'
+PRICE_INTERVAL = '1mo'
 
 fileOutput = open('reportList', 'w')
 
@@ -100,12 +100,16 @@ for comp in lines:
                         and cfo > 0 and ebit > 0):
                     pb = marketCap / equity
                     data = si.get_data(comp, start_date=START_DATE, interval=PRICE_INTERVAL)
-                    dataSize = data.size
+                    # print("data ", data)
+
                     try:
-                        percentile = data['adjclose'].rank(method='max').apply(lambda x: 100 * (x - 1) / dataSize).list[
-                            -1]
+                        dataSize = data['adjclose'].size
+                        # print("data size is ", data.size)
+                        percentile = 100.0 * (data['adjclose'][-1] - data['adjclose'].min()) / (
+                                data['adjclose'].max() - data['adjclose'].min())
+                        # percentile = data['adjclose'].rank(method='max').apply(lambda x: 100 * (x - 1) / dataSize)[-1]
                     except Exception as e:
-                        print(e)
+                        print(comp, "percentile issue ", e)
                     else:
 
                         outputString = " SUCCESS " + comp + " " + country + " " + sector \
@@ -116,8 +120,8 @@ for comp in lines:
                                        + " cfo/A:" + str(round(cfoAssetRatio, 2)) \
                                        + " ebit/A:" + str(round(ebitAssetRatio, 2)) \
                                        + " p/b:" + str(round(pb, 2)) \
-                                       + " p%: " + percentile
+                                       + " 52wk p%: " + str(round(percentile))
 
-                    print(outputString)
-                    fileOutput.write(outputString + '\n')
-                    fileOutput.flush()
+                        print(outputString)
+                        fileOutput.write(outputString + '\n')
+                        fileOutput.flush()
