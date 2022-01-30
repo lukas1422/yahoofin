@@ -8,7 +8,7 @@ fileOutput = open('reportList', 'w')
 fileOutput.write("\n")
 
 with open("tickerList", "r") as file:
-    lines = file.read().splitlines()
+    lines = file.read().rstrip().splitlines()
 
 print(lines)
 for comp in lines:
