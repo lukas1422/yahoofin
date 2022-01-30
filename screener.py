@@ -61,6 +61,7 @@ for comp in lines:
             retainedEarningsAssetRatio = retainedEarnings / totalAssets
             cfoAssetRatio = cfo / totalAssets
             ebitAssetRatio = ebit / totalAssets
+            # salesBookRatio =
 
             try:
                 assert currentRatio > 1, 'current ratio needs to be bigger than one'
@@ -113,13 +114,14 @@ for comp in lines:
                     else:
 
                         outputString = " SUCCESS " + comp + " " + country + " " + sector \
-                                       + " MV USD:" + str(round(marketCap / 1000000000.0, 2)) \
-                                       + " CR:" + str(round(currentRatio, 2)) \
-                                       + " D/E:" + str(round(debtEquityRatio, 2)) \
-                                       + " RE/A:" + str(round(retainedEarningsAssetRatio, 2)) \
-                                       + " cfo/A:" + str(round(cfoAssetRatio, 2)) \
-                                       + " ebit/A:" + str(round(ebitAssetRatio, 2)) \
-                                       + " p/b:" + str(round(pb, 2)) \
+                                       + " MV:" + str(round(marketCap / 1000000000.0, 1)) + 'B' \
+                                       + " Equity:" + str(round((totalAssets-totalLiab) / 1000000000.0, 1)) + 'B' \
+                                       + " CR:" + str(round(currentRatio, 1)) \
+                                       + " D/E:" + str(round(debtEquityRatio, 1)) \
+                                       + " RE/A:" + str(round(retainedEarningsAssetRatio, 1)) \
+                                       + " cfo/A:" + str(round(cfoAssetRatio, 1)) \
+                                       + " ebit/A:" + str(round(ebitAssetRatio, 1)) \
+                                       + " p/b:" + str(round(pb, 1)) \
                                        + " 52wk p%: " + str(round(percentile))
 
                         print(outputString)
