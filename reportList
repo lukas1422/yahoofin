@@ -1,106 +1,105 @@
-
-SUCCESS APWC Taiwan Industrials MV:0.0B Equity:0.2B CR:3.2 D/E:0.4 RE/A:0.2 cfo/A:0.0 ebit/A:0.0 p/b:0.1 52wk p%: 8
-SUCCESS PANL United States Industrials MV:0.2B Equity:0.2B CR:1.0 D/E:0.9 RE/A:0.1 cfo/A:0.0 ebit/A:0.0 p/b:1.0 52wk p%: 63
-SUCCESS SVT United States Industrials MV:0.0B Equity:0.0B CR:5.6 D/E:0.5 RE/A:0.4 cfo/A:0.0 ebit/A:0.0 p/b:1.0 52wk p%: 100
-SUCCESS CSTE Israel Industrials MV:0.4B Equity:0.5B CR:2.5 D/E:0.7 RE/A:0.5 cfo/A:0.1 ebit/A:0.0 p/b:0.8 52wk p%: 38
-SUCCESS NL United States Industrials MV:0.3B Equity:0.3B CR:6.2 D/E:0.6 RE/A:0.5 cfo/A:0.0 ebit/A:0.0 p/b:1.0 52wk p%: 80
-SUCCESS APT Canada Industrials MV:0.1B Equity:0.1B CR:9.5 D/E:0.1 RE/A:0.9 cfo/A:0.3 ebit/A:0.5 p/b:1.0 52wk p%: 0
-SUCCESS GENC United States Industrials MV:0.1B Equity:0.2B CR:14.7 D/E:0.1 RE/A:0.9 cfo/A:0.0 ebit/A:0.0 p/b:0.8 52wk p%: 10
-SUCCESS AAN United States Consumer Cyclical MV:0.7B Equity:0.7B CR:2.7 D/E:0.9 RE/A:0.0 cfo/A:0.3 ebit/A:0.1 p/b:0.9 52wk p%: 21
-SUCCESS PLPC United States Industrials MV:0.3B Equity:0.3B CR:2.5 D/E:0.6 RE/A:0.8 cfo/A:0.1 ebit/A:0.1 p/b:1.0 52wk p%: 46
-SUCCESS SEB United States Industrials MV:4.4B Equity:3.8B CR:3.1 D/E:0.7 RE/A:0.7 cfo/A:0.0 ebit/A:0.0 p/b:1.1 52wk p%: 69
-SUCCESS NWPX United States Industrials MV:0.3B Equity:0.3B CR:4.2 D/E:0.4 RE/A:0.4 cfo/A:0.2 ebit/A:0.1 p/b:1.1 52wk p%: 60
-SUCCESS KE United States Industrials MV:0.5B Equity:0.4B CR:1.9 D/E:0.8 RE/A:0.3 cfo/A:0.2 ebit/A:0.1 p/b:1.1 52wk p%: 45
-SUCCESS ACA United States Industrials MV:2.2B Equity:1.9B CR:2.1 D/E:0.4 RE/A:0.1 cfo/A:0.1 ebit/A:0.1 p/b:1.2 52wk p%: 32
-SUCCESS AIR United States Industrials MV:1.4B Equity:1.0B CR:2.8 D/E:0.6 RE/A:0.5 cfo/A:0.1 ebit/A:0.0 p/b:1.4 52wk p%: 90
-SUCCESS KEX United States Industrials MV:4.0B Equity:3.1B CR:2.2 D/E:0.9 RE/A:0.4 cfo/A:0.1 ebit/A:0.0 p/b:1.3 52wk p%: 100
-SUCCESS KAMN United States Industrials MV:1.1B Equity:0.7B CR:2.6 D/E:0.8 RE/A:0.6 cfo/A:0.0 ebit/A:0.1 p/b:1.5 52wk p%: 22
-SUCCESS KNX United States Industrials MV:9.2B Equity:6.5B CR:1.3 D/E:0.6 RE/A:0.2 cfo/A:0.1 ebit/A:0.1 p/b:1.4 52wk p%: 81
-SUCCESS THR United States Industrials MV:0.6B Equity:0.4B CR:3.9 D/E:0.6 RE/A:0.3 cfo/A:0.0 ebit/A:0.0 p/b:1.5 52wk p%: 66
-SUCCESS EBF United States Industrials MV:0.5B Equity:0.3B CR:4.2 D/E:0.2 RE/A:0.5 cfo/A:0.1 ebit/A:0.1 p/b:1.6 52wk p%: 71
-SUCCESS RGP United States Industrials MV:0.5B Equity:0.3B CR:2.3 D/E:0.6 RE/A:0.7 cfo/A:0.1 ebit/A:0.1 p/b:1.7 52wk p%: 89
-SUCCESS PRLB United States Industrials MV:1.3B Equity:0.6B CR:4.8 D/E:0.2 RE/A:0.5 cfo/A:0.1 ebit/A:0.1 p/b:2.0 52wk p%: 0
-SUCCESS CIX United States Industrials MV:0.3B Equity:0.2B CR:7.7 D/E:0.1 RE/A:0.6 cfo/A:0.1 ebit/A:0.1 p/b:1.7 52wk p%: 99
-SUCCESS WAB United States Industrials MV:16.4B Equity:10.2B CR:1.2 D/E:0.8 RE/A:0.2 cfo/A:0.0 ebit/A:0.0 p/b:1.6 52wk p%: 90
-SUCCESS NPK United States Industrials MV:0.6B Equity:0.4B CR:6.5 D/E:0.2 RE/A:0.8 cfo/A:0.1 ebit/A:0.1 p/b:1.5 52wk p%: 41
-SUCCESS GPN United States Industrials MV:42.7B Equity:27.5B CR:1.0 D/E:0.6 RE/A:0.1 cfo/A:0.1 ebit/A:0.0 p/b:1.6 52wk p%: 30
-SUCCESS B United States Industrials MV:2.3B Equity:1.4B CR:2.2 D/E:0.9 RE/A:0.6 cfo/A:0.1 ebit/A:0.1 p/b:1.7 52wk p%: 56
-SUCCESS NX United States Industrials MV:0.7B Equity:0.4B CR:1.6 D/E:0.7 RE/A:0.4 cfo/A:0.1 ebit/A:0.1 p/b:1.7 52wk p%: 68
-SUCCESS OBCI United States Industrials MV:0.1B Equity:0.0B CR:9.7 D/E:0.2 RE/A:0.6 cfo/A:0.1 ebit/A:0.3 p/b:2.0 52wk p%: 34
-SUCCESS HURN United States Industrials MV:1.0B Equity:0.6B CR:1.2 D/E:0.9 RE/A:0.2 cfo/A:0.1 ebit/A:0.1 p/b:1.7 52wk p%: 27
-SUCCESS AGX United States Industrials MV:0.6B Equity:0.3B CR:2.0 D/E:0.9 RE/A:0.3 cfo/A:0.3 ebit/A:0.0 p/b:1.9 52wk p%: 37
-SUCCESS WIRE United States Industrials MV:2.1B Equity:0.8B CR:5.9 D/E:0.2 RE/A:0.9 cfo/A:0.1 ebit/A:0.1 p/b:2.6 52wk p%: 63
-SUCCESS NPO United States Industrials MV:2.1B Equity:1.1B CR:2.9 D/E:0.8 RE/A:0.4 cfo/A:0.0 ebit/A:0.0 p/b:2.0 52wk p%: 90
-SUCCESS BGSF United States Industrials MV:0.1B Equity:0.1B CR:2.4 D/E:1.0 RE/A:0.0 cfo/A:0.2 ebit/A:0.1 p/b:2.1 52wk p%: 80
-SUCCESS SMED United States Industrials MV:0.1B Equity:0.0B CR:2.6 D/E:0.6 RE/A:0.2 cfo/A:0.3 ebit/A:0.2 p/b:2.7 52wk p%: 6
-SUCCESS UNF United States Industrials MV:2.9B Equity:1.9B CR:4.3 D/E:0.3 RE/A:0.8 cfo/A:0.1 ebit/A:0.1 p/b:1.5 52wk p%: 43
-SUCCESS ROLL United States Industrials MV:5.0B Equity:1.2B CR:8.3 D/E:0.2 RE/A:0.6 cfo/A:0.1 ebit/A:0.1 p/b:4.0 52wk p%: 49
-SUCCESS SNDR United States Industrials MV:2.4B Equity:2.1B CR:2.3 D/E:0.7 RE/A:0.1 cfo/A:0.2 ebit/A:0.1 p/b:1.2 52wk p%: 83
-SUCCESS HUBG United States Industrials MV:2.6B Equity:1.2B CR:1.3 D/E:0.8 RE/A:0.6 cfo/A:0.1 ebit/A:0.1 p/b:2.2 52wk p%: 77
-SUCCESS HCCI United States Industrials MV:0.7B Equity:0.3B CR:2.1 D/E:0.7 RE/A:0.2 cfo/A:0.1 ebit/A:0.0 p/b:2.4 52wk p%: 67
-SUCCESS MRCY United States Industrials MV:3.1B Equity:1.5B CR:4.3 D/E:0.3 RE/A:0.2 cfo/A:0.0 ebit/A:0.1 p/b:2.1 52wk p%: 17
-SUCCESS KMT United States Industrials MV:2.8B Equity:1.4B CR:2.3 D/E:0.9 RE/A:0.4 cfo/A:0.1 ebit/A:0.1 p/b:2.1 52wk p%: 74
-SUCCESS ROCK United States Industrials MV:1.8B Equity:0.7B CR:1.4 D/E:0.6 RE/A:0.4 cfo/A:0.1 ebit/A:0.1 p/b:2.4 52wk p%: 22
-SUCCESS ASTE United States Industrials MV:1.4B Equity:0.6B CR:3.3 D/E:0.3 RE/A:0.6 cfo/A:0.2 ebit/A:0.1 p/b:2.2 52wk p%: 70
-SUCCESS MRTN United States Industrials MV:1.4B Equity:0.7B CR:2.0 D/E:0.3 RE/A:0.6 cfo/A:0.2 ebit/A:0.1 p/b:2.1 52wk p%: 82
-SUCCESS AVAV United States Industrials MV:1.3B Equity:0.6B CR:4.2 D/E:0.5 RE/A:0.4 cfo/A:0.1 ebit/A:0.1 p/b:2.2 52wk p%: 0
-SUCCESS LHX United States Industrials MV:42.9B Equity:20.8B CR:1.6 D/E:0.8 RE/A:0.1 cfo/A:0.1 ebit/A:0.1 p/b:2.1 52wk p%: 83
-SUCCESS NVT United Kingdom Industrials MV:5.7B Equity:2.4B CR:1.7 D/E:0.8 RE/A:0.0 cfo/A:0.1 ebit/A:0.1 p/b:2.4 52wk p%: 82
-SUCCESS WERN United States Industrials MV:2.9B Equity:1.2B CR:1.7 D/E:0.8 RE/A:0.7 cfo/A:0.2 ebit/A:0.1 p/b:2.4 52wk p%: 66
-SUCCESS SWBI United States Industrials MV:0.8B Equity:0.3B CR:2.1 D/E:0.7 RE/A:0.7 cfo/A:0.7 ebit/A:0.7 p/b:3.0 52wk p%: 37
-SUCCESS EVI United States Industrials MV:0.3B Equity:0.1B CR:1.3 D/E:0.7 RE/A:0.1 cfo/A:0.1 ebit/A:0.0 p/b:2.5 52wk p%: 23
-SUCCESS SXI United States Industrials MV:1.2B Equity:0.5B CR:2.6 D/E:0.9 RE/A:0.9 cfo/A:0.1 ebit/A:0.1 p/b:2.4 52wk p%: 81
-SUCCESS RRX United States Industrials MV:10.5B Equity:2.6B CR:2.3 D/E:0.8 RE/A:0.4 cfo/A:0.1 ebit/A:0.1 p/b:4.1 52wk p%: 86
-SUCCESS PRG United States Industrials MV:2.2B Equity:1.0B CR:2.4 D/E:0.3 RE/A:0.9 cfo/A:0.3 ebit/A:0.3 p/b:2.2 52wk p%: 55
-SUCCESS ALG United States Industrials MV:1.7B Equity:0.6B CR:3.2 D/E:0.8 RE/A:0.5 cfo/A:0.2 ebit/A:0.1 p/b:2.7 52wk p%: 77
-SUCCESS IIIN United States Industrials MV:0.7B Equity:0.3B CR:3.6 D/E:0.3 RE/A:0.5 cfo/A:0.2 ebit/A:0.2 p/b:2.4 52wk p%: 82
-SUCCESS EPAC United States Industrials MV:1.1B Equity:0.4B CR:2.7 D/E:1.0 RE/A:1.2 cfo/A:0.1 ebit/A:0.1 p/b:2.6 52wk p%: 9
-SUCCESS MGRC United States Industrials MV:1.8B Equity:0.7B CR:1.5 D/E:0.9 RE/A:0.5 cfo/A:0.1 ebit/A:0.1 p/b:2.7 52wk p%: 73
-SUCCESS GTLS United States Industrials MV:4.2B Equity:1.6B CR:1.1 D/E:0.6 RE/A:0.3 cfo/A:0.1 ebit/A:0.0 p/b:2.7 52wk p%: 53
-SUCCESS MLI United States Industrials MV:3.0B Equity:0.8B CR:2.4 D/E:0.9 RE/A:0.7 cfo/A:0.2 ebit/A:0.2 p/b:3.8 52wk p%: 79
-SUCCESS SNA United States Industrials MV:11.1B Equity:3.8B CR:2.6 D/E:0.7 RE/A:0.8 cfo/A:0.2 ebit/A:0.1 p/b:2.9 52wk p%: 70
-SUCCESS MHH United States Industrials MV:0.2B Equity:0.1B CR:1.9 D/E:0.7 RE/A:0.4 cfo/A:0.2 ebit/A:0.1 p/b:3.3 52wk p%: 34
-SUCCESS BRC United States Industrials MV:2.5B Equity:1.0B CR:1.8 D/E:0.4 RE/A:0.6 cfo/A:0.1 ebit/A:0.1 p/b:2.6 52wk p%: 79
-SUCCESS HXL United States Industrials MV:4.2B Equity:1.5B CR:2.9 D/E:0.9 RE/A:0.7 cfo/A:0.1 ebit/A:0.0 p/b:2.8 52wk p%: 58
-SUCCESS FSS United States Industrials MV:2.3B Equity:0.7B CR:2.7 D/E:0.7 RE/A:0.5 cfo/A:0.1 ebit/A:0.1 p/b:3.3 52wk p%: 69
-SUCCESS GRC United States Industrials MV:1.0B Equity:0.3B CR:6.4 D/E:0.3 RE/A:0.9 cfo/A:0.1 ebit/A:0.1 p/b:3.2 52wk p%: 66
-SUCCESS WWD United States Industrials MV:6.9B Equity:2.2B CR:4.0 D/E:0.8 RE/A:0.6 cfo/A:0.1 ebit/A:0.1 p/b:3.1 52wk p%: 73
-SUCCESS FCN United States Industrials MV:5.0B Equity:1.4B CR:1.7 D/E:1.0 RE/A:0.5 cfo/A:0.1 ebit/A:0.1 p/b:3.5 52wk p%: 84
-SUCCESS AYI United States Industrials MV:6.6B Equity:2.0B CR:2.2 D/E:0.7 RE/A:0.8 cfo/A:0.1 ebit/A:0.1 p/b:3.2 52wk p%: 81
-SUCCESS ASR Mexico Industrials MV:5.9B Equity:41.7B CR:2.8 D/E:0.4 RE/A:0.2 cfo/A:0.0 ebit/A:0.1 p/b:0.2 52wk p%: 92
-SUCCESS RGR United States Industrials MV:1.2B Equity:0.3B CR:2.9 D/E:0.3 RE/A:1.0 cfo/A:0.4 ebit/A:0.3 p/b:4.4 52wk p%: 51
-SUCCESS ROAD United States Industrials MV:1.1B Equity:0.4B CR:1.9 D/E:1.0 RE/A:0.2 cfo/A:0.1 ebit/A:0.0 p/b:2.6 52wk p%: 51
-SUCCESS TRI Canada Industrials MV:51.0B Equity:10.0B CR:1.5 D/E:0.8 RE/A:0.3 cfo/A:0.1 ebit/A:0.1 p/b:5.2 52wk p%: 72
-SUCCESS LNN United States Industrials MV:1.3B Equity:0.3B CR:3.0 D/E:0.9 RE/A:0.8 cfo/A:0.1 ebit/A:0.1 p/b:3.9 52wk p%: 44
-SUCCESS FELE United States Industrials MV:4.0B Equity:0.8B CR:3.0 D/E:0.5 RE/A:0.6 cfo/A:0.2 ebit/A:0.1 p/b:4.7 52wk p%: 81
-SUCCESS SSD United States Industrials MV:4.9B Equity:1.0B CR:3.9 D/E:0.3 RE/A:0.6 cfo/A:0.2 ebit/A:0.2 p/b:4.9 52wk p%: 65
-SUCCESS OMAB Mexico Industrials MV:2.5B Equity:10.8B CR:1.1 D/E:0.7 RE/A:0.6 cfo/A:0.1 ebit/A:0.1 p/b:0.2 52wk p%: 95
-SUCCESS KAI United States Industrials MV:2.4B Equity:0.5B CR:2.2 D/E:0.9 RE/A:0.5 cfo/A:0.1 ebit/A:0.1 p/b:4.9 52wk p%: 84
-SUCCESS LPX United States Industrials MV:5.7B Equity:1.2B CR:3.5 D/E:0.7 RE/A:0.6 cfo/A:0.3 ebit/A:0.3 p/b:4.6 52wk p%: 78
-SUCCESS PNR United Kingdom Industrials MV:10.4B Equity:2.1B CR:1.3 D/E:1.0 RE/A:0.2 cfo/A:0.1 ebit/A:0.1 p/b:5.0 52wk p%: 72
-SUCCESS WTS United States Industrials MV:4.2B Equity:1.1B CR:2.3 D/E:0.6 RE/A:0.3 cfo/A:0.1 ebit/A:0.1 p/b:3.9 52wk p%: 64
-SUCCESS AME United States Industrials MV:31.2B Equity:5.9B CR:2.3 D/E:0.7 RE/A:0.7 cfo/A:0.1 ebit/A:0.1 p/b:5.2 52wk p%: 84
-SUCCESS FWRD United States Industrials MV:2.8B Equity:0.5B CR:1.4 D/E:0.9 RE/A:0.3 cfo/A:0.1 ebit/A:0.1 p/b:5.1 52wk p%: 75
-SUCCESS HQI United States Industrials MV:0.2B Equity:0.0B CR:4.1 D/E:0.4 RE/A:0.2 cfo/A:0.2 ebit/A:0.1 p/b:6.5 52wk p%: 68
-SUCCESS EXPD United States Industrials MV:19.2B Equity:2.7B CR:2.1 D/E:0.9 RE/A:0.5 cfo/A:0.1 ebit/A:0.2 p/b:7.2 52wk p%: 69
-SUCCESS WNS India Technology MV:4.1B Equity:0.7B CR:2.5 D/E:0.6 RE/A:0.6 cfo/A:0.2 ebit/A:0.1 p/b:6.0 52wk p%: 89
-SUCCESS SHYF United States Industrials MV:1.4B Equity:0.2B CR:1.7 D/E:0.8 RE/A:0.3 cfo/A:0.2 ebit/A:0.1 p/b:7.2 52wk p%: 78
-SUCCESS IEX United States Industrials MV:16.1B Equity:2.5B CR:4.2 D/E:0.7 RE/A:0.6 cfo/A:0.1 ebit/A:0.1 p/b:6.3 52wk p%: 76
-SUCCESS WSO United States Industrials MV:9.2B Equity:1.8B CR:3.0 D/E:0.4 RE/A:0.3 cfo/A:0.2 ebit/A:0.2 p/b:6.2 52wk p%: 80
-SUCCESS ERII United States Industrials MV:1.1B Equity:0.2B CR:9.1 D/E:0.2 RE/A:0.1 cfo/A:0.1 ebit/A:0.2 p/b:6.3 52wk p%: 75
-SUCCESS AOS United States Industrials MV:10.1B Equity:1.8B CR:1.8 D/E:0.7 RE/A:0.8 cfo/A:0.2 ebit/A:0.1 p/b:5.4 52wk p%: 80
-SUCCESS NDSN United States Industrials MV:13.3B Equity:2.2B CR:2.6 D/E:0.8 RE/A:0.9 cfo/A:0.1 ebit/A:0.2 p/b:6.1 52wk p%: 77
-SUCCESS HEI-A United States Industrials MV:8.9B Equity:2.5B CR:3.2 D/E:0.4 RE/A:0.6 cfo/A:0.1 ebit/A:0.1 p/b:3.9 52wk p%: 68
-SUCCESS BMI United States Industrials MV:2.8B Equity:0.4B CR:3.4 D/E:0.3 RE/A:0.7 cfo/A:0.2 ebit/A:0.1 p/b:7.6 52wk p%: 76
-SUCCESS NSSC United States Industrials MV:0.7B Equity:0.1B CR:4.8 D/E:0.3 RE/A:0.8 cfo/A:0.2 ebit/A:0.1 p/b:7.8 52wk p%: 70
-SUCCESS GGG United States Industrials MV:12.1B Equity:1.3B CR:3.2 D/E:0.5 RE/A:0.3 cfo/A:0.2 ebit/A:0.2 p/b:9.4 52wk p%: 75
-SUCCESS CPRT United States Industrials MV:29.7B Equity:3.5B CR:4.0 D/E:0.3 RE/A:0.6 cfo/A:0.2 ebit/A:0.2 p/b:8.4 52wk p%: 66
-SUCCESS AXON United States Industrials MV:9.3B Equity:1.0B CR:3.8 D/E:0.4 RE/A:0.1 cfo/A:0.0 ebit/A:0.0 p/b:9.5 52wk p%: 57
-SUCCESS HEI United States Industrials MV:7.3B Equity:2.5B CR:3.2 D/E:0.4 RE/A:0.6 cfo/A:0.1 ebit/A:0.1 p/b:3.2 52wk p%: 87
-SUCCESS AAON United States Industrials MV:3.3B Equity:0.4B CR:3.7 D/E:0.3 RE/A:0.8 cfo/A:0.3 ebit/A:0.2 p/b:9.3 52wk p%: 48
-SUCCESS TRNS United States Industrials MV:0.7B Equity:0.1B CR:1.9 D/E:0.8 RE/A:0.4 cfo/A:0.2 ebit/A:0.1 p/b:9.3 52wk p%: 100
-SUCCESS FAST United States Industrials MV:32.1B Equity:2.7B CR:4.1 D/E:0.5 RE/A:0.7 cfo/A:0.3 ebit/A:0.3 p/b:11.7 52wk p%: 76
-SUCCESS EXPO United States Industrials MV:4.9B Equity:0.4B CR:3.1 D/E:0.6 RE/A:0.7 cfo/A:0.2 ebit/A:0.1 p/b:13.5 52wk p%: 51
-SUCCESS TREX United States Industrials MV:10.0B Equity:0.6B CR:3.0 D/E:0.3 RE/A:1.0 cfo/A:0.2 ebit/A:0.3 p/b:17.1 52wk p%: 50
-SUCCESS OFLX United States Industrials MV:1.4B Equity:0.0B CR:2.6 D/E:0.5 RE/A:0.5 cfo/A:0.3 ebit/A:0.4 p/b:30.6 52wk p%: 57
-SUCCESS LII United States Industrials MV:10.2B Equity:-0.0B CR:1.6 D/E:-119.9 RE/A:1.2 cfo/A:0.3 ebit/A:0.2 p/b:-597.6 52wk p%: 60
+APWC Taiwan Industrials MV:0.0B Equity:0.2B CR:3.2 D/E:0.4 RE/A:0.2 cfo/A:0.0 ebit/A:0.0 p/b:0.1 52wk p%: 8
+PANL United States Industrials MV:0.2B Equity:0.2B CR:1.0 D/E:0.9 RE/A:0.1 cfo/A:0.0 ebit/A:0.0 p/b:1.0 52wk p%: 63
+SVT United States Industrials MV:0.0B Equity:0.0B CR:5.6 D/E:0.5 RE/A:0.4 cfo/A:0.0 ebit/A:0.0 p/b:1.0 52wk p%: 100
+CSTE Israel Industrials MV:0.4B Equity:0.5B CR:2.5 D/E:0.7 RE/A:0.5 cfo/A:0.1 ebit/A:0.0 p/b:0.8 52wk p%: 38
+NL United States Industrials MV:0.3B Equity:0.3B CR:6.2 D/E:0.6 RE/A:0.5 cfo/A:0.0 ebit/A:0.0 p/b:1.0 52wk p%: 80
+APT Canada Industrials MV:0.1B Equity:0.1B CR:9.5 D/E:0.1 RE/A:0.9 cfo/A:0.3 ebit/A:0.5 p/b:1.0 52wk p%: 0
+GENC United States Industrials MV:0.1B Equity:0.2B CR:14.7 D/E:0.1 RE/A:0.9 cfo/A:0.0 ebit/A:0.0 p/b:0.8 52wk p%: 10
+AAN United States Consumer Cyclical MV:0.7B Equity:0.7B CR:2.7 D/E:0.9 RE/A:0.0 cfo/A:0.3 ebit/A:0.1 p/b:0.9 52wk p%: 21
+PLPC United States Industrials MV:0.3B Equity:0.3B CR:2.5 D/E:0.6 RE/A:0.8 cfo/A:0.1 ebit/A:0.1 p/b:1.0 52wk p%: 46
+SEB United States Industrials MV:4.4B Equity:3.8B CR:3.1 D/E:0.7 RE/A:0.7 cfo/A:0.0 ebit/A:0.0 p/b:1.1 52wk p%: 69
+NWPX United States Industrials MV:0.3B Equity:0.3B CR:4.2 D/E:0.4 RE/A:0.4 cfo/A:0.2 ebit/A:0.1 p/b:1.1 52wk p%: 60
+KE United States Industrials MV:0.5B Equity:0.4B CR:1.9 D/E:0.8 RE/A:0.3 cfo/A:0.2 ebit/A:0.1 p/b:1.1 52wk p%: 45
+ACA United States Industrials MV:2.2B Equity:1.9B CR:2.1 D/E:0.4 RE/A:0.1 cfo/A:0.1 ebit/A:0.1 p/b:1.2 52wk p%: 32
+AIR United States Industrials MV:1.4B Equity:1.0B CR:2.8 D/E:0.6 RE/A:0.5 cfo/A:0.1 ebit/A:0.0 p/b:1.4 52wk p%: 90
+KEX United States Industrials MV:4.0B Equity:3.1B CR:2.2 D/E:0.9 RE/A:0.4 cfo/A:0.1 ebit/A:0.0 p/b:1.3 52wk p%: 100
+KAMN United States Industrials MV:1.1B Equity:0.7B CR:2.6 D/E:0.8 RE/A:0.6 cfo/A:0.0 ebit/A:0.1 p/b:1.5 52wk p%: 22
+KNX United States Industrials MV:9.2B Equity:6.5B CR:1.3 D/E:0.6 RE/A:0.2 cfo/A:0.1 ebit/A:0.1 p/b:1.4 52wk p%: 81
+THR United States Industrials MV:0.6B Equity:0.4B CR:3.9 D/E:0.6 RE/A:0.3 cfo/A:0.0 ebit/A:0.0 p/b:1.5 52wk p%: 66
+EBF United States Industrials MV:0.5B Equity:0.3B CR:4.2 D/E:0.2 RE/A:0.5 cfo/A:0.1 ebit/A:0.1 p/b:1.6 52wk p%: 71
+RGP United States Industrials MV:0.5B Equity:0.3B CR:2.3 D/E:0.6 RE/A:0.7 cfo/A:0.1 ebit/A:0.1 p/b:1.7 52wk p%: 89
+PRLB United States Industrials MV:1.3B Equity:0.6B CR:4.8 D/E:0.2 RE/A:0.5 cfo/A:0.1 ebit/A:0.1 p/b:2.0 52wk p%: 0
+CIX United States Industrials MV:0.3B Equity:0.2B CR:7.7 D/E:0.1 RE/A:0.6 cfo/A:0.1 ebit/A:0.1 p/b:1.7 52wk p%: 99
+WAB United States Industrials MV:16.4B Equity:10.2B CR:1.2 D/E:0.8 RE/A:0.2 cfo/A:0.0 ebit/A:0.0 p/b:1.6 52wk p%: 90
+NPK United States Industrials MV:0.6B Equity:0.4B CR:6.5 D/E:0.2 RE/A:0.8 cfo/A:0.1 ebit/A:0.1 p/b:1.5 52wk p%: 41
+GPN United States Industrials MV:42.7B Equity:27.5B CR:1.0 D/E:0.6 RE/A:0.1 cfo/A:0.1 ebit/A:0.0 p/b:1.6 52wk p%: 30
+B United States Industrials MV:2.3B Equity:1.4B CR:2.2 D/E:0.9 RE/A:0.6 cfo/A:0.1 ebit/A:0.1 p/b:1.7 52wk p%: 56
+NX United States Industrials MV:0.7B Equity:0.4B CR:1.6 D/E:0.7 RE/A:0.4 cfo/A:0.1 ebit/A:0.1 p/b:1.7 52wk p%: 68
+OBCI United States Industrials MV:0.1B Equity:0.0B CR:9.7 D/E:0.2 RE/A:0.6 cfo/A:0.1 ebit/A:0.3 p/b:2.0 52wk p%: 34
+HURN United States Industrials MV:1.0B Equity:0.6B CR:1.2 D/E:0.9 RE/A:0.2 cfo/A:0.1 ebit/A:0.1 p/b:1.7 52wk p%: 27
+AGX United States Industrials MV:0.6B Equity:0.3B CR:2.0 D/E:0.9 RE/A:0.3 cfo/A:0.3 ebit/A:0.0 p/b:1.9 52wk p%: 37
+WIRE United States Industrials MV:2.1B Equity:0.8B CR:5.9 D/E:0.2 RE/A:0.9 cfo/A:0.1 ebit/A:0.1 p/b:2.6 52wk p%: 63
+NPO United States Industrials MV:2.1B Equity:1.1B CR:2.9 D/E:0.8 RE/A:0.4 cfo/A:0.0 ebit/A:0.0 p/b:2.0 52wk p%: 90
+BGSF United States Industrials MV:0.1B Equity:0.1B CR:2.4 D/E:1.0 RE/A:0.0 cfo/A:0.2 ebit/A:0.1 p/b:2.1 52wk p%: 80
+SMED United States Industrials MV:0.1B Equity:0.0B CR:2.6 D/E:0.6 RE/A:0.2 cfo/A:0.3 ebit/A:0.2 p/b:2.7 52wk p%: 6
+UNF United States Industrials MV:2.9B Equity:1.9B CR:4.3 D/E:0.3 RE/A:0.8 cfo/A:0.1 ebit/A:0.1 p/b:1.5 52wk p%: 43
+ROLL United States Industrials MV:5.0B Equity:1.2B CR:8.3 D/E:0.2 RE/A:0.6 cfo/A:0.1 ebit/A:0.1 p/b:4.0 52wk p%: 49
+SNDR United States Industrials MV:2.4B Equity:2.1B CR:2.3 D/E:0.7 RE/A:0.1 cfo/A:0.2 ebit/A:0.1 p/b:1.2 52wk p%: 83
+HUBG United States Industrials MV:2.6B Equity:1.2B CR:1.3 D/E:0.8 RE/A:0.6 cfo/A:0.1 ebit/A:0.1 p/b:2.2 52wk p%: 77
+HCCI United States Industrials MV:0.7B Equity:0.3B CR:2.1 D/E:0.7 RE/A:0.2 cfo/A:0.1 ebit/A:0.0 p/b:2.4 52wk p%: 67
+MRCY United States Industrials MV:3.1B Equity:1.5B CR:4.3 D/E:0.3 RE/A:0.2 cfo/A:0.0 ebit/A:0.1 p/b:2.1 52wk p%: 17
+KMT United States Industrials MV:2.8B Equity:1.4B CR:2.3 D/E:0.9 RE/A:0.4 cfo/A:0.1 ebit/A:0.1 p/b:2.1 52wk p%: 74
+ROCK United States Industrials MV:1.8B Equity:0.7B CR:1.4 D/E:0.6 RE/A:0.4 cfo/A:0.1 ebit/A:0.1 p/b:2.4 52wk p%: 22
+ASTE United States Industrials MV:1.4B Equity:0.6B CR:3.3 D/E:0.3 RE/A:0.6 cfo/A:0.2 ebit/A:0.1 p/b:2.2 52wk p%: 70
+MRTN United States Industrials MV:1.4B Equity:0.7B CR:2.0 D/E:0.3 RE/A:0.6 cfo/A:0.2 ebit/A:0.1 p/b:2.1 52wk p%: 82
+AVAV United States Industrials MV:1.3B Equity:0.6B CR:4.2 D/E:0.5 RE/A:0.4 cfo/A:0.1 ebit/A:0.1 p/b:2.2 52wk p%: 0
+LHX United States Industrials MV:42.9B Equity:20.8B CR:1.6 D/E:0.8 RE/A:0.1 cfo/A:0.1 ebit/A:0.1 p/b:2.1 52wk p%: 83
+NVT United Kingdom Industrials MV:5.7B Equity:2.4B CR:1.7 D/E:0.8 RE/A:0.0 cfo/A:0.1 ebit/A:0.1 p/b:2.4 52wk p%: 82
+WERN United States Industrials MV:2.9B Equity:1.2B CR:1.7 D/E:0.8 RE/A:0.7 cfo/A:0.2 ebit/A:0.1 p/b:2.4 52wk p%: 66
+SWBI United States Industrials MV:0.8B Equity:0.3B CR:2.1 D/E:0.7 RE/A:0.7 cfo/A:0.7 ebit/A:0.7 p/b:3.0 52wk p%: 37
+EVI United States Industrials MV:0.3B Equity:0.1B CR:1.3 D/E:0.7 RE/A:0.1 cfo/A:0.1 ebit/A:0.0 p/b:2.5 52wk p%: 23
+SXI United States Industrials MV:1.2B Equity:0.5B CR:2.6 D/E:0.9 RE/A:0.9 cfo/A:0.1 ebit/A:0.1 p/b:2.4 52wk p%: 81
+RRX United States Industrials MV:10.5B Equity:2.6B CR:2.3 D/E:0.8 RE/A:0.4 cfo/A:0.1 ebit/A:0.1 p/b:4.1 52wk p%: 86
+PRG United States Industrials MV:2.2B Equity:1.0B CR:2.4 D/E:0.3 RE/A:0.9 cfo/A:0.3 ebit/A:0.3 p/b:2.2 52wk p%: 55
+ALG United States Industrials MV:1.7B Equity:0.6B CR:3.2 D/E:0.8 RE/A:0.5 cfo/A:0.2 ebit/A:0.1 p/b:2.7 52wk p%: 77
+IIIN United States Industrials MV:0.7B Equity:0.3B CR:3.6 D/E:0.3 RE/A:0.5 cfo/A:0.2 ebit/A:0.2 p/b:2.4 52wk p%: 82
+EPAC United States Industrials MV:1.1B Equity:0.4B CR:2.7 D/E:1.0 RE/A:1.2 cfo/A:0.1 ebit/A:0.1 p/b:2.6 52wk p%: 9
+MGRC United States Industrials MV:1.8B Equity:0.7B CR:1.5 D/E:0.9 RE/A:0.5 cfo/A:0.1 ebit/A:0.1 p/b:2.7 52wk p%: 73
+GTLS United States Industrials MV:4.2B Equity:1.6B CR:1.1 D/E:0.6 RE/A:0.3 cfo/A:0.1 ebit/A:0.0 p/b:2.7 52wk p%: 53
+MLI United States Industrials MV:3.0B Equity:0.8B CR:2.4 D/E:0.9 RE/A:0.7 cfo/A:0.2 ebit/A:0.2 p/b:3.8 52wk p%: 79
+SNA United States Industrials MV:11.1B Equity:3.8B CR:2.6 D/E:0.7 RE/A:0.8 cfo/A:0.2 ebit/A:0.1 p/b:2.9 52wk p%: 70
+MHH United States Industrials MV:0.2B Equity:0.1B CR:1.9 D/E:0.7 RE/A:0.4 cfo/A:0.2 ebit/A:0.1 p/b:3.3 52wk p%: 34
+BRC United States Industrials MV:2.5B Equity:1.0B CR:1.8 D/E:0.4 RE/A:0.6 cfo/A:0.1 ebit/A:0.1 p/b:2.6 52wk p%: 79
+HXL United States Industrials MV:4.2B Equity:1.5B CR:2.9 D/E:0.9 RE/A:0.7 cfo/A:0.1 ebit/A:0.0 p/b:2.8 52wk p%: 58
+FSS United States Industrials MV:2.3B Equity:0.7B CR:2.7 D/E:0.7 RE/A:0.5 cfo/A:0.1 ebit/A:0.1 p/b:3.3 52wk p%: 69
+GRC United States Industrials MV:1.0B Equity:0.3B CR:6.4 D/E:0.3 RE/A:0.9 cfo/A:0.1 ebit/A:0.1 p/b:3.2 52wk p%: 66
+WWD United States Industrials MV:6.9B Equity:2.2B CR:4.0 D/E:0.8 RE/A:0.6 cfo/A:0.1 ebit/A:0.1 p/b:3.1 52wk p%: 73
+FCN United States Industrials MV:5.0B Equity:1.4B CR:1.7 D/E:1.0 RE/A:0.5 cfo/A:0.1 ebit/A:0.1 p/b:3.5 52wk p%: 84
+AYI United States Industrials MV:6.6B Equity:2.0B CR:2.2 D/E:0.7 RE/A:0.8 cfo/A:0.1 ebit/A:0.1 p/b:3.2 52wk p%: 81
+ASR Mexico Industrials MV:5.9B Equity:41.7B CR:2.8 D/E:0.4 RE/A:0.2 cfo/A:0.0 ebit/A:0.1 p/b:0.2 52wk p%: 92
+RGR United States Industrials MV:1.2B Equity:0.3B CR:2.9 D/E:0.3 RE/A:1.0 cfo/A:0.4 ebit/A:0.3 p/b:4.4 52wk p%: 51
+ROAD United States Industrials MV:1.1B Equity:0.4B CR:1.9 D/E:1.0 RE/A:0.2 cfo/A:0.1 ebit/A:0.0 p/b:2.6 52wk p%: 51
+TRI Canada Industrials MV:51.0B Equity:10.0B CR:1.5 D/E:0.8 RE/A:0.3 cfo/A:0.1 ebit/A:0.1 p/b:5.2 52wk p%: 72
+LNN United States Industrials MV:1.3B Equity:0.3B CR:3.0 D/E:0.9 RE/A:0.8 cfo/A:0.1 ebit/A:0.1 p/b:3.9 52wk p%: 44
+FELE United States Industrials MV:4.0B Equity:0.8B CR:3.0 D/E:0.5 RE/A:0.6 cfo/A:0.2 ebit/A:0.1 p/b:4.7 52wk p%: 81
+SSD United States Industrials MV:4.9B Equity:1.0B CR:3.9 D/E:0.3 RE/A:0.6 cfo/A:0.2 ebit/A:0.2 p/b:4.9 52wk p%: 65
+OMAB Mexico Industrials MV:2.5B Equity:10.8B CR:1.1 D/E:0.7 RE/A:0.6 cfo/A:0.1 ebit/A:0.1 p/b:0.2 52wk p%: 95
+KAI United States Industrials MV:2.4B Equity:0.5B CR:2.2 D/E:0.9 RE/A:0.5 cfo/A:0.1 ebit/A:0.1 p/b:4.9 52wk p%: 84
+LPX United States Industrials MV:5.7B Equity:1.2B CR:3.5 D/E:0.7 RE/A:0.6 cfo/A:0.3 ebit/A:0.3 p/b:4.6 52wk p%: 78
+PNR United Kingdom Industrials MV:10.4B Equity:2.1B CR:1.3 D/E:1.0 RE/A:0.2 cfo/A:0.1 ebit/A:0.1 p/b:5.0 52wk p%: 72
+WTS United States Industrials MV:4.2B Equity:1.1B CR:2.3 D/E:0.6 RE/A:0.3 cfo/A:0.1 ebit/A:0.1 p/b:3.9 52wk p%: 64
+AME United States Industrials MV:31.2B Equity:5.9B CR:2.3 D/E:0.7 RE/A:0.7 cfo/A:0.1 ebit/A:0.1 p/b:5.2 52wk p%: 84
+FWRD United States Industrials MV:2.8B Equity:0.5B CR:1.4 D/E:0.9 RE/A:0.3 cfo/A:0.1 ebit/A:0.1 p/b:5.1 52wk p%: 75
+HQI United States Industrials MV:0.2B Equity:0.0B CR:4.1 D/E:0.4 RE/A:0.2 cfo/A:0.2 ebit/A:0.1 p/b:6.5 52wk p%: 68
+EXPD United States Industrials MV:19.2B Equity:2.7B CR:2.1 D/E:0.9 RE/A:0.5 cfo/A:0.1 ebit/A:0.2 p/b:7.2 52wk p%: 69
+WNS India Technology MV:4.1B Equity:0.7B CR:2.5 D/E:0.6 RE/A:0.6 cfo/A:0.2 ebit/A:0.1 p/b:6.0 52wk p%: 89
+SHYF United States Industrials MV:1.4B Equity:0.2B CR:1.7 D/E:0.8 RE/A:0.3 cfo/A:0.2 ebit/A:0.1 p/b:7.2 52wk p%: 78
+IEX United States Industrials MV:16.1B Equity:2.5B CR:4.2 D/E:0.7 RE/A:0.6 cfo/A:0.1 ebit/A:0.1 p/b:6.3 52wk p%: 76
+WSO United States Industrials MV:9.2B Equity:1.8B CR:3.0 D/E:0.4 RE/A:0.3 cfo/A:0.2 ebit/A:0.2 p/b:6.2 52wk p%: 80
+ERII United States Industrials MV:1.1B Equity:0.2B CR:9.1 D/E:0.2 RE/A:0.1 cfo/A:0.1 ebit/A:0.2 p/b:6.3 52wk p%: 75
+AOS United States Industrials MV:10.1B Equity:1.8B CR:1.8 D/E:0.7 RE/A:0.8 cfo/A:0.2 ebit/A:0.1 p/b:5.4 52wk p%: 80
+NDSN United States Industrials MV:13.3B Equity:2.2B CR:2.6 D/E:0.8 RE/A:0.9 cfo/A:0.1 ebit/A:0.2 p/b:6.1 52wk p%: 77
+HEI-A United States Industrials MV:8.9B Equity:2.5B CR:3.2 D/E:0.4 RE/A:0.6 cfo/A:0.1 ebit/A:0.1 p/b:3.9 52wk p%: 68
+BMI United States Industrials MV:2.8B Equity:0.4B CR:3.4 D/E:0.3 RE/A:0.7 cfo/A:0.2 ebit/A:0.1 p/b:7.6 52wk p%: 76
+NSSC United States Industrials MV:0.7B Equity:0.1B CR:4.8 D/E:0.3 RE/A:0.8 cfo/A:0.2 ebit/A:0.1 p/b:7.8 52wk p%: 70
+GGG United States Industrials MV:12.1B Equity:1.3B CR:3.2 D/E:0.5 RE/A:0.3 cfo/A:0.2 ebit/A:0.2 p/b:9.4 52wk p%: 75
+CPRT United States Industrials MV:29.7B Equity:3.5B CR:4.0 D/E:0.3 RE/A:0.6 cfo/A:0.2 ebit/A:0.2 p/b:8.4 52wk p%: 66
+AXON United States Industrials MV:9.3B Equity:1.0B CR:3.8 D/E:0.4 RE/A:0.1 cfo/A:0.0 ebit/A:0.0 p/b:9.5 52wk p%: 57
+HEI United States Industrials MV:7.3B Equity:2.5B CR:3.2 D/E:0.4 RE/A:0.6 cfo/A:0.1 ebit/A:0.1 p/b:3.2 52wk p%: 87
+AAON United States Industrials MV:3.3B Equity:0.4B CR:3.7 D/E:0.3 RE/A:0.8 cfo/A:0.3 ebit/A:0.2 p/b:9.3 52wk p%: 48
+TRNS United States Industrials MV:0.7B Equity:0.1B CR:1.9 D/E:0.8 RE/A:0.4 cfo/A:0.2 ebit/A:0.1 p/b:9.3 52wk p%: 100
+FAST United States Industrials MV:32.1B Equity:2.7B CR:4.1 D/E:0.5 RE/A:0.7 cfo/A:0.3 ebit/A:0.3 p/b:11.7 52wk p%: 76
+EXPO United States Industrials MV:4.9B Equity:0.4B CR:3.1 D/E:0.6 RE/A:0.7 cfo/A:0.2 ebit/A:0.1 p/b:13.5 52wk p%: 51
+TREX United States Industrials MV:10.0B Equity:0.6B CR:3.0 D/E:0.3 RE/A:1.0 cfo/A:0.2 ebit/A:0.3 p/b:17.1 52wk p%: 50
+OFLX United States Industrials MV:1.4B Equity:0.0B CR:2.6 D/E:0.5 RE/A:0.5 cfo/A:0.3 ebit/A:0.4 p/b:30.6 52wk p%: 57
+LII United States Industrials MV:10.2B Equity:-0.0B CR:1.6 D/E:-119.9 RE/A:1.2 cfo/A:0.3 ebit/A:0.2 p/b:-597.6 52wk p%: 60

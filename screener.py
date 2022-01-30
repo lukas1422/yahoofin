@@ -100,7 +100,7 @@ for comp in lines:
                         except Exception as e:
                             print(comp, "percentile issue ", e)
                         else:
-                            outputString = "SUCCESS " + comp + " " + country + " " + sector \
+                            outputString = comp + " " + country + " " + sector \
                                            + " MV:" + str(round(marketCap / 1000000000.0, 1)) + 'B' \
                                            + " Equity:" + str(round((totalAssets-totalLiab) / 1000000000.0, 1)) + 'B' \
                                            + " CR:" + str(round(currentRatio, 1)) \
