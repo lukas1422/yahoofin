@@ -1,6 +1,6 @@
 import yahoo_fin.stock_info as si
 
-fileOutput = open('reportList.py', 'w')
+fileOutput = open('reportList', 'w')
 
 with open("tickerList", "r") as file:
     lines = file.read().splitlines()
@@ -104,6 +104,7 @@ for comp in lines:
 
                 print(outputString)
                 fileOutput.write(outputString + '\n')
+                fileOutput.flush()
 
                 # print(comp,country, "CR",currentRatio, "DE",debt<1, RE>0, CFO>0, EBIT>0")
 
