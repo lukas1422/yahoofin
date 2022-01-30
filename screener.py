@@ -94,7 +94,7 @@ for comp in lines:
             else:
                 if (currentRatio > 1 and debtEquityRatio < 1 and retainedEarnings > 0
                         and cfo > 0 and ebit > 0):
-                    outputString = " SUCCESS " + comp + country + sector \
+                    outputString = " SUCCESS " + comp + " " + country + " " + sector \
                                    + "MV USD " + str(round(marketCap / 1000000000.0, 2))\
                                    + " CR: " + str(round(currentRatio, 2))\
                                    + " D/E: " + str(round(debtEquityRatio, 2)) \
