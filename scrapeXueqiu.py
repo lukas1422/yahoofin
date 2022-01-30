@@ -11,7 +11,7 @@ stockNum = 8700
 # webpage = urlopen(req).read()
 # soup = BeautifulSoup(webpage, "html.parser")
 
-url = "https://xueqiu.com/S/SKM"
+url = "https://xueqiu.com/S/PDD"
 req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
 webpage = urlopen(req).read()
 soup = BeautifulSoup(webpage, "html.parser")
