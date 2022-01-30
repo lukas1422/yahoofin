@@ -21,12 +21,13 @@ for i in range(1, stockNum, 20):
     for tr in tBody.find_all('tr', attrs={'class': ["table-dark-row-cp", "table-light-row-cp"]}):
         index = tr.find_all('td')[0].get_text(strip=True)
         value = tr.find_all('td')[1].get_text(strip=True)
-        print("index", index)
+        pb = tr.find_all('td')[7].get_text(strip=True)
+        print("index", index, "value", value, pb, "pb")
         if index == last:
             break
         else:
             print(index, value)
             last = index
-            print("last", last)
+            #print("last", last)
             fileOutput.write(str(value) + "\n")
             fileOutput.flush()
