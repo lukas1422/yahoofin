@@ -19,8 +19,7 @@ for comp in lines:
     else:
         # print(comp, country)
         # bs = si.get_balance_sheet(comp)
-        cf = si.get_cash_flow(comp)
-        incomeStatement = si.get_income_statement(comp)
+
         #
         # if "retainedEarnings" in bs.index:
         #     retainedEarnings = bs.loc["retainedEarnings"][0]
@@ -29,6 +28,9 @@ for comp in lines:
         #     retainedEarnings = 0.0
 
         try:
+            cf = si.get_cash_flow(comp)
+            incomeStatement = si.get_income_statement(comp)
+
             equity = bs.loc["totalStockholderEquity"][0]
             totalCurrentAssets = bs.loc["totalCurrentAssets"][0]
             totalCurrentLiab = bs.loc["totalCurrentLiabilities"][0]
@@ -47,7 +49,7 @@ for comp in lines:
             marketPrice = si.get_live_price(comp)
             shares = si.get_quote_data(comp)['sharesOutstanding']
         except Exception as e:
-            print("error when getting data", e)
+            print("error when getting data ",comp, e)
         else:
             marketCap = marketPrice * shares
             currentRatio = totalCurrentAssets / totalCurrentLiab
