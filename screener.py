@@ -1,4 +1,8 @@
 import yahoo_fin.stock_info as si
+import datetime
+
+START_DATE = '1/1/2021'
+PRICE_INTERVAL = '1wk'
 
 fileOutput = open('reportList', 'w')
 
@@ -49,7 +53,7 @@ for comp in lines:
             marketPrice = si.get_live_price(comp)
             shares = si.get_quote_data(comp)['sharesOutstanding']
         except Exception as e:
-            print("error when getting data ",comp, e)
+            print("error when getting data ", comp, e)
         else:
             marketCap = marketPrice * shares
             currentRatio = totalCurrentAssets / totalCurrentLiab
@@ -81,7 +85,7 @@ for comp in lines:
             try:
                 assert ebit > 0, "ebit needs to be postive"
             except AssertionError as ae:
-                print(comp, "fails EBIT", ebit, ae)
+                print(datetime.datetime.now().time().strftime("%H:%M"), comp, "fails EBIT", ebit, ae)
 
             try:
                 assert currentRatio > 1, 'current ratio needs to be bigger than one'
@@ -94,19 +98,26 @@ for comp in lines:
             else:
                 if (currentRatio > 1 and debtEquityRatio < 1 and retainedEarnings > 0
                         and cfo > 0 and ebit > 0):
-                    outputString = " SUCCESS " + comp + " " + country + " " + sector \
-                                   + "MV USD " + str(round(marketCap / 1000000000.0, 2))\
-                                   + " CR: " + str(round(currentRatio, 2))\
-                                   + " D/E: " + str(round(debtEquityRatio, 2)) \
-                                   + " RE/A: " + str(round(retainedEarningsAssetRatio, 2))\
-                                   + " cfo/A: " + str(round(cfoAssetRatio, 2))\
-                                   + " ebit/A: " + str(round(ebitAssetRatio, 2))
+                    pb = marketCap / equity
+                    data = si.get_data(comp, start_date=START_DATE, interval=PRICE_INTERVAL)
+                    dataSize = data.size
+                    try:
+                        percentile = data['adjclose'].rank(method='max').apply(lambda x: 100 * (x - 1) / dataSize).list[
+                            -1]
+                    except Exception as e:
+                        print(e)
+                    else:
 
-                print(outputString)
-                fileOutput.write(outputString + '\n')
-                fileOutput.flush()
+                        outputString = " SUCCESS " + comp + " " + country + " " + sector \
+                                       + " MV USD:" + str(round(marketCap / 1000000000.0, 2)) \
+                                       + " CR:" + str(round(currentRatio, 2)) \
+                                       + " D/E:" + str(round(debtEquityRatio, 2)) \
+                                       + " RE/A:" + str(round(retainedEarningsAssetRatio, 2)) \
+                                       + " cfo/A:" + str(round(cfoAssetRatio, 2)) \
+                                       + " ebit/A:" + str(round(ebitAssetRatio, 2)) \
+                                       + " p/b:" + str(round(pb, 2)) \
+                                       + " p%: " + percentile
 
-                # print(comp,country, "CR",currentRatio, "DE",debt<1, RE>0, CFO>0, EBIT>0")
-
-                # if __name__ == "__main__":
-                #     main()
+                    print(outputString)
+                    fileOutput.write(outputString + '\n')
+                    fileOutput.flush()
