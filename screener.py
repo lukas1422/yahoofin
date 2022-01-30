@@ -1,10 +1,11 @@
 import yahoo_fin.stock_info as si
 import datetime
 
-START_DATE = '1/1/2020'
+START_DATE = '3/1/2020'
 PRICE_INTERVAL = '1mo'
 
 fileOutput = open('reportList', 'w')
+fileOutput.write("\n")
 
 with open("tickerList", "r") as file:
     lines = file.read().splitlines()
@@ -61,7 +62,6 @@ for comp in lines:
             retainedEarningsAssetRatio = retainedEarnings / totalAssets
             cfoAssetRatio = cfo / totalAssets
             ebitAssetRatio = ebit / totalAssets
-            # salesBookRatio =
 
             try:
                 assert currentRatio > 1, 'current ratio needs to be bigger than one'
@@ -113,7 +113,7 @@ for comp in lines:
                         print(comp, "percentile issue ", e)
                     else:
 
-                        outputString = " SUCCESS " + comp + " " + country + " " + sector \
+                        outputString = "SUCCESS " + comp + " " + country + " " + sector \
                                        + " MV:" + str(round(marketCap / 1000000000.0, 1)) + 'B' \
                                        + " Equity:" + str(round((totalAssets-totalLiab) / 1000000000.0, 1)) + 'B' \
                                        + " CR:" + str(round(currentRatio, 1)) \
