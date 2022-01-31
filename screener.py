@@ -11,9 +11,6 @@ fileOutput.write("\n")
 with open("tickerList", "r") as file:
     lines = file.read().rstrip().splitlines()
 
-fileOutput = open('tickerList', 'w')
-
-
 print(lines)
 for comp in lines:
     try:
@@ -99,6 +96,11 @@ for comp in lines:
                             data = si.get_data(comp, start_date=START_DATE, interval=PRICE_INTERVAL)
                             divs = si.get_dividends(comp, start_date=DIVIDEND_START_DATE)
                             dataSize = data['adjclose'].size
+
+                            print(" percentile current min max ", data['adjclose'][-1],
+                                  data['adjclose'].max(),
+                                  data['adjclose'].min())
+
                             percentile = 100.0 * (data['adjclose'][-1] - data['adjclose'].min()) / (
                                     data['adjclose'].max() - data['adjclose'].min())
                             divSum = divs['dividend'].sum()

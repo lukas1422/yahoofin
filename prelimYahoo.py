@@ -5,7 +5,7 @@ def fo(number):
     return str(f"{number:,}")
 
 def main():
-    stockName = "PDD"
+    stockName = "PKX"
     bs = si.get_balance_sheet(stockName)
     cf = si.get_cash_flow(stockName)
     incomeStatement = si.get_income_statement(stockName)
