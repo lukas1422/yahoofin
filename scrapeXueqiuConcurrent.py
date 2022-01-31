@@ -3,6 +3,8 @@ import urllib.error
 from urllib.request import Request, urlopen
 import concurrent.futures
 
+fileOutput = open('test', 'w')
+
 with open("usTickerAll", "r") as file:
     lines = file.read().rstrip().splitlines()
 
@@ -11,6 +13,7 @@ MAX_THREADS = 30
 companyList = []
 
 tickerPBDict = {}
+
 
 # NUMBER_PROCESSED = 0
 # def exit_handler():
@@ -62,12 +65,13 @@ with concurrent.futures.ThreadPoolExecutor(max_workers=8) as executor:
 
     for comp, future in [(comp, executor.submit(processFunction, comp)) for comp in companyList]:
         # for future in concurrent.futures.as_completed(compToPBFuture):
-        #print(comp)
+        print(comp)
         try:
-            # comp = compToPBFuture[future]
-            data = future.result()
-            # print(data)
-            # fileOutput.write(comp + " " + data + "\n")
+            #comp = compToPBFuture[future]
+            data = future.result(5)
+            #print(data)
+            fileOutput.write(comp + " " + data + "\n")
+            fileOutput.flush()
         except TimeoutError as te:
             print(comp, "time out ")
         except Exception as e:
@@ -76,7 +80,7 @@ with concurrent.futures.ThreadPoolExecutor(max_workers=8) as executor:
         tickerPBDict[comp] = data
 
     print("we are here")
-    fileOutput = open('test', 'w')
-    for comp in tickerPBDict.keys():
-        fileOutput.write(comp + " " + tickerPBDict[comp] + "\n")
-    fileOutput.flush()
+    #
+    # for comp in tickerPBDict.keys():
+    #     fileOutput.write(comp + " " + tickerPBDict[comp] + "\n")
+    # fileOutput.flush()
