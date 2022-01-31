@@ -1,5 +1,5 @@
 from bs4 import BeautifulSoup
-import urllib
+import urllib.error
 from urllib.request import Request, urlopen
 import concurrent.futures
 import atexit
@@ -52,8 +52,8 @@ def processFunction(comp):
                 # print(NUMBER_PROCESSED, " processed ", comp, pb)
                 tickerPBDict[comp] = pb
                 return pb
-            else:
-                return "pb not found"
+
+        return "pb not found"
     except urllib.error.HTTPError:
         return "stock not found"
 
