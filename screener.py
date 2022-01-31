@@ -11,6 +11,9 @@ fileOutput.write("\n")
 with open("tickerList", "r") as file:
     lines = file.read().rstrip().splitlines()
 
+fileOutput = open('tickerList', 'w')
+
+
 print(lines)
 for comp in lines:
     try:

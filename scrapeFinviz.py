@@ -31,9 +31,9 @@ for i in range(1, stockNum, 20):
             print(index, value)
             last = index
             # print("last", last)
-            if (float(pb) < 1.0):
-                fileOutput.write(str(value) + "\n")
-                fileOutput.flush()
-            else:
-                print("pb > 1 ", value)
-                NumPBExceedingOne = NumPBExceedingOne + 1
+            # if (float(pb) < 1.0):
+            fileOutput.write(str(value) + " " + pb + "\n")
+            fileOutput.flush()
+            # else:
+            #     print("pb > 1 ", value)
+            #    NumPBExceedingOne = NumPBExceedingOne + 1
