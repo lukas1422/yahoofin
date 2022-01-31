@@ -17,7 +17,7 @@ tickerPBDict = {}
 
 fileOutput = open('test', 'w')
 
-NUMBER_PROCESSED = 0
+# NUMBER_PROCESSED = 0
 
 
 def exit_handler():
@@ -32,13 +32,13 @@ def exit_handler():
 atexit.register(exit_handler)
 
 
-def increment():
-    global NUMBER_PROCESSED
-    NUMBER_PROCESSED = NUMBER_PROCESSED + 1
+# def increment():
+#     global NUMBER_PROCESSED
+#     NUMBER_PROCESSED = NUMBER_PROCESSED + 1
 
 
 def processFunction(comp):
-    increment()
+    #increment()
     url = makeURL(comp)
     req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
 
@@ -59,7 +59,7 @@ def processFunction(comp):
 
 
 def makeURL(compName):
-    return "https://xueqiu.com/S/" + compName
+    return "https://xueqiu.com/S/" + compName.replace("-", ".")
 
 
 ######### MAIN ############
@@ -68,20 +68,20 @@ for comp in lines:
     doneDict[comp] = False
 
 with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
-    compToPBFuture = {executor.submit(processFunction, comp): comp for comp in companyList}
+    # compToPBFuture = {executor.submit(processFunction, comp): comp for comp in companyList}
 
-    for future in concurrent.futures.as_completed(compToPBFuture):
+    for comp, future in [(comp, executor.submit(processFunction, comp)) for comp in companyList]:
+        # for future in concurrent.futures.as_completed(compToPBFuture):
         try:
-            comp = compToPBFuture[future]
-            print("trying comp ", comp)
+            # comp = compToPBFuture[future]
             data = future.result(timeout=10)
-            doneDict[comp] = True
-            print(NUMBER_PROCESSED, "comp completed ", comp, data)
+            print(comp, data)
             fileOutput.write(comp + " " + data + "\n")
 
         except Exception as e:
             print("exception ", comp, e)
 
+print("we are here")
 for comp in tickerPBDict.keys():
     fileOutput.write(comp + " " + tickerPBDict[comp] + "\n")
 
