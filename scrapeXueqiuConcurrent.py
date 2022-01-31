@@ -2,7 +2,6 @@ from bs4 import BeautifulSoup
 import urllib.error
 from urllib.request import Request, urlopen
 import concurrent.futures
-import atexit
 
 with open("usTickerAll", "r") as file:
     lines = file.read().rstrip().splitlines()
@@ -11,22 +10,15 @@ MAX_THREADS = 30
 
 companyList = []
 
-# doneDict = {}
-
 tickerPBDict = {}
 
-
 # NUMBER_PROCESSED = 0
-
-
 # def exit_handler():
 #     # for comp in tickerPBDict.keys():
 #     #     fileOutput.write(comp + " " + data + "\n")
 #     # print("not done: ", dict(filter(lambda e: e[1] == False, doneDict.items())))
 #     # fileOutput.flush()
 #     print('My application is ending!')
-#
-#
 # atexit.register(exit_handler)
 # def increment():
 #     global NUMBER_PROCESSED
@@ -52,6 +44,9 @@ def processFunction(comp):
     except urllib.error.HTTPError:
         print(comp, "urllib.error.HTTPerror")
         return "stock_not_found"
+    except Exception as e:
+        print(comp, e, "other errors")
+        return "other errors"
 
 
 def makeURL(compName):
@@ -61,26 +56,27 @@ def makeURL(compName):
 ######### MAIN ############
 for comp in lines:
     companyList.append(comp)
-    #doneDict[comp] = False
 
-with concurrent.futures.ThreadPoolExecutor(max_workers=100) as executor:
+with concurrent.futures.ThreadPoolExecutor(max_workers=8) as executor:
     # compToPBFuture = {executor.submit(processFunction, comp): comp for comp in companyList}
 
     for comp, future in [(comp, executor.submit(processFunction, comp)) for comp in companyList]:
         # for future in concurrent.futures.as_completed(compToPBFuture):
+        #print(comp)
         try:
             # comp = compToPBFuture[future]
-            data = future.result(timeout=10)
-            print(comp, data)
-            tickerPBDict[comp] = data
+            data = future.result()
+            # print(data)
             # fileOutput.write(comp + " " + data + "\n")
         except TimeoutError as te:
             print(comp, "time out ")
         except Exception as e:
             print("exception in futures ", e, comp)
 
-print("we are here")
-fileOutput = open('test', 'w')
-for comp in tickerPBDict.keys():
-    fileOutput.write(comp + " " + tickerPBDict[comp] + "\n")
-fileOutput.flush()
+        tickerPBDict[comp] = data
+
+    print("we are here")
+    fileOutput = open('test', 'w')
+    for comp in tickerPBDict.keys():
+        fileOutput.write(comp + " " + tickerPBDict[comp] + "\n")
+    fileOutput.flush()
