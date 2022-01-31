@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
 from urllib.request import Request, urlopen
 import concurrent.futures
+import atexit
 
 with open("usTickerAll", "r") as file:
     lines = file.read().rstrip().splitlines()
@@ -14,6 +15,16 @@ tickerPBDict = {}
 fileOutput = open('test', 'w')
 
 NUMBER_PROCESSED = 0
+
+
+def exit_handler():
+    for comp in tickerPBDict.keys():
+        fileOutput.write(comp + " " + data + "\n")
+    fileOutput.flush()
+    print('My application is ending!')
+
+
+atexit.register(exit_handler)
 
 
 def increment():
@@ -30,8 +41,10 @@ def processFunction(comp):
     for a in soup.find_all('td'):
         if a.getText().startswith("市净率"):
             increment()
-            print(NUMBER_PROCESSED, " processed ", comp, a.find('span').getText())
-            return a.find('span').getText()
+            pb = a.find('span').getText()
+            print(NUMBER_PROCESSED, " processed ", comp, pb)
+            tickerPBDict[comp] = pb
+            return pb
             # return comp + " " + a.find('span').getText()
 
 
