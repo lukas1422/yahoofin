@@ -11,34 +11,29 @@ MAX_THREADS = 30
 
 companyList = []
 
-doneDict = {}
+# doneDict = {}
 
 tickerPBDict = {}
 
-fileOutput = open('test', 'w')
 
 # NUMBER_PROCESSED = 0
 
 
-def exit_handler():
-    for comp in tickerPBDict.keys():
-        fileOutput.write(comp + " " + data + "\n")
-
-    print("not done: ", dict(filter(lambda e: e[1] == False, doneDict.items())))
-    # fileOutput.flush()
-    print('My application is ending!')
-
-
-atexit.register(exit_handler)
-
-
+# def exit_handler():
+#     # for comp in tickerPBDict.keys():
+#     #     fileOutput.write(comp + " " + data + "\n")
+#     # print("not done: ", dict(filter(lambda e: e[1] == False, doneDict.items())))
+#     # fileOutput.flush()
+#     print('My application is ending!')
+#
+#
+# atexit.register(exit_handler)
 # def increment():
 #     global NUMBER_PROCESSED
 #     NUMBER_PROCESSED = NUMBER_PROCESSED + 1
 
 
 def processFunction(comp):
-    #increment()
     url = makeURL(comp)
     req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
 
@@ -50,12 +45,13 @@ def processFunction(comp):
             if a.getText().startswith("市净率"):
                 pb = a.find('span').getText()
                 # print(NUMBER_PROCESSED, " processed ", comp, pb)
-                tickerPBDict[comp] = pb
+                # tickerPBDict[comp] = pb
                 return pb
 
-        return "pb not found"
+        return "pb_not_found"
     except urllib.error.HTTPError:
-        return "stock not found"
+        print(comp, "urllib.error.HTTPerror")
+        return "stock_not_found"
 
 
 def makeURL(compName):
@@ -65,9 +61,9 @@ def makeURL(compName):
 ######### MAIN ############
 for comp in lines:
     companyList.append(comp)
-    doneDict[comp] = False
+    #doneDict[comp] = False
 
-with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
+with concurrent.futures.ThreadPoolExecutor(max_workers=100) as executor:
     # compToPBFuture = {executor.submit(processFunction, comp): comp for comp in companyList}
 
     for comp, future in [(comp, executor.submit(processFunction, comp)) for comp in companyList]:
@@ -76,13 +72,15 @@ with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
             # comp = compToPBFuture[future]
             data = future.result(timeout=10)
             print(comp, data)
-            fileOutput.write(comp + " " + data + "\n")
-
+            tickerPBDict[comp] = data
+            # fileOutput.write(comp + " " + data + "\n")
+        except TimeoutError as te:
+            print(comp, "time out ")
         except Exception as e:
-            print("exception ", comp, e)
+            print("exception in futures ", e, comp)
 
 print("we are here")
+fileOutput = open('test', 'w')
 for comp in tickerPBDict.keys():
     fileOutput.write(comp + " " + tickerPBDict[comp] + "\n")
-
 fileOutput.flush()
