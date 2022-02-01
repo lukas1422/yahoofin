@@ -4,11 +4,6 @@ from bs4 import BeautifulSoup
 from urllib.request import Request, urlopen
 
 stockNum = 8700
-# url = "http://finviz.com/screener.ashx?v=121&f=sec_industrials&o=pb&r=" + str(stockNum)
-# url = "https://finviz.com/screener.ashx?v=121&o=pb&r=" + str(stockNum)
-# req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
-# webpage = urlopen(req).read()
-# soup = BeautifulSoup(webpage, "html.parser")
 
 last = 0
 NumPBExceedingOne = 0
@@ -30,10 +25,5 @@ for i in range(1, stockNum, 20):
         else:
             print(index, value)
             last = index
-            # print("last", last)
-            # if (float(pb) < 1.0):
             fileOutput.write(str(value) + " " + pb + "\n")
             fileOutput.flush()
-            # else:
-            #     print("pb > 1 ", value)
-            #    NumPBExceedingOne = NumPBExceedingOne + 1
