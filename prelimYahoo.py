@@ -99,6 +99,3 @@ outputString = stockName + " " + country + " " + sector \
                + " div10yr: " + str(round(divSum / marketPrice, 2))
 
 print(outputString)
-# return outputString
-
-# processStock(si, "PKX")
