@@ -48,12 +48,18 @@ def processStock(si, stockName):
     pb = marketCap / equity
     data = si.get_data(stockName, start_date=START_DATE, interval=PRICE_INTERVAL)
     divs = si.get_dividends(stockName, start_date=DIVIDEND_START_DATE)
-    #dataSize = data['adjclose'].size
+    # dataSize = data['adjclose'].size
 
     percentile = 100.0 * (data['adjclose'][-1] - data['adjclose'].min()) / (
             data['adjclose'].max() - data['adjclose'].min())
 
-    divSum = divs['dividend'].sum()
+    print("divs", divs)
+    if not divs.empty:
+        divSum = divs['dividend'].sum()
+    else:
+        divSum = 0
+
+    print(" divSum is ", divSum)
 
     # PRINTING*****
     print(stockName, country, sector)
@@ -66,7 +72,7 @@ def processStock(si, stockName):
     print("market cap USD", marketPrice * shares / 1000000000.0, "B")
     print("shareholder equity", equity / 1000000000.0, "B")
 
-    # print("P/B", marketPrice*shares/equity)
+    print("P/B", marketPrice * shares / equity)
     print("                         ")
     print("********ALTMAN**********")
     print("current ratio", totalCurrentAssets / totalCurrentLiab)
@@ -78,6 +84,7 @@ def processStock(si, stockName):
     print("retailed earnings", retainedEarnings / 1000000000, "B")
     print("retailed earnings/totalAssets", retainedEarnings / totalAssets)
     print("revenue/totalAssets", revenue / totalAssets)
+    print(" div return over 10 yrs ", divSum / marketPrice)
 
     outputString = stockName + " " + country + " " + sector \
                    + " MV:" + str(round(marketCap / 1000000000.0, 1)) + 'B' \
@@ -92,6 +99,6 @@ def processStock(si, stockName):
                    + " div10yr: " + str(round(divSum / marketPrice, 2))
 
     print(outputString)
-    return outputString
+    #return outputString
 
-processStock(si, "PKX")
+# processStock(si, "PKX")

@@ -1,6 +1,9 @@
 import yahoo_fin.stock_info as si
 import datetime
-from prelimYahoo import processStock
+
+START_DATE = '3/1/2020'
+DIVIDEND_START_DATE = '1/1/2010'
+PRICE_INTERVAL = '1mo'
 
 fileOutput = open('reportList', 'w')
 fileOutput.write("\n")
@@ -32,9 +35,58 @@ for comp in lines:
                 except AssertionError as ae:
                     print(datetime.datetime.now().time().strftime("%H:%M"), comp, "fails assertion", ae)
                 else:
+                    try:
+                        cf = si.get_cash_flow(comp)
+                        incomeStatement = si.get_income_statement(comp)
 
-                    outputString = "Netnet" + comp + " " + country + " " + sector + " " + processStock(si, comp)
+                        # BS
+                        retainedEarnings = bs.loc["retainedEarnings"][0]
+                        equity = bs.loc["totalStockholderEquity"][0]
+                        totalCurrentLiab = bs.loc["totalCurrentLiabilities"][0]
+                        totalAssets = bs.loc["totalAssets"][0]
 
-                    print(outputString)
-                    fileOutput.write(outputString + '\n')
-                    fileOutput.flush()
+                        # IS
+                        revenue = incomeStatement.loc["totalRevenue"][0]
+                        ebit = incomeStatement.loc["ebit"][0]
+
+                        # CF
+                        cfo = cf.loc["totalCashFromOperatingActivities"][0]
+                        cfi = cf.loc["totalCashflowsFromInvestingActivities"][0]
+                        cff = cf.loc["totalCashFromFinancingActivities"][0]
+
+                        marketPrice = si.get_live_price(comp)
+                        shares = si.get_quote_data(comp)['sharesOutstanding']
+
+                        marketCap = marketPrice * shares
+                        currentRatio = totalCurrentAssets / totalCurrentLiab
+                        debtEquityRatio = totalLiab / (totalAssets - totalLiab)
+                        retainedEarningsAssetRatio = retainedEarnings / totalAssets
+                        cfoAssetRatio = cfo / totalAssets
+                        ebitAssetRatio = ebit / totalAssets
+
+                        pb = marketCap / equity
+                        data = si.get_data(comp, start_date=START_DATE, interval=PRICE_INTERVAL)
+                        divs = si.get_dividends(comp, start_date=DIVIDEND_START_DATE)
+                        #divSum = divs['dividend'].sum()
+
+                        percentile = 100.0 * (data['adjclose'][-1] - data['adjclose'].min()) / (
+                                data['adjclose'].max() - data['adjclose'].min())
+
+                    except Exception as e:
+                        print("except is ", e)
+                    else:
+                        outputString = "Netnet" + comp + " " + country + " " + sector \
+                                       + " MV:" + str(round(marketCap / 1000000000.0, 1)) + 'B' \
+                                       + " Equity:" + str(round((totalAssets - totalLiab) / 1000000000.0, 1)) + 'B' \
+                                       + " CR:" + str(round(currentRatio, 1)) \
+                                       + " D/E:" + str(round(debtEquityRatio, 1)) \
+                                       + " RE/A:" + str(round(retainedEarningsAssetRatio, 1)) \
+                                       + " cfo/A:" + str(round(cfoAssetRatio, 1)) \
+                                       + " ebit/A:" + str(round(ebitAssetRatio, 1)) \
+                                       + " pb:" + str(round(pb, 1)) \
+                                       + " 52w p%: " + str(round(percentile))
+                                     #  + " div10yr: " + str(round(divSum / marketPrice, 2))
+
+                        print(outputString)
+                        fileOutput.write(outputString + '\n')
+                        fileOutput.flush()
