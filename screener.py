@@ -55,31 +55,6 @@ for comp in lines:
                 cfoAssetRatio = cfo / totalAssets
                 ebitAssetRatio = ebit / totalAssets
 
-                # try:
-                #     assert currentRatio > 1, 'current ratio needs to be bigger than one'
-                # except AssertionError as ae:
-                #     print(comp, "fails current ratio", currentRatio, ae)
-                #
-                # try:
-                #     assert debtEquityRatio < 1, 'debt equity ratio needs to be less than one'
-                # except AssertionError as ae:
-                #     print(comp, "fails DE ratio", debtEquityRatio, ae)
-                #
-                # try:
-                #     assert retainedEarnings > 0, "retained earnings needs to be greater than 0"
-                # except AssertionError as ae:
-                #     print(comp, "fails retained earnings", retainedEarnings, ae)
-                #
-                # try:
-                #     assert cfo > 0, "cfo needs to be greater than 0"
-                # except AssertionError as ae:
-                #     print(comp, "fails CFO", cfo, ae)
-                #
-                # try:
-                #     assert ebit > 0, "ebit needs to be postive"
-                # except AssertionError as ae:
-                #     print(datetime.datetime.now().time().strftime("%H:%M"), comp, "fails EBIT", ebit, ae)
-
                 try:
                     assert currentRatio > 1, 'current ratio needs to be bigger than one'
                     assert debtEquityRatio < 1, 'debt equity ratio needs to be less than one'
@@ -95,7 +70,7 @@ for comp in lines:
                             pb = marketCap / equity
                             data = si.get_data(comp, start_date=START_DATE, interval=PRICE_INTERVAL)
                             divs = si.get_dividends(comp, start_date=DIVIDEND_START_DATE)
-                            dataSize = data['adjclose'].size
+                            #dataSize = data['adjclose'].size
 
                             print(" percentile current min max ", data['adjclose'][-1],
                                   data['adjclose'].max(),
