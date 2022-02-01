@@ -66,15 +66,19 @@ for comp in lines:
 
                         pb = marketCap / equity
                         data = si.get_data(comp, start_date=START_DATE, interval=PRICE_INTERVAL)
+                        print('data is ', data)
                         divs = si.get_dividends(comp, start_date=DIVIDEND_START_DATE)
-                        #divSum = divs['dividend'].sum()
 
-                        percentile = 100.0 * (data['adjclose'][-1] - data['adjclose'].min()) / (
+                        divSum = divs['dividend'].sum() if not divs.empty else 0
+
+                        percentile = 100.0 * (marketPrice - data['adjclose'].min()) / (
                                 data['adjclose'].max() - data['adjclose'].min())
 
                     except Exception as e:
                         print("except is ", e)
                     else:
+                        print("Netnet" + comp + " " + country + " " + sector)
+
                         outputString = "Netnet" + comp + " " + country + " " + sector \
                                        + " MV:" + str(round(marketCap / 1000000000.0, 1)) + 'B' \
                                        + " Equity:" + str(round((totalAssets - totalLiab) / 1000000000.0, 1)) + 'B' \
@@ -84,9 +88,9 @@ for comp in lines:
                                        + " cfo/A:" + str(round(cfoAssetRatio, 1)) \
                                        + " ebit/A:" + str(round(ebitAssetRatio, 1)) \
                                        + " pb:" + str(round(pb, 1)) \
-                                       + " 52w p%: " + str(round(percentile))
-                                     #  + " div10yr: " + str(round(divSum / marketPrice, 2))
+                                       + " 52w p%: " + str(round(percentile)) \
+                                       + " div10yr: " + str(round(divSum / marketPrice, 2))
 
-                        print(outputString)
-                        fileOutput.write(outputString + '\n')
-                        fileOutput.flush()
+                    print(outputString)
+                    fileOutput.write(outputString + '\n')
+                    fileOutput.flush()
