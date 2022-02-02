@@ -91,6 +91,6 @@ for comp in lines:
                                        + " 52w p%: " + str(round(percentile)) \
                                        + " div10yr: " + str(round(divSum / marketPrice, 2))
 
-                    print(outputString)
-                    fileOutput.write(outputString + '\n')
-                    fileOutput.flush()
+                        print(outputString)
+                        fileOutput.write(outputString + '\n')
+                        fileOutput.flush()

@@ -1274,3 +1274,759 @@ NetnetAKRO United States Healthcare MV:0.6B Equity:0.3B CR:20.7 D/E:0.1 RE/A:-0.
 NetnetRAPT United States Healthcare MV:0.7B Equity:0.1B CR:9.8 D/E:0.1 RE/A:-1.8 cfo/A:-0.3 ebit/A:-0.4 pb:6.3 52w p%: 32 div10yr: 0.0
 NetnetIESC United States Industrials MV:1.0B Equity:0.4B CR:1.6 D/E:1.1 RE/A:0.2 cfo/A:0.0 ebit/A:0.1 pb:3.0 52w p%: 86 div10yr: 0.0
 NetnetIESC United States Industrials MV:1.0B Equity:0.4B CR:1.6 D/E:1.1 RE/A:0.2 cfo/A:0.0 ebit/A:0.1 pb:3.0 52w p%: 86 div10yr: 0.0
+NetnetPCYO United States Utilities MV:0.3B Equity:0.1B CR:3.1 D/E:0.1 RE/A:-0.6 cfo/A:0.0 ebit/A:0.0 pb:3.0 52w p%: 62 div10yr: 0.0
+NetnetAMPH United States Healthcare MV:1.2B Equity:0.4B CR:2.5 D/E:0.4 RE/A:0.2 cfo/A:0.1 ebit/A:0.0 pb:2.9 52w p%: 100 div10yr: 0.0
+NetnetCDLX United States Communication Services MV:2.3B Equity:0.2B CR:4.7 D/E:1.7 RE/A:-0.9 cfo/A:-0.0 ebit/A:-0.1 pb:14.8 52w p%: 33 div10yr: 0.0
+NetnetAEYE United States Technology MV:0.1B Equity:0.0B CR:1.6 D/E:1.4 RE/A:-3.1 cfo/A:-0.1 ebit/A:-0.4 pb:9.1 52w p%: 6 div10yr: 0.0
+NetnetKRYS United States Healthcare MV:1.5B Equity:0.3B CR:17.8 D/E:0.1 RE/A:-0.2 cfo/A:-0.1 ebit/A:-0.1 pb:5.0 52w p%: 45 div10yr: 0.0
+NetnetACRS United States Healthcare MV:0.7B Equity:0.0B CR:3.9 D/E:0.9 RE/A:-7.1 cfo/A:-0.5 ebit/A:-0.7 pb:18.8 52w p%: 44 div10yr: 0.0
+NetnetMYO United States Healthcare MV:0.1B Equity:0.0B CR:5.0 D/E:0.3 RE/A:-4.6 cfo/A:-0.6 ebit/A:-0.7 pb:4.5 52w p%: 44 div10yr: 0.0
+NetnetKLIC Singapore Technology MV:3.4B Equity:1.1B CR:3.8 D/E:0.5 RE/A:0.6 cfo/A:0.2 ebit/A:0.3 pb:3.1 52w p%: 68 div10yr: 0.03
+NetnetDZSI United States Technology MV:0.4B Equity:0.1B CR:2.4 D/E:1.7 RE/A:-0.2 cfo/A:0.0 ebit/A:-0.0 pb:4.4 52w p%: 65 div10yr: 0.0
+NetnetSCPL United States Communication Services MV:0.3B Equity:0.4B CR:6.0 D/E:0.3 RE/A:0.1 cfo/A:0.3 ebit/A:0.3 pb:3.9 52w p%: 30 div10yr: 0.0
+NetnetBDSI United States Healthcare MV:0.4B Equity:0.1B CR:3.4 D/E:1.2 RE/A:-1.4 cfo/A:0.1 ebit/A:0.2 pb:3.4 52w p%: 48 div10yr: 0.0
+NetnetEME United States Industrials MV:6.3B Equity:2.1B CR:1.4 D/E:1.5 RE/A:0.5 cfo/A:0.2 ebit/A:0.1 pb:3.1 52w p%: 86 div10yr: 0.03
+NetnetOB United States Communication Services MV:0.8B Equity:0.1B CR:1.1 D/E:3.3 RE/A:-0.5 cfo/A:0.1 ebit/A:0.1 pb:-9.5 52w p%: 14 div10yr: 0.0
+NetnetAGRX United States Healthcare MV:0.0B Equity:0.0B CR:7.7 D/E:0.5 RE/A:-4.3 cfo/A:-0.6 ebit/A:-0.7 pb:0.9 52w p%: 1 div10yr: 0.0
+NetnetENTA United States Healthcare MV:1.2B Equity:0.4B CR:8.8 D/E:0.1 RE/A:0.1 cfo/A:-0.2 ebit/A:-0.2 pb:3.0 52w p%: 40 div10yr: 0.0
+NetnetCEVA United States Technology MV:0.8B Equity:0.3B CR:5.9 D/E:0.2 RE/A:0.2 cfo/A:0.0 ebit/A:-0.0 pb:3.2 52w p%: 32 div10yr: 0.0
+NetnetMMYT India Consumer Cyclical MV:1.7B Equity:0.9B CR:2.6 D/E:0.5 RE/A:-0.9 cfo/A:0.0 ebit/A:-0.1 pb:2.0 52w p%: 68 div10yr: 0.0
+NetnetVECO United States Technology MV:1.4B Equity:0.4B CR:4.0 D/E:1.2 RE/A:-0.8 cfo/A:0.0 ebit/A:0.0 pb:3.4 52w p%: 95 div10yr: 0.0
+NetnetHNST United States Consumer Cyclical MV:0.6B Equity:0.1B CR:3.2 D/E:0.7 RE/A:-1.5 cfo/A:-0.1 ebit/A:-0.1 pb:-2.6 52w p%: 3 div10yr: 0.0
+NetnetTR United States Consumer Defensive MV:1.3B Equity:0.8B CR:4.6 D/E:0.3 RE/A:0.0 cfo/A:0.1 ebit/A:0.1 pb:1.7 52w p%: 50 div10yr: 0.12
+NetnetBRCN Canada Consumer Defensive MV:0.1B Equity:0.0B CR:10.1 D/E:0.0 RE/A:-2.6 cfo/A:-0.1 ebit/A:-0.1 pb:3.0 52w p%: 12 div10yr: 0.0
+NetnetMKFG United States Technology MV:0.9B Equity:0.1B CR:4.7 D/E:0.4 RE/A:-0.9 cfo/A:-0.1 ebit/A:-0.2 pb:-12.1 52w p%: 2 div10yr: 0.0
+NetnetTWLO United States Communication Services MV:35.5B Equity:8.5B CR:7.5 D/E:0.1 RE/A:-0.1 cfo/A:0.0 ebit/A:-0.0 pb:4.2 52w p%: 40 div10yr: 0.0
+NetnetKZIA Australia Healthcare MV:0.1B Equity:0.0B CR:3.5 D/E:0.5 RE/A:-0.8 cfo/A:-0.2 ebit/A:-0.1 pb:2.4 52w p%: 42 div10yr: 0.0
+NetnetCLDX United States Healthcare MV:1.5B Equity:0.2B CR:13.9 D/E:0.1 RE/A:-4.6 cfo/A:-0.2 ebit/A:-0.2 pb:7.0 52w p%: 57 div10yr: 0.0
+NetnetRXRX United States Healthcare MV:2.0B Equity:0.2B CR:11.7 D/E:0.2 RE/A:-0.7 cfo/A:-0.2 ebit/A:-0.3 pb:-9.6 52w p%: 2 div10yr: 0.0
+NetnetMKSI United States Technology MV:8.6B Equity:2.9B CR:4.7 D/E:0.6 RE/A:0.4 cfo/A:0.1 ebit/A:0.1 pb:3.0 52w p%: 69 div10yr: 0.05
+NetnetMKSI United States Technology MV:8.6B Equity:2.9B CR:4.7 D/E:0.6 RE/A:0.4 cfo/A:0.1 ebit/A:0.1 pb:3.0 52w p%: 69 div10yr: 0.05
+NetnetGBR United States Real Estate MV:0.0B Equity:0.0B CR:23.2 D/E:0.1 RE/A:-12.9 cfo/A:-0.1 ebit/A:-0.1 pb:3.1 52w p%: 18 div10yr: 0.0
+NetnetPRTA Ireland Healthcare MV:1.6B Equity:0.2B CR:11.6 D/E:0.8 RE/A:-2.4 cfo/A:-0.2 ebit/A:-0.3 pb:8.8 52w p%: 40 div10yr: 0.0
+NetnetONTO United States Technology MV:4.6B Equity:1.3B CR:6.1 D/E:0.2 RE/A:0.0 cfo/A:0.1 ebit/A:0.0 pb:3.6 52w p%: 88 div10yr: 0.0
+NetnetPCVX United States Healthcare MV:1.0B Equity:0.3B CR:8.3 D/E:0.1 RE/A:-0.5 cfo/A:-0.1 ebit/A:-0.2 pb:2.9 52w p%: 2 div10yr: 0.0
+NetnetHSIC United States Healthcare MV:10.5B Equity:4.3B CR:1.7 D/E:0.8 RE/A:0.4 cfo/A:0.1 ebit/A:0.1 pb:3.1 52w p%: 86 div10yr: 0.0
+NetnetHUM United States Healthcare MV:50.2B Equity:13.7B CR:1.8 D/E:1.5 RE/A:0.6 cfo/A:0.2 ebit/A:0.1 pb:3.7 52w p%: 53 div10yr: 0.04
+NetnetXNCR United States Healthcare MV:2.0B Equity:0.6B CR:5.3 D/E:0.2 RE/A:-0.5 cfo/A:-0.0 ebit/A:-0.1 pb:3.4 52w p%: 21 div10yr: 0.0
+NetnetRADA Israel Industrials MV:0.5B Equity:0.1B CR:3.2 D/E:0.5 RE/A:-0.7 cfo/A:0.0 ebit/A:0.1 pb:6.6 52w p%: 63 div10yr: 0.0
+NetnetMYNA Germany Technology MV:0.2B Equity:0.1B CR:5.7 D/E:0.2 RE/A:-0.5 cfo/A:-0.2 ebit/A:-0.2 pb:3.3 52w p%: 1 div10yr: 0.0
+NetnetBYSI United States Healthcare MV:0.1B Equity:0.1B CR:8.2 D/E:0.3 RE/A:-2.4 cfo/A:-0.4 ebit/A:-0.5 pb:1.5 52w p%: 1 div10yr: 0.0
+NetnetVEV Canada Consumer Cyclical MV:0.1B Equity:0.0B CR:1.7 D/E:1.1 RE/A:-0.6 cfo/A:-0.2 ebit/A:-0.1 pb:5.1 52w p%: 40 div10yr: 0.0
+NetnetCYTH United States Healthcare MV:0.0B Equity:0.0B CR:3.8 D/E:0.4 RE/A:-2.4 cfo/A:-0.6 ebit/A:-0.6 pb:3.2 52w p%: 1 div10yr: 0.0
+NetnetAFMD Germany Healthcare MV:0.5B Equity:0.1B CR:2.2 D/E:1.4 RE/A:-1.6 cfo/A:-0.1 ebit/A:-0.2 pb:7.0 52w p%: 29 div10yr: 0.0
+NetnetGP Canada Consumer Cyclical MV:0.2B Equity:0.0B CR:15.4 D/E:0.1 RE/A:-0.8 cfo/A:-0.4 ebit/A:-0.2 pb:4.2 52w p%: 5 div10yr: 0.0
+NetnetWAVE Sweden Utilities MV:0.0B Equity:0.1B CR:18.9 D/E:0.2 RE/A:-0.5 cfo/A:-0.2 ebit/A:-0.2 pb:0.4 52w p%: 49 div10yr: 0.0
+NetnetHSKA United States Healthcare MV:1.5B Equity:0.3B CR:4.1 D/E:0.4 RE/A:-0.4 cfo/A:-0.0 ebit/A:0.0 pb:5.2 52w p%: 40 div10yr: 0.0
+NetnetMYRG United States Industrials MV:1.6B Equity:0.4B CR:1.4 D/E:1.3 RE/A:0.3 cfo/A:0.2 ebit/A:0.1 pb:3.7 52w p%: 81 div10yr: 0.0
+NetnetRMBS United States Technology MV:2.8B Equity:0.9B CR:8.1 D/E:0.4 RE/A:-0.3 cfo/A:0.1 ebit/A:-0.0 pb:3.1 52w p%: 79 div10yr: 0.0
+NetnetGRC United States Industrials MV:1.0B Equity:0.3B CR:6.4 D/E:0.3 RE/A:0.9 cfo/A:0.1 ebit/A:0.1 pb:3.3 52w p%: 72 div10yr: 0.18
+NetnetYELP United States Communication Services MV:2.5B Equity:0.9B CR:5.0 D/E:0.4 RE/A:-0.5 cfo/A:0.2 ebit/A:-0.0 pb:3.0 52w p%: 76 div10yr: 0.0
+NetnetUTMD United States Healthcare MV:0.3B Equity:0.1B CR:16.4 D/E:0.1 RE/A:1.0 cfo/A:0.2 ebit/A:0.1 pb:3.3 52w p%: 42 div10yr: 0.14
+NetnetOPAD United States Real Estate MV:0.8B Equity:0.0B CR:1.2 D/E:4.8 RE/A:-0.6 cfo/A:0.7 ebit/A:-0.1 pb:-5.9 52w p%: 2 div10yr: 0.0
+NetnetDY United States Industrials MV:2.6B Equity:0.8B CR:2.6 D/E:1.4 RE/A:0.4 cfo/A:0.2 ebit/A:0.1 pb:3.2 52w p%: 89 div10yr: 0.0
+NetnetCOLM United States Consumer Cyclical MV:6.1B Equity:1.8B CR:3.4 D/E:0.5 RE/A:0.6 cfo/A:0.1 ebit/A:0.1 pb:3.3 52w p%: 60 div10yr: 0.08
+NetnetRMTI United States Healthcare MV:0.0B Equity:0.0B CR:5.4 D/E:1.3 RE/A:-4.3 cfo/A:-0.4 ebit/A:-0.4 pb:1.1 52w p%: 0 div10yr: 0.0
+NetnetPHR United States Healthcare MV:1.6B Equity:0.3B CR:5.0 D/E:0.2 RE/A:-1.0 cfo/A:0.0 ebit/A:-0.1 pb:6.2 52w p%: 21 div10yr: 0.0
+NetnetMAG Canada Basic Materials MV:1.4B Equity:0.3B CR:105.9 D/E:0.0 RE/A:-0.6 cfo/A:-0.0 ebit/A:-0.0 pb:4.4 52w p%: 47 div10yr: 0.0
+NetnetBSGM United States Healthcare MV:0.1B Equity:0.0B CR:5.7 D/E:0.2 RE/A:-5.2 cfo/A:-0.9 ebit/A:-1.9 pb:2.7 52w p%: 1 div10yr: 0.0
+NetnetAWH United States Healthcare MV:0.1B Equity:0.0B CR:2.9 D/E:1.0 RE/A:-22.4 cfo/A:-0.8 ebit/A:-0.9 pb:14.3 52w p%: 5 div10yr: 0.0
+NetnetAYI United States Industrials MV:6.8B Equity:2.0B CR:2.2 D/E:0.7 RE/A:0.8 cfo/A:0.1 ebit/A:0.1 pb:3.3 52w p%: 86 div10yr: 0.03
+NetnetSPRO United States Healthcare MV:0.4B Equity:0.1B CR:9.7 D/E:0.2 RE/A:-1.8 cfo/A:-0.6 ebit/A:-0.5 pb:2.7 52w p%: 27 div10yr: 0.0
+NetnetIRIX United States Healthcare MV:0.1B Equity:0.0B CR:2.9 D/E:0.6 RE/A:-2.0 cfo/A:-0.1 ebit/A:-0.2 pb:5.0 52w p%: 55 div10yr: 0.0
+NetnetSDGR United States Healthcare MV:1.8B Equity:0.6B CR:9.3 D/E:0.2 RE/A:-0.2 cfo/A:0.0 ebit/A:-0.1 pb:2.9 52w p%: 2 div10yr: 0.0
+NetnetEGRX United States Healthcare MV:0.6B Equity:0.2B CR:4.4 D/E:0.4 RE/A:0.3 cfo/A:0.2 ebit/A:0.1 pb:3.2 52w p%: 39 div10yr: 0.0
+NetnetPAYO United States Technology MV:1.8B Equity:0.2B CR:1.0 D/E:18.3 RE/A:-0.0 cfo/A:0.0 ebit/A:-0.0 pb:75.3 52w p%: 3 div10yr: 0.0
+NetnetLXRX United States Healthcare MV:0.5B Equity:0.2B CR:3.4 D/E:0.3 RE/A:-6.9 cfo/A:-0.7 ebit/A:-0.9 pb:3.1 52w p%: 32 div10yr: 0.0
+NetnetCPSH United States Technology MV:0.0B Equity:0.0B CR:3.8 D/E:0.3 RE/A:-3.5 cfo/A:0.2 ebit/A:0.1 pb:7.2 52w p%: 12 div10yr: 0.0
+NetnetDDS United States Consumer Cyclical MV:4.0B Equity:1.4B CR:2.2 D/E:1.1 RE/A:1.4 cfo/A:0.1 ebit/A:-0.0 pb:2.8 52w p%: 98 div10yr: 0.09
+NetnetLAWS United States Industrials MV:0.4B Equity:0.1B CR:1.5 D/E:1.1 RE/A:0.4 cfo/A:0.1 ebit/A:0.1 pb:3.6 52w p%: 65 div10yr: 0.02
+NetnetDORM United States Consumer Cyclical MV:3.0B Equity:0.9B CR:2.9 D/E:0.4 RE/A:0.6 cfo/A:0.1 ebit/A:0.1 pb:3.5 52w p%: 70 div10yr: 0.02
+NetnetMYTE Germany Consumer Cyclical MV:1.4B Equity:0.4B CR:2.8 D/E:0.4 RE/A:-0.1 cfo/A:-0.0 ebit/A:-0.0 pb:3.7 52w p%: 0 div10yr: 0.0
+NetnetADPT United States Healthcare MV:2.5B Equity:0.7B CR:6.9 D/E:0.5 RE/A:-0.5 cfo/A:-0.1 ebit/A:-0.1 pb:3.4 52w p%: 1 div10yr: 0.0
+NetnetMASS United States Healthcare MV:0.5B Equity:0.1B CR:15.8 D/E:0.3 RE/A:-0.4 cfo/A:0.0 ebit/A:-0.0 pb:3.6 52w p%: 1 div10yr: 0.0
+NetnetSRRK United States Healthcare MV:0.7B Equity:0.3B CR:8.1 D/E:0.5 RE/A:-0.6 cfo/A:-0.2 ebit/A:-0.2 pb:2.5 52w p%: 15 div10yr: 0.0
+NetnetNEWP Canada Basic Materials MV:0.4B Equity:0.1B CR:43.4 D/E:0.0 RE/A:-0.4 cfo/A:-0.0 ebit/A:-0.0 pb:3.6 52w p%: 4 div10yr: 0.0
+NetnetSCYX United States Healthcare MV:0.1B Equity:0.0B CR:3.7 D/E:3.5 RE/A:-3.2 cfo/A:-0.5 ebit/A:-0.5 pb:5.5 52w p%: 16 div10yr: 0.0
+NetnetMDNA Canada Healthcare MV:0.1B Equity:0.0B CR:10.3 D/E:0.1 RE/A:-1.1 cfo/A:-0.4 ebit/A:-0.4 pb:2.5 52w p%: 4 div10yr: 0.0
+NetnetCVCO United States Consumer Cyclical MV:2.5B Equity:0.7B CR:2.7 D/E:0.4 RE/A:0.5 cfo/A:0.1 ebit/A:0.1 pb:3.6 52w p%: 73 div10yr: 0.0
+NetnetELMD United States Healthcare MV:0.1B Equity:0.0B CR:6.8 D/E:0.1 RE/A:0.4 cfo/A:0.1 ebit/A:0.1 pb:3.4 52w p%: 55 div10yr: 0.0
+NetnetITOS United States Healthcare MV:1.3B Equity:0.3B CR:22.6 D/E:0.1 RE/A:-0.2 cfo/A:-0.1 ebit/A:-0.1 pb:4.1 52w p%: 67 div10yr: 0.0
+NetnetRLAY United States Healthcare MV:2.5B Equity:0.8B CR:56.5 D/E:0.0 RE/A:-0.5 cfo/A:-0.1 ebit/A:-0.1 pb:3.3 52w p%: 3 div10yr: 0.0
+NetnetMEDS United States Healthcare MV:0.0B Equity:0.0B CR:10.9 D/E:0.1 RE/A:-1.1 cfo/A:-0.2 ebit/A:-0.2 pb:2.0 52w p%: 2 div10yr: 0.0
+NetnetFNV Canada Basic Materials MV:25.3B Equity:5.4B CR:12.5 D/E:0.0 RE/A:-0.0 cfo/A:0.1 ebit/A:0.1 pb:4.7 52w p%: 56 div10yr: 0.08
+NetnetKOSS United States Technology MV:0.1B Equity:0.0B CR:7.6 D/E:0.3 RE/A:0.3 cfo/A:0.0 ebit/A:-0.0 pb:4.0 52w p%: 12 div10yr: 0.13
+NetnetKRMD United States Healthcare MV:0.1B Equity:0.0B CR:10.2 D/E:0.1 RE/A:0.1 cfo/A:-0.0 ebit/A:0.0 pb:3.8 52w p%: 6 div10yr: 0.0
+NetnetCIEN United States Technology MV:10.2B Equity:3.0B CR:3.5 D/E:0.6 RE/A:-0.8 cfo/A:0.1 ebit/A:0.1 pb:3.4 52w p%: 71 div10yr: 0.0
+NetnetCRUS United States Technology MV:4.7B Equity:1.4B CR:3.9 D/E:0.3 RE/A:-0.1 cfo/A:0.2 ebit/A:0.1 pb:3.4 52w p%: 68 div10yr: 0.0
+NetnetDIOD United States Technology MV:4.1B Equity:1.0B CR:2.0 D/E:0.9 RE/A:0.4 cfo/A:0.1 ebit/A:0.1 pb:4.3 52w p%: 74 div10yr: 0.0
+NetnetNGM United States Healthcare MV:1.3B Equity:0.3B CR:7.2 D/E:0.2 RE/A:-0.9 cfo/A:-0.3 ebit/A:-0.3 pb:4.5 52w p%: 21 div10yr: 0.0
+NetnetIOVA United States Healthcare MV:2.7B Equity:0.7B CR:11.6 D/E:0.2 RE/A:-1.1 cfo/A:-0.3 ebit/A:-0.3 pb:4.1 52w p%: 1 div10yr: 0.0
+NetnetMARA United States Financial Services MV:2.6B Equity:0.3B CR:198.4 D/E:0.0 RE/A:-0.4 cfo/A:-0.0 ebit/A:-0.0 pb:8.2 52w p%: 47 div10yr: 0.0
+NetnetIDN United States Technology MV:0.1B Equity:0.0B CR:7.3 D/E:0.1 RE/A:-4.8 cfo/A:-0.0 ebit/A:-0.0 pb:3.4 52w p%: 8 div10yr: 0.0
+NetnetSFIX United States Consumer Cyclical MV:1.4B Equity:0.5B CR:2.3 D/E:0.8 RE/A:0.0 cfo/A:-0.0 ebit/A:-0.1 pb:3.1 52w p%: 5 div10yr: 0.0
+NetnetDLB United States Technology MV:5.7B Equity:2.6B CR:5.6 D/E:0.2 RE/A:0.8 cfo/A:0.1 ebit/A:0.1 pb:2.2 52w p%: 73 div10yr: 0.1
+NetnetBPMC United States Healthcare MV:4.7B Equity:1.5B CR:7.1 D/E:0.2 RE/A:-0.4 cfo/A:0.2 ebit/A:0.2 pb:3.2 52w p%: 38 div10yr: 0.0
+NetnetPHAR Netherlands Healthcare MV:0.6B Equity:0.1B CR:3.4 D/E:1.3 RE/A:-0.7 cfo/A:0.2 ebit/A:0.2 pb:3.8 52w p%: 11 div10yr: 0.0
+NetnetPHAR Netherlands Healthcare MV:0.6B Equity:0.1B CR:3.4 D/E:1.3 RE/A:-0.7 cfo/A:0.2 ebit/A:0.2 pb:3.8 52w p%: 11 div10yr: 0.0
+NetnetVLN Israel Technology MV:0.6B Equity:0.1B CR:6.8 D/E:0.2 RE/A:-1.3 cfo/A:-0.2 ebit/A:-0.3 pb:-7.6 52w p%: 0 div10yr: 0.0
+NetnetJJSF United States Consumer Defensive MV:2.8B Equity:0.8B CR:3.5 D/E:0.3 RE/A:0.7 cfo/A:0.1 ebit/A:0.1 pb:3.4 52w p%: 55 div10yr: 0.11
+NetnetREED United States Consumer Defensive MV:0.0B Equity:0.0B CR:2.1 D/E:0.9 RE/A:-4.3 cfo/A:-0.5 ebit/A:-0.4 pb:3.0 52w p%: 0 div10yr: 0.0
+NetnetACVA United States Technology MV:1.2B Equity:0.2B CR:2.1 D/E:0.8 RE/A:-0.4 cfo/A:0.0 ebit/A:-0.1 pb:-8.9 52w p%: 0 div10yr: 0.0
+NetnetMGTX United States Healthcare MV:0.7B Equity:0.2B CR:5.0 D/E:0.5 RE/A:-0.7 cfo/A:-0.2 ebit/A:-0.2 pb:2.8 52w p%: 21 div10yr: 0.0
+NetnetEOSE United States Industrials MV:0.2B Equity:0.1B CR:9.0 D/E:0.1 RE/A:-2.1 cfo/A:-0.2 ebit/A:-0.3 pb:1.8 52w p%: 0 div10yr: 0.0
+NetnetCRKN United States Basic Materials MV:0.0B Equity:0.0B CR:16.7 D/E:0.1 RE/A:-3.3 cfo/A:-0.4 ebit/A:-1.1 pb:2.6 52w p%: 0 div10yr: 0.0
+NetnetBYRN United States Industrials MV:0.3B Equity:0.0B CR:1.4 D/E:1.5 RE/A:-2.4 cfo/A:0.1 ebit/A:-0.2 pb:32.0 52w p%: 34 div10yr: 0.0
+NetnetFSR United States Consumer Cyclical MV:2.0B Equity:0.9B CR:75.7 D/E:0.2 RE/A:-0.1 cfo/A:-0.0 ebit/A:-0.0 pb:2.2 52w p%: 10 div10yr: 0.0
+NetnetCYBE United States Technology MV:0.3B Equity:0.1B CR:5.0 D/E:0.2 RE/A:0.4 cfo/A:0.1 ebit/A:0.1 pb:4.2 52w p%: 69 div10yr: 0.0
+NetnetIMCR United Kingdom Healthcare MV:1.1B Equity:0.1B CR:2.8 D/E:2.6 RE/A:-1.8 cfo/A:-0.3 ebit/A:-0.4 pb:19.8 52w p%: 9 div10yr: 0.0
+NetnetCOUR United States Consumer Defensive MV:2.9B Equity:0.2B CR:2.3 D/E:0.7 RE/A:-0.8 cfo/A:-0.0 ebit/A:-0.2 pb:-13.2 52w p%: 2 div10yr: 0.0
+NetnetEXAS United States Healthcare MV:13.3B Equity:2.8B CR:3.8 D/E:0.7 RE/A:-0.4 cfo/A:0.0 ebit/A:-0.1 pb:4.7 52w p%: 25 div10yr: 0.0
+NetnetAVDL Ireland Healthcare MV:0.4B Equity:0.2B CR:17.4 D/E:0.9 RE/A:-1.2 cfo/A:-0.2 ebit/A:-0.1 pb:2.3 52w p%: 24 div10yr: 0.0
+NetnetEVAX Denmark Healthcare MV:0.1B Equity:0.0B CR:2.2 D/E:0.7 RE/A:-2.3 cfo/A:-1.0 ebit/A:-1.4 pb:10.5 52w p%: 1 div10yr: 0.0
+NetnetFN Cayman Islands Technology MV:3.8B Equity:1.1B CR:3.0 D/E:0.5 RE/A:0.6 cfo/A:0.1 ebit/A:0.1 pb:3.4 52w p%: 74 div10yr: 0.0
+NetnetLFUS United States Technology MV:6.7B Equity:1.6B CR:4.4 D/E:0.7 RE/A:0.4 cfo/A:0.1 ebit/A:0.1 pb:4.2 52w p%: 76 div10yr: 0.05
+NetnetMGIC Israel Technology MV:0.9B Equity:0.3B CR:2.5 D/E:0.5 RE/A:0.1 cfo/A:0.1 ebit/A:0.1 pb:3.6 52w p%: 82 div10yr: 0.14
+NetnetGCP United States Basic Materials MV:2.4B Equity:0.7B CR:3.5 D/E:1.2 RE/A:0.5 cfo/A:0.0 ebit/A:0.1 pb:3.6 52w p%: 100 div10yr: 0.0
+NetnetCRNX United States Healthcare MV:0.9B Equity:0.2B CR:16.9 D/E:0.1 RE/A:-0.9 cfo/A:-0.3 ebit/A:-0.4 pb:5.3 52w p%: 41 div10yr: 0.0
+NetnetALEC United States Healthcare MV:1.2B Equity:0.3B CR:6.2 D/E:0.8 RE/A:-0.8 cfo/A:-0.3 ebit/A:-0.4 pb:4.7 52w p%: 25 div10yr: 0.0
+NetnetVGZ United States Basic Materials MV:0.1B Equity:0.0B CR:8.4 D/E:0.1 RE/A:-25.8 cfo/A:-0.4 ebit/A:-0.5 pb:5.2 52w p%: 31 div10yr: 0.0
+NetnetRETA United States Healthcare MV:0.9B Equity:0.4B CR:7.1 D/E:1.1 RE/A:-1.1 cfo/A:-0.4 ebit/A:-0.3 pb:2.2 52w p%: 2 div10yr: 0.0
+NetnetNUZE United States Consumer Defensive MV:0.0B Equity:0.0B CR:10.8 D/E:0.1 RE/A:-3.8 cfo/A:-0.5 ebit/A:-1.3 pb:4.0 52w p%: 3 div10yr: 0.0
+NetnetNMTC United States Healthcare MV:0.0B Equity:0.0B CR:6.2 D/E:0.2 RE/A:-5.1 cfo/A:-1.1 ebit/A:-1.3 pb:5.2 52w p%: 3 div10yr: 0.0
+NetnetVERV United States Healthcare MV:1.4B Equity:0.1B CR:10.1 D/E:0.3 RE/A:-0.8 cfo/A:-0.4 ebit/A:-0.5 pb:-21.9 52w p%: 0 div10yr: 0.0
+NetnetBLNK United States Industrials MV:0.9B Equity:0.0B CR:4.2 D/E:0.3 RE/A:-5.5 cfo/A:-0.5 ebit/A:-0.5 pb:32.5 52w p%: 40 div10yr: 0.0
+NetnetLMAT United States Healthcare MV:0.9B Equity:0.2B CR:3.7 D/E:0.5 RE/A:0.3 cfo/A:0.1 ebit/A:0.1 pb:5.4 52w p%: 50 div10yr: 0.06
+NetnetKNSA Bermuda Healthcare MV:0.4B Equity:0.3B CR:10.5 D/E:0.1 RE/A:-1.5 cfo/A:-0.4 ebit/A:-0.5 pb:1.2 52w p%: 7 div10yr: 0.0
+NetnetPAGS Brazil Technology MV:4.6B Equity:9.3B CR:1.7 D/E:1.4 RE/A:0.2 cfo/A:0.1 ebit/A:0.1 pb:0.5 52w p%: 9 div10yr: 0.0
+NetnetBEEM United States Technology MV:0.1B Equity:0.0B CR:16.3 D/E:0.1 RE/A:-1.6 cfo/A:-0.1 ebit/A:-0.2 pb:4.1 52w p%: 9 div10yr: 0.0
+NetnetCUE United States Healthcare MV:0.2B Equity:0.1B CR:5.4 D/E:0.3 RE/A:-1.5 cfo/A:-0.3 ebit/A:-0.5 pb:3.1 52w p%: 2 div10yr: 0.0
+NetnetLITE United States Technology MV:7.3B Equity:2.0B CR:3.7 D/E:0.8 RE/A:0.1 cfo/A:0.2 ebit/A:0.1 pb:3.7 52w p%: 83 div10yr: 0.0
+NetnetALKT United States Technology MV:1.4B Equity:0.2B CR:9.4 D/E:0.4 RE/A:-1.1 cfo/A:-0.2 ebit/A:-0.1 pb:-5.3 52w p%: 1 div10yr: 0.0
+NetnetMQ United States Technology MV:2.9B Equity:0.3B CR:3.1 D/E:0.6 RE/A:-0.6 cfo/A:0.1 ebit/A:-0.1 pb:-13.5 52w p%: 3 div10yr: 0.0
+NetnetNEPH United States Healthcare MV:0.0B Equity:0.0B CR:11.4 D/E:0.2 RE/A:-7.1 cfo/A:-0.4 ebit/A:-0.2 pb:3.9 52w p%: 3 div10yr: 0.0
+NetnetATVI United States Communication Services MV:61.6B Equity:15.0B CR:3.4 D/E:0.5 RE/A:0.4 cfo/A:0.1 ebit/A:0.1 pb:4.1 52w p%: 53 div10yr: 0.04
+NetnetQS United States Consumer Cyclical MV:5.7B Equity:0.4B CR:81.7 D/E:2.0 RE/A:-1.9 cfo/A:-0.1 ebit/A:-0.1 pb:16.2 52w p%: 10 div10yr: 0.0
+NetnetUUUU United States Energy MV:1.0B Equity:0.2B CR:4.3 D/E:0.2 RE/A:-2.2 cfo/A:-0.2 ebit/A:-0.1 pb:6.7 52w p%: 72 div10yr: 0.0
+NetnetTW United States Financial Services MV:8.9B Equity:5.0B CR:4.8 D/E:0.1 RE/A:0.0 cfo/A:0.1 ebit/A:0.0 pb:2.1 52w p%: 73 div10yr: 0.01
+NetnetAPVO United States Healthcare MV:0.0B Equity:0.0B CR:3.3 D/E:2.2 RE/A:-3.5 cfo/A:-0.5 ebit/A:-0.5 pb:1.8 52w p%: 6 div10yr: 0.0
+NetnetMLAB United States Technology MV:1.5B Equity:0.4B CR:9.3 D/E:0.5 RE/A:0.1 cfo/A:0.1 ebit/A:0.0 pb:3.6 52w p%: 59 div10yr: 0.02
+NetnetCTLP United States Technology MV:0.6B Equity:0.2B CR:2.0 D/E:0.5 RE/A:-1.3 cfo/A:0.0 ebit/A:-0.0 pb:3.8 52w p%: 45 div10yr: 0.0
+NetnetPPSI United States Industrials MV:0.1B Equity:0.0B CR:2.5 D/E:0.5 RE/A:-0.5 cfo/A:-0.2 ebit/A:-0.2 pb:4.4 52w p%: 59 div10yr: 0.24
+NetnetVTGN United States Healthcare MV:0.3B Equity:0.1B CR:24.9 D/E:0.1 RE/A:-2.0 cfo/A:-0.1 ebit/A:-0.2 pb:3.5 52w p%: 44 div10yr: 0.0
+NetnetFROG United States Technology MV:2.6B Equity:0.6B CR:5.3 D/E:0.2 RE/A:-0.1 cfo/A:0.0 ebit/A:-0.0 pb:4.7 52w p%: 1 div10yr: 0.0
+NetnetUSIO United States Technology MV:0.1B Equity:0.0B CR:1.1 D/E:3.9 RE/A:-0.8 cfo/A:0.1 ebit/A:-0.0 pb:5.4 52w p%: 38 div10yr: 0.0
+NetnetFTHM United States Real Estate MV:0.2B Equity:0.0B CR:6.6 D/E:0.2 RE/A:-0.2 cfo/A:-0.0 ebit/A:-0.0 pb:7.8 52w p%: 13 div10yr: 0.0
+NetnetATLC United States Financial Services MV:1.0B Equity:0.2B CR:15.3 D/E:4.6 RE/A:-0.1 cfo/A:0.2 ebit/A:0.0 pb:13.0 52w p%: 84 div10yr: 0.0
+NetnetPETS United States Healthcare MV:0.5B Equity:0.1B CR:3.6 D/E:0.3 RE/A:0.7 cfo/A:0.2 ebit/A:0.2 pb:3.7 52w p%: 0 div10yr: 0.35
+NetnetALKS Ireland Healthcare MV:4.1B Equity:1.1B CR:2.5 D/E:0.8 RE/A:-0.8 cfo/A:0.0 ebit/A:-0.1 pb:3.8 52w p%: 66 div10yr: 0.0
+NetnetBMRN United States Healthcare MV:16.4B Equity:4.1B CR:4.8 D/E:0.4 RE/A:-0.1 cfo/A:0.0 ebit/A:-0.0 pb:4.0 52w p%: 31 div10yr: 0.0
+NetnetISDR United States Technology MV:0.1B Equity:0.0B CR:4.9 D/E:0.2 RE/A:0.2 cfo/A:0.1 ebit/A:0.1 pb:4.1 52w p%: 95 div10yr: 0.03
+NetnetHCM Hong Kong Healthcare MV:4.8B Equity:0.5B CR:3.4 D/E:0.4 RE/A:-0.6 cfo/A:-0.1 ebit/A:-0.3 pb:9.8 52w p%: 40 div10yr: 0.0
+NetnetSLGL Israel Healthcare MV:0.2B Equity:0.1B CR:9.0 D/E:0.2 RE/A:-3.1 cfo/A:-0.4 ebit/A:-0.5 pb:3.3 52w p%: 4 div10yr: 0.0
+NetnetWVE Singapore Healthcare MV:0.1B Equity:0.1B CR:1.9 D/E:2.1 RE/A:-2.4 cfo/A:-0.4 ebit/A:-0.5 pb:1.7 52w p%: 2 div10yr: 0.0
+NetnetCTKB United States Healthcare MV:1.9B Equity:0.2B CR:7.9 D/E:0.2 RE/A:-0.1 cfo/A:0.1 ebit/A:0.1 pb:-120.7 52w p%: 0 div10yr: 0.0
+NetnetAEIS United States Industrials MV:3.3B Equity:0.8B CR:3.3 D/E:1.0 RE/A:0.4 cfo/A:0.1 ebit/A:0.1 pb:4.0 52w p%: 59 div10yr: 0.0
+NetnetLLNW United States Technology MV:0.6B Equity:0.2B CR:6.6 D/E:0.8 RE/A:-1.2 cfo/A:0.0 ebit/A:-0.0 pb:3.2 52w p%: 36 div10yr: 0.0
+NetnetCLIR United States Industrials MV:0.0B Equity:0.0B CR:8.7 D/E:0.2 RE/A:-6.7 cfo/A:-0.5 ebit/A:-0.6 pb:4.1 52w p%: 14 div10yr: 0.0
+NetnetNRBO United States Healthcare MV:0.0B Equity:0.0B CR:2.9 D/E:0.5 RE/A:-6.1 cfo/A:-1.0 ebit/A:-1.1 pb:4.2 52w p%: 1 div10yr: 0.0
+NetnetVTEX United Kingdom Technology MV:0.6B Equity:0.1B CR:2.3 D/E:0.8 RE/A:-0.0 cfo/A:0.1 ebit/A:0.0 pb:7.6 52w p%: 0 div10yr: 0.0
+NetnetGMDA Israel Healthcare MV:0.2B Equity:0.1B CR:6.0 D/E:0.6 RE/A:-1.8 cfo/A:-0.3 ebit/A:-0.4 pb:2.2 52w p%: 16 div10yr: 0.0
+NetnetMVIS United States Technology MV:0.6B Equity:0.0B CR:1.8 D/E:1.3 RE/A:-27.9 cfo/A:-0.8 ebit/A:-0.7 pb:63.2 52w p%: 18 div10yr: 0.0
+NetnetCORT United States Healthcare MV:2.2B Equity:0.5B CR:10.1 D/E:0.1 RE/A:0.1 cfo/A:0.3 ebit/A:0.2 pb:4.1 52w p%: 42 div10yr: 0.0
+NetnetRELY United States Technology MV:2.1B Equity:0.2B CR:1.9 D/E:1.1 RE/A:-0.6 cfo/A:-0.3 ebit/A:-0.1 pb:-9.9 52w p%: 2 div10yr: 0.0
+NetnetEDSA Canada Healthcare MV:0.1B Equity:0.0B CR:8.3 D/E:0.1 RE/A:-1.8 cfo/A:-0.9 ebit/A:-1.6 pb:4.6 52w p%: 32 div10yr: 0.0
+NetnetHCKT United States Technology MV:0.6B Equity:0.1B CR:2.0 D/E:0.4 RE/A:-0.1 cfo/A:0.2 ebit/A:0.1 pb:4.1 52w p%: 83 div10yr: 0.12
+NetnetRDY India Healthcare MV:9.5B Equity:173.1B CR:1.8 D/E:0.5 RE/A:0.6 cfo/A:0.1 ebit/A:0.1 pb:0.1 52w p%: 52 div10yr: 0.07
+NetnetMSM United States Industrials MV:3.9B Equity:1.2B CR:2.3 D/E:1.1 RE/A:0.2 cfo/A:0.1 ebit/A:0.2 pb:3.4 52w p%: 80 div10yr: 0.44
+NetnetSMID United States Basic Materials MV:0.1B Equity:0.0B CR:2.6 D/E:1.0 RE/A:0.4 cfo/A:0.2 ebit/A:0.1 pb:5.9 52w p%: 52 div10yr: 0.01
+NetnetGMED United States Healthcare MV:5.3B Equity:1.5B CR:6.8 D/E:0.1 RE/A:0.6 cfo/A:0.1 ebit/A:0.1 pb:3.5 52w p%: 60 div10yr: 0.0
+NetnetSRRA United States Healthcare MV:0.4B Equity:0.1B CR:11.4 D/E:0.1 RE/A:-7.9 cfo/A:-0.5 ebit/A:-0.6 pb:4.6 52w p%: 100 div10yr: 0.0
+NetnetGNTX United States Consumer Cyclical MV:7.6B Equity:2.0B CR:5.5 D/E:0.1 RE/A:0.5 cfo/A:0.2 ebit/A:0.2 pb:3.9 52w p%: 76 div10yr: 0.13
+NetnetXAIR United States Healthcare MV:0.2B Equity:0.0B CR:9.8 D/E:0.3 RE/A:-2.0 cfo/A:-0.5 ebit/A:-0.5 pb:6.6 52w p%: 27 div10yr: 0.0
+NetnetCLXT United States Consumer Defensive MV:0.1B Equity:0.0B CR:5.7 D/E:0.7 RE/A:-2.6 cfo/A:-0.7 ebit/A:-0.7 pb:2.0 52w p%: 0 div10yr: 0.0
+NetnetRDWR Israel Technology MV:1.6B Equity:0.4B CR:2.4 D/E:0.6 RE/A:0.2 cfo/A:0.1 ebit/A:0.0 pb:4.1 52w p%: 65 div10yr: 0.0
+NetnetCTSH United States Technology MV:45.4B Equity:10.8B CR:1.9 D/E:0.6 RE/A:0.6 cfo/A:0.2 ebit/A:0.1 pb:4.2 52w p%: 95 div10yr: 0.04
+NetnetRCUS United States Healthcare MV:2.2B Equity:0.5B CR:6.0 D/E:0.5 RE/A:-0.4 cfo/A:0.1 ebit/A:-0.2 pb:4.4 52w p%: 59 div10yr: 0.0
+NetnetUWMC United States Financial Services MV:0.5B Equity:2.4B CR:1.3 D/E:3.8 RE/A:0.2 cfo/A:0.0 ebit/A:0.3 pb:0.2 52w p%: 0 div10yr: 0.04
+NetnetREGN United States Healthcare MV:64.8B Equity:11.0B CR:3.6 D/E:0.6 RE/A:0.6 cfo/A:0.2 ebit/A:0.2 pb:5.9 52w p%: 73 div10yr: 0.0
+NetnetBTCS United States Financial Services MV:0.1B Equity:0.0B CR:3.1 D/E:0.5 RE/A:-77.0 cfo/A:-1.9 ebit/A:-1.3 pb:52.5 52w p%: 66 div10yr: 0.0
+NetnetACLS United States Technology MV:2.1B Equity:0.5B CR:5.6 D/E:0.3 RE/A:-0.1 cfo/A:0.1 ebit/A:0.1 pb:4.4 52w p%: 80 div10yr: 0.0
+NetnetNMTR United States Healthcare MV:0.2B Equity:0.0B CR:5.7 D/E:0.2 RE/A:-3.4 cfo/A:-0.5 ebit/A:-0.5 pb:6.0 52w p%: 23 div10yr: 0.0
+NetnetSIMO Hong Kong Technology MV:2.8B Equity:0.7B CR:2.9 D/E:0.5 RE/A:nan cfo/A:0.1 ebit/A:0.1 pb:4.2 52w p%: 74 div10yr: 0.1
+NetnetDNLI United States Healthcare MV:4.3B Equity:1.2B CR:20.9 D/E:0.4 RE/A:-0.2 cfo/A:0.3 ebit/A:0.0 pb:3.8 52w p%: 27 div10yr: 0.0
+NetnetSILV Canada Basic Materials MV:1.1B Equity:0.1B CR:10.4 D/E:0.3 RE/A:-0.7 cfo/A:-0.3 ebit/A:-0.3 pb:7.5 52w p%: 41 div10yr: 0.0
+NetnetLNN United States Industrials MV:1.4B Equity:0.3B CR:3.0 D/E:0.9 RE/A:0.8 cfo/A:0.1 ebit/A:0.1 pb:4.1 52w p%: 51 div10yr: 0.09
+NetnetKOD United States Healthcare MV:3.2B Equity:0.9B CR:30.9 D/E:0.2 RE/A:-0.3 cfo/A:-0.1 ebit/A:-0.1 pb:3.7 52w p%: 16 div10yr: 0.0
+NetnetBILL United States Technology MV:19.9B Equity:2.5B CR:1.6 D/E:1.4 RE/A:-0.0 cfo/A:0.0 ebit/A:-0.0 pb:7.9 52w p%: 61 div10yr: 0.0
+NetnetTWTR United States Communication Services MV:30.5B Equity:8.0B CR:4.4 D/E:0.7 RE/A:-0.1 cfo/A:0.1 ebit/A:0.0 pb:3.8 52w p%: 26 div10yr: 0.0
+NetnetKIDS United States Healthcare MV:0.9B Equity:0.2B CR:4.5 D/E:0.4 RE/A:-0.5 cfo/A:-0.1 ebit/A:-0.1 pb:3.9 52w p%: 23 div10yr: 0.0
+NetnetPXLW United States Technology MV:0.2B Equity:0.1B CR:3.7 D/E:0.4 RE/A:-5.8 cfo/A:-0.1 ebit/A:-0.3 pb:3.5 52w p%: 24 div10yr: 0.0
+NetnetGAMB Ireland Consumer Cyclical MV:0.4B Equity:0.0B CR:3.7 D/E:0.3 RE/A:0.2 cfo/A:0.2 ebit/A:0.3 pb:10.9 52w p%: 50 div10yr: 0.0
+NetnetOM United States Healthcare MV:1.8B Equity:0.3B CR:9.4 D/E:0.2 RE/A:-1.2 cfo/A:-0.2 ebit/A:-0.3 pb:5.4 52w p%: 3 div10yr: 0.0
+NetnetLQDA United States Healthcare MV:0.3B Equity:0.1B CR:5.6 D/E:0.4 RE/A:-2.8 cfo/A:-0.5 ebit/A:-0.5 pb:4.4 52w p%: 53 div10yr: 0.0
+NetnetJBSS United States Consumer Defensive MV:0.7B Equity:0.2B CR:2.2 D/E:0.6 RE/A:0.3 cfo/A:0.3 ebit/A:0.2 pb:2.9 52w p%: 41 div10yr: 0.34
+NetnetFORM United States Technology MV:3.4B Equity:0.7B CR:3.2 D/E:0.3 RE/A:-0.2 cfo/A:0.2 ebit/A:0.1 pb:4.5 52w p%: 89 div10yr: 0.0
+NetnetGRMN Switzerland Technology MV:24.1B Equity:5.5B CR:3.2 D/E:0.3 RE/A:0.5 cfo/A:0.2 ebit/A:0.1 pb:4.4 52w p%: 52 div10yr: 0.2
+NetnetMDGL United States Healthcare MV:1.1B Equity:0.2B CR:6.1 D/E:0.2 RE/A:-1.5 cfo/A:-0.5 ebit/A:-0.7 pb:4.5 52w p%: 6 div10yr: 0.0
+NetnetSHOO United States Consumer Cyclical MV:3.4B Equity:0.8B CR:3.0 D/E:0.4 RE/A:1.1 cfo/A:0.0 ebit/A:0.0 pb:4.3 52w p%: 78 div10yr: 0.04
+NetnetINDO Indonesia Energy MV:0.0B Equity:0.0B CR:6.2 D/E:0.3 RE/A:-1.8 cfo/A:-0.3 ebit/A:-0.5 pb:2.7 52w p%: 29 div10yr: 0.0
+NetnetGKOS United States Healthcare MV:2.5B Equity:0.7B CR:9.4 D/E:0.5 RE/A:-0.3 cfo/A:-0.0 ebit/A:-0.1 pb:3.8 52w p%: 37 div10yr: 0.0
+NetnetARVN United States Healthcare MV:3.7B Equity:0.6B CR:14.3 D/E:0.1 RE/A:-0.7 cfo/A:-0.1 ebit/A:-0.2 pb:5.8 52w p%: 61 div10yr: 0.0
+NetnetGOSS United States Healthcare MV:0.7B Equity:0.3B CR:13.5 D/E:0.7 RE/A:-1.1 cfo/A:-0.3 ebit/A:-0.4 pb:2.3 52w p%: 27 div10yr: 0.0
+NetnetCKPT United States Healthcare MV:0.2B Equity:0.0B CR:5.9 D/E:0.2 RE/A:-3.4 cfo/A:-0.4 ebit/A:-0.5 pb:5.5 52w p%: 52 div10yr: 0.0
+NetnetKYMR United States Healthcare MV:2.3B Equity:0.3B CR:2.7 D/E:0.7 RE/A:-0.3 cfo/A:0.2 ebit/A:-0.1 pb:8.1 52w p%: 41 div10yr: 0.0
+NetnetECOM United States Technology MV:0.6B Equity:0.1B CR:2.6 D/E:0.4 RE/A:-0.9 cfo/A:0.2 ebit/A:0.1 pb:4.9 52w p%: 76 div10yr: 0.0
+NetnetVITL United States Consumer Defensive MV:0.7B Equity:0.1B CR:5.3 D/E:0.2 RE/A:0.1 cfo/A:0.1 ebit/A:0.1 pb:4.7 52w p%: 1 div10yr: 0.0
+NetnetPDEX United States Healthcare MV:0.1B Equity:0.0B CR:4.3 D/E:1.0 RE/A:0.3 cfo/A:-0.1 ebit/A:0.1 pb:4.5 52w p%: 39 div10yr: 0.0
+NetnetGIL Canada Consumer Cyclical MV:7.8B Equity:1.6B CR:4.3 D/E:0.9 RE/A:0.4 cfo/A:0.1 ebit/A:-0.0 pb:5.0 52w p%: 94 div10yr: 0.08
+NetnetSNDX United States Healthcare MV:0.9B Equity:0.3B CR:15.8 D/E:0.2 RE/A:-1.9 cfo/A:-0.2 ebit/A:-0.2 pb:3.6 52w p%: 42 div10yr: 0.0
+NetnetBNTX Germany Healthcare MV:43.6B Equity:1.4B CR:2.8 D/E:0.7 RE/A:-0.2 cfo/A:-0.0 ebit/A:-0.1 pb:31.7 52w p%: 43 div10yr: 0.0
+NetnetMCRB United States Healthcare MV:0.8B Equity:0.2B CR:5.8 D/E:1.0 RE/A:-1.6 cfo/A:-0.3 ebit/A:-0.3 pb:4.4 52w p%: 19 div10yr: 0.0
+NetnetPCOM Canada Communication Services MV:0.2B Equity:0.0B CR:1.4 D/E:2.2 RE/A:-0.1 cfo/A:-0.0 ebit/A:0.0 pb:6.5 52w p%: 73 div10yr: 0.0
+NetnetOLO United States Technology MV:1.0B Equity:0.1B CR:1.7 D/E:1.3 RE/A:-0.5 cfo/A:0.2 ebit/A:0.1 pb:-19.7 52w p%: 3 div10yr: 0.0
+NetnetTLS United States Technology MV:0.8B Equity:0.1B CR:3.7 D/E:0.4 RE/A:-0.8 cfo/A:-0.0 ebit/A:0.0 pb:6.0 52w p%: 0 div10yr: 0.0
+NetnetPTGX United States Healthcare MV:1.4B Equity:0.3B CR:7.8 D/E:0.2 RE/A:-0.9 cfo/A:-0.2 ebit/A:-0.2 pb:5.2 52w p%: 55 div10yr: 0.0
+NetnetAXNX United States Healthcare MV:2.3B Equity:0.3B CR:7.2 D/E:0.2 RE/A:-0.7 cfo/A:-0.2 ebit/A:-0.2 pb:8.0 52w p%: 49 div10yr: 0.0
+NetnetTROW United States Financial Services MV:35.7B Equity:10.3B CR:2.9 D/E:0.2 RE/A:nan cfo/A:0.3 ebit/A:0.2 pb:4.0 52w p%: 48 div10yr: 0.2
+NetnetFGEN United States Healthcare MV:1.4B Equity:0.4B CR:4.6 D/E:0.9 RE/A:-1.2 cfo/A:0.1 ebit/A:-0.2 pb:3.4 52w p%: 13 div10yr: 0.0
+NetnetDCTH United States Healthcare MV:0.1B Equity:0.0B CR:3.2 D/E:0.6 RE/A:-11.4 cfo/A:-0.7 ebit/A:-0.6 pb:2.3 52w p%: 0 div10yr: 0.0
+NetnetLUNG United States Healthcare MV:0.9B Equity:0.2B CR:20.0 D/E:0.2 RE/A:-0.9 cfo/A:-0.1 ebit/A:-0.1 pb:4.2 52w p%: 3 div10yr: 0.0
+NetnetTGTX United States Healthcare MV:1.7B Equity:0.5B CR:7.0 D/E:0.2 RE/A:-1.6 cfo/A:-0.3 ebit/A:-0.4 pb:3.2 52w p%: 5 div10yr: 0.0
+NetnetATRS United States Healthcare MV:0.6B Equity:0.1B CR:2.0 D/E:0.8 RE/A:-1.0 cfo/A:0.1 ebit/A:0.1 pb:4.9 52w p%: 52 div10yr: 0.0
+NetnetXXII United States Healthcare MV:0.4B Equity:0.0B CR:3.9 D/E:0.2 RE/A:-2.8 cfo/A:-0.3 ebit/A:-0.4 pb:8.2 52w p%: 40 div10yr: 0.0
+NetnetVNE Sweden Consumer Cyclical MV:4.0B Equity:1.2B CR:2.1 D/E:0.8 RE/A:-0.5 cfo/A:-0.1 ebit/A:-0.2 pb:3.2 52w p%: 99 div10yr: 0.0
+NetnetRLMD United States Healthcare MV:0.5B Equity:0.1B CR:9.4 D/E:0.1 RE/A:-1.5 cfo/A:-0.2 ebit/A:-0.5 pb:4.8 52w p%: 1 div10yr: 0.0
+NetnetPIRS United States Healthcare MV:0.3B Equity:0.0B CR:3.4 D/E:2.4 RE/A:-2.0 cfo/A:-0.4 ebit/A:-0.3 pb:8.5 52w p%: 48 div10yr: 0.0
+NetnetNKLA United States Consumer Cyclical MV:3.4B Equity:1.0B CR:17.2 D/E:0.1 RE/A:-0.5 cfo/A:-0.1 ebit/A:-0.3 pb:3.5 52w p%: 1 div10yr: 0.0
+NetnetSRDX United States Healthcare MV:0.6B Equity:0.1B CR:2.4 D/E:0.4 RE/A:0.6 cfo/A:0.1 ebit/A:0.0 pb:4.5 52w p%: 45 div10yr: 0.0
+NetnetELA United States Consumer Cyclical MV:0.1B Equity:0.0B CR:3.9 D/E:1.3 RE/A:-0.6 cfo/A:0.2 ebit/A:0.2 pb:6.2 52w p%: 41 div10yr: 2.11
+NetnetDNA United States Healthcare MV:7.4B Equity:0.5B CR:5.8 D/E:0.4 RE/A:-0.7 cfo/A:-0.2 ebit/A:-0.2 pb:16.0 52w p%: 3 div10yr: 0.0
+NetnetMORF United States Healthcare MV:1.6B Equity:0.1B CR:6.1 D/E:0.7 RE/A:-0.6 cfo/A:-0.2 ebit/A:-0.2 pb:10.9 52w p%: 58 div10yr: 0.0
+NetnetEDAP France Healthcare MV:0.2B Equity:0.0B CR:2.1 D/E:1.1 RE/A:-0.7 cfo/A:0.0 ebit/A:0.0 pb:9.0 52w p%: 70 div10yr: 0.0
+NetnetTTCF United States Consumer Defensive MV:1.0B Equity:0.2B CR:6.8 D/E:0.1 RE/A:0.2 cfo/A:-0.1 ebit/A:0.0 pb:4.5 52w p%: 18 div10yr: 0.0
+NetnetMACK United States Healthcare MV:0.1B Equity:0.0B CR:21.5 D/E:0.0 RE/A:-32.4 cfo/A:-0.3 ebit/A:-0.3 pb:4.7 52w p%: 71 div10yr: 2.23
+NetnetCACC United States Financial Services MV:7.7B Equity:1.8B CR:39.3 D/E:2.9 RE/A:0.2 cfo/A:nan ebit/A:0.0 pb:4.2 52w p%: 63 div10yr: 0.0
+NetnetDCT United States Technology MV:3.5B Equity:0.7B CR:5.1 D/E:0.2 RE/A:-0.0 cfo/A:-0.0 ebit/A:-0.0 pb:4.8 52w p%: 3 div10yr: 0.0
+NetnetCDNA United States Healthcare MV:2.2B Equity:0.3B CR:3.9 D/E:0.3 RE/A:-1.0 cfo/A:0.1 ebit/A:-0.1 pb:8.0 52w p%: 29 div10yr: 0.0
+NetnetFELE United States Industrials MV:4.0B Equity:0.8B CR:3.0 D/E:0.5 RE/A:0.6 cfo/A:0.2 ebit/A:0.1 pb:4.8 52w p%: 84 div10yr: 0.05
+NetnetSSD United States Industrials MV:4.9B Equity:1.0B CR:3.9 D/E:0.3 RE/A:0.6 cfo/A:0.2 ebit/A:0.2 pb:5.0 52w p%: 67 div10yr: 0.07
+NetnetTHRM United States Consumer Cyclical MV:2.9B Equity:0.6B CR:3.1 D/E:0.7 RE/A:0.5 cfo/A:0.1 ebit/A:0.1 pb:5.0 52w p%: 100 div10yr: 0.0
+NetnetMPX United States Consumer Cyclical MV:0.4B Equity:0.1B CR:5.2 D/E:0.3 RE/A:0.7 cfo/A:nan ebit/A:0.2 pb:4.3 52w p%: 51 div10yr: 0.29
+NetnetWOLF United States Technology MV:11.3B Equity:2.1B CR:3.3 D/E:0.6 RE/A:-0.5 cfo/A:-0.0 ebit/A:-0.1 pb:5.4 52w p%: 71 div10yr: 0.0
+NetnetATEX United States Communication Services MV:0.9B Equity:0.2B CR:14.1 D/E:0.2 RE/A:-1.0 cfo/A:-0.0 ebit/A:-0.2 pb:4.4 52w p%: 61 div10yr: 0.0
+NetnetCVM United States Healthcare MV:0.3B Equity:0.1B CR:11.5 D/E:0.3 RE/A:-5.5 cfo/A:-0.2 ebit/A:-0.5 pb:4.6 52w p%: 0 div10yr: 0.0
+NetnetSIBN United States Healthcare MV:0.7B Equity:0.2B CR:16.2 D/E:0.3 RE/A:-1.1 cfo/A:-0.1 ebit/A:-0.2 pb:3.9 52w p%: 33 div10yr: 0.0
+NetnetNVEC United States Technology MV:0.3B Equity:0.1B CR:23.7 D/E:0.0 RE/A:0.7 cfo/A:0.2 ebit/A:0.2 pb:4.1 52w p%: 54 div10yr: 0.47
+NetnetNEOG United States Healthcare MV:3.9B Equity:0.8B CR:11.0 D/E:0.1 RE/A:0.6 cfo/A:0.1 ebit/A:0.1 pb:4.7 52w p%: 31 div10yr: 0.0
+NetnetLAC Canada Basic Materials MV:3.2B Equity:0.2B CR:17.6 D/E:0.7 RE/A:-0.4 cfo/A:-0.1 ebit/A:-0.1 pb:17.0 52w p%: 66 div10yr: 0.0
+NetnetPZN United States Financial Services MV:0.2B Equity:0.1B CR:2.7 D/E:0.7 RE/A:0.1 cfo/A:0.3 ebit/A:0.3 pb:6.0 52w p%: 89 div10yr: 0.44
+NetnetSEIC United States Financial Services MV:8.2B Equity:1.9B CR:4.0 D/E:0.3 RE/A:0.3 cfo/A:0.2 ebit/A:0.2 pb:4.4 52w p%: 77 div10yr: 0.11
+NetnetLTRX United States Technology MV:0.2B Equity:0.0B CR:1.9 D/E:0.6 RE/A:-2.8 cfo/A:0.1 ebit/A:-0.0 pb:5.4 52w p%: 67 div10yr: 0.0
+NetnetMRUS Netherlands Healthcare MV:1.1B Equity:0.1B CR:4.7 D/E:1.3 RE/A:-1.7 cfo/A:-0.3 ebit/A:-0.3 pb:10.6 52w p%: 67 div10yr: 0.0
+NetnetBGRY United States Industrials MV:0.8B Equity:0.1B CR:3.6 D/E:0.4 RE/A:-1.2 cfo/A:-0.4 ebit/A:-0.5 pb:-6.0 52w p%: 2 div10yr: 0.0
+NetnetNATI United States Technology MV:5.5B Equity:1.2B CR:2.2 D/E:0.5 RE/A:0.1 cfo/A:0.1 ebit/A:0.1 pb:4.5 52w p%: 81 div10yr: 0.2
+NetnetTWST United States Healthcare MV:3.1B Equity:0.6B CR:8.7 D/E:0.2 RE/A:-0.9 cfo/A:-0.2 ebit/A:-0.2 pb:5.3 52w p%: 24 div10yr: 0.0
+NetnetAZTA United States Healthcare MV:6.4B Equity:1.3B CR:2.3 D/E:0.4 RE/A:-0.3 cfo/A:0.1 ebit/A:0.0 pb:4.8 52w p%: 64 div10yr: 0.0
+NetnetREE Israel Consumer Cyclical MV:1.0B Equity:0.0B CR:14.8 D/E:0.1 RE/A:-2.2 cfo/A:-0.3 ebit/A:-1.4 pb:21.1 52w p%: 2 div10yr: 0.0
+NetnetZEAL Denmark Healthcare MV:0.8B Equity:1.2B CR:4.0 D/E:0.4 RE/A:-1.3 cfo/A:-0.4 ebit/A:-0.5 pb:0.7 52w p%: 0 div10yr: 0.0
+NetnetBCLI United States Healthcare MV:0.1B Equity:0.0B CR:3.8 D/E:0.4 RE/A:-2.9 cfo/A:-0.7 ebit/A:-0.6 pb:3.3 52w p%: 2 div10yr: 0.0
+NetnetZYXI United States Healthcare MV:0.3B Equity:0.1B CR:6.2 D/E:0.3 RE/A:0.3 cfo/A:0.0 ebit/A:0.1 pb:5.6 52w p%: 0 div10yr: 0.03
+NetnetWKME Israel Technology MV:1.5B Equity:0.1B CR:1.6 D/E:1.2 RE/A:-1.3 cfo/A:-0.0 ebit/A:-0.2 pb:-6.8 52w p%: 9 div10yr: 0.0
+NetnetVERI United States Technology MV:0.6B Equity:0.1B CR:1.8 D/E:1.0 RE/A:-1.6 cfo/A:0.0 ebit/A:-0.3 pb:6.2 52w p%: 36 div10yr: 0.0
+NetnetLPX United States Industrials MV:6.0B Equity:1.2B CR:3.5 D/E:0.7 RE/A:0.6 cfo/A:0.3 ebit/A:0.3 pb:4.9 52w p%: 84 div10yr: 0.03
+NetnetXENE Canada Healthcare MV:1.5B Equity:0.2B CR:12.3 D/E:0.1 RE/A:-1.5 cfo/A:-0.3 ebit/A:-0.2 pb:8.9 52w p%: 93 div10yr: 0.0
+NetnetCMRX United States Healthcare MV:0.5B Equity:0.1B CR:9.6 D/E:0.2 RE/A:-8.4 cfo/A:-0.4 ebit/A:-0.5 pb:6.8 52w p%: 52 div10yr: 0.0
+NetnetATRA United States Healthcare MV:1.4B Equity:0.5B CR:6.3 D/E:0.3 RE/A:-1.9 cfo/A:-0.3 ebit/A:-0.5 pb:3.0 52w p%: 48 div10yr: 0.0
+NetnetWTS United States Industrials MV:4.3B Equity:1.1B CR:2.3 D/E:0.6 RE/A:0.3 cfo/A:0.1 ebit/A:0.1 pb:4.0 52w p%: 67 div10yr: 0.05
+NetnetAUMN United States Basic Materials MV:0.1B Equity:0.0B CR:4.5 D/E:0.5 RE/A:-28.7 cfo/A:-0.5 ebit/A:-0.4 pb:5.0 52w p%: 25 div10yr: 0.0
+NetnetSTEP United States Financial Services MV:2.1B Equity:0.7B CR:2.1 D/E:1.0 RE/A:0.0 cfo/A:0.1 ebit/A:0.2 pb:8.4 52w p%: 42 div10yr: 0.0
+NetnetKROS United States Healthcare MV:1.2B Equity:0.3B CR:37.3 D/E:0.0 RE/A:-0.2 cfo/A:-0.1 ebit/A:-0.2 pb:4.4 52w p%: 44 div10yr: 0.0
+NetnetARGX Netherlands Healthcare MV:14.5B Equity:1.4B CR:6.3 D/E:0.4 RE/A:-0.5 cfo/A:-0.2 ebit/A:-0.2 pb:10.6 52w p%: 68 div10yr: 0.0
+NetnetFRSH United States Technology MV:0.8B Equity:0.2B CR:2.1 D/E:0.9 RE/A:-7.3 cfo/A:0.1 ebit/A:-0.2 pb:-0.3 52w p%: 3 div10yr: 0.0
+NetnetLQDT United States Consumer Cyclical MV:0.7B Equity:0.1B CR:1.2 D/E:0.9 RE/A:-0.3 cfo/A:0.3 ebit/A:0.1 pb:5.0 52w p%: 71 div10yr: 0.0
+NetnetAUDC Israel Technology MV:1.0B Equity:0.2B CR:2.1 D/E:0.7 RE/A:-0.0 cfo/A:0.1 ebit/A:0.1 pb:4.7 52w p%: 52 div10yr: 0.04
+NetnetSIGA United States Healthcare MV:0.5B Equity:0.1B CR:13.7 D/E:0.2 RE/A:-0.6 cfo/A:0.5 ebit/A:0.6 pb:3.8 52w p%: 56 div10yr: 0.0
+NetnetABCM United Kingdom Healthcare MV:4.0B Equity:0.6B CR:4.8 D/E:0.3 RE/A:0.3 cfo/A:0.1 ebit/A:0.0 pb:6.3 52w p%: 0 div10yr: 0.0
+NetnetDKNG United States Consumer Cyclical MV:9.6B Equity:2.6B CR:4.0 D/E:0.3 RE/A:-0.6 cfo/A:-0.1 ebit/A:-0.2 pb:3.7 52w p%: 23 div10yr: 0.0
+NetnetATRI United States Healthcare MV:1.1B Equity:0.2B CR:8.2 D/E:0.1 RE/A:1.3 cfo/A:0.1 ebit/A:0.1 pb:4.6 52w p%: 16 div10yr: 0.1
+NetnetATRI United States Healthcare MV:1.1B Equity:0.2B CR:8.2 D/E:0.1 RE/A:1.3 cfo/A:0.1 ebit/A:0.1 pb:4.6 52w p%: 16 div10yr: 0.1
+NetnetIMXI United States Technology MV:0.6B Equity:0.1B CR:2.2 D/E:1.8 RE/A:0.1 cfo/A:-0.0 ebit/A:0.2 pb:6.6 52w p%: 78 div10yr: 0.0
+NetnetSMTI United States Healthcare MV:0.2B Equity:0.0B CR:1.3 D/E:0.7 RE/A:-0.7 cfo/A:-0.4 ebit/A:-0.5 pb:28.5 52w p%: 32 div10yr: 0.0
+NetnetHZNP Ireland Healthcare MV:21.4B Equity:4.0B CR:3.5 D/E:0.5 RE/A:-0.0 cfo/A:0.1 ebit/A:0.1 pb:5.3 52w p%: 72 div10yr: 0.0
+NetnetPRTS United States Consumer Cyclical MV:0.5B Equity:0.1B CR:1.9 D/E:1.2 RE/A:-0.9 cfo/A:-0.1 ebit/A:0.0 pb:5.6 52w p%: 41 div10yr: 0.0
+NetnetROG United States Technology MV:5.1B Equity:1.0B CR:4.3 D/E:0.2 RE/A:0.7 cfo/A:0.1 ebit/A:0.1 pb:5.0 52w p%: 100 div10yr: 0.0
+NetnetPDFS United States Technology MV:1.1B Equity:0.2B CR:4.6 D/E:0.2 RE/A:-0.3 cfo/A:0.1 ebit/A:-0.1 pb:4.7 52w p%: 90 div10yr: 0.0
+NetnetISSC United States Industrials MV:0.1B Equity:0.0B CR:7.2 D/E:0.1 RE/A:-0.2 cfo/A:nan ebit/A:0.1 pb:5.0 52w p%: 100 div10yr: 0.38
+NetnetINOD United States Technology MV:0.2B Equity:0.0B CR:1.7 D/E:1.2 RE/A:0.1 cfo/A:0.1 ebit/A:0.0 pb:5.2 52w p%: 50 div10yr: 0.0
+NetnetWIT India Technology MV:42.2B Equity:554.6B CR:2.3 D/E:0.5 RE/A:0.6 cfo/A:0.2 ebit/A:0.1 pb:0.1 52w p%: 70 div10yr: 0.08
+NetnetOCUL United States Healthcare MV:0.4B Equity:0.1B CR:9.2 D/E:2.4 RE/A:-2.1 cfo/A:-0.2 ebit/A:-0.2 pb:5.8 52w p%: 5 div10yr: 0.0
+NetnetPRCH United States Technology MV:1.0B Equity:0.1B CR:6.8 D/E:1.5 RE/A:-1.2 cfo/A:-0.2 ebit/A:-0.2 pb:9.7 52w p%: 8 div10yr: 0.0
+NetnetCSGP United States Real Estate MV:27.8B Equity:5.4B CR:11.8 D/E:0.3 RE/A:0.2 cfo/A:0.1 ebit/A:0.0 pb:5.2 52w p%: 35 div10yr: 0.0
+NetnetBLU Canada Healthcare MV:0.7B Equity:0.1B CR:18.1 D/E:0.0 RE/A:-3.1 cfo/A:-0.2 ebit/A:-0.2 pb:4.5 52w p%: 50 div10yr: 0.0
+NetnetHLI United States Financial Services MV:5.4B Equity:1.4B CR:1.3 D/E:0.8 RE/A:0.2 cfo/A:0.2 ebit/A:0.0 pb:3.9 52w p%: 91 div10yr: 0.06
+NetnetOKTA United States Technology MV:29.9B Equity:0.7B CR:1.9 D/E:3.8 RE/A:-0.3 cfo/A:0.0 ebit/A:-0.1 pb:43.1 52w p%: 54 div10yr: 0.0
+NetnetVRDN United States Healthcare MV:0.4B Equity:0.1B CR:12.1 D/E:0.1 RE/A:-2.1 cfo/A:-0.2 ebit/A:-0.3 pb:-7.0 52w p%: 96 div10yr: 0.0
+NetnetILMN United States Healthcare MV:55.7B Equity:4.7B CR:3.6 D/E:0.6 RE/A:0.6 cfo/A:0.1 ebit/A:0.1 pb:11.9 52w p%: 37 div10yr: 0.0
+NetnetUSNA United States Consumer Defensive MV:1.9B Equity:0.4B CR:2.5 D/E:0.5 RE/A:0.6 cfo/A:0.3 ebit/A:0.3 pb:4.2 52w p%: 79 div10yr: 0.0
+NetnetVAPO United States Healthcare MV:0.4B Equity:0.1B CR:3.9 D/E:0.9 RE/A:-1.5 cfo/A:-0.2 ebit/A:-0.2 pb:3.8 52w p%: 1 div10yr: 0.0
+NetnetEA United States Communication Services MV:36.7B Equity:7.8B CR:2.4 D/E:0.7 RE/A:0.6 cfo/A:0.1 ebit/A:0.1 pb:4.7 52w p%: 66 div10yr: 0.0
+NetnetFATE United States Healthcare MV:3.9B Equity:0.4B CR:5.8 D/E:0.6 RE/A:-0.9 cfo/A:-0.1 ebit/A:-0.2 pb:10.2 52w p%: 28 div10yr: 0.0
+NetnetCMPX United States Healthcare MV:0.2B Equity:0.0B CR:5.0 D/E:0.3 RE/A:-2.9 cfo/A:-0.5 ebit/A:-0.5 pb:4.1 52w p%: 0 div10yr: 0.0
+NetnetRARE United States Healthcare MV:4.9B Equity:1.2B CR:6.8 D/E:0.5 RE/A:-0.9 cfo/A:-0.1 ebit/A:-0.2 pb:4.3 52w p%: 28 div10yr: 0.0
+NetnetCVAC Germany Healthcare MV:3.8B Equity:0.7B CR:5.6 D/E:1.1 RE/A:-0.4 cfo/A:0.3 ebit/A:-0.1 pb:5.3 52w p%: 1 div10yr: 0.0
+NetnetTOST United States Technology MV:1.9B Equity:0.4B CR:4.9 D/E:1.1 RE/A:-0.8 cfo/A:-0.2 ebit/A:-0.3 pb:-4.0 52w p%: 9 div10yr: 0.0
+NetnetMRNS United States Healthcare MV:0.4B Equity:0.1B CR:13.6 D/E:0.1 RE/A:-2.1 cfo/A:-0.4 ebit/A:-0.5 pb:2.8 52w p%: 32 div10yr: 0.0
+NetnetCTIC United States Healthcare MV:0.2B Equity:0.0B CR:3.2 D/E:0.5 RE/A:-40.0 cfo/A:-0.7 ebit/A:-0.7 pb:5.2 52w p%: 46 div10yr: 0.0
+NetnetORGO United States Healthcare MV:1.0B Equity:0.1B CR:2.6 D/E:1.0 RE/A:-0.5 cfo/A:0.0 ebit/A:0.1 pb:6.5 52w p%: 22 div10yr: 0.0
+NetnetSTM Switzerland Technology MV:42.7B Equity:8.5B CR:2.5 D/E:0.7 RE/A:0.2 cfo/A:nan ebit/A:0.1 pb:5.1 52w p%: 94 div10yr: 0.08
+NetnetDYAI United States Healthcare MV:0.1B Equity:0.0B CR:18.3 D/E:0.1 RE/A:-1.7 cfo/A:-0.2 ebit/A:-0.3 pb:3.8 52w p%: 6 div10yr: 0.0
+NetnetVERA United States Healthcare MV:0.4B Equity:0.1B CR:22.6 D/E:0.1 RE/A:-1.7 cfo/A:-0.6 ebit/A:-0.9 pb:-4.7 52w p%: 30 div10yr: 0.0
+NetnetYNDX Netherlands Communication Services MV:15.7B Equity:349.3B CR:4.7 D/E:0.5 RE/A:0.3 cfo/A:0.1 ebit/A:0.0 pb:0.0 52w p%: 30 div10yr: 0.0
+NetnetICCM Israel Healthcare MV:0.1B Equity:0.0B CR:2.5 D/E:1.3 RE/A:-5.5 cfo/A:-0.4 ebit/A:-0.4 pb:6.3 52w p%: 3 div10yr: 0.0
+NetnetSLP United States Healthcare MV:0.8B Equity:0.2B CR:12.0 D/E:0.1 RE/A:0.2 cfo/A:0.1 ebit/A:0.1 pb:4.9 52w p%: 13 div10yr: 0.05
+NetnetPHAT United States Healthcare MV:0.6B Equity:0.2B CR:5.2 D/E:0.5 RE/A:-1.3 cfo/A:-0.2 ebit/A:-0.4 pb:2.9 52w p%: 3 div10yr: 0.0
+NetnetRESN United States Technology MV:0.1B Equity:0.0B CR:4.4 D/E:0.3 RE/A:-4.6 cfo/A:-0.7 ebit/A:-0.9 pb:3.8 52w p%: 0 div10yr: 0.0
+NetnetINSM United States Healthcare MV:2.8B Equity:0.3B CR:5.2 D/E:1.9 RE/A:-2.3 cfo/A:-0.3 ebit/A:-0.3 pb:10.2 52w p%: 33 div10yr: 0.0
+NetnetPLXP United States Healthcare MV:0.2B Equity:0.0B CR:6.5 D/E:1.0 RE/A:-3.8 cfo/A:-0.5 ebit/A:-0.5 pb:-16.1 52w p%: 24 div10yr: 0.0
+NetnetCDXC United States Healthcare MV:0.2B Equity:0.0B CR:2.0 D/E:1.3 RE/A:-3.7 cfo/A:-0.3 ebit/A:-0.5 pb:11.9 52w p%: 0 div10yr: 0.0
+NetnetBEAM United States Healthcare MV:4.7B Equity:0.2B CR:3.0 D/E:0.8 RE/A:-0.9 cfo/A:-0.2 ebit/A:-0.3 pb:19.2 52w p%: 47 div10yr: 0.0
+NetnetSBET United States Consumer Cyclical MV:0.0B Equity:0.0B CR:2.1 D/E:0.6 RE/A:-0.6 cfo/A:-0.2 ebit/A:-0.3 pb:29.0 52w p%: 1 div10yr: 0.0
+NetnetPOWI United States Technology MV:4.8B Equity:0.8B CR:9.6 D/E:0.1 RE/A:0.7 cfo/A:0.1 ebit/A:0.1 pb:6.0 52w p%: 56 div10yr: 0.04
+NetnetPOWI United States Technology MV:4.8B Equity:0.8B CR:9.6 D/E:0.1 RE/A:0.7 cfo/A:0.1 ebit/A:0.1 pb:6.0 52w p%: 56 div10yr: 0.04
+NetnetJAMF United States Technology MV:4.0B Equity:0.8B CR:1.4 D/E:0.3 RE/A:-0.1 cfo/A:0.0 ebit/A:-0.0 pb:5.0 52w p%: 23 div10yr: 0.0
+NetnetVIR United States Healthcare MV:4.6B Equity:0.7B CR:7.8 D/E:0.3 RE/A:-0.7 cfo/A:-0.2 ebit/A:-0.3 pb:6.4 52w p%: 22 div10yr: 0.0
+NetnetTMDX United States Healthcare MV:0.4B Equity:0.1B CR:12.4 D/E:0.5 RE/A:-2.6 cfo/A:-0.2 ebit/A:-0.2 pb:4.2 52w p%: 13 div10yr: 0.0
+NetnetNPTN United States Technology MV:0.8B Equity:0.2B CR:2.7 D/E:0.8 RE/A:-1.3 cfo/A:0.2 ebit/A:0.0 pb:4.5 52w p%: 100 div10yr: 0.0
+NetnetNPTN United States Technology MV:0.8B Equity:0.2B CR:2.7 D/E:0.8 RE/A:-1.3 cfo/A:0.2 ebit/A:0.0 pb:4.5 52w p%: 100 div10yr: 0.0
+NetnetSONO United States Technology MV:3.3B Equity:0.6B CR:2.0 D/E:1.0 RE/A:-0.1 cfo/A:0.2 ebit/A:0.1 pb:5.7 52w p%: 54 div10yr: 0.0
+NetnetNYXH Belgium Healthcare MV:0.5B Equity:0.1B CR:14.7 D/E:0.2 RE/A:-0.5 cfo/A:-0.1 ebit/A:-0.1 pb:5.3 52w p%: 2 div10yr: 0.0
+NetnetPTON United States Consumer Cyclical MV:8.4B Equity:1.8B CR:2.3 D/E:1.6 RE/A:-0.2 cfo/A:-0.1 ebit/A:-0.0 pb:4.8 52w p%: 1 div10yr: 0.0
+NetnetTVTX United States Healthcare MV:1.6B Equity:0.2B CR:4.4 D/E:1.9 RE/A:-1.0 cfo/A:-0.1 ebit/A:-0.1 pb:7.7 52w p%: 74 div10yr: 0.0
+NetnetATKR United States Industrials MV:4.9B Equity:0.9B CR:2.7 D/E:1.6 RE/A:0.2 cfo/A:0.3 ebit/A:0.4 pb:5.7 52w p%: 94 div10yr: 0.0
+NetnetVRCA United States Healthcare MV:0.2B Equity:0.0B CR:1.7 D/E:1.2 RE/A:-1.4 cfo/A:-0.4 ebit/A:-0.5 pb:7.0 52w p%: 21 div10yr: 0.0
+NetnetLANC United States Consumer Defensive MV:4.4B Equity:0.8B CR:2.4 D/E:0.3 RE/A:1.3 cfo/A:0.2 ebit/A:0.2 pb:5.2 52w p%: 40 div10yr: 0.21
+NetnetURGN United States Healthcare MV:0.2B Equity:0.1B CR:5.4 D/E:0.3 RE/A:-2.9 cfo/A:-0.9 ebit/A:-1.0 pb:1.8 52w p%: 0 div10yr: 0.0
+NetnetURGN United States Healthcare MV:0.2B Equity:0.1B CR:5.4 D/E:0.3 RE/A:-2.9 cfo/A:-0.9 ebit/A:-1.0 pb:1.8 52w p%: 0 div10yr: 0.0
+NetnetURGN United States Healthcare MV:0.2B Equity:0.1B CR:5.4 D/E:0.3 RE/A:-2.9 cfo/A:-0.9 ebit/A:-1.0 pb:1.8 52w p%: 0 div10yr: 0.0
+NetnetINCY United States Healthcare MV:16.6B Equity:2.6B CR:3.7 D/E:0.4 RE/A:-0.5 cfo/A:-0.0 ebit/A:-0.1 pb:6.4 52w p%: 22 div10yr: 0.0
+NetnetCXM United States Technology MV:1.1B Equity:0.2B CR:1.6 D/E:2.2 RE/A:-0.6 cfo/A:0.0 ebit/A:-0.0 pb:-4.6 52w p%: 2 div10yr: 0.0
+NetnetGTLB United States Technology MV:0.9B Equity:0.2B CR:2.7 D/E:0.9 RE/A:-1.1 cfo/A:-0.2 ebit/A:-0.6 pb:-3.7 52w p%: 7 div10yr: 0.0
+NetnetIVA France Healthcare MV:0.5B Equity:0.1B CR:9.6 D/E:0.2 RE/A:-0.2 cfo/A:-0.2 ebit/A:-0.2 pb:4.8 52w p%: 55 div10yr: 0.0
+NetnetRXDX United States Healthcare MV:1.4B Equity:0.0B CR:3.8 D/E:1.1 RE/A:-1.7 cfo/A:-0.5 ebit/A:-0.5 pb:-14.5 52w p%: 84 div10yr: 0.0
+NetnetDV United States Technology MV:4.4B Equity:0.4B CR:4.2 D/E:0.2 RE/A:0.1 cfo/A:0.0 ebit/A:0.0 pb:10.7 52w p%: 2 div10yr: 0.0
+NetnetPRVA United States Healthcare MV:2.3B Equity:0.1B CR:1.3 D/E:1.3 RE/A:-0.1 cfo/A:0.1 ebit/A:0.1 pb:15.6 52w p%: 1 div10yr: 0.0
+NetnetINVE United States Technology MV:0.4B Equity:0.0B CR:1.3 D/E:1.3 RE/A:-5.2 cfo/A:-0.0 ebit/A:-0.0 pb:12.6 52w p%: 65 div10yr: 0.0
+NetnetCAMT Israel Technology MV:1.6B Equity:0.2B CR:4.6 D/E:0.3 RE/A:0.2 cfo/A:0.1 ebit/A:0.1 pb:6.9 52w p%: 73 div10yr: 0.03
+NetnetIPAR United States Consumer Defensive MV:3.1B Equity:0.7B CR:3.8 D/E:0.3 RE/A:0.6 cfo/A:0.1 ebit/A:0.1 pb:5.9 52w p%: 89 div10yr: 0.07
+NetnetSKE Canada Basic Materials MV:0.7B Equity:0.1B CR:1.9 D/E:0.3 RE/A:-1.2 cfo/A:-0.5 ebit/A:-0.6 pb:6.4 52w p%: 77 div10yr: 0.0
+NetnetTTWO United States Communication Services MV:18.5B Equity:3.3B CR:1.9 D/E:0.8 RE/A:0.3 cfo/A:0.2 ebit/A:0.1 pb:5.5 52w p%: 47 div10yr: 0.0
+NetnetEVER United States Communication Services MV:0.4B Equity:0.1B CR:2.1 D/E:0.8 RE/A:-0.9 cfo/A:0.1 ebit/A:-0.1 pb:5.4 52w p%: 7 div10yr: 0.0
+NetnetFRPT United States Consumer Defensive MV:4.1B Equity:0.4B CR:3.3 D/E:0.1 RE/A:-0.5 cfo/A:0.0 ebit/A:0.0 pb:10.3 52w p%: 25 div10yr: 0.0
+NetnetDUOL United States Technology MV:1.6B Equity:0.1B CR:2.4 D/E:0.7 RE/A:-0.6 cfo/A:0.1 ebit/A:-0.1 pb:-19.5 52w p%: 0 div10yr: 0.0
+NetnetGWRE United States Technology MV:8.5B Equity:1.5B CR:4.5 D/E:0.5 RE/A:-0.0 cfo/A:0.0 ebit/A:-0.0 pb:5.5 52w p%: 47 div10yr: 0.0
+NetnetMRTX United States Healthcare MV:6.8B Equity:1.4B CR:19.6 D/E:0.1 RE/A:-0.8 cfo/A:-0.2 ebit/A:-0.3 pb:5.0 52w p%: 29 div10yr: 0.0
+NetnetPSB United States Real Estate MV:4.5B Equity:2.0B CR:1.4 D/E:0.0 RE/A:0.0 cfo/A:0.1 ebit/A:0.1 pb:5.6 52w p%: 80 div10yr: 0.24
+NetnetATEN United States Technology MV:1.2B Equity:0.1B CR:2.2 D/E:1.5 RE/A:-0.9 cfo/A:0.2 ebit/A:0.1 pb:10.0 52w p%: 70 div10yr: 0.0
+NetnetPUBM United States Technology MV:0.7B Equity:0.2B CR:1.7 D/E:1.1 RE/A:0.1 cfo/A:0.1 ebit/A:0.1 pb:4.2 52w p%: 5 div10yr: 0.0
+NetnetNBIX United States Healthcare MV:7.5B Equity:1.1B CR:5.4 D/E:0.5 RE/A:-0.4 cfo/A:0.1 ebit/A:0.2 pb:6.7 52w p%: 0 div10yr: 0.0
+NetnetSKY United States Consumer Cyclical MV:3.9B Equity:0.6B CR:1.9 D/E:0.6 RE/A:0.1 cfo/A:0.2 ebit/A:0.1 pb:6.8 52w p%: 83 div10yr: 0.03
+NetnetQUIK United States Technology MV:0.1B Equity:0.0B CR:1.6 D/E:1.6 RE/A:-9.0 cfo/A:-0.2 ebit/A:-0.3 pb:4.7 52w p%: 35 div10yr: 0.0
+NetnetCERE United States Healthcare MV:4.0B Equity:0.4B CR:13.2 D/E:0.2 RE/A:-0.9 cfo/A:-0.3 ebit/A:-0.3 pb:10.4 52w p%: 55 div10yr: 0.0
+NetnetKZR United States Healthcare MV:0.7B Equity:0.1B CR:22.5 D/E:0.1 RE/A:-0.8 cfo/A:-0.2 ebit/A:-0.3 pb:4.9 52w p%: 70 div10yr: 0.0
+NetnetSWTX United States Healthcare MV:2.8B Equity:0.6B CR:29.2 D/E:0.0 RE/A:-0.2 cfo/A:-0.1 ebit/A:-0.1 pb:5.1 52w p%: 52 div10yr: 0.0
+NetnetMLSS United States Healthcare MV:0.1B Equity:0.0B CR:6.4 D/E:0.2 RE/A:-5.2 cfo/A:-0.4 ebit/A:-0.4 pb:5.7 52w p%: 4 div10yr: 0.0
+NetnetMLSS United States Healthcare MV:0.1B Equity:0.0B CR:6.4 D/E:0.2 RE/A:-5.2 cfo/A:-0.4 ebit/A:-0.4 pb:5.7 52w p%: 4 div10yr: 0.0
+NetnetAMPE United States Healthcare MV:0.1B Equity:0.0B CR:10.1 D/E:0.3 RE/A:-8.8 cfo/A:-0.6 ebit/A:-0.7 pb:7.0 52w p%: 8 div10yr: 0.0
+NetnetCALX United States Technology MV:3.3B Equity:0.3B CR:2.6 D/E:0.5 RE/A:-1.6 cfo/A:0.1 ebit/A:0.2 pb:11.8 52w p%: 62 div10yr: 0.0
+NetnetCCXI United States Healthcare MV:1.9B Equity:0.4B CR:8.6 D/E:0.3 RE/A:-0.9 cfo/A:-0.2 ebit/A:-0.1 pb:5.0 52w p%: 30 div10yr: 0.0
+NetnetGBT United States Healthcare MV:1.9B Equity:0.4B CR:8.0 D/E:0.7 RE/A:-1.4 cfo/A:-0.3 ebit/A:-0.3 pb:4.5 52w p%: 8 div10yr: 0.0
+NetnetFLYW United States Technology MV:2.9B Equity:0.2B CR:1.7 D/E:0.8 RE/A:-0.4 cfo/A:-0.1 ebit/A:-0.0 pb:-35.4 52w p%: 6 div10yr: 0.0
+NetnetEXPD United States Industrials MV:19.4B Equity:2.7B CR:2.1 D/E:0.9 RE/A:0.5 cfo/A:0.1 ebit/A:0.2 pb:7.3 52w p%: 71 div10yr: 0.07
+NetnetNICE Israel Technology MV:16.3B Equity:2.6B CR:1.9 D/E:0.6 RE/A:0.3 cfo/A:0.1 ebit/A:0.1 pb:6.4 52w p%: 72 div10yr: 0.01
+NetnetAKTX United Kingdom Healthcare MV:0.1B Equity:0.0B CR:2.8 D/E:0.6 RE/A:-12.5 cfo/A:-1.2 ebit/A:-1.2 pb:6.8 52w p%: 0 div10yr: 0.0
+NetnetWFCF United States Technology MV:0.1B Equity:0.0B CR:2.4 D/E:0.6 RE/A:0.2 cfo/A:0.1 ebit/A:0.1 pb:6.1 52w p%: 2 div10yr: 0.01
+NetnetOPRX United States Healthcare MV:0.8B Equity:0.0B CR:3.3 D/E:0.2 RE/A:-0.6 cfo/A:-0.1 ebit/A:-0.0 pb:16.3 52w p%: 42 div10yr: 0.0
+NetnetCMBM United States Technology MV:0.7B Equity:0.1B CR:1.5 D/E:2.2 RE/A:-0.2 cfo/A:0.3 ebit/A:0.1 pb:10.6 52w p%: 38 div10yr: 0.0
+NetnetATRC United States Healthcare MV:3.0B Equity:0.4B CR:6.2 D/E:0.7 RE/A:-0.5 cfo/A:-0.0 ebit/A:-0.1 pb:7.4 52w p%: 64 div10yr: 0.0
+NetnetGDYN United States Technology MV:1.7B Equity:0.2B CR:10.1 D/E:0.1 RE/A:0.1 cfo/A:0.0 ebit/A:-0.1 pb:11.4 52w p%: 61 div10yr: 0.0
+NetnetVRAY United States Healthcare MV:0.8B Equity:0.1B CR:3.9 D/E:1.0 RE/A:-2.4 cfo/A:-0.2 ebit/A:-0.4 pb:5.9 52w p%: 47 div10yr: 0.0
+NetnetNEON Sweden Technology MV:0.1B Equity:0.0B CR:3.5 D/E:0.4 RE/A:-11.8 cfo/A:-0.3 ebit/A:-0.4 pb:5.1 52w p%: 47 div10yr: 0.0
+NetnetCOCO United States Consumer Defensive MV:0.6B Equity:0.1B CR:2.9 D/E:0.8 RE/A:0.2 cfo/A:0.2 ebit/A:0.2 pb:6.2 52w p%: 23 div10yr: 0.0
+NetnetNTLA United States Healthcare MV:7.4B Equity:0.5B CR:9.6 D/E:0.3 RE/A:-0.6 cfo/A:-0.1 ebit/A:-0.2 pb:14.1 52w p%: 59 div10yr: 0.0
+NetnetIDT United States Communication Services MV:0.9B Equity:0.2B CR:1.1 D/E:2.1 RE/A:-0.1 cfo/A:0.1 ebit/A:0.1 pb:5.7 52w p%: 68 div10yr: 0.35
+NetnetWNS India Technology MV:4.1B Equity:0.7B CR:2.5 D/E:0.6 RE/A:0.6 cfo/A:0.2 ebit/A:0.1 pb:6.0 52w p%: 91 div10yr: 0.0
+NetnetETON United States Healthcare MV:0.1B Equity:0.0B CR:6.5 D/E:0.7 RE/A:-3.5 cfo/A:-0.8 ebit/A:-1.0 pb:5.9 52w p%: 1 div10yr: 0.0
+NetnetTUFN Israel Technology MV:0.3B Equity:0.1B CR:2.0 D/E:1.1 RE/A:-0.6 cfo/A:-0.1 ebit/A:-0.2 pb:4.4 52w p%: 21 div10yr: 0.0
+NetnetKOPN United States Technology MV:0.3B Equity:0.0B CR:2.3 D/E:0.7 RE/A:-6.4 cfo/A:-0.1 ebit/A:-0.1 pb:10.0 52w p%: 27 div10yr: 0.0
+NetnetPAX Cayman Islands Financial Services MV:0.9B Equity:0.1B CR:1.2 D/E:0.8 RE/A:0.6 cfo/A:0.5 ebit/A:0.6 pb:16.1 52w p%: 59 div10yr: 0.01
+NetnetDECK United States Consumer Cyclical MV:9.0B Equity:1.4B CR:3.5 D/E:0.5 RE/A:0.6 cfo/A:0.3 ebit/A:0.2 pb:6.3 52w p%: 69 div10yr: 0.0
+NetnetEXLS United States Technology MV:4.1B Equity:0.7B CR:2.8 D/E:0.7 RE/A:0.5 cfo/A:0.2 ebit/A:0.1 pb:5.6 52w p%: 75 div10yr: 0.0
+NetnetLOGI Switzerland Technology MV:13.6B Equity:2.3B CR:1.9 D/E:0.8 RE/A:0.6 cfo/A:0.4 ebit/A:0.3 pb:6.0 52w p%: 48 div10yr: 0.07
+NetnetOCGN United States Healthcare MV:0.8B Equity:0.0B CR:7.2 D/E:0.3 RE/A:-2.7 cfo/A:-0.5 ebit/A:-0.5 pb:35.8 52w p%: 29 div10yr: 0.0
+NetnetISIG United States Communication Services MV:0.0B Equity:0.0B CR:2.2 D/E:1.1 RE/A:-0.7 cfo/A:-0.1 ebit/A:-0.3 pb:3.5 52w p%: 47 div10yr: 1.43
+NetnetBDSX United States Healthcare MV:0.1B Equity:0.0B CR:2.7 D/E:1.9 RE/A:-2.1 cfo/A:-0.2 ebit/A:-0.2 pb:2.6 52w p%: 0 div10yr: 0.0
+NetnetAMSWA United States Technology MV:0.7B Equity:0.1B CR:2.7 D/E:0.4 RE/A:-0.1 cfo/A:0.1 ebit/A:0.0 pb:5.9 52w p%: 59 div10yr: 0.23
+NetnetZNTL United States Healthcare MV:2.6B Equity:0.3B CR:12.1 D/E:0.1 RE/A:-0.5 cfo/A:-0.2 ebit/A:-0.3 pb:8.5 52w p%: 49 div10yr: 0.0
+NetnetZNTL United States Healthcare MV:2.6B Equity:0.3B CR:12.1 D/E:0.1 RE/A:-0.5 cfo/A:-0.2 ebit/A:-0.3 pb:8.5 52w p%: 49 div10yr: 0.0
+NetnetASND Denmark Healthcare MV:6.9B Equity:0.8B CR:14.0 D/E:0.2 RE/A:-1.1 cfo/A:-0.3 ebit/A:-0.3 pb:8.2 52w p%: 15 div10yr: 0.0
+NetnetSAVA United States Healthcare MV:1.8B Equity:0.1B CR:50.4 D/E:0.0 RE/A:-1.9 cfo/A:-0.1 ebit/A:-0.1 pb:20.0 52w p%: 53 div10yr: 0.42
+NetnetALRM United States Technology MV:3.7B Equity:0.5B CR:4.4 D/E:0.5 RE/A:0.1 cfo/A:0.1 ebit/A:0.1 pb:7.9 52w p%: 54 div10yr: 0.0
+NetnetLOOP Canada Basic Materials MV:0.4B Equity:0.0B CR:4.1 D/E:0.3 RE/A:-2.1 cfo/A:-0.5 ebit/A:-0.7 pb:11.7 52w p%: 22 div10yr: 0.0
+NetnetOZON Cyprus Consumer Cyclical MV:4.6B Equity:79.3B CR:2.1 D/E:1.0 RE/A:-0.4 cfo/A:0.0 ebit/A:-0.1 pb:0.1 52w p%: 2 div10yr: 0.0
+NetnetDSGX Canada Technology MV:6.1B Equity:0.9B CR:1.9 D/E:0.2 RE/A:-0.1 cfo/A:0.1 ebit/A:0.1 pb:6.7 52w p%: 78 div10yr: 0.0
+NetnetADIL United States Healthcare MV:0.0B Equity:0.0B CR:3.4 D/E:0.4 RE/A:-5.7 cfo/A:-1.4 ebit/A:-2.0 pb:11.8 52w p%: 32 div10yr: 0.0
+NetnetWSO United States Industrials MV:9.3B Equity:1.8B CR:3.0 D/E:0.4 RE/A:0.3 cfo/A:0.2 ebit/A:0.2 pb:6.2 52w p%: 81 div10yr: 0.19
+NetnetTELA United States Healthcare MV:0.2B Equity:0.0B CR:12.6 D/E:0.8 RE/A:-2.3 cfo/A:-0.3 ebit/A:-0.3 pb:3.5 52w p%: 46 div10yr: 0.0
+NetnetTELA United States Healthcare MV:0.2B Equity:0.0B CR:12.6 D/E:0.8 RE/A:-2.3 cfo/A:-0.3 ebit/A:-0.3 pb:3.5 52w p%: 46 div10yr: 0.0
+NetnetCARG United States Communication Services MV:3.4B Equity:0.4B CR:5.0 D/E:0.3 RE/A:0.3 cfo/A:0.3 ebit/A:0.2 pb:9.0 52w p%: 76 div10yr: 0.0
+NetnetCRCT United States Technology MV:0.7B Equity:0.2B CR:1.6 D/E:1.5 RE/A:-0.3 cfo/A:0.4 ebit/A:0.3 pb:3.1 52w p%: 0 div10yr: 0.0
+NetnetRGEN United States Healthcare MV:11.2B Equity:1.5B CR:2.8 D/E:0.2 RE/A:0.0 cfo/A:0.0 ebit/A:0.0 pb:7.3 52w p%: 55 div10yr: 0.0
+NetnetSMTC United States Technology MV:4.6B Equity:0.7B CR:4.3 D/E:0.5 RE/A:0.6 cfo/A:0.1 ebit/A:0.1 pb:6.6 52w p%: 67 div10yr: 0.0
+NetnetSMTC United States Technology MV:4.6B Equity:0.7B CR:4.3 D/E:0.5 RE/A:0.6 cfo/A:0.1 ebit/A:0.1 pb:6.6 52w p%: 67 div10yr: 0.0
+NetnetERII United States Industrials MV:1.1B Equity:0.2B CR:9.1 D/E:0.2 RE/A:0.1 cfo/A:0.1 ebit/A:0.2 pb:6.5 52w p%: 80 div10yr: 0.0
+NetnetADCT Switzerland Healthcare MV:1.3B Equity:0.3B CR:11.1 D/E:0.5 RE/A:-1.4 cfo/A:-0.3 ebit/A:-0.4 pb:3.8 52w p%: 2 div10yr: 0.0
+NetnetENVX United States Industrials MV:2.4B Equity:0.1B CR:3.0 D/E:0.2 RE/A:-3.2 cfo/A:-0.3 ebit/A:-0.4 pb:-14.6 52w p%: 15 div10yr: 0.0
+NetnetISEE United States Healthcare MV:1.7B Equity:0.2B CR:8.6 D/E:0.1 RE/A:-2.6 cfo/A:-0.3 ebit/A:-0.4 pb:8.6 52w p%: 77 div10yr: 0.0
+NetnetNVR United States Consumer Cyclical MV:18.7B Equity:3.1B CR:6.2 D/E:0.9 RE/A:1.5 cfo/A:0.2 ebit/A:0.2 pb:6.0 52w p%: 84 div10yr: 0.0
+NetnetXMTR United States Industrials MV:1.9B Equity:0.0B CR:2.0 D/E:0.8 RE/A:-1.3 cfo/A:-0.2 ebit/A:-0.3 pb:-17.3 52w p%: 0 div10yr: 0.0
+NetnetKRTX United States Healthcare MV:3.3B Equity:0.3B CR:50.3 D/E:0.0 RE/A:-0.4 cfo/A:-0.2 ebit/A:-0.2 pb:9.9 52w p%: 60 div10yr: 0.0
+NetnetPYR Canada Industrials MV:0.5B Equity:0.1B CR:2.2 D/E:0.3 RE/A:-0.3 cfo/A:-0.0 ebit/A:-0.0 pb:8.0 52w p%: 35 div10yr: 0.0
+NetnetARLO United States Industrials MV:0.7B Equity:0.1B CR:1.5 D/E:2.1 RE/A:-0.6 cfo/A:-0.1 ebit/A:-0.3 pb:5.4 52w p%: 78 div10yr: 0.0
+NetnetFOXF United States Consumer Cyclical MV:5.6B Equity:0.7B CR:3.5 D/E:0.8 RE/A:0.3 cfo/A:0.1 ebit/A:0.1 pb:7.8 52w p%: 69 div10yr: 0.0
+NetnetWHD United States Energy MV:2.9B Equity:0.6B CR:8.7 D/E:0.5 RE/A:0.2 cfo/A:0.2 ebit/A:0.1 pb:8.3 52w p%: 100 div10yr: 0.02
+NetnetACAD United States Healthcare MV:3.8B Equity:0.6B CR:6.8 D/E:0.2 RE/A:-2.5 cfo/A:-0.2 ebit/A:-0.3 pb:6.1 52w p%: 18 div10yr: 0.0
+NetnetCLSD United States Healthcare MV:0.1B Equity:0.0B CR:1.8 D/E:1.2 RE/A:-13.2 cfo/A:-0.7 ebit/A:-0.9 pb:13.3 52w p%: 11 div10yr: 0.0
+NetnetAOS United States Industrials MV:10.1B Equity:1.8B CR:1.8 D/E:0.7 RE/A:0.8 cfo/A:0.2 ebit/A:0.2 pb:5.4 52w p%: 80 div10yr: 0.09
+NetnetAOS United States Industrials MV:10.1B Equity:1.8B CR:1.8 D/E:0.7 RE/A:0.8 cfo/A:0.2 ebit/A:0.2 pb:5.4 52w p%: 80 div10yr: 0.09
+NetnetEGAN United States Technology MV:0.3B Equity:0.0B CR:1.5 D/E:1.5 RE/A:-2.9 cfo/A:0.1 ebit/A:0.1 pb:7.0 52w p%: 35 div10yr: 0.0
+NetnetS United States Technology MV:6.3B Equity:0.3B CR:3.6 D/E:0.7 RE/A:-0.7 cfo/A:-0.1 ebit/A:-0.2 pb:-19.7 52w p%: 18 div10yr: 0.0
+NetnetASPN United States Industrials MV:1.0B Equity:0.1B CR:3.4 D/E:0.4 RE/A:-5.2 cfo/A:-0.1 ebit/A:-0.2 pb:14.5 52w p%: 47 div10yr: 0.0
+NetnetMRNA United States Healthcare MV:70.0B Equity:2.6B CR:1.4 D/E:1.9 RE/A:-0.3 cfo/A:0.3 ebit/A:-0.1 pb:27.3 52w p%: 40 div10yr: 0.0
+NetnetFB United States Communication Services MV:754.8B Equity:128.3B CR:5.1 D/E:0.2 RE/A:0.5 cfo/A:0.2 ebit/A:0.2 pb:5.9 52w p%: 72 div10yr: 0.0
+NetnetPINS United States Communication Services MV:16.9B Equity:2.2B CR:11.5 D/E:0.2 RE/A:-0.9 cfo/A:0.0 ebit/A:-0.0 pb:7.5 52w p%: 22 div10yr: 0.0
+NetnetFHTX United States Healthcare MV:0.6B Equity:0.1B CR:10.1 D/E:0.7 RE/A:-0.6 cfo/A:-0.1 ebit/A:-0.3 pb:4.2 52w p%: 44 div10yr: 0.0
+NetnetNBTX France Healthcare MV:0.3B Equity:0.1B CR:6.6 D/E:0.9 RE/A:-0.3 cfo/A:-0.2 ebit/A:-0.3 pb:3.9 52w p%: 4 div10yr: 0.0
+NetnetWTER United States Consumer Defensive MV:0.1B Equity:0.0B CR:1.8 D/E:1.2 RE/A:-2.8 cfo/A:-0.6 ebit/A:-0.6 pb:10.7 52w p%: 35 div10yr: 0.0
+NetnetZGNX United States Healthcare MV:1.5B Equity:0.4B CR:6.3 D/E:0.8 RE/A:-2.0 cfo/A:-0.3 ebit/A:-0.4 pb:4.0 52w p%: 85 div10yr: 0.0
+NetnetMOH United States Healthcare MV:16.8B Equity:2.1B CR:1.6 D/E:3.5 RE/A:0.2 cfo/A:0.2 ebit/A:0.1 pb:8.0 52w p%: 83 div10yr: 0.0
+NetnetOLED United States Technology MV:7.2B Equity:0.9B CR:5.6 D/E:0.4 RE/A:0.3 cfo/A:0.1 ebit/A:0.1 pb:7.9 52w p%: 21 div10yr: 0.01
+NetnetGBL United States Financial Services MV:0.2B Equity:0.1B CR:1.5 D/E:1.1 RE/A:2.1 cfo/A:0.2 ebit/A:0.5 pb:2.1 52w p%: 72 div10yr: 0.31
+NetnetVRTX United States Healthcare MV:62.5B Equity:8.7B CR:4.3 D/E:0.4 RE/A:0.1 cfo/A:0.3 ebit/A:0.2 pb:7.2 52w p%: 59 div10yr: 0.0
+NetnetIS Israel Technology MV:4.4B Equity:0.2B CR:1.9 D/E:1.4 RE/A:0.1 cfo/A:0.3 ebit/A:0.1 pb:20.0 52w p%: 1 div10yr: 0.0
+NetnetATHX United States Healthcare MV:0.2B Equity:0.0B CR:2.4 D/E:0.9 RE/A:-8.3 cfo/A:-1.0 ebit/A:-1.3 pb:7.7 52w p%: 6 div10yr: 0.0
+NetnetLSTR United States Industrials MV:6.1B Equity:0.9B CR:1.5 D/E:1.4 RE/A:1.1 cfo/A:0.1 ebit/A:0.2 pb:7.1 52w p%: 78 div10yr: 0.07
+NetnetMOLN Switzerland Healthcare MV:0.9B Equity:0.1B CR:3.1 D/E:0.7 RE/A:-1.0 cfo/A:-0.2 ebit/A:-0.3 pb:8.7 52w p%: 100 div10yr: 0.0
+NetnetLAW United States Technology MV:2.0B Equity:0.1B CR:6.0 D/E:0.2 RE/A:-1.3 cfo/A:-0.3 ebit/A:-0.3 pb:-21.3 52w p%: 3 div10yr: 0.0
+NetnetGMAB Denmark Healthcare MV:22.6B Equity:19.1B CR:15.0 D/E:0.1 RE/A:0.3 cfo/A:0.3 ebit/A:0.3 pb:1.2 52w p%: 51 div10yr: 0.0
+NetnetNVRO United States Healthcare MV:2.3B Equity:0.4B CR:3.1 D/E:1.0 RE/A:-0.6 cfo/A:0.0 ebit/A:-0.1 pb:5.9 52w p%: 0 div10yr: 0.0
+NetnetRDVT United States Technology MV:0.4B Equity:0.0B CR:3.3 D/E:0.2 RE/A:-0.4 cfo/A:0.1 ebit/A:-0.1 pb:8.5 52w p%: 50 div10yr: 0.0
+NetnetIRMD United States Healthcare MV:0.5B Equity:0.1B CR:13.0 D/E:0.2 RE/A:0.5 cfo/A:0.1 ebit/A:0.0 pb:8.0 52w p%: 75 div10yr: 0.0
+NetnetTROO Hong Kong Technology MV:0.5B Equity:0.1B CR:3.4 D/E:0.3 RE/A:-0.7 cfo/A:0.2 ebit/A:-0.1 pb:6.6 52w p%: 47 div10yr: 0.0
+NetnetAUPH Canada Healthcare MV:2.3B Equity:0.4B CR:13.1 D/E:0.1 RE/A:-1.2 cfo/A:-0.2 ebit/A:-0.2 pb:5.6 52w p%: 23 div10yr: 0.0
+NetnetFRHC Kazakhstan Financial Services MV:3.8B Equity:0.3B CR:1.2 D/E:6.3 RE/A:0.1 cfo/A:0.3 ebit/A:0.0 pb:13.8 52w p%: 91 div10yr: 0.0
+NetnetMEIP United States Healthcare MV:0.3B Equity:0.0B CR:5.4 D/E:3.2 RE/A:-1.9 cfo/A:-0.2 ebit/A:-0.4 pb:6.2 52w p%: 13 div10yr: 0.0
+NetnetLCID United States Consumer Cyclical MV:49.3B Equity:1.2B CR:3.6 D/E:0.2 RE/A:-1.0 cfo/A:-0.4 ebit/A:-0.4 pb:-37.4 52w p%: 47 div10yr: 0.0
+NetnetREAL United States Consumer Cyclical MV:0.9B Equity:0.2B CR:2.8 D/E:2.2 RE/A:-0.9 cfo/A:-0.2 ebit/A:-0.3 pb:4.7 52w p%: 15 div10yr: 0.0
+NetnetQUBT United States Technology MV:0.1B Equity:0.0B CR:22.0 D/E:0.0 RE/A:-3.5 cfo/A:-0.8 ebit/A:-1.1 pb:5.6 52w p%: 10 div10yr: 0.0
+NetnetNVMI Israel Technology MV:3.3B Equity:0.4B CR:9.2 D/E:0.8 RE/A:0.4 cfo/A:0.1 ebit/A:0.1 pb:8.9 52w p%: 73 div10yr: 0.0
+NetnetSSTK United States Communication Services MV:3.5B Equity:0.4B CR:1.9 D/E:0.7 RE/A:0.2 cfo/A:0.2 ebit/A:0.1 pb:8.4 52w p%: 73 div10yr: 0.05
+NetnetCOIN United States Technology MV:28.0B Equity:1.5B CR:1.2 D/E:2.8 RE/A:0.1 cfo/A:0.5 ebit/A:0.1 pb:29.1 52w p%: 6 div10yr: 0.0
+NetnetBCYC United Kingdom Healthcare MV:1.5B Equity:0.1B CR:6.7 D/E:0.7 RE/A:-0.9 cfo/A:-0.1 ebit/A:-0.3 pb:15.3 52w p%: 76 div10yr: 0.0
+NetnetAPYX United States Healthcare MV:0.4B Equity:0.1B CR:7.2 D/E:0.2 RE/A:0.0 cfo/A:-0.2 ebit/A:-0.3 pb:5.9 52w p%: 70 div10yr: 0.0
+NetnetUG United States Consumer Defensive MV:0.1B Equity:0.0B CR:8.0 D/E:0.2 RE/A:0.8 cfo/A:0.3 ebit/A:0.3 pb:8.2 52w p%: 94 div10yr: 0.58
+NetnetARNA United States Healthcare MV:5.7B Equity:1.1B CR:19.6 D/E:0.1 RE/A:-1.3 cfo/A:-0.3 ebit/A:-0.4 pb:5.3 52w p%: 100 div10yr: 0.0
+NetnetHRTX United States Healthcare MV:0.9B Equity:0.2B CR:3.1 D/E:0.5 RE/A:-3.9 cfo/A:-0.5 ebit/A:-0.6 pb:3.8 52w p%: 1 div10yr: 0.0
+NetnetGLBE Israel Consumer Cyclical MV:5.6B Equity:0.1B CR:1.8 D/E:1.2 RE/A:-0.3 cfo/A:0.2 ebit/A:0.1 pb:-126.1 52w p%: 12 div10yr: 0.0
+NetnetMP United States Basic Materials MV:7.2B Equity:0.9B CR:13.0 D/E:0.3 RE/A:-0.1 cfo/A:0.0 ebit/A:0.0 pb:8.4 52w p%: 86 div10yr: 0.0
+NetnetBMI United States Industrials MV:3.0B Equity:0.4B CR:3.4 D/E:0.3 RE/A:0.7 cfo/A:0.2 ebit/A:0.1 pb:8.3 52w p%: 90 div10yr: 0.05
+NetnetCHPT United States Consumer Cyclical MV:4.7B Equity:0.1B CR:1.9 D/E:2.9 RE/A:-2.3 cfo/A:-0.3 ebit/A:-0.4 pb:-7.6 52w p%: 15 div10yr: 0.0
+NetnetPLSE United States Healthcare MV:0.4B Equity:0.0B CR:2.9 D/E:0.8 RE/A:-4.2 cfo/A:-0.9 ebit/A:-1.2 pb:16.3 52w p%: 20 div10yr: 0.0
+NetnetTWKS United States Technology MV:6.9B Equity:0.8B CR:6.0 D/E:0.8 RE/A:0.1 cfo/A:0.1 ebit/A:0.1 pb:14.2 52w p%: 15 div10yr: 0.0
+NetnetRVNC United States Healthcare MV:1.0B Equity:0.4B CR:7.4 D/E:0.9 RE/A:-1.6 cfo/A:-0.2 ebit/A:-0.4 pb:2.6 52w p%: 1 div10yr: 0.0
+NetnetPCOR United States Technology MV:8.7B Equity:0.5B CR:1.9 D/E:0.8 RE/A:-0.5 cfo/A:0.0 ebit/A:-0.1 pb:-32.0 52w p%: 7 div10yr: 0.0
+NetnetCDXS United States Healthcare MV:1.3B Equity:0.2B CR:7.4 D/E:0.3 RE/A:-1.7 cfo/A:-0.1 ebit/A:-0.1 pb:7.9 52w p%: 40 div10yr: 0.0
+NetnetCOHR United States Technology MV:6.4B Equity:0.9B CR:3.1 D/E:1.2 RE/A:0.4 cfo/A:0.0 ebit/A:0.1 pb:7.4 52w p%: 95 div10yr: 0.0
+NetnetMMMB United States Consumer Defensive MV:0.1B Equity:0.0B CR:2.2 D/E:0.7 RE/A:-0.9 cfo/A:0.3 ebit/A:0.2 pb:8.9 52w p%: 14 div10yr: 0.0
+NetnetCYBR Israel Technology MV:5.6B Equity:0.7B CR:4.3 D/E:1.2 RE/A:0.1 cfo/A:0.1 ebit/A:0.0 pb:7.9 52w p%: 57 div10yr: 0.0
+NetnetNSSC United States Industrials MV:0.8B Equity:0.1B CR:4.8 D/E:0.3 RE/A:0.8 cfo/A:0.2 ebit/A:0.1 pb:8.3 52w p%: 78 div10yr: 0.0
+NetnetONON Switzerland Consumer Cyclical MV:7.8B Equity:0.2B CR:3.3 D/E:0.6 RE/A:-0.1 cfo/A:-0.0 ebit/A:-0.0 pb:31.8 52w p%: 15 div10yr: 0.0
+NetnetMNST United States Consumer Defensive MV:45.8B Equity:5.2B CR:4.2 D/E:0.2 RE/A:1.0 cfo/A:0.2 ebit/A:0.3 pb:8.9 52w p%: 73 div10yr: 0.0
+NetnetCHRS United States Healthcare MV:1.0B Equity:0.3B CR:5.3 D/E:2.0 RE/A:-0.9 cfo/A:0.2 ebit/A:0.2 pb:3.5 52w p%: 4 div10yr: 0.0
+NetnetKFRC United States Industrials MV:1.5B Equity:0.2B CR:3.1 D/E:1.7 RE/A:0.8 cfo/A:0.2 ebit/A:0.2 pb:8.2 52w p%: 85 div10yr: 0.08
+NetnetEB United States Technology MV:1.1B Equity:0.3B CR:2.2 D/E:1.5 RE/A:-0.8 cfo/A:-0.2 ebit/A:-0.2 pb:3.5 52w p%: 45 div10yr: 0.0
+NetnetGOOG United States Communication Services MV:876.2B Equity:222.5B CR:3.1 D/E:0.4 RE/A:0.5 cfo/A:0.2 ebit/A:0.1 pb:3.9 52w p%: 88 div10yr: 0.0
+NetnetGOOGL United States Communication Services MV:828.1B Equity:222.5B CR:3.1 D/E:0.4 RE/A:0.5 cfo/A:0.2 ebit/A:0.1 pb:3.7 52w p%: 88 div10yr: 0.0
+NetnetTER United States Technology MV:19.1B Equity:2.6B CR:3.2 D/E:0.5 RE/A:nan cfo/A:0.3 ebit/A:0.2 pb:7.4 52w p%: 57 div10yr: 0.02
+NetnetDCBO Canada Technology MV:1.9B Equity:0.2B CR:5.2 D/E:0.3 RE/A:-0.3 cfo/A:0.0 ebit/A:-0.0 pb:9.3 52w p%: 35 div10yr: 0.0
+NetnetAEHR United States Technology MV:0.3B Equity:0.0B CR:2.1 D/E:0.9 RE/A:-3.5 cfo/A:-0.1 ebit/A:-0.2 pb:30.5 52w p%: 52 div10yr: 0.0
+NetnetEVLO United States Healthcare MV:0.3B Equity:0.0B CR:3.6 D/E:2.0 RE/A:-3.2 cfo/A:-0.8 ebit/A:-1.0 pb:9.2 52w p%: 11 div10yr: 0.0
+NetnetSGEN United States Healthcare MV:25.2B Equity:3.5B CR:7.9 D/E:0.1 RE/A:-0.2 cfo/A:0.2 ebit/A:0.1 pb:7.2 52w p%: 28 div10yr: 0.0
+NetnetNSTG United States Healthcare MV:1.7B Equity:0.3B CR:13.4 D/E:0.8 RE/A:-1.0 cfo/A:-0.2 ebit/A:-0.2 pb:5.4 52w p%: 22 div10yr: 0.0
+NetnetSOTK United States Technology MV:0.1B Equity:0.0B CR:3.1 D/E:0.5 RE/A:0.1 cfo/A:0.0 ebit/A:0.1 pb:8.7 52w p%: 75 div10yr: 0.0
+NetnetPAY United States Technology MV:0.5B Equity:0.1B CR:2.6 D/E:0.5 RE/A:0.4 cfo/A:0.3 ebit/A:0.1 pb:5.6 52w p%: 38 div10yr: 0.0
+NetnetCCRD United States Technology MV:0.3B Equity:0.0B CR:4.2 D/E:0.3 RE/A:0.5 cfo/A:0.4 ebit/A:0.2 pb:7.2 52w p%: 50 div10yr: 0.0
+NetnetRNLX United States Healthcare MV:0.5B Equity:0.1B CR:9.5 D/E:0.1 RE/A:-1.1 cfo/A:-0.4 ebit/A:-0.4 pb:6.8 52w p%: 6 div10yr: 0.0
+NetnetLIQT Denmark Industrials MV:0.1B Equity:0.0B CR:2.6 D/E:0.7 RE/A:-1.0 cfo/A:-0.1 ebit/A:-0.2 pb:5.0 52w p%: 24 div10yr: 0.0
+NetnetROKU United States Communication Services MV:19.6B Equity:1.3B CR:3.3 D/E:0.7 RE/A:-0.1 cfo/A:0.1 ebit/A:-0.0 pb:14.7 52w p%: 21 div10yr: 0.0
+NetnetDASH United States Communication Services MV:35.7B Equity:4.7B CR:3.9 D/E:0.4 RE/A:-0.3 cfo/A:0.0 ebit/A:-0.1 pb:7.6 52w p%: 1 div10yr: 0.0
+NetnetCGNX United States Technology MV:11.7B Equity:1.3B CR:4.5 D/E:0.4 RE/A:0.3 cfo/A:0.1 ebit/A:0.1 pb:9.3 52w p%: 52 div10yr: 0.06
+NetnetGLOB Luxembourg Technology MV:10.7B Equity:0.9B CR:2.6 D/E:0.5 RE/A:0.2 cfo/A:0.1 ebit/A:0.1 pb:12.2 52w p%: 73 div10yr: 0.0
+NetnetALGM United States Technology MV:5.4B Equity:0.6B CR:3.7 D/E:0.3 RE/A:0.0 cfo/A:0.2 ebit/A:0.1 pb:9.3 52w p%: 58 div10yr: 0.0
+NetnetFVRR Israel Communication Services MV:3.3B Equity:0.3B CR:4.1 D/E:1.5 RE/A:-0.2 cfo/A:0.0 ebit/A:-0.0 pb:9.5 52w p%: 26 div10yr: 0.0
+NetnetITCI United States Healthcare MV:3.9B Equity:0.7B CR:18.7 D/E:0.1 RE/A:-1.3 cfo/A:-0.3 ebit/A:-0.3 pb:6.0 52w p%: 89 div10yr: 0.0
+NetnetITCI United States Healthcare MV:3.9B Equity:0.7B CR:18.7 D/E:0.1 RE/A:-1.3 cfo/A:-0.3 ebit/A:-0.3 pb:6.0 52w p%: 89 div10yr: 0.0
+NetnetCLFD United States Technology MV:0.8B Equity:0.1B CR:3.5 D/E:0.2 RE/A:0.4 cfo/A:0.1 ebit/A:0.2 pb:8.0 52w p%: 67 div10yr: 0.0
+NetnetINTZ United States Technology MV:0.1B Equity:0.0B CR:8.5 D/E:0.3 RE/A:-3.1 cfo/A:-0.3 ebit/A:-0.3 pb:4.3 52w p%: 2 div10yr: 0.0
+NetnetGGG United States Industrials MV:12.6B Equity:1.3B CR:3.2 D/E:0.5 RE/A:0.3 cfo/A:0.2 ebit/A:0.2 pb:9.8 52w p%: 83 div10yr: 0.09
+NetnetDMRC United States Technology MV:0.5B Equity:0.1B CR:8.6 D/E:0.2 RE/A:-1.8 cfo/A:-0.2 ebit/A:-0.3 pb:6.1 52w p%: 46 div10yr: 0.03
+NetnetKRNT Israel Industrials MV:5.1B Equity:0.5B CR:5.3 D/E:0.2 RE/A:0.0 cfo/A:0.1 ebit/A:-0.0 pb:9.8 52w p%: 59 div10yr: 0.0
+NetnetCPRT United States Industrials MV:30.7B Equity:3.5B CR:4.0 D/E:0.3 RE/A:0.6 cfo/A:0.2 ebit/A:0.2 pb:8.7 52w p%: 70 div10yr: 0.0
+NetnetMASI United States Healthcare MV:12.3B Equity:1.4B CR:4.7 D/E:0.2 RE/A:0.8 cfo/A:0.1 ebit/A:0.1 pb:8.7 52w p%: 39 div10yr: 0.02
+NetnetNTRA United States Healthcare MV:6.9B Equity:0.5B CR:4.3 D/E:0.9 RE/A:-1.0 cfo/A:-0.2 ebit/A:-0.2 pb:14.2 52w p%: 48 div10yr: 0.0
+NetnetNTRA United States Healthcare MV:6.9B Equity:0.5B CR:4.3 D/E:0.9 RE/A:-1.0 cfo/A:-0.2 ebit/A:-0.2 pb:14.2 52w p%: 48 div10yr: 0.0
+NetnetNTRA United States Healthcare MV:6.9B Equity:0.5B CR:4.3 D/E:0.9 RE/A:-1.0 cfo/A:-0.2 ebit/A:-0.2 pb:14.2 52w p%: 48 div10yr: 0.0
+NetnetVZIO United States Technology MV:1.6B Equity:0.1B CR:1.1 D/E:4.2 RE/A:0.1 cfo/A:0.0 ebit/A:0.2 pb:11.0 52w p%: 2 div10yr: 0.0
+NetnetAXON United States Industrials MV:9.9B Equity:1.0B CR:3.8 D/E:0.4 RE/A:0.1 cfo/A:0.0 ebit/A:0.0 pb:10.1 52w p%: 64 div10yr: 0.0
+NetnetMTTR United States Technology MV:2.3B Equity:0.0B CR:2.7 D/E:0.7 RE/A:-1.8 cfo/A:-0.1 ebit/A:-0.2 pb:-19.3 52w p%: 0 div10yr: 0.0
+NetnetTSM Taiwan Technology MV:638.1B Equity:2170.7B CR:2.2 D/E:0.7 RE/A:0.5 cfo/A:0.3 ebit/A:0.2 pb:0.3 52w p%: 99 div10yr: 0.1
+NetnetAAON United States Industrials MV:3.3B Equity:0.4B CR:3.7 D/E:0.3 RE/A:0.8 cfo/A:0.3 ebit/A:0.2 pb:9.5 52w p%: 52 div10yr: 0.04
+NetnetRIGL United States Healthcare MV:0.4B Equity:0.0B CR:2.2 D/E:2.2 RE/A:-11.8 cfo/A:-0.5 ebit/A:-0.3 pb:13.0 52w p%: 37 div10yr: 0.0
+NetnetACMR United States Technology MV:1.5B Equity:0.2B CR:2.5 D/E:0.6 RE/A:0.1 cfo/A:-0.0 ebit/A:0.1 pb:10.4 52w p%: 65 div10yr: 0.0
+NetnetZM United States Technology MV:37.7B Equity:3.9B CR:3.8 D/E:0.4 RE/A:0.1 cfo/A:0.3 ebit/A:0.1 pb:9.8 52w p%: 6 div10yr: 0.0
+NetnetTYL United States Technology MV:19.5B Equity:2.0B CR:2.0 D/E:0.3 RE/A:0.4 cfo/A:0.1 ebit/A:0.1 pb:9.8 52w p%: 72 div10yr: 0.0
+NetnetIONS United States Healthcare MV:4.4B Equity:0.8B CR:3.7 D/E:1.8 RE/A:-0.5 cfo/A:0.0 ebit/A:-0.1 pb:5.3 52w p%: 15 div10yr: 0.0
+NetnetOOMA United States Communication Services MV:0.4B Equity:0.0B CR:1.2 D/E:1.3 RE/A:-1.4 cfo/A:0.0 ebit/A:-0.0 pb:10.5 52w p%: 51 div10yr: 0.0
+NetnetWAVD United States Technology MV:0.1B Equity:0.0B CR:1.9 D/E:1.3 RE/A:-3.3 cfo/A:0.1 ebit/A:0.1 pb:36.9 52w p%: 86 div10yr: 0.0
+NetnetISRG United States Healthcare MV:102.4B Equity:9.8B CR:6.9 D/E:0.1 RE/A:0.3 cfo/A:0.1 ebit/A:0.2 pb:10.5 52w p%: 62 div10yr: 0.0
+NetnetLAZR United States Technology MV:3.8B Equity:0.5B CR:30.2 D/E:0.0 RE/A:-1.1 cfo/A:-0.1 ebit/A:-0.2 pb:25.6 52w p%: 21 div10yr: 0.0
+NetnetFORA United States Healthcare MV:0.3B Equity:0.0B CR:9.7 D/E:0.1 RE/A:-0.5 cfo/A:-0.3 ebit/A:-0.3 pb:23.9 52w p%: 0 div10yr: 0.0
+NetnetHTOO Ireland Utilities MV:0.1B Equity:0.0B CR:1.1 D/E:7.5 RE/A:-3.0 cfo/A:-0.1 ebit/A:-0.1 pb:7.8 52w p%: 1 div10yr: 0.0
+NetnetMRAM United States Technology MV:0.2B Equity:0.0B CR:2.8 D/E:0.9 RE/A:-4.8 cfo/A:-0.1 ebit/A:-0.2 pb:11.4 52w p%: 79 div10yr: 0.0
+NetnetSAIL United States Technology MV:3.7B Equity:0.5B CR:1.2 D/E:1.3 RE/A:-0.0 cfo/A:0.1 ebit/A:0.0 pb:8.0 52w p%: 60 div10yr: 0.0
+NetnetATEC United States Healthcare MV:1.0B Equity:0.2B CR:3.2 D/E:0.7 RE/A:-2.4 cfo/A:-0.2 ebit/A:-0.2 pb:7.9 52w p%: 55 div10yr: 0.0
+NetnetAVLR United States Technology MV:9.6B Equity:1.1B CR:2.2 D/E:0.5 RE/A:-0.3 cfo/A:0.0 ebit/A:-0.0 pb:8.9 52w p%: 35 div10yr: 0.0
+NetnetVLD United States Technology MV:1.2B Equity:0.0B CR:2.3 D/E:1.1 RE/A:-3.8 cfo/A:-0.8 ebit/A:-0.6 pb:-11.2 52w p%: 3 div10yr: 0.0
+NetnetPYPL United States Financial Services MV:206.6B Equity:20.1B CR:1.3 D/E:2.5 RE/A:0.2 cfo/A:0.1 ebit/A:0.0 pb:10.3 52w p%: 41 div10yr: 0.0
+NetnetREAX Canada Real Estate MV:0.5B Equity:0.0B CR:22.5 D/E:0.1 RE/A:-0.8 cfo/A:-0.1 ebit/A:-0.1 pb:77.0 52w p%: 55 div10yr: 0.0
+NetnetCZOO United Kingdom Technology MV:0.5B Equity:0.3B CR:3.0 D/E:0.5 RE/A:-0.2 cfo/A:-0.2 ebit/A:-0.2 pb:1.6 52w p%: 1 div10yr: 0.0
+NetnetPAYS United States Technology MV:0.1B Equity:0.0B CR:1.1 D/E:4.1 RE/A:-0.0 cfo/A:0.2 ebit/A:-0.1 pb:9.0 52w p%: 9 div10yr: 0.0
+NetnetRDFN United States Real Estate MV:3.2B Equity:0.6B CR:6.7 D/E:1.2 RE/A:-0.2 cfo/A:0.0 ebit/A:0.0 pb:5.5 52w p%: 25 div10yr: 0.0
+NetnetFIZZ United States Consumer Defensive MV:4.2B Equity:0.4B CR:2.5 D/E:0.6 RE/A:0.6 cfo/A:0.3 ebit/A:0.4 pb:11.5 52w p%: 45 div10yr: 0.27
+NetnetSEDG Israel Technology MV:12.7B Equity:1.1B CR:3.9 D/E:1.2 RE/A:0.2 cfo/A:0.1 ebit/A:0.1 pb:11.7 52w p%: 59 div10yr: 0.0
+NetnetGH United States Healthcare MV:7.4B Equity:1.4B CR:28.3 D/E:0.7 RE/A:-0.3 cfo/A:-0.0 ebit/A:-0.1 pb:5.7 52w p%: 4 div10yr: 0.0
+NetnetATOM United States Technology MV:0.3B Equity:0.0B CR:26.3 D/E:0.1 RE/A:-3.8 cfo/A:-0.3 ebit/A:-0.4 pb:8.9 52w p%: 43 div10yr: 0.0
+NetnetNAVB United States Healthcare MV:0.0B Equity:0.0B CR:1.4 D/E:2.8 RE/A:-46.3 cfo/A:-1.1 ebit/A:-1.4 pb:2.5 52w p%: 5 div10yr: 0.0
+NetnetABMD United States Healthcare MV:13.7B Equity:1.3B CR:6.1 D/E:0.1 RE/A:0.6 cfo/A:0.2 ebit/A:0.2 pb:10.3 52w p%: 71 div10yr: 0.0
+NetnetVERX United States Technology MV:0.6B Equity:0.2B CR:1.4 D/E:1.5 RE/A:0.0 cfo/A:0.1 ebit/A:-0.2 pb:2.5 52w p%: 0 div10yr: 0.0
+NetnetVICR United States Technology MV:3.0B Equity:0.4B CR:7.8 D/E:0.1 RE/A:0.4 cfo/A:0.1 ebit/A:0.0 pb:8.5 52w p%: 46 div10yr: 0.0
+NetnetSPSC United States Technology MV:4.5B Equity:0.4B CR:3.4 D/E:0.3 RE/A:0.2 cfo/A:0.2 ebit/A:0.1 pb:10.6 52w p%: 68 div10yr: 0.0
+NetnetSPSC United States Technology MV:4.5B Equity:0.4B CR:3.4 D/E:0.3 RE/A:0.2 cfo/A:0.2 ebit/A:0.1 pb:10.6 52w p%: 68 div10yr: 0.0
+NetnetRHI United States Industrials MV:12.8B Equity:1.2B CR:1.8 D/E:1.1 RE/A:0.0 cfo/A:nan ebit/A:0.3 pb:10.6 52w p%: 100 div10yr: 0.1
+NetnetPATH United States Technology MV:16.4B Equity:0.4B CR:2.0 D/E:1.1 RE/A:-1.1 cfo/A:0.0 ebit/A:-0.1 pb:-20.5 52w p%: 1 div10yr: 0.0
+NetnetNGMS Israel Communication Services MV:0.6B Equity:0.1B CR:5.6 D/E:0.9 RE/A:-0.4 cfo/A:0.3 ebit/A:0.2 pb:12.3 52w p%: 2 div10yr: 0.0
+NetnetANET United States Technology MV:38.2B Equity:3.3B CR:5.0 D/E:0.4 RE/A:0.4 cfo/A:0.2 ebit/A:0.1 pb:11.5 52w p%: 79 div10yr: 0.0
+NetnetSHOP Canada Technology MV:111.8B Equity:6.4B CR:15.7 D/E:0.2 RE/A:0.0 cfo/A:0.1 ebit/A:0.0 pb:17.5 52w p%: 51 div10yr: 0.0
+NetnetINMD Israel Healthcare MV:3.8B Equity:0.3B CR:8.3 D/E:0.2 RE/A:0.6 cfo/A:0.3 ebit/A:0.2 pb:15.1 52w p%: 47 div10yr: 0.0
+NetnetAMAT United States Technology MV:123.2B Equity:12.2B CR:2.5 D/E:1.1 RE/A:1.2 cfo/A:0.2 ebit/A:0.3 pb:10.1 52w p%: 83 div10yr: 0.04
+NetnetNFGC Canada Basic Materials MV:1.0B Equity:0.1B CR:112.0 D/E:0.0 RE/A:-0.5 cfo/A:-0.2 ebit/A:-0.5 pb:14.0 52w p%: 56 div10yr: 0.0
+NetnetMIRM United States Healthcare MV:0.6B Equity:0.2B CR:12.8 D/E:0.4 RE/A:-0.7 cfo/A:-0.4 ebit/A:-0.4 pb:3.4 52w p%: 41 div10yr: 0.0
+NetnetREFR United States Technology MV:0.0B Equity:0.0B CR:24.0 D/E:0.2 RE/A:-19.0 cfo/A:-0.4 ebit/A:-0.4 pb:9.0 52w p%: 1 div10yr: 0.0
+NetnetVCEL United States Healthcare MV:1.7B Equity:0.1B CR:5.5 D/E:0.5 RE/A:-1.8 cfo/A:0.1 ebit/A:0.0 pb:12.4 52w p%: 50 div10yr: 0.0
+NetnetNCNO United States Technology MV:4.5B Equity:0.4B CR:3.8 D/E:0.3 RE/A:-0.3 cfo/A:0.0 ebit/A:-0.1 pb:10.7 52w p%: 2 div10yr: 0.0
+NetnetPD United States Technology MV:2.9B Equity:0.4B CR:3.7 D/E:1.2 RE/A:-0.3 cfo/A:0.0 ebit/A:-0.1 pb:7.8 52w p%: 51 div10yr: 0.0
+NetnetDOCS United States Healthcare MV:3.0B Equity:0.1B CR:2.1 D/E:0.7 RE/A:0.1 cfo/A:0.3 ebit/A:0.2 pb:45.4 52w p%: 8 div10yr: 0.0
+NetnetCYTK United States Healthcare MV:2.8B Equity:0.1B CR:15.2 D/E:3.7 RE/A:-1.9 cfo/A:0.0 ebit/A:-0.2 pb:25.0 52w p%: 64 div10yr: 0.0
+NetnetBF-A United States Consumer Defensive MV:10.6B Equity:2.7B CR:4.3 D/E:1.5 RE/A:0.5 cfo/A:0.1 ebit/A:0.2 pb:4.0 52w p%: 56 div10yr: 0.23
+NetnetALZN United States Healthcare MV:0.1B Equity:0.0B CR:3.2 D/E:0.4 RE/A:-5.8 cfo/A:-0.9 ebit/A:-1.7 pb:68.9 52w p%: 0 div10yr: 0.0
+NetnetAGYS United States Technology MV:1.0B Equity:0.1B CR:2.2 D/E:0.6 RE/A:0.2 cfo/A:0.1 ebit/A:-0.1 pb:11.9 52w p%: 51 div10yr: 0.0
+NetnetINFY India Technology MV:98.6B Equity:10.5B CR:2.5 D/E:0.4 RE/A:0.9 cfo/A:0.2 ebit/A:0.2 pb:9.4 52w p%: 90 div10yr: 0.13
+NetnetALGN United States Healthcare MV:40.1B Equity:3.2B CR:1.4 D/E:0.5 RE/A:0.5 cfo/A:0.1 ebit/A:0.1 pb:12.4 52w p%: 63 div10yr: 0.0
+NetnetMSB United States Basic Materials MV:0.4B Equity:0.0B CR:3.6 D/E:0.4 RE/A:0.7 cfo/A:0.9 ebit/A:1.0 pb:23.3 52w p%: 81 div10yr: 0.89
+NetnetUPST United States Financial Services MV:9.6B Equity:0.3B CR:7.8 D/E:0.6 RE/A:-0.1 cfo/A:0.0 ebit/A:0.0 pb:32.0 52w p%: 21 div10yr: 0.0
+NetnetGNTA Italy Healthcare MV:0.2B Equity:0.0B CR:7.1 D/E:0.2 RE/A:-1.2 cfo/A:-0.3 ebit/A:-0.3 pb:10.5 52w p%: 16 div10yr: 0.0
+NetnetSMLR United States Healthcare MV:0.5B Equity:0.0B CR:5.8 D/E:0.2 RE/A:0.2 cfo/A:0.4 ebit/A:0.5 pb:17.8 52w p%: 35 div10yr: 0.0
+NetnetGDRX United States Healthcare MV:2.1B Equity:0.7B CR:18.2 D/E:1.1 RE/A:-0.9 cfo/A:0.1 ebit/A:-0.2 pb:3.0 52w p%: 8 div10yr: 0.0
+NetnetGDRX United States Healthcare MV:2.1B Equity:0.7B CR:18.2 D/E:1.1 RE/A:-0.9 cfo/A:0.1 ebit/A:-0.2 pb:3.0 52w p%: 8 div10yr: 0.0
+NetnetCERS United States Healthcare MV:0.9B Equity:0.1B CR:3.1 D/E:1.1 RE/A:-4.1 cfo/A:-0.2 ebit/A:-0.3 pb:8.9 52w p%: 28 div10yr: 0.0
+NetnetCERS United States Healthcare MV:0.9B Equity:0.1B CR:3.1 D/E:1.1 RE/A:-4.1 cfo/A:-0.2 ebit/A:-0.3 pb:8.9 52w p%: 28 div10yr: 0.0
+NetnetZUO United States Technology MV:1.9B Equity:0.2B CR:1.6 D/E:1.5 RE/A:-1.1 cfo/A:0.0 ebit/A:-0.2 pb:11.3 52w p%: 61 div10yr: 0.0
+NetnetEPAM United States Technology MV:27.5B Equity:2.0B CR:4.1 D/E:0.4 RE/A:0.5 cfo/A:0.2 ebit/A:0.1 pb:13.9 52w p%: 61 div10yr: 0.0
+NetnetPEN United States Healthcare MV:8.5B Equity:0.6B CR:5.8 D/E:0.3 RE/A:0.0 cfo/A:-0.0 ebit/A:-0.0 pb:13.3 52w p%: 46 div10yr: 0.0
+NetnetAGMH Hong Kong Technology MV:0.0B Equity:0.0B CR:2.5 D/E:0.7 RE/A:-0.8 cfo/A:-0.3 ebit/A:-0.2 pb:11.3 52w p%: 1 div10yr: 0.0
+NetnetBF-B United States Consumer Defensive MV:20.9B Equity:2.7B CR:4.3 D/E:1.5 RE/A:0.5 cfo/A:0.1 ebit/A:0.2 pb:7.9 52w p%: 55 div10yr: 0.2
+NetnetCUTR United States Healthcare MV:0.7B Equity:0.1B CR:2.0 D/E:1.3 RE/A:-0.5 cfo/A:-0.1 ebit/A:-0.2 pb:11.5 52w p%: 61 div10yr: 0.0
+NetnetSTXS United States Healthcare MV:0.4B Equity:0.0B CR:3.9 D/E:0.4 RE/A:-8.8 cfo/A:-0.1 ebit/A:-0.1 pb:11.8 52w p%: 37 div10yr: 0.0
+NetnetINVO United States Healthcare MV:0.0B Equity:0.0B CR:4.6 D/E:0.9 RE/A:-2.9 cfo/A:-0.4 ebit/A:-0.5 pb:6.8 52w p%: 22 div10yr: 0.0
+NetnetHROW United States Healthcare MV:0.2B Equity:0.0B CR:3.7 D/E:1.1 RE/A:-1.3 cfo/A:-0.0 ebit/A:0.0 pb:7.9 52w p%: 61 div10yr: 0.0
+NetnetSE Singapore Communication Services MV:88.6B Equity:3.4B CR:1.9 D/E:2.1 RE/A:-0.5 cfo/A:0.1 ebit/A:-0.1 pb:26.2 52w p%: 38 div10yr: 0.0
+NetnetMED United States Consumer Cyclical MV:2.3B Equity:0.2B CR:2.1 D/E:0.8 RE/A:0.6 cfo/A:0.5 ebit/A:0.5 pb:14.7 52w p%: 52 div10yr: 0.09
+NetnetMNDY Israel Technology MV:9.5B Equity:0.0B CR:1.1 D/E:8.9 RE/A:-2.0 cfo/A:-0.2 ebit/A:-1.0 pb:-43.5 52w p%: 4 div10yr: 0.0
+NetnetBNOX Australia Healthcare MV:0.1B Equity:0.0B CR:13.1 D/E:0.1 RE/A:-2.8 cfo/A:-0.1 ebit/A:-0.2 pb:1.7 52w p%: 9 div10yr: 0.0
+NetnetNRSN Israel Healthcare MV:0.0B Equity:0.0B CR:6.1 D/E:0.2 RE/A:-5.7 cfo/A:-0.9 ebit/A:-3.7 pb:32.5 52w p%: 0 div10yr: 0.0
+NetnetEW United States Healthcare MV:67.7B Equity:4.6B CR:3.5 D/E:0.6 RE/A:0.6 cfo/A:0.1 ebit/A:0.2 pb:14.8 52w p%: 68 div10yr: 0.0
+NetnetRVLV United States Consumer Cyclical MV:2.1B Equity:0.2B CR:2.6 D/E:0.5 RE/A:0.4 cfo/A:0.2 ebit/A:0.2 pb:10.3 52w p%: 64 div10yr: 0.0
+NetnetIRTC United States Healthcare MV:3.7B Equity:0.3B CR:5.8 D/E:0.5 RE/A:-0.6 cfo/A:-0.0 ebit/A:-0.1 pb:10.9 52w p%: 40 div10yr: 0.0
+NetnetSRPT United States Healthcare MV:6.5B Equity:0.8B CR:6.0 D/E:2.9 RE/A:-1.0 cfo/A:0.0 ebit/A:-0.2 pb:8.5 52w p%: 6 div10yr: 0.0
+NetnetUPWK United States Industrials MV:3.6B Equity:0.3B CR:1.8 D/E:0.8 RE/A:-0.4 cfo/A:0.0 ebit/A:-0.0 pb:12.1 52w p%: 42 div10yr: 0.0
+NetnetMKTX United States Financial Services MV:13.3B Equity:1.0B CR:5.7 D/E:0.4 RE/A:0.6 cfo/A:0.3 ebit/A:0.3 pb:14.0 52w p%: 9 div10yr: 0.04
+NetnetQLYS United States Technology MV:5.0B Equity:0.4B CR:1.9 D/E:0.8 RE/A:0.0 cfo/A:0.2 ebit/A:0.1 pb:12.3 52w p%: 81 div10yr: 0.0
+NetnetXLNX United States Technology MV:49.2B Equity:2.9B CR:6.0 D/E:0.9 RE/A:0.3 cfo/A:0.2 ebit/A:0.1 pb:17.0 52w p%: 80 div10yr: 0.06
+NetnetSILK United States Healthcare MV:1.1B Equity:0.1B CR:8.9 D/E:0.7 RE/A:-1.3 cfo/A:-0.2 ebit/A:-0.2 pb:10.6 52w p%: 4 div10yr: 0.0
+NetnetCVLT United States Technology MV:3.1B Equity:0.4B CR:1.6 D/E:1.3 RE/A:-0.7 cfo/A:0.1 ebit/A:0.0 pb:7.8 52w p%: 68 div10yr: 0.0
+NetnetTXG United States Healthcare MV:9.1B Equity:0.7B CR:6.6 D/E:0.3 RE/A:-0.9 cfo/A:-0.2 ebit/A:-0.1 pb:12.3 52w p%: 27 div10yr: 0.0
+NetnetEXPO United States Industrials MV:4.9B Equity:0.4B CR:3.1 D/E:0.6 RE/A:0.7 cfo/A:0.2 ebit/A:0.1 pb:13.6 52w p%: 53 div10yr: 0.04
+NetnetSITM United States Technology MV:4.9B Equity:0.1B CR:5.9 D/E:0.2 RE/A:-0.5 cfo/A:0.1 ebit/A:-0.1 pb:44.2 52w p%: 78 div10yr: 0.0
+NetnetZIP United States Industrials MV:1.9B Equity:0.1B CR:2.0 D/E:1.5 RE/A:-0.3 cfo/A:0.4 ebit/A:0.3 pb:-37.5 52w p%: 12 div10yr: 0.0
+NetnetYETI United States Consumer Cyclical MV:6.0B Equity:0.3B CR:1.7 D/E:1.6 RE/A:-0.0 cfo/A:0.5 ebit/A:0.3 pb:20.7 52w p%: 61 div10yr: 0.0
+NetnetVEEV United States Healthcare MV:33.1B Equity:2.3B CR:3.2 D/E:0.3 RE/A:0.4 cfo/A:0.2 ebit/A:0.1 pb:14.6 52w p%: 46 div10yr: 0.0
+NetnetAMPL United States Technology MV:2.2B Equity:0.1B CR:2.8 D/E:0.5 RE/A:-0.6 cfo/A:-0.1 ebit/A:-0.1 pb:-32.8 52w p%: 5 div10yr: 0.0
+NetnetSTAA United States Healthcare MV:3.5B Equity:0.2B CR:5.2 D/E:0.3 RE/A:-0.5 cfo/A:0.1 ebit/A:0.0 pb:17.9 52w p%: 34 div10yr: 0.0
+NetnetARWR United States Healthcare MV:5.8B Equity:0.4B CR:2.6 D/E:0.7 RE/A:-0.9 cfo/A:0.2 ebit/A:-0.2 pb:14.1 52w p%: 49 div10yr: 0.0
+NetnetMAPS United States Technology MV:0.3B Equity:0.0B CR:1.5 D/E:0.8 RE/A:0.2 cfo/A:0.7 ebit/A:0.8 pb:11.6 52w p%: 0 div10yr: 0.0
+NetnetWST United States Healthcare MV:29.4B Equity:1.9B CR:2.7 D/E:0.5 RE/A:0.7 cfo/A:0.2 ebit/A:0.2 pb:15.9 52w p%: 77 div10yr: 0.02
+NetnetAPPF United States Technology MV:2.2B Equity:0.3B CR:4.0 D/E:0.4 RE/A:0.4 cfo/A:0.1 ebit/A:0.0 pb:7.8 52w p%: 10 div10yr: 0.0
+NetnetWRBY United States Healthcare MV:3.6B Equity:0.3B CR:3.4 D/E:0.4 RE/A:-0.7 cfo/A:0.1 ebit/A:-0.1 pb:-18.1 52w p%: 5 div10yr: 0.0
+NetnetIDBA Norway Technology MV:0.3B Equity:0.0B CR:2.6 D/E:0.4 RE/A:-0.9 cfo/A:-1.4 ebit/A:-1.6 pb:21.7 52w p%: 13 div10yr: 0.0
+NetnetIDBA Norway Technology MV:0.3B Equity:0.0B CR:2.6 D/E:0.4 RE/A:-0.9 cfo/A:-1.4 ebit/A:-1.6 pb:21.7 52w p%: 13 div10yr: 0.0
+NetnetNRDS United States Financial Services MV:0.5B Equity:0.2B CR:5.4 D/E:0.7 RE/A:-0.1 cfo/A:0.1 ebit/A:0.0 pb:6.4 52w p%: 11 div10yr: 0.0
+NetnetBIGC United States Technology MV:2.4B Equity:0.2B CR:5.5 D/E:0.3 RE/A:-1.1 cfo/A:-0.1 ebit/A:-0.1 pb:11.1 52w p%: 1 div10yr: 0.0
+NetnetNVAX United States Healthcare MV:7.2B Equity:0.6B CR:2.2 D/E:1.5 RE/A:-1.2 cfo/A:-0.0 ebit/A:-0.3 pb:11.5 52w p%: 36 div10yr: 0.0
+NetnetACER United States Healthcare MV:0.0B Equity:0.0B CR:1.0 D/E:0.8 RE/A:-6.8 cfo/A:-1.2 ebit/A:-1.6 pb:3.8 52w p%: 10 div10yr: 0.0
+NetnetTXN United States Technology MV:167.4B Equity:13.3B CR:5.3 D/E:0.9 RE/A:1.9 cfo/A:0.2 ebit/A:0.2 pb:12.6 52w p%: 88 div10yr: 0.12
+NetnetLRCX United States Technology MV:83.0B Equity:6.0B CR:3.3 D/E:1.6 RE/A:0.9 cfo/A:0.2 ebit/A:0.3 pb:13.8 52w p%: 73 div10yr: 0.03
+NetnetEBET United States Consumer Cyclical MV:0.2B Equity:0.0B CR:5.1 D/E:0.4 RE/A:-1.2 cfo/A:-0.6 ebit/A:-0.9 pb:15.8 52w p%: 0 div10yr: 0.0
+NetnetU United States Technology MV:31.5B Equity:2.0B CR:4.1 D/E:0.3 RE/A:-0.3 cfo/A:0.0 ebit/A:-0.1 pb:15.5 52w p%: 24 div10yr: 0.0
+NetnetAZPN United States Technology MV:10.1B Equity:0.8B CR:5.4 D/E:0.8 RE/A:1.2 cfo/A:0.2 ebit/A:0.2 pb:12.6 52w p%: 90 div10yr: 0.0
+NetnetIMGN United States Healthcare MV:1.3B Equity:0.1B CR:2.7 D/E:3.0 RE/A:-3.8 cfo/A:-0.2 ebit/A:-0.1 pb:14.2 52w p%: 44 div10yr: 0.0
+NetnetCRVL United States Financial Services MV:3.0B Equity:0.2B CR:1.7 D/E:0.9 RE/A:1.4 cfo/A:0.2 ebit/A:0.1 pb:13.6 52w p%: 75 div10yr: 0.0
+NetnetTREX United States Industrials MV:11.0B Equity:0.6B CR:3.0 D/E:0.3 RE/A:1.0 cfo/A:0.2 ebit/A:0.3 pb:18.7 52w p%: 58 div10yr: 0.0
+NetnetSNAP United States Communication Services MV:45.6B Equity:2.3B CR:5.0 D/E:1.2 RE/A:-1.6 cfo/A:-0.0 ebit/A:-0.2 pb:19.6 52w p%: 34 div10yr: 0.0
+NetnetSGML Canada Basic Materials MV:1.0B Equity:0.0B CR:2.0 D/E:0.5 RE/A:-1.0 cfo/A:-0.1 ebit/A:-0.0 pb:45.7 52w p%: 96 div10yr: 0.0
+NetnetDAVA United Kingdom Technology MV:7.0B Equity:0.3B CR:1.8 D/E:0.6 RE/A:0.6 cfo/A:0.2 ebit/A:0.1 pb:23.2 52w p%: 67 div10yr: 0.0
+NetnetSMAR United States Technology MV:8.0B Equity:0.5B CR:1.8 D/E:0.7 RE/A:-0.4 cfo/A:-0.0 ebit/A:-0.1 pb:15.2 52w p%: 57 div10yr: 0.0
+NetnetAPPN United States Technology MV:2.3B Equity:0.3B CR:2.3 D/E:0.7 RE/A:-0.3 cfo/A:-0.0 ebit/A:-0.1 pb:7.9 52w p%: 11 div10yr: 0.0
+NetnetMPWR United States Technology MV:18.7B Equity:1.0B CR:5.7 D/E:0.3 RE/A:0.2 cfo/A:0.2 ebit/A:0.1 pb:19.4 52w p%: 62 div10yr: 0.02
+NetnetNARI United States Healthcare MV:3.7B Equity:0.2B CR:14.9 D/E:0.1 RE/A:-0.1 cfo/A:0.0 ebit/A:0.1 pb:18.7 52w p%: 44 div10yr: 0.0
+NetnetCNS United States Financial Services MV:4.0B Equity:0.2B CR:1.8 D/E:0.5 RE/A:-0.8 cfo/A:0.3 ebit/A:0.3 pb:23.2 52w p%: 81 div10yr: 0.32
+NetnetSLI Canada Basic Materials MV:1.2B Equity:0.1B CR:11.8 D/E:0.0 RE/A:-0.9 cfo/A:-0.1 ebit/A:-0.4 pb:17.0 52w p%: 65 div10yr: 0.0
+NetnetWDFC United States Basic Materials MV:3.0B Equity:0.2B CR:2.8 D/E:1.1 RE/A:1.0 cfo/A:0.2 ebit/A:0.2 pb:15.2 52w p%: 36 div10yr: 0.09
+NetnetCDNS United States Technology MV:42.0B Equity:2.5B CR:1.9 D/E:0.6 RE/A:0.6 cfo/A:0.2 ebit/A:0.2 pb:16.9 52w p%: 71 div10yr: 0.0
+NetnetKULR United States Technology MV:0.2B Equity:0.0B CR:3.1 D/E:0.5 RE/A:-1.2 cfo/A:-0.3 ebit/A:-0.3 pb:38.0 52w p%: 48 div10yr: 0.0
+NetnetPGNY United States Healthcare MV:3.7B Equity:0.2B CR:2.4 D/E:0.5 RE/A:-0.3 cfo/A:0.1 ebit/A:0.1 pb:22.0 52w p%: 45 div10yr: 0.0
+NetnetPGNY United States Healthcare MV:3.7B Equity:0.2B CR:2.4 D/E:0.5 RE/A:-0.3 cfo/A:0.1 ebit/A:0.1 pb:22.0 52w p%: 45 div10yr: 0.0
+NetnetNU Brazil Financial Services MV:26.1B Equity:0.4B CR:1.1 D/E:22.2 RE/A:-0.0 cfo/A:0.1 ebit/A:0.0 pb:59.7 52w p%: 7 div10yr: 0.0
+NetnetSNOW United States Technology MV:86.9B Equity:4.9B CR:5.4 D/E:0.2 RE/A:-0.2 cfo/A:-0.0 ebit/A:-0.1 pb:17.6 52w p%: 44 div10yr: 0.0
+NetnetIMTX Germany Healthcare MV:0.6B Equity:0.1B CR:3.9 D/E:1.4 RE/A:-1.8 cfo/A:-0.3 ebit/A:-0.3 pb:6.0 52w p%: 8 div10yr: 0.0
+NetnetLULU Canada Consumer Cyclical MV:42.8B Equity:2.6B CR:2.4 D/E:0.6 RE/A:0.6 cfo/A:0.2 ebit/A:0.2 pb:16.7 52w p%: 56 div10yr: 0.0
+NetnetFIGS United States Consumer Cyclical MV:3.5B Equity:0.1B CR:3.7 D/E:0.4 RE/A:0.2 cfo/A:0.2 ebit/A:0.4 pb:35.5 52w p%: 1 div10yr: 0.0
+NetnetNKE United States Consumer Cyclical MV:189.4B Equity:12.8B CR:2.7 D/E:2.0 RE/A:0.1 cfo/A:0.2 ebit/A:0.2 pb:14.8 52w p%: 76 div10yr: 0.08
+NetnetNVCR Jersey Healthcare MV:7.5B Equity:0.5B CR:8.8 D/E:1.2 RE/A:-0.6 cfo/A:0.1 ebit/A:0.0 pb:15.6 52w p%: 8 div10yr: 0.0
+NetnetHCTI United States Healthcare MV:0.1B Equity:0.0B CR:1.2 D/E:1.6 RE/A:0.3 cfo/A:-0.1 ebit/A:0.1 pb:12.1 52w p%: 0 div10yr: 0.0
+NetnetAERC United States Industrials MV:0.1B Equity:0.0B CR:4.1 D/E:0.3 RE/A:-2.6 cfo/A:-1.0 ebit/A:-1.0 pb:27.4 52w p%: 0 div10yr: 0.0
+NetnetMOXC Hong Kong Communication Services MV:0.0B Equity:0.0B CR:1.2 D/E:4.7 RE/A:-17.7 cfo/A:-0.8 ebit/A:0.0 pb:98.1 52w p%: 6 div10yr: 0.0
+NetnetHALO United States Healthcare MV:4.9B Equity:0.2B CR:1.3 D/E:2.8 RE/A:-0.8 cfo/A:0.1 ebit/A:0.2 pb:32.8 52w p%: 54 div10yr: 0.0
+NetnetCFLT United States Technology MV:4.8B Equity:0.3B CR:2.2 D/E:1.0 RE/A:-0.8 cfo/A:-0.2 ebit/A:-0.4 pb:-15.6 52w p%: 76 div10yr: 0.0
+NetnetCELH United States Consumer Defensive MV:3.8B Equity:0.1B CR:3.5 D/E:0.3 RE/A:-0.4 cfo/A:0.0 ebit/A:0.1 pb:36.0 52w p%: 50 div10yr: 0.0
+NetnetSQ United States Technology MV:50.9B Equity:2.7B CR:1.9 D/E:2.7 RE/A:-0.0 cfo/A:0.0 ebit/A:-0.0 pb:19.0 52w p%: 35 div10yr: 0.0
+NetnetBYND United States Consumer Defensive MV:4.2B Equity:0.4B CR:3.7 D/E:0.3 RE/A:-0.4 cfo/A:-0.1 ebit/A:-0.1 pb:11.5 52w p%: 2 div10yr: 0.0
+NetnetLSCC United States Technology MV:7.8B Equity:0.4B CR:4.2 D/E:0.8 RE/A:-0.6 cfo/A:0.1 ebit/A:0.1 pb:20.2 52w p%: 66 div10yr: 0.0
+NetnetESTC United States Technology MV:8.7B Equity:0.5B CR:1.4 D/E:1.2 RE/A:-0.6 cfo/A:0.0 ebit/A:-0.1 pb:19.4 52w p%: 33 div10yr: 0.0
+NetnetAMD United States Technology MV:141.0B Equity:5.8B CR:2.5 D/E:0.5 RE/A:-0.5 cfo/A:0.1 ebit/A:0.2 pb:24.2 52w p%: 63 div10yr: 0.0
+NetnetVCRA United States Technology MV:2.7B Equity:0.2B CR:3.7 D/E:1.2 RE/A:-0.4 cfo/A:0.1 ebit/A:-0.0 pb:15.2 52w p%: 100 div10yr: 0.0
+NetnetVCRA United States Technology MV:2.7B Equity:0.2B CR:3.7 D/E:1.2 RE/A:-0.4 cfo/A:0.1 ebit/A:-0.0 pb:15.2 52w p%: 100 div10yr: 0.0
+NetnetTNDM United States Healthcare MV:7.6B Equity:0.4B CR:6.1 D/E:1.0 RE/A:-0.9 cfo/A:0.0 ebit/A:-0.0 pb:20.8 52w p%: 65 div10yr: 0.0
+NetnetEYEN United States Healthcare MV:0.1B Equity:0.0B CR:1.8 D/E:1.2 RE/A:-2.3 cfo/A:-0.2 ebit/A:-0.6 pb:5.8 52w p%: 22 div10yr: 0.0
+NetnetRANI United States Healthcare MV:0.4B Equity:0.1B CR:14.1 D/E:0.1 RE/A:-1.4 cfo/A:-0.2 ebit/A:-0.2 pb:-3.5 52w p%: 50 div10yr: 0.0
+NetnetPOOL United States Consumer Cyclical MV:19.0B Equity:0.6B CR:2.3 D/E:1.7 RE/A:0.1 cfo/A:0.2 ebit/A:0.3 pb:29.7 52w p%: 75 div10yr: 0.03
+NetnetDXCM United States Healthcare MV:42.2B Equity:1.8B CR:5.6 D/E:1.3 RE/A:-0.0 cfo/A:0.1 ebit/A:0.1 pb:23.1 52w p%: 47 div10yr: 0.0
+NetnetNEWR United States Technology MV:6.9B Equity:0.4B CR:2.3 D/E:2.4 RE/A:-0.4 cfo/A:0.0 ebit/A:-0.1 pb:16.8 52w p%: 93 div10yr: 0.0
+NetnetEXPI United States Real Estate MV:4.0B Equity:0.1B CR:2.2 D/E:0.7 RE/A:-0.2 cfo/A:0.5 ebit/A:0.1 pb:28.6 52w p%: 41 div10yr: 0.0
+NetnetESTA Costa Rica Healthcare MV:1.3B Equity:0.1B CR:5.1 D/E:1.1 RE/A:-1.1 cfo/A:-0.1 ebit/A:-0.2 pb:17.4 52w p%: 55 div10yr: 0.0
+NetnetABNB United States Consumer Cyclical MV:54.4B Equity:2.9B CR:1.7 D/E:2.6 RE/A:-0.6 cfo/A:-0.1 ebit/A:-0.3 pb:18.8 52w p%: 25 div10yr: 0.0
+NetnetPI United States Technology MV:2.0B Equity:0.1B CR:6.2 D/E:0.9 RE/A:-1.5 cfo/A:-0.1 ebit/A:-0.2 pb:17.9 52w p%: 88 div10yr: 0.0
+NetnetFCUV United States Technology MV:0.3B Equity:0.0B CR:1.9 D/E:0.2 RE/A:-1.7 cfo/A:-0.3 ebit/A:-0.5 pb:71.7 52w p%: 58 div10yr: 0.0
+NetnetNG Canada Basic Materials MV:2.2B Equity:0.1B CR:56.0 D/E:1.0 RE/A:-8.5 cfo/A:-0.0 ebit/A:-0.1 pb:19.9 52w p%: 1 div10yr: 0.0
+NetnetAHI Australia Technology MV:0.1B Equity:0.0B CR:1.2 D/E:1.7 RE/A:-7.8 cfo/A:-0.8 ebit/A:-2.3 pb:26.4 52w p%: 0 div10yr: 0.0
+NetnetALNY United States Healthcare MV:17.3B Equity:1.0B CR:4.5 D/E:2.4 RE/A:-1.3 cfo/A:-0.2 ebit/A:-0.2 pb:17.1 52w p%: 39 div10yr: 0.0
+NetnetNMRD United States Healthcare MV:0.1B Equity:0.0B CR:5.3 D/E:3.2 RE/A:-0.7 cfo/A:-0.2 ebit/A:-0.1 pb:11.4 52w p%: 5 div10yr: 0.0
+NetnetCDMO United States Healthcare MV:1.2B Equity:0.1B CR:2.9 D/E:2.4 RE/A:-2.1 cfo/A:0.1 ebit/A:0.0 pb:15.0 52w p%: 54 div10yr: 0.03
+NetnetXPEL United States Consumer Cyclical MV:1.8B Equity:0.1B CR:3.0 D/E:0.6 RE/A:0.5 cfo/A:0.2 ebit/A:0.3 pb:33.2 52w p%: 66 div10yr: 0.0
+NetnetSWAV United States Healthcare MV:5.5B Equity:0.2B CR:9.6 D/E:0.2 RE/A:-0.9 cfo/A:-0.3 ebit/A:-0.2 pb:24.3 52w p%: 67 div10yr: 0.0
+NetnetPCTY United States Technology MV:11.5B Equity:0.5B CR:1.1 D/E:4.1 RE/A:0.1 cfo/A:0.1 ebit/A:0.0 pb:24.0 52w p%: 55 div10yr: 0.0
+NetnetOSH United States Healthcare MV:4.4B Equity:0.4B CR:2.2 D/E:0.8 RE/A:-0.7 cfo/A:-0.1 ebit/A:-0.2 pb:10.5 52w p%: 2 div10yr: 0.0
+NetnetSPT United States Technology MV:3.2B Equity:0.2B CR:3.1 D/E:0.6 RE/A:-0.6 cfo/A:-0.0 ebit/A:-0.1 pb:20.9 52w p%: 48 div10yr: 0.0
+NetnetASML Netherlands Technology MV:277.0B Equity:13.9B CR:2.4 D/E:1.0 RE/A:0.4 cfo/A:0.2 ebit/A:0.1 pb:20.0 52w p%: 74 div10yr: 0.04
+NetnetAXSM United States Healthcare MV:1.1B Equity:0.1B CR:7.9 D/E:0.6 RE/A:-1.5 cfo/A:-0.4 ebit/A:-0.5 pb:9.5 52w p%: 4 div10yr: 0.0
+NetnetTTD United States Technology MV:31.0B Equity:1.0B CR:1.6 D/E:1.7 RE/A:0.2 cfo/A:0.1 ebit/A:0.1 pb:30.6 52w p%: 62 div10yr: 0.0
+NetnetNVDA United States Technology MV:614.0B Equity:16.9B CR:4.1 D/E:0.7 RE/A:0.7 cfo/A:0.2 ebit/A:0.2 pb:36.3 52w p%: 69 div10yr: 0.0
+NetnetLEGN United States Healthcare MV:6.6B Equity:0.3B CR:3.7 D/E:1.6 RE/A:-0.6 cfo/A:-0.3 ebit/A:-0.3 pb:23.4 52w p%: 65 div10yr: 0.0
+NetnetPLAN United States Technology MV:7.0B Equity:0.3B CR:1.3 D/E:1.7 RE/A:-0.9 cfo/A:-0.0 ebit/A:-0.2 pb:25.3 52w p%: 42 div10yr: 0.0
+NetnetOFLX United States Industrials MV:1.4B Equity:0.0B CR:2.6 D/E:0.5 RE/A:0.5 cfo/A:0.3 ebit/A:0.4 pb:31.1 52w p%: 59 div10yr: 0.09
+NetnetCRTD United States Communication Services MV:0.0B Equity:0.0B CR:1.6 D/E:1.0 RE/A:-6.7 cfo/A:-0.7 ebit/A:-1.5 pb:5.2 52w p%: 1 div10yr: 0.0
+NetnetENPH United States Technology MV:19.2B Equity:0.5B CR:1.7 D/E:1.5 RE/A:-0.0 cfo/A:0.2 ebit/A:0.2 pb:39.8 52w p%: 51 div10yr: 0.0
+NetnetINSP United States Healthcare MV:6.1B Equity:0.2B CR:13.0 D/E:0.2 RE/A:-0.8 cfo/A:-0.2 ebit/A:-0.2 pb:26.5 52w p%: 78 div10yr: 0.0
+NetnetHUBS United States Technology MV:23.2B Equity:0.8B CR:3.3 D/E:1.6 RE/A:-0.2 cfo/A:0.0 ebit/A:-0.0 pb:30.4 52w p%: 53 div10yr: 0.0
+NetnetFNA United States Healthcare MV:1.2B Equity:0.1B CR:3.3 D/E:0.4 RE/A:0.1 cfo/A:0.0 ebit/A:0.0 pb:38.7 52w p%: 6 div10yr: 0.0
+NetnetDLO Uruguay Technology MV:5.3B Equity:0.0B CR:1.3 D/E:3.5 RE/A:0.2 cfo/A:0.4 ebit/A:0.2 pb:116.6 52w p%: 8 div10yr: 0.0
+NetnetNET United States Technology MV:28.1B Equity:0.8B CR:8.0 D/E:0.7 RE/A:-0.3 cfo/A:-0.0 ebit/A:-0.1 pb:34.3 52w p%: 46 div10yr: 0.0
+NetnetINBX United States Healthcare MV:1.0B Equity:0.1B CR:4.2 D/E:0.9 RE/A:-1.0 cfo/A:-0.3 ebit/A:-0.5 pb:13.7 52w p%: 38 div10yr: 0.0
+NetnetMANH United States Technology MV:8.5B Equity:0.2B CR:1.7 D/E:1.1 RE/A:0.5 cfo/A:0.3 ebit/A:0.2 pb:38.8 52w p%: 64 div10yr: 0.0
+NetnetETSY United States Consumer Cyclical MV:19.3B Equity:0.7B CR:4.2 D/E:2.2 RE/A:-0.1 cfo/A:0.3 ebit/A:0.2 pb:26.0 52w p%: 48 div10yr: 0.0
+NetnetFNGR United States Communication Services MV:0.2B Equity:0.0B CR:1.7 D/E:2.5 RE/A:-1.7 cfo/A:-0.6 ebit/A:-0.6 pb:92.3 52w p%: 34 div10yr: 0.0
+NetnetCRWD United States Technology MV:37.9B Equity:0.9B CR:2.7 D/E:2.1 RE/A:-0.3 cfo/A:0.1 ebit/A:-0.0 pb:43.6 52w p%: 56 div10yr: 0.0
+NetnetDDOG United States Technology MV:38.0B Equity:1.0B CR:5.8 D/E:1.0 RE/A:-0.1 cfo/A:0.1 ebit/A:-0.0 pb:39.7 52w p%: 79 div10yr: 0.0
+NetnetLWLG United States Basic Materials MV:0.8B Equity:0.0B CR:4.2 D/E:0.3 RE/A:-9.6 cfo/A:-0.7 ebit/A:-0.9 pb:143.8 52w p%: 49 div10yr: 0.0
+NetnetLWLG United States Basic Materials MV:0.8B Equity:0.0B CR:4.2 D/E:0.3 RE/A:-9.6 cfo/A:-0.7 ebit/A:-0.9 pb:143.8 52w p%: 49 div10yr: 0.0
+NetnetZS United States Technology MV:36.6B Equity:0.5B CR:2.6 D/E:3.3 RE/A:-0.3 cfo/A:0.1 ebit/A:-0.1 pb:69.1 52w p%: 70 div10yr: 0.0
+NetnetHUSN United States Financial Services MV:0.0B Equity:0.0B CR:1.9 D/E:4.7 RE/A:-8.8 cfo/A:-1.1 ebit/A:-2.6 pb:24.4 52w p%: 50 div10yr: 0.0
+NetnetNYMX Bahamas Healthcare MV:0.1B Equity:0.0B CR:2.1 D/E:1.0 RE/A:-41.5 cfo/A:-2.3 ebit/A:-2.7 pb:69.2 52w p%: 20 div10yr: 0.0
+NetnetRBOT United States Healthcare MV:0.6B Equity:0.0B CR:19.6 D/E:0.1 RE/A:-1.8 cfo/A:-0.7 ebit/A:-0.7 pb:-20.8 52w p%: 0 div10yr: 0.0
+NetnetROVR United States Consumer Cyclical MV:1.1B Equity:0.1B CR:3.3 D/E:0.8 RE/A:-1.7 cfo/A:-0.4 ebit/A:-0.3 pb:-5.3 52w p%: 0 div10yr: 0.0
+NetnetROVR United States Consumer Cyclical MV:1.1B Equity:0.1B CR:3.3 D/E:0.8 RE/A:-1.7 cfo/A:-0.4 ebit/A:-0.3 pb:-5.3 52w p%: 0 div10yr: 0.0
+NetnetROVR United States Consumer Cyclical MV:1.1B Equity:0.1B CR:3.3 D/E:0.8 RE/A:-1.7 cfo/A:-0.4 ebit/A:-0.3 pb:-5.3 52w p%: 0 div10yr: 0.0
+NetnetPIK United States Consumer Cyclical MV:0.0B Equity:0.0B CR:1.3 D/E:4.2 RE/A:-3.0 cfo/A:-0.4 ebit/A:-0.4 pb:24.2 52w p%: 2 div10yr: 0.0
+NetnetTCDA United States Healthcare MV:0.6B Equity:0.1B CR:9.2 D/E:2.2 RE/A:-1.8 cfo/A:-0.7 ebit/A:-0.7 pb:5.3 52w p%: 26 div10yr: 0.0
+NetnetPLL United States Basic Materials MV:0.8B Equity:0.2B CR:23.2 D/E:0.0 RE/A:-0.4 cfo/A:-0.1 ebit/A:-0.1 pb:4.3 52w p%: 60 div10yr: 0.0
+NetnetMELI Argentina Consumer Cyclical MV:57.4B Equity:1.7B CR:1.5 D/E:3.0 RE/A:0.0 cfo/A:0.2 ebit/A:0.0 pb:34.8 52w p%: 47 div10yr: 0.0
+NetnetMELI Argentina Consumer Cyclical MV:57.4B Equity:1.7B CR:1.5 D/E:3.0 RE/A:0.0 cfo/A:0.2 ebit/A:0.0 pb:34.8 52w p%: 47 div10yr: 0.0
+NetnetMELI Argentina Consumer Cyclical MV:57.4B Equity:1.7B CR:1.5 D/E:3.0 RE/A:0.0 cfo/A:0.2 ebit/A:0.0 pb:34.8 52w p%: 47 div10yr: 0.0
+NetnetMELI Argentina Consumer Cyclical MV:57.4B Equity:1.7B CR:1.5 D/E:3.0 RE/A:0.0 cfo/A:0.2 ebit/A:0.0 pb:34.8 52w p%: 47 div10yr: 0.0
+NetnetMELI Argentina Consumer Cyclical MV:57.4B Equity:1.7B CR:1.5 D/E:3.0 RE/A:0.0 cfo/A:0.2 ebit/A:0.0 pb:34.8 52w p%: 47 div10yr: 0.0
+NetnetTRDA United States Healthcare MV:0.3B Equity:0.0B CR:11.9 D/E:0.1 RE/A:-1.0 cfo/A:-0.6 ebit/A:-0.6 pb:-7.7 52w p%: 0 div10yr: 0.0
+NetnetLIAN United States Healthcare MV:0.4B Equity:0.3B CR:44.5 D/E:0.1 RE/A:-0.6 cfo/A:-0.4 ebit/A:-0.5 pb:-3.3 52w p%: 3 div10yr: 0.0
+NetnetBFRI United States Healthcare MV:0.1B Equity:0.0B CR:4.4 D/E:3.1 RE/A:-1.7 cfo/A:-0.5 ebit/A:-0.3 pb:11.1 52w p%: 22 div10yr: 0.0
+NetnetAURA United States Healthcare MV:0.5B Equity:0.0B CR:6.9 D/E:0.1 RE/A:-5.3 cfo/A:-1.1 ebit/A:-1.0 pb:-4.9 52w p%: 99 div10yr: 0.0
+NetnetATXI United States Healthcare MV:0.0B Equity:0.0B CR:3.7 D/E:0.4 RE/A:-22.6 cfo/A:-1.4 ebit/A:-1.6 pb:6.8 52w p%: 0 div10yr: 0.0
+NetnetAVDX United States Technology MV:2.2B Equity:0.3B CR:2.0 D/E:1.3 RE/A:-0.9 cfo/A:-0.1 ebit/A:-0.1 pb:-4.3 52w p%: 8 div10yr: 0.0
+NetnetHGEN United States Healthcare MV:0.2B Equity:0.0B CR:3.3 D/E:0.5 RE/A:-5.5 cfo/A:-1.0 ebit/A:-1.3 pb:3.6 52w p%: 0 div10yr: 0.0
+NetnetUSER United States Technology MV:0.9B Equity:0.1B CR:1.5 D/E:1.5 RE/A:-1.0 cfo/A:-0.1 ebit/A:-0.2 pb:-6.4 52w p%: 21 div10yr: 0.0
+NetnetRIVN United States Consumer Cyclical MV:61.5B Equity:3.9B CR:4.9 D/E:0.2 RE/A:-0.4 cfo/A:-0.2 ebit/A:-0.2 pb:-44.4 52w p%: 7 div10yr: 0.0
+NetnetCDTX United States Healthcare MV:0.1B Equity:0.0B CR:1.5 D/E:4.6 RE/A:-5.5 cfo/A:-0.9 ebit/A:-1.2 pb:5.6 52w p%: 0 div10yr: 0.0
+NetnetINCR Israel Healthcare MV:0.3B Equity:0.3B CR:2.6 D/E:0.1 RE/A:-0.6 cfo/A:0.0 ebit/A:-0.0 pb:1.0 52w p%: 80 div10yr: 0.0
+NetnetHCP United States Technology MV:1.1B Equity:0.2B CR:2.1 D/E:1.0 RE/A:-0.5 cfo/A:-0.1 ebit/A:-0.2 pb:-9.0 52w p%: 22 div10yr: 0.0
+NetnetSG United States Consumer Cyclical MV:2.9B Equity:0.2B CR:3.2 D/E:0.3 RE/A:-1.2 cfo/A:-0.3 ebit/A:-0.5 pb:-9.3 52w p%: 5 div10yr: 0.0
+NetnetMDXG United States Healthcare MV:0.6B Equity:0.1B CR:2.7 D/E:1.2 RE/A:-0.7 cfo/A:-0.1 ebit/A:-0.2 pb:-3693.3 52w p%: 13 div10yr: 0.0
+NetnetKPTI United States Healthcare MV:0.7B Equity:0.1B CR:4.6 D/E:5.2 RE/A:-3.4 cfo/A:-0.5 ebit/A:-0.5 pb:13.8 52w p%: 23 div10yr: 0.0
+NetnetWEAV United States Technology MV:0.6B Equity:0.0B CR:1.5 D/E:1.4 RE/A:-1.4 cfo/A:-0.2 ebit/A:-0.4 pb:-5.7 52w p%: 1 div10yr: 0.0
+NetnetEQRX United States Healthcare MV:2.3B Equity:0.5B CR:34.7 D/E:0.0 RE/A:-0.5 cfo/A:-0.5 ebit/A:-0.5 pb:-8.9 52w p%: 1 div10yr: 0.0
+NetnetBRZE United States Technology MV:0.5B Equity:0.1B CR:1.3 D/E:1.5 RE/A:-0.8 cfo/A:-0.0 ebit/A:-0.2 pb:-4.9 52w p%: 15 div10yr: 0.0
+NetnetEFTR United States Healthcare MV:0.2B Equity:0.0B CR:1.9 D/E:16.1 RE/A:-8.2 cfo/A:0.8 ebit/A:0.9 pb:-1.8 52w p%: 3 div10yr: 0.0
+NetnetBIRD United States Consumer Cyclical MV:0.3B Equity:0.2B CR:3.9 D/E:0.3 RE/A:-0.4 cfo/A:-0.1 ebit/A:-0.1 pb:-12.4 52w p%: 3 div10yr: 0.0
+NetnetBIRD United States Consumer Cyclical MV:0.3B Equity:0.2B CR:3.9 D/E:0.3 RE/A:-0.4 cfo/A:-0.1 ebit/A:-0.1 pb:-12.4 52w p%: 3 div10yr: 0.0
+NetnetAPLS United States Healthcare MV:4.0B Equity:0.2B CR:7.1 D/E:3.7 RE/A:-1.0 cfo/A:-0.2 ebit/A:-0.2 pb:19.5 52w p%: 38 div10yr: 0.0
+NetnetBLCM United States Healthcare MV:0.0B Equity:0.0B CR:1.6 D/E:1.6 RE/A:-13.3 cfo/A:-1.4 ebit/A:-1.3 pb:-5.4 52w p%: 2 div10yr: 0.0
+NetnetBBIO United States Healthcare MV:1.6B Equity:0.1B CR:6.7 D/E:5.5 RE/A:-1.3 cfo/A:-0.6 ebit/A:-0.7 pb:27.5 52w p%: 2 div10yr: 0.0
+NetnetCALT Sweden Healthcare MV:0.6B Equity:1.3B CR:9.8 D/E:0.2 RE/A:-0.6 cfo/A:-0.2 ebit/A:-0.2 pb:0.5 52w p%: 24 div10yr: 0.0
+NetnetDUOT United States Technology MV:0.0B Equity:0.0B CR:1.6 D/E:2.4 RE/A:-6.2 cfo/A:-0.7 ebit/A:-1.0 pb:108.4 52w p%: 26 div10yr: 0.0
+NetnetXRTX Canada Healthcare MV:0.0B Equity:0.0B CR:2.0 D/E:0.8 RE/A:-3.5 cfo/A:-0.3 ebit/A:-0.5 pb:17.3 52w p%: 14 div10yr: 0.0
+NetnetIOT United States Technology MV:9.9B Equity:0.4B CR:2.3 D/E:1.1 RE/A:-0.6 cfo/A:-0.2 ebit/A:-0.2 pb:-18.5 52w p%: 31 div10yr: 0.0
+NetnetXERS United States Healthcare MV:0.3B Equity:0.0B CR:5.4 D/E:3.7 RE/A:-2.1 cfo/A:-0.5 ebit/A:-0.5 pb:7.9 52w p%: 7 div10yr: 0.0
+NetnetMDWD Israel Healthcare MV:0.1B Equity:0.0B CR:3.2 D/E:3.3 RE/A:-4.3 cfo/A:-0.2 ebit/A:-0.3 pb:9.0 52w p%: 22 div10yr: 0.0
+NetnetMDWD Israel Healthcare MV:0.1B Equity:0.0B CR:3.2 D/E:3.3 RE/A:-4.3 cfo/A:-0.2 ebit/A:-0.3 pb:9.0 52w p%: 22 div10yr: 0.0
+NetnetNVTS Ireland Technology MV:1.2B Equity:0.0B CR:7.4 D/E:0.3 RE/A:-1.6 cfo/A:-0.4 ebit/A:-0.4 pb:-16.7 52w p%: 3 div10yr: 0.0
+NetnetSONX United States Healthcare MV:0.2B Equity:0.0B CR:1.4 D/E:1.8 RE/A:-3.5 cfo/A:-0.5 ebit/A:-0.6 pb:-0.8 52w p%: 47 div10yr: 0.0
+NetnetKIND United States Communication Services MV:0.4B Equity:0.1B CR:5.1 D/E:0.5 RE/A:-1.8 cfo/A:-0.2 ebit/A:-0.4 pb:-1.5 52w p%: 1 div10yr: 0.0
+NetnetTMBR United States Healthcare MV:0.0B Equity:0.0B CR:7.8 D/E:0.2 RE/A:-1.6 cfo/A:-0.7 ebit/A:-1.6 pb:2.9 52w p%: 1 div10yr: 0.0
+NetnetINM Canada Healthcare MV:0.0B Equity:0.0B CR:3.8 D/E:0.3 RE/A:-7.7 cfo/A:-1.0 ebit/A:-1.0 pb:2.3 52w p%: 0 div10yr: 0.0
+NetnetCTIB United States Consumer Cyclical MV:0.0B Equity:0.0B CR:1.0 D/E:6.9 RE/A:-0.7 cfo/A:0.1 ebit/A:-0.1 pb:-6.7 52w p%: 3 div10yr: 0.15
