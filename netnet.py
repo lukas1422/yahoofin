@@ -66,7 +66,6 @@ for comp in lines:
 
                         pb = marketCap / equity
                         data = si.get_data(comp, start_date=START_DATE, interval=PRICE_INTERVAL)
-                        print('data is ', data)
                         divs = si.get_dividends(comp, start_date=DIVIDEND_START_DATE)
 
                         divSum = divs['dividend'].sum() if not divs.empty else 0
@@ -77,9 +76,8 @@ for comp in lines:
                     except Exception as e:
                         print("except is ", e)
                     else:
-                        print("Netnet" + comp + " " + country + " " + sector)
-
-                        outputString = "Netnet" + comp + " " + country + " " + sector \
+                        outputString = "NN " + comp + " " + country.replace(" ", "_") + " " \
+                                       + sector.replace(" ", "_") \
                                        + " MV:" + str(round(marketCap / 1000000000.0, 1)) + 'B' \
                                        + " Equity:" + str(round((totalAssets - totalLiab) / 1000000000.0, 1)) + 'B' \
                                        + " CR:" + str(round(currentRatio, 1)) \
