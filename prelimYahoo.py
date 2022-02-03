@@ -9,7 +9,7 @@ def fo(number):
     return str(f"{number:,}")
 
 
-stockName = "TPC"
+stockName = "GENC"
 
 bs = si.get_balance_sheet(stockName)
 cf = si.get_cash_flow(stockName)
@@ -71,6 +71,7 @@ print("market cap USD", marketPrice * shares / 1000000000.0, "B")
 print("shareholder equity", equity / 1000000000.0, "B")
 
 print("P/B", marketPrice * shares / equity)
+print("S/B", revenue / equity)
 print("                         ")
 print("********ALTMAN**********")
 print("current ratio", totalCurrentAssets / totalCurrentLiab)
@@ -79,9 +80,9 @@ print("EBIT", ebit / 1000000000, "B")
 print("CFO", cfo / 1000000000, "B")
 print("CFI", cfi / 1000000000, "B")
 print("CFF", cff / 1000000000, "B")
-print("retailed earnings", retainedEarnings / 1000000000, "B")
-print("retailed earnings/totalAssets", retainedEarnings / totalAssets)
-print("revenue/totalAssets", revenue / totalAssets)
+print("R/E", retainedEarnings / 1000000000, "B")
+print("R/E / Assets", retainedEarnings / totalAssets)
+print("Sales / Total Assets", revenue / totalAssets)
 print(" div return over 10 yrs ", divSum / marketPrice)
 
 print("divsum marketprice", divSum, marketPrice)

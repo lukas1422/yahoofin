@@ -72,8 +72,7 @@ for comp in lines:
                             divs = si.get_dividends(comp, start_date=DIVIDEND_START_DATE)
                             #dataSize = data['adjclose'].size
 
-                            print(" percentile current min max ", data['adjclose'][-1],
-                                  data['adjclose'].max(),
+                            print(" percentile current min max ", marketPrice, data['adjclose'].max(),
                                   data['adjclose'].min())
 
                             percentile = 100.0 * (data['adjclose'][-1] - data['adjclose'].min()) / (
