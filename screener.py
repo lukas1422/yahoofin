@@ -3,11 +3,11 @@ import datetime
 
 COUNT = 0
 
+
 def increment():
     global COUNT
-    COUNT = COUNT+1
+    COUNT = COUNT + 1
     return COUNT
-
 
 
 START_DATE = '3/1/2020'
@@ -17,7 +17,7 @@ PRICE_INTERVAL = '1mo'
 fileOutput = open('reportList', 'w')
 fileOutput.write("\n")
 
-with open("newLowTopLoserList", "r") as file:
+with open("listNewLowTopLoser", "r") as file:
     lines = file.read().rstrip().splitlines()
 
 print(lines)
@@ -80,18 +80,22 @@ for comp in lines:
                             pb = marketCap / equity
                             data = si.get_data(comp, start_date=START_DATE, interval=PRICE_INTERVAL)
                             divs = si.get_dividends(comp, start_date=DIVIDEND_START_DATE)
-                            #dataSize = data['adjclose'].size
+                            # dataSize = data['adjclose'].size
 
                             print(" percentile current min max ", marketPrice, data['adjclose'].max(),
                                   data['adjclose'].min())
 
                             percentile = 100.0 * (data['adjclose'][-1] - data['adjclose'].min()) / (
                                     data['adjclose'].max() - data['adjclose'].min())
-                            divSum = divs['dividend'].sum()
+
+                            divSum = divs['dividend'].sum() if not divs.empty else 0
+                            # divSum = divs['dividend'].sum()
+
                         except Exception as e:
                             print(comp, "percentile issue ", e)
                         else:
-                            outputString = comp + " " + country + " " + sector \
+                            outputString = comp + " " + country.replace(" ", "_") + " " \
+                                           + sector.replace(" ", "_") \
                                            + " MV:" + str(round(marketCap / 1000000000.0, 1)) + 'B' \
                                            + " Equity:" + str(round((totalAssets - totalLiab) / 1000000000.0, 1)) + 'B' \
                                            + " CR:" + str(round(currentRatio, 1)) \

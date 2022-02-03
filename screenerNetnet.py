@@ -8,7 +8,7 @@ PRICE_INTERVAL = '1mo'
 fileOutput = open('reportList', 'w')
 fileOutput.write("\n")
 
-with open("newLowTopLoserList", "r") as file:
+with open("listNewLowTopLoser", "r") as file:
     lines = file.read().rstrip().splitlines()
 
 for comp in lines:

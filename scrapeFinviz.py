@@ -6,7 +6,7 @@ from urllib.request import Request, urlopen
 stockNum = 8700
 
 last = 0
-NumPBExceedingOne = 0
+# NumPBExceedingOne = 0
 
 for i in range(1, stockNum, 20):
     url = "https://finviz.com/screener.ashx?v=121&o=pb&r=" + str(i)
@@ -20,7 +20,8 @@ for i in range(1, stockNum, 20):
         value = tr.find_all('td')[1].get_text(strip=True)
         pb = tr.find_all('td')[7].get_text(strip=True)
         print("index", index, "value", value, pb, "pb")
-        if index == last or NumPBExceedingOne >= 5:
+        # if index == last or NumPBExceedingOne >= 5:
+        if index == last:
             break
         else:
             print(index, value)
