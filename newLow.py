@@ -3,7 +3,7 @@ fileOutput = open('newLowList', 'w')
 from bs4 import BeautifulSoup
 from urllib.request import Request, urlopen
 
-stockNum = 101
+stockNum = 500
 
 last = 0
 NumPBExceedingOne = 0

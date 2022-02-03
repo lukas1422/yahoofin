@@ -1,6 +1,15 @@
 import yahoo_fin.stock_info as si
 import datetime
 
+COUNT = 0
+
+def increment():
+    global COUNT
+    COUNT = COUNT+1
+    return COUNT
+
+
+
 START_DATE = '3/1/2020'
 DIVIDEND_START_DATE = '1/1/2010'
 PRICE_INTERVAL = '1mo'
@@ -13,6 +22,7 @@ with open("newLowList", "r") as file:
 
 print(lines)
 for comp in lines:
+    print(increment())
     try:
         info = si.get_company_info(comp)
         country = info.loc["country"][0]
