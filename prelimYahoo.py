@@ -9,7 +9,7 @@ def fo(number):
     return str(f"{number:,}")
 
 
-stockName = "GENC"
+stockName = "0743.HK"
 
 bs = si.get_balance_sheet(stockName)
 cf = si.get_cash_flow(stockName)
