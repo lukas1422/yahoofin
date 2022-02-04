@@ -1,8 +1,19 @@
 import yahoo_fin.stock_info as si
 import datetime
+
 from scrapeYahooCurrency import getBalanceSheetCurrency
+import math
+import getExchangeRate
 
 COUNT = 0
+
+
+def getFromDF(df):
+    if df.empty:
+        return 0
+    elif math.isnan(df[0]):
+        return df[1]
+    return df[0]
 
 
 def increment():
@@ -14,6 +25,8 @@ def increment():
 START_DATE = '3/1/2020'
 DIVIDEND_START_DATE = '1/1/2010'
 PRICE_INTERVAL = '1mo'
+
+exchange_rate_dict = getExchangeRate.getExchangeRateDict()
 
 fileOutput = open('reportList', 'w')
 fileOutput.write("\n")
@@ -39,19 +52,24 @@ for comp in lines:
                 cf = si.get_cash_flow(comp)
                 incomeStatement = si.get_income_statement(comp)
 
-                equity = bs.loc["totalStockholderEquity"][0]
-                totalCurrentAssets = bs.loc["totalCurrentAssets"][0]
-                totalCurrentLiab = bs.loc["totalCurrentLiabilities"][0]
-                totalAssets = bs.loc["totalAssets"][0]
-                totalLiab = bs.loc["totalLiab"][0]
-                retainedEarnings = bs.loc["retainedEarnings"][0]
+                equity = getFromDF(bs.loc["totalStockholderEquity"])
+                totalCurrentAssets = getFromDF(bs.loc["totalCurrentAssets"])
+                totalCurrentLiab = getFromDF(bs.loc["totalCurrentLiabilities"])
+                totalAssets = getFromDF(bs.loc["totalAssets"])
+                totalLiab = getFromDF(bs.loc["totalLiab"])
+                retainedEarnings = getFromDF(bs.loc["retainedEarnings"])
+
+                # print(comp, "bs.loc[total assets ]", bs.loc['totalAssets'])
+                # print(comp, "bs.loc[retained Earnings]", bs.loc['retainedEarnings'])
+                # print(comp, "retained earnings ", retainedEarnings)
 
                 # IS
                 # revenue = incomeStatement.loc["totalRevenue"][0]
-                ebit = incomeStatement.loc["ebit"][0]
+                ebit = getFromDF(incomeStatement.loc["ebit"])
 
                 # CF
-                cfo = cf.loc["totalCashFromOperatingActivities"][0]
+                cfo = getFromDF(cf.loc["totalCashFromOperatingActivities"])
+                #print("cfo ", cfo, cf.loc["totalCashFromOperatingActivities"])
                 # cfi = cf.loc["totalCashflowsFromInvestingActivities"][0]
                 # cff = cf.loc["totalCashFromFinancingActivities"][0]
                 marketPrice = si.get_live_price(comp)
@@ -78,30 +96,32 @@ for comp in lines:
                     if (currentRatio > 1 and debtEquityRatio < 1 and retainedEarnings > 0
                             and cfo > 0 and ebit > 0):
                         try:
-                            pb = marketCap / equity
+                            balanceSheetCurrency = getBalanceSheetCurrency(comp)
+                            exRate = getExchangeRate.getExchangeRate(exchange_rate_dict, balanceSheetCurrency)
+                            print("bal sheet currency is ", balanceSheetCurrency, " rate is ", exRate)
+
+                            pb = marketCap / (equity / exRate)
+
                             data = si.get_data(comp, start_date=START_DATE, interval=PRICE_INTERVAL)
                             divs = si.get_dividends(comp, start_date=DIVIDEND_START_DATE)
                             # dataSize = data['adjclose'].size
-
-                            print(" percentile current min max ", marketPrice, data['adjclose'].max(),
-                                  data['adjclose'].min())
+                            # print(" percentile current min max ", marketPrice, data['adjclose'].max(),
+                            #       data['adjclose'].min())
 
                             percentile = 100.0 * (data['adjclose'][-1] - data['adjclose'].min()) / (
                                     data['adjclose'].max() - data['adjclose'].min())
 
                             divSum = divs['dividend'].sum() if not divs.empty else 0
-                            # divSum = divs['dividend'].sum()
-                            localCurrency = getBalanceSheetCurrency(comp)
-                            print("local currency is ",localCurrency)
 
                         except Exception as e:
-                            print(comp, "percentile issue ", e)
+                            print(comp, "exception issue ", e)
                         else:
                             outputString = comp + " " + country.replace(" ", "_") + " " \
-                                           + sector.replace(" ", "_") \
-                                           + localCurrency + " " \
+                                           + sector.replace(" ", "_") + " " \
+                                           + balanceSheetCurrency \
                                            + " MV:" + str(round(marketCap / 1000000000.0, 1)) + 'B' \
-                                           + " Equity:" + str(round((totalAssets - totalLiab) / 1000000000.0, 1)) + 'B' \
+                                           + " Equity:" + str(
+                                round((totalAssets - totalLiab) / exRate / 1000000000.0, 1)) + 'B' \
                                            + " CR:" + str(round(currentRatio, 1)) \
                                            + " D/E:" + str(round(debtEquityRatio, 1)) \
                                            + " RE/A:" + str(round(retainedEarningsAssetRatio, 1)) \

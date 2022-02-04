@@ -14,7 +14,7 @@ def getBalanceSheetCurrency(ticker):
             if (a.getText().startswith("Currency in")):
                 return pattern.search(a.getText()).group(1)
 
-        return ""
+        return "USD"
 
     except Exception as e:
         print("exception is  ", e)
@@ -24,4 +24,4 @@ def yahooBalanceSheetURLMaker(ticker, type):
     return "https://finance.yahoo.com/quote/" + ticker + "/" + type + "?p=" + ticker
 
 
-#print(getBalanceSheetCurrency("BABA"))
+print(getBalanceSheetCurrency("EDU"))
