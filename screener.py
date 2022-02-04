@@ -1,5 +1,6 @@
 import yahoo_fin.stock_info as si
 import datetime
+from scrapeYahooCurrency import getBalanceSheetCurrency
 
 COUNT = 0
 
@@ -90,12 +91,15 @@ for comp in lines:
 
                             divSum = divs['dividend'].sum() if not divs.empty else 0
                             # divSum = divs['dividend'].sum()
+                            localCurrency = getBalanceSheetCurrency(comp)
+                            print("local currency is ",localCurrency)
 
                         except Exception as e:
                             print(comp, "percentile issue ", e)
                         else:
                             outputString = comp + " " + country.replace(" ", "_") + " " \
                                            + sector.replace(" ", "_") \
+                                           + localCurrency + " " \
                                            + " MV:" + str(round(marketCap / 1000000000.0, 1)) + 'B' \
                                            + " Equity:" + str(round((totalAssets - totalLiab) / 1000000000.0, 1)) + 'B' \
                                            + " CR:" + str(round(currentRatio, 1)) \
