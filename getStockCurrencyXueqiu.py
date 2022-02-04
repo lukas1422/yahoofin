@@ -3,12 +3,8 @@ from urllib.request import Request, urlopen
 import re
 import json
 
-# with open("usTickerAll", "r") as file:
-#     lines = file.read().rstrip().splitlines()
-
 fileOutput = open('tickerPB', 'w')
 
-# for comp in lines:
 comp = "00743"
 
 try:
