@@ -32,7 +32,7 @@ exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 fileOutput = open('list_results', 'w')
 fileOutput.write("\n")
 
-with open("list_NewLowTopLoser", "r") as file:
+with open("list_test", "r") as file:
     lines = file.read().rstrip().splitlines()
 
 print(lines)
@@ -46,12 +46,12 @@ for comp in lines:
     except Exception as e:
         print(comp, "exception on info or BS")
     else:
-        if (country.lower()) == " test now ":
+        if (country.lower()) == " test ":
             print(comp, "NO CHINA")
         else:
             try:
                 cf = si.get_cash_flow(comp)
-                incomeStatement = si.get_income_statement(comp)
+                incomeStatement = si.get_income_statement(comp, yearly=True)
 
                 equity = getFromDF(bs.loc["totalStockholderEquity"])
                 totalCurrentAssets = getFromDF(bs.loc["totalCurrentAssets"])
@@ -67,6 +67,7 @@ for comp in lines:
                 # IS
                 # revenue = incomeStatement.loc["totalRevenue"][0]
                 ebit = getFromDF(incomeStatement.loc["ebit"])
+                netIncome = getFromDF(incomeStatement.loc['netIncome'])
 
                 # CF
                 cfo = getFromDF(cf.loc["totalCashFromOperatingActivities"])
@@ -132,6 +133,7 @@ for comp in lines:
                                            + sector.replace(" ", "_") + " " \
                                            + listingCurrency + balanceSheetCurrency \
                                            + " MV:" + str(round(marketCap / 1000000000.0, 1)) + 'B' \
+                                           + " P/Net Inc " + str(round(marketCap / (netIncome / exRate), 2)) \
                                            + " Equity:" + str(
                                 round((totalAssets - totalLiab) / exRate / 1000000000.0, 1)) + 'B' \
                                            + " CR:" + str(round(currentRatio, 1)) \
