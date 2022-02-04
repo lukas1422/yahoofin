@@ -2,6 +2,7 @@ import yahoo_fin.stock_info as si
 import datetime
 
 from scrapeYahooCurrency import getBalanceSheetCurrency
+from scrapeYahooCurrency import getListingCurrency
 import math
 import getExchangeRate
 
@@ -45,7 +46,7 @@ for comp in lines:
     except Exception as e:
         print(comp, "exception on info or BS")
     else:
-        if (country.lower()) == "china":
+        if (country.lower()) == " test now ":
             print(comp, "NO CHINA")
         else:
             try:
@@ -69,7 +70,7 @@ for comp in lines:
 
                 # CF
                 cfo = getFromDF(cf.loc["totalCashFromOperatingActivities"])
-                #print("cfo ", cfo, cf.loc["totalCashFromOperatingActivities"])
+                # print("cfo ", cfo, cf.loc["totalCashFromOperatingActivities"])
                 # cfi = cf.loc["totalCashflowsFromInvestingActivities"][0]
                 # cff = cf.loc["totalCashFromFinancingActivities"][0]
                 marketPrice = si.get_live_price(comp)
@@ -97,28 +98,39 @@ for comp in lines:
                             and cfo > 0 and ebit > 0):
                         try:
                             balanceSheetCurrency = getBalanceSheetCurrency(comp)
-                            exRate = getExchangeRate.getExchangeRate(exchange_rate_dict, balanceSheetCurrency)
-                            print("bal sheet currency is ", balanceSheetCurrency, " rate is ", exRate)
+                            listingCurrency = getListingCurrency(comp)
+                            exRate = getExchangeRate.getExchangeRate(exchange_rate_dict,
+                                                                     listingCurrency, balanceSheetCurrency)
+                            print("curr", listingCurrency, balanceSheetCurrency, " rate is ", exRate)
 
                             pb = marketCap / (equity / exRate)
-
+                            print("pb ", pb)
                             data = si.get_data(comp, start_date=START_DATE, interval=PRICE_INTERVAL)
                             divs = si.get_dividends(comp, start_date=DIVIDEND_START_DATE)
-                            # dataSize = data['adjclose'].size
-                            # print(" percentile current min max ", marketPrice, data['adjclose'].max(),
-                            #       data['adjclose'].min())
-
                             percentile = 100.0 * (data['adjclose'][-1] - data['adjclose'].min()) / (
                                     data['adjclose'].max() - data['adjclose'].min())
-
                             divSum = divs['dividend'].sum() if not divs.empty else 0
 
                         except Exception as e:
                             print(comp, "exception issue ", e)
                         else:
+                            # print(comp)
+                            # print(country)
+                            # print(sector)
+                            # print(balanceSheetCurrency)
+                            # print(marketCap)
+                            # print(equity)
+                            # print(currentRatio)
+                            # print(debtEquityRatio)
+                            # print(retainedEarningsAssetRatio)
+                            # print(cfoAssetRatio)
+                            # print(ebitAssetRatio)
+                            # print(percentile)
+                            # print(divSum)
+
                             outputString = comp + " " + country.replace(" ", "_") + " " \
                                            + sector.replace(" ", "_") + " " \
-                                           + balanceSheetCurrency \
+                                           + listingCurrency + balanceSheetCurrency \
                                            + " MV:" + str(round(marketCap / 1000000000.0, 1)) + 'B' \
                                            + " Equity:" + str(
                                 round((totalAssets - totalLiab) / exRate / 1000000000.0, 1)) + 'B' \
