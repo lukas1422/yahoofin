@@ -32,7 +32,7 @@ exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 fileOutput = open('list_results', 'w')
 fileOutput.write("\n")
 
-with open("list_test", "r") as file:
+with open("list_allTickers", "r") as file:
     lines = file.read().rstrip().splitlines()
 
 print(lines)
@@ -46,7 +46,7 @@ for comp in lines:
     except Exception as e:
         print(comp, "exception on info or BS")
     else:
-        if (country.lower()) == " test ":
+        if (country.lower()) == "china":
             print(comp, "NO CHINA")
         else:
             try:
@@ -102,10 +102,10 @@ for comp in lines:
                             listingCurrency = getListingCurrency(comp)
                             exRate = currency_getExchangeRate.getExchangeRate(exchange_rate_dict,
                                                                               listingCurrency, balanceSheetCurrency)
-                            print("curr", listingCurrency, balanceSheetCurrency, " rate is ", exRate)
+                            # print("curr", listingCurrency, balanceSheetCurrency, " rate is ", exRate)
 
                             pb = marketCap / (equity / exRate)
-                            print("pb ", pb)
+                            # print("pb ", pb)
                             data = si.get_data(comp, start_date=START_DATE, interval=PRICE_INTERVAL)
                             divs = si.get_dividends(comp, start_date=DIVIDEND_START_DATE)
                             percentile = 100.0 * (data['adjclose'][-1] - data['adjclose'].min()) / (
@@ -115,25 +115,11 @@ for comp in lines:
                         except Exception as e:
                             print(comp, "exception issue ", e)
                         else:
-                            # print(comp)
-                            # print(country)
-                            # print(sector)
-                            # print(balanceSheetCurrency)
-                            # print(marketCap)
-                            # print(equity)
-                            # print(currentRatio)
-                            # print(debtEquityRatio)
-                            # print(retainedEarningsAssetRatio)
-                            # print(cfoAssetRatio)
-                            # print(ebitAssetRatio)
-                            # print(percentile)
-                            # print(divSum)
-
                             outputString = comp + " " + country.replace(" ", "_") + " " \
                                            + sector.replace(" ", "_") + " " \
                                            + listingCurrency + balanceSheetCurrency \
                                            + " MV:" + str(round(marketCap / 1000000000.0, 1)) + 'B' \
-                                           + " P/Net Inc " + str(round(marketCap / (netIncome / exRate), 2)) \
+                                           + " P/NI " + str(round(marketCap / (netIncome / exRate), 2)) \
                                            + " Equity:" + str(
                                 round((totalAssets - totalLiab) / exRate / 1000000000.0, 1)) + 'B' \
                                            + " CR:" + str(round(currentRatio, 1)) \
