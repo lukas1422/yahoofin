@@ -1,4 +1,4 @@
-fileOutput = open('finvizTickerPBList', 'w')
+fileOutput = open('list_finvizTickerPB', 'w')
 
 from bs4 import BeautifulSoup
 from urllib.request import Request, urlopen

@@ -1,4 +1,4 @@
-fileOutput = open('listNewLowTopLoser', 'w')
+fileOutput = open('list_NewLowTopLoser', 'w')
 
 from bs4 import BeautifulSoup
 from urllib.request import Request, urlopen

@@ -5,10 +5,10 @@ START_DATE = '3/1/2020'
 DIVIDEND_START_DATE = '1/1/2010'
 PRICE_INTERVAL = '1mo'
 
-fileOutput = open('reportList', 'w')
+fileOutput = open('list_results', 'w')
 fileOutput.write("\n")
 
-with open("listNewLowTopLoser", "r") as file:
+with open("list_NewLowTopLoser", "r") as file:
     lines = file.read().rstrip().splitlines()
 
 for comp in lines:

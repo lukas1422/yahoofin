@@ -1,5 +1,5 @@
 def getExchangeRateDict():
-    return dict(line.strip().split() for line in open('currencyList'))
+    return dict(line.strip().split() for line in open('list_currency'))
 
 
 def getExchangeRate(dictionary, firstCurr, secondCurr):

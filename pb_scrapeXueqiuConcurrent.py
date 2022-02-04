@@ -5,7 +5,7 @@ import concurrent.futures
 
 fileOutput = open('test', 'w')
 
-with open("usTickerAll", "r") as file:
+with open("list_usTickerAll", "r") as file:
     lines = file.read().rstrip().splitlines()
 
 MAX_THREADS = 30

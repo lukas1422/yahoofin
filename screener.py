@@ -1,8 +1,8 @@
 import yahoo_fin.stock_info as si
 import datetime
 
-from scrapeYahooCurrency import getBalanceSheetCurrency
-from scrapeYahooCurrency import getListingCurrency
+from currency_scrapeYahoo import getBalanceSheetCurrency
+from currency_scrapeYahoo import getListingCurrency
 import math
 import getExchangeRate
 
@@ -29,10 +29,10 @@ PRICE_INTERVAL = '1mo'
 
 exchange_rate_dict = getExchangeRate.getExchangeRateDict()
 
-fileOutput = open('reportList', 'w')
+fileOutput = open('list_results', 'w')
 fileOutput.write("\n")
 
-with open("listNewLowTopLoser", "r") as file:
+with open("list_NewLowTopLoser", "r") as file:
     lines = file.read().rstrip().splitlines()
 
 print(lines)

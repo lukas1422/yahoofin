@@ -3,7 +3,7 @@ from urllib.request import Request, urlopen
 import re
 import json
 
-fileOutput = open('tickerPB', 'w')
+fileOutput = open('list_tickerPB', 'w')
 
 comp = "00743"
 

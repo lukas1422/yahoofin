@@ -1,10 +1,10 @@
 from bs4 import BeautifulSoup
 from urllib.request import Request, urlopen
 
-with open("usTickerAll", "r") as file:
+with open("list_usTickerAll", "r") as file:
     lines = file.read().rstrip().splitlines()
 
-fileOutput = open('tickerPB', 'w')
+fileOutput = open('list_tickerPB', 'w')
 
 for comp in lines:
     try:
