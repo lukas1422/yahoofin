@@ -4,7 +4,7 @@ import datetime
 from currency_scrapeYahoo import getBalanceSheetCurrency
 from currency_scrapeYahoo import getListingCurrency
 import math
-import getExchangeRate
+import currency_getExchangeRate
 
 COUNT = 0
 
@@ -27,7 +27,7 @@ START_DATE = '3/1/2020'
 DIVIDEND_START_DATE = '1/1/2010'
 PRICE_INTERVAL = '1mo'
 
-exchange_rate_dict = getExchangeRate.getExchangeRateDict()
+exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 
 fileOutput = open('list_results', 'w')
 fileOutput.write("\n")
@@ -99,8 +99,8 @@ for comp in lines:
                         try:
                             balanceSheetCurrency = getBalanceSheetCurrency(comp)
                             listingCurrency = getListingCurrency(comp)
-                            exRate = getExchangeRate.getExchangeRate(exchange_rate_dict,
-                                                                     listingCurrency, balanceSheetCurrency)
+                            exRate = currency_getExchangeRate.getExchangeRate(exchange_rate_dict,
+                                                                              listingCurrency, balanceSheetCurrency)
                             print("curr", listingCurrency, balanceSheetCurrency, " rate is ", exRate)
 
                             pb = marketCap / (equity / exRate)

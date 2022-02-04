@@ -15,16 +15,22 @@ for i in range(1, stockNum, 20):
     soup = BeautifulSoup(webpage, "html.parser")
     tBody = soup.find('div', attrs={"id": "screener-content"})
 
-    for tr in tBody.find_all('tr', attrs={'class': ["table-dark-row-cp", "table-light-row-cp"]}):
-        index = tr.find_all('td')[0].get_text(strip=True)
-        value = tr.find_all('td')[1].get_text(strip=True)
-        pb = tr.find_all('td')[7].get_text(strip=True)
-        print("index", index, "value", value, pb, "pb")
-        # if index == last or NumPBExceedingOne >= 5:
-        if index == last:
-            break
-        else:
-            print(index, value)
-            last = index
-            fileOutput.write(str(value) + " " + pb + "\n")
-            fileOutput.flush()
+    for tr in tBody.find_all('tr', attrs={'valign': 'top'}):
+        index = tr.find_all('a')[0].get_text(strip=True)
+        value = tr.find_all('a', {'class': 'screener-link-primary'})[0].get_text(strip=True)
+        print(index, value)
+        fileOutput.write(str(value) + "\n")
+        fileOutput.flush()
+
+    # for tr in tBody.find_all('tr', attrs={'class': ["table-dark-row-cp", "table-light-row-cp"]}):
+    #     index = tr.find_all('td')[0].get_text(strip=True)
+    #     value = tr.find_all('td')[1].get_text(strip=True)
+    #     pb = tr.find_all('td')[7].get_text(strip=True)
+    #     print("index", index, "value", value, pb, "pb")
+    #     if index == last:
+    #         break
+    #     else:
+    #         print(index, value)
+    #         last = index
+    #         fileOutput.write(str(value) + " " + pb + "\n")
+    #         fileOutput.flush()
