@@ -2,13 +2,14 @@ from bs4 import BeautifulSoup
 from urllib.request import Request, urlopen
 import re
 import json
+
 # with open("usTickerAll", "r") as file:
 #     lines = file.read().rstrip().splitlines()
 
 fileOutput = open('tickerPB', 'w')
 
 # for comp in lines:
-comp = "PKX"
+comp = "00743"
 
 try:
     url = "https://xueqiu.com/S/" + comp
@@ -20,9 +21,10 @@ try:
     for a in soup.find_all('script'):
         if (a.getText().startswith('window.STOCK_PAGE')):
             searchText = (a.getText())
-            pattern = re.compile(r"quote:\s+(\{.*?\})")
+            pattern = re.compile(r"quote:\s+({.*?})")
             dic = json.loads(pattern.search(searchText).group(1) + "}")
-            print(dic['currency'])
+
+            print(dic['symbol'], dic['currency'])
 
 except Exception as e:
     print('exception occurred', e)
