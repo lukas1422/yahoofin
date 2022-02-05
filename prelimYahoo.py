@@ -14,7 +14,7 @@ def fo(number):
 
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 
-stockName = "SKM"
+stockName = "BABA"
 
 bs = si.get_balance_sheet(stockName)
 cf = si.get_cash_flow(stockName)
@@ -79,6 +79,7 @@ print("L", round(totalLiab / exRate / 1000000000), "(",
       round(totalCurrentLiab / exRate / 1000000000.0),
       round((totalLiab - totalCurrentLiab) / exRate / 1000000000.0), ")")
 print("E", round((totalAssets - totalLiab) / exRate / 1000000000.0), "B")
+print("BV/Shs", round((totalAssets - totalLiab) / exRate / shares, 2))
 print("MV USD", round(marketPrice * shares / 1000000000.0, 1), "B")
 # print("Eq USD", round((equity / exRate) / 1000000000.0), "B")
 
