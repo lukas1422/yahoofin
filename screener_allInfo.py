@@ -67,7 +67,7 @@ for comp in lines:
                 # IS
                 # revenue = incomeStatement.loc["totalRevenue"][0]
                 ebit = getFromDF(incomeStatement.loc["ebit"])
-                #netIncome = getFromDF(incomeStatement.loc['netIncome'])
+                # netIncome = getFromDF(incomeStatement.loc['netIncome'])
 
                 print(incomeStatement)
 
@@ -90,17 +90,10 @@ for comp in lines:
 
                 try:
                     balanceSheetCurrency = getBalanceSheetCurrency(comp)
-                    # print(balanceSheetCurrency)
                     listingCurrency = getListingCurrency(comp)
-                    # print(listingCurrency)
-
                     exRate = currency_getExchangeRate.getExchangeRate(exchange_rate_dict,
                                                                       listingCurrency, balanceSheetCurrency)
-
-                    # print("curr", listingCurrency, balanceSheetCurrency, " rate is ", exRate)
-
                     pb = marketCap / (equity / exRate)
-                    #print("pb ", pb)
                     data = si.get_data(comp, start_date=START_DATE, interval=PRICE_INTERVAL)
                     divs = si.get_dividends(comp, start_date=DIVIDEND_START_DATE)
                     percentile = 100.0 * (data['adjclose'][-1] - data['adjclose'].min()) / (
