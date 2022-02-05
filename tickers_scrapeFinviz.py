@@ -18,9 +18,11 @@ for i in range(1, stockNum, 20):
         price = tr.find_all('a')[8].get_text(strip=True)
         ticker = tr.find_all('a', {'class': 'screener-link-primary'})[0].get_text(strip=True)
 
-        print(index, ticker, price)
+        #print(index, ticker, price, float(price), str(float(price) > 1))
+
         if float(price) > 1:
+            print(index, ticker, price, float(price))
             fileOutput.write(str(ticker) + "\n")
             fileOutput.flush()
         else:
-            print('price < 1', ticker, price)
+            print('INADMISSIBLE price < 1', index, ticker, price)
