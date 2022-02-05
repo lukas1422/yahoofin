@@ -2,7 +2,7 @@ import yahoo_fin.stock_info as si
 from currency_scrapeYahoo import getBalanceSheetCurrency
 from currency_scrapeYahoo import getListingCurrency
 import currency_getExchangeRate
-import sharesOutstanding
+import scrape_sharesOutstanding
 
 START_DATE = '3/1/2020'
 DIVIDEND_START_DATE = '1/1/2010'
@@ -49,8 +49,8 @@ cff = cf.loc["totalCashFromFinancingActivities"][0]
 
 marketPrice = si.get_live_price(stockName)
 sharesYahoo = si.get_quote_data(stockName)['sharesOutstanding']
-sharesXueqiu = sharesOutstanding.scrapeSharesOutstandingXueqiu(stockName)
-sharesFinviz = sharesOutstanding.scrapeSharesOutstandingFinviz(stockName)
+sharesXueqiu = scrape_sharesOutstanding.scrapeSharesOutstandingXueqiu(stockName)
+sharesFinviz = scrape_sharesOutstanding.scrapeSharesOutstandingFinviz(stockName)
 
 marketCap = marketPrice * sharesYahoo
 currentRatio = totalCurrentAssets / totalCurrentLiab
@@ -62,7 +62,6 @@ ebitAssetRatio = ebit / totalAssets
 pb = marketCap / (equity / exRate)
 data = si.get_data(stockName, start_date=START_DATE, interval=PRICE_INTERVAL)
 divs = si.get_dividends(stockName, start_date=DIVIDEND_START_DATE)
-# dataSize = data['adjclose'].size
 
 percentile = 100.0 * (marketPrice - data['adjclose'].min()) / (
         data['adjclose'].max() - data['adjclose'].min())

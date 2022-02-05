@@ -11,9 +11,7 @@ def scrapeSharesOutstandingXueqiu(comp):
 
     for a in soup.find_all('td'):
         if a.getText().startswith("总股本"):
-            print(comp, a.getText(), a.find('span').getText())
-            # fileOutput.write(comp + " " + a.find('span').getText() + '\n')
-            # fileOutput.flush()
+            return a.find('span').getText()
 
 
 def scrapeSharesOutstandingFinviz(comp):
@@ -24,8 +22,4 @@ def scrapeSharesOutstandingFinviz(comp):
 
     for tb in soup.find_all('table', {"class": "snapshot-table2"}):
         for td in tb.find_all('td', text=re.compile('.*Shs Outstand.*')):
-            return td.nextSibling
-
-
-# scrapeSharesOutstandingXueqiu('sndr')
-# scrapeSharesOutstandingFinviz('sndr')
+            return td.nextSibling.getText()

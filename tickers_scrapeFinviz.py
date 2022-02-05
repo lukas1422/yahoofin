@@ -5,32 +5,22 @@ from urllib.request import Request, urlopen
 
 stockNum = 8700
 
-last = 0
-# NumPBExceedingOne = 0
-
 for i in range(1, stockNum, 20):
-    url = "https://finviz.com/screener.ashx?v=121&o=pb&r=" + str(i)
+    url = "https://finviz.com/screener.ashx?v=111&o=pb&r=" + str(i)
+
     req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
     webpage = urlopen(req).read()
     soup = BeautifulSoup(webpage, "html.parser")
-    tBody = soup.find('div', attrs={"id": "screener-content"})
+    tBody = soup.find('div', {"id": "screener-content"})
 
-    for tr in tBody.find_all('tr', attrs={'valign': 'top'}):
+    for tr in tBody.find_all('tr', {'valign': 'top'}):
         index = tr.find_all('a')[0].get_text(strip=True)
-        value = tr.find_all('a', {'class': 'screener-link-primary'})[0].get_text(strip=True)
-        print(index, value)
-        fileOutput.write(str(value) + "\n")
-        fileOutput.flush()
+        price = tr.find_all('a')[8].get_text(strip=True)
+        ticker = tr.find_all('a', {'class': 'screener-link-primary'})[0].get_text(strip=True)
 
-    # for tr in tBody.find_all('tr', attrs={'class': ["table-dark-row-cp", "table-light-row-cp"]}):
-    #     index = tr.find_all('td')[0].get_text(strip=True)
-    #     value = tr.find_all('td')[1].get_text(strip=True)
-    #     pb = tr.find_all('td')[7].get_text(strip=True)
-    #     print("index", index, "value", value, pb, "pb")
-    #     if index == last:
-    #         break
-    #     else:
-    #         print(index, value)
-    #         last = index
-    #         fileOutput.write(str(value) + " " + pb + "\n")
-    #         fileOutput.flush()
+        print(index, ticker, price)
+        if float(price) > 1:
+            fileOutput.write(str(ticker) + "\n")
+            fileOutput.flush()
+        else:
+            print('price < 1', ticker, price)
