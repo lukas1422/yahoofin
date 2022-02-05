@@ -39,15 +39,17 @@ print(lines)
 for comp in lines:
     print(increment())
     try:
-        info = si.get_company_info(comp)
-        country = info.loc["country"][0]
-        sector = info.loc['sector'][0]
-        bs = si.get_balance_sheet(comp)
+        marketPrice = si.get_live_price(comp)
+        if marketPrice < 1:
+            print(comp, 'market price < 1: ', marketPrice)
+            continue
 
-        if country.lower() == "china":
+        info = si.get_company_info(comp)
+        if info.loc["country"][0].lower() == "china":
             print(comp, "no china")
             continue
 
+        bs = si.get_balance_sheet(comp)
         totalCurrentAssets = getFromDF(bs.loc["totalCurrentAssets"])
         totalCurrentLiab = getFromDF(bs.loc["totalCurrentLiabilities"])
         currentRatio = totalCurrentAssets / totalCurrentLiab
@@ -86,7 +88,6 @@ for comp in lines:
             continue
 
         equity = getFromDF(bs.loc["totalStockholderEquity"])
-        marketPrice = si.get_live_price(comp)
         shares = si.get_quote_data(comp)['sharesOutstanding']
 
         bsCurrency = getBalanceSheetCurrency(comp)
@@ -118,8 +119,8 @@ for comp in lines:
                 data['adjclose'].max() - data['adjclose'].min())
         divSum = divs['dividend'].sum() if not divs.empty else 0
 
-        outputString = comp + " " + country.replace(" ", "_")[0:3] + " " \
-                       + sector.replace(" ", "_")[0:3] + " " \
+        outputString = comp + " " + info.loc["country"][0].replace(" ", "_")[0:3] + " " \
+                       + info.loc['sector'][0].replace(" ", "_")[0:3] + " " \
                        + listingCurrency + bsCurrency \
                        + " MV:" + str(round(marketCap / 1000000000.0, 1)) + 'B' \
                        + " PE " + str(round(pe, 2)) \
