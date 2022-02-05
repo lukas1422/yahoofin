@@ -14,7 +14,7 @@ def fo(number):
 
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 
-stockName = "BABA"
+stockName = "OPRA"
 
 bs = si.get_balance_sheet(stockName)
 cf = si.get_cash_flow(stockName)
@@ -71,19 +71,22 @@ else:
 
 # PRINTING*****
 print(stockName, country, sector)
+print(listingCurrency, bsCurrency, "ExRate ", exRate)
 print("shares", shares / 1000000000.0, "B")
-print("A", round(totalAssets / exRate / 1000000000, 1), "(",
+print("A", round(totalAssets / exRate / 1000000000, 1), "B", "(",
       round(totalCurrentAssets / exRate / 1000000000.0, 1)
       , round((totalAssets - totalCurrentAssets) / exRate / 1000000000.0, 1), ")")
-print("L", round(totalLiab / exRate / 1000000000), "(",
+print("L", round(totalLiab / exRate / 1000000000), "B", "(",
       round(totalCurrentLiab / exRate / 1000000000.0),
       round((totalLiab - totalCurrentLiab) / exRate / 1000000000.0), ")")
 print("E", round((totalAssets - totalLiab) / exRate / 1000000000.0), "B")
+print("price shs", round(marketPrice, 2))
 print("BV/Shs", round((totalAssets - totalLiab) / exRate / shares, 2))
 print("MV USD", round(marketPrice * shares / 1000000000.0, 1), "B")
 # print("Eq USD", round((equity / exRate) / 1000000000.0), "B")
 
 print("P/B", round(marketPrice * shares / (equity / exRate), 2))
+print("P/E", round(marketPrice * shares / (netIncome / exRate), 2))
 print("S/B", round(revenue / equity, 2))
 print("                         ")
 print("********ALTMAN**********")
