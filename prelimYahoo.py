@@ -1,4 +1,7 @@
 import yahoo_fin.stock_info as si
+from currency_scrapeYahoo import getBalanceSheetCurrency
+from currency_scrapeYahoo import getListingCurrency
+import currency_getExchangeRate
 
 START_DATE = '3/1/2020'
 DIVIDEND_START_DATE = '1/1/2010'
@@ -9,7 +12,9 @@ def fo(number):
     return str(f"{number:,}")
 
 
-stockName = "0743.HK"
+exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
+
+stockName = "SKM"
 
 bs = si.get_balance_sheet(stockName)
 cf = si.get_cash_flow(stockName)
@@ -18,6 +23,10 @@ incomeStatement = si.get_income_statement(stockName)
 info = si.get_company_info(stockName)
 country = info.loc["country"][0]
 sector = info.loc['sector'][0]
+
+bsCurrency = getBalanceSheetCurrency(stockName)
+listingCurrency = getListingCurrency(stockName)
+exRate = currency_getExchangeRate.getExchangeRate(exchange_rate_dict, listingCurrency, bsCurrency)
 
 # BS
 retainedEarnings = bs.loc["retainedEarnings"][0]
@@ -30,6 +39,7 @@ totalLiab = bs.loc["totalLiab"][0]
 # IS
 revenue = incomeStatement.loc["totalRevenue"][0]
 ebit = incomeStatement.loc["ebit"][0]
+netIncome = incomeStatement.loc['netIncome'][0]
 
 # CF
 cfo = cf.loc["totalCashFromOperatingActivities"][0]
@@ -46,7 +56,7 @@ retainedEarningsAssetRatio = retainedEarnings / totalAssets
 cfoAssetRatio = cfo / totalAssets
 ebitAssetRatio = ebit / totalAssets
 
-pb = marketCap / equity
+pb = marketCap / (equity / exRate)
 data = si.get_data(stockName, start_date=START_DATE, interval=PRICE_INTERVAL)
 divs = si.get_dividends(stockName, start_date=DIVIDEND_START_DATE)
 # dataSize = data['adjclose'].size
@@ -62,34 +72,37 @@ else:
 # PRINTING*****
 print(stockName, country, sector)
 print("shares", shares / 1000000000.0, "B")
-print("A", totalAssets / 1000000000, "(", totalCurrentAssets / 1000000000.0
-      , (totalAssets - totalCurrentAssets) / 1000000000.0, ")")
-print("L", totalLiab / 1000000000, "(", totalCurrentLiab / 1000000000.0,
-      (totalLiab - totalCurrentLiab) / 1000000000.0, ")")
-print("E", (totalAssets - totalLiab) / 1000000000.0, "B")
-print("market cap USD", marketPrice * shares / 1000000000.0, "B")
-print("shareholder equity", equity / 1000000000.0, "B")
+print("A", round(totalAssets / exRate / 1000000000, 1), "(",
+      round(totalCurrentAssets / exRate / 1000000000.0, 1)
+      , round((totalAssets - totalCurrentAssets) / exRate / 1000000000.0, 1), ")")
+print("L", round(totalLiab / exRate / 1000000000), "(",
+      round(totalCurrentLiab / exRate / 1000000000.0),
+      round((totalLiab - totalCurrentLiab) / exRate / 1000000000.0), ")")
+print("E", round((totalAssets - totalLiab) / exRate / 1000000000.0), "B")
+print("MV USD", round(marketPrice * shares / 1000000000.0, 1), "B")
+# print("Eq USD", round((equity / exRate) / 1000000000.0), "B")
 
-print("P/B", marketPrice * shares / equity)
-print("S/B", revenue / equity)
+print("P/B", round(marketPrice * shares / (equity / exRate), 2))
+print("S/B", round(revenue / equity, 2))
 print("                         ")
 print("********ALTMAN**********")
-print("current ratio", totalCurrentAssets / totalCurrentLiab)
-print("D/E ratio", totalLiab / (totalAssets - totalLiab))
-print("EBIT", ebit / 1000000000, "B")
-print("CFO", cfo / 1000000000, "B")
-print("CFI", cfi / 1000000000, "B")
-print("CFF", cff / 1000000000, "B")
-print("R/E", retainedEarnings / 1000000000, "B")
-print("R/E / Assets", retainedEarnings / totalAssets)
-print("Sales / Total Assets", revenue / totalAssets)
-print(" div return over 10 yrs ", divSum / marketPrice)
+print("CR", round(totalCurrentAssets / totalCurrentLiab, 2))
+print("D/E", round(totalLiab / (totalAssets - totalLiab), 2))
+print("EBIT", round(ebit / exRate / 1000000000, 2), "B")
+print("netIncome", round(netIncome / exRate / 1000000000, 2), "B")
+print("CFO", round(cfo / exRate / 1000000000, 2), "B")
+print("CFI", round(cfi / exRate / 1000000000, 2), "B")
+print("CFF", round(cff / 1000000000 / exRate, 2), "B")
+print("RE", round(retainedEarnings / 1000000000 / exRate, 2), "B")
+print("RE/A", round(retainedEarnings / totalAssets, 2))
+print("S/A", round(revenue / totalAssets, 2))
+print(" div return over 10 yrs ", round(divSum / marketPrice, 2))
 
-print("divsum marketprice", divSum, marketPrice)
+print("divsum marketprice", round(divSum, 2), round(marketPrice, 2))
 
 outputString = stockName + " " + country + " " + sector \
                + " MV:" + str(round(marketCap / 1000000000.0, 1)) + 'B' \
-               + " Equity:" + str(round((totalAssets - totalLiab) / 1000000000.0, 1)) + 'B' \
+               + " Equity:" + str(round((totalAssets - totalLiab) / exRate / 1000000000.0, 1)) + 'B' \
                + " CR:" + str(round(currentRatio, 1)) \
                + " D/E:" + str(round(debtEquityRatio, 1)) \
                + " RE/A:" + str(round(retainedEarningsAssetRatio, 1)) \

@@ -1,5 +1,4 @@
 import yahoo_fin.stock_info as si
-import datetime
 
 from currency_scrapeYahoo import getBalanceSheetCurrency
 from currency_scrapeYahoo import getListingCurrency
@@ -35,7 +34,6 @@ fileOutput.write("\n")
 with open("list_usTickerAll", "r") as file:
     lines = file.read().rstrip().splitlines()
 
-print(lines)
 for comp in lines:
     print(increment())
     try:
@@ -123,7 +121,7 @@ for comp in lines:
                        + info.loc['sector'][0].replace(" ", "_")[0:3] + " " \
                        + listingCurrency + bsCurrency \
                        + " MV:" + str(round(marketCap / 1000000000.0, 1)) + 'B' \
-                       + " PE " + str(round(pe, 2)) \
+                       + " PE " + str(round(pe, 1)) \
                        + " Eq:" + str(round((totalAssets - totalLiab) / exRate / 1000000000.0, 1)) + 'B' \
                        + " CR:" + str(round(currentRatio, 1)) \
                        + " D/E:" + str(round(debtEquityRatio, 1)) \
