@@ -2,6 +2,7 @@ import yahoo_fin.stock_info as si
 from currency_scrapeYahoo import getBalanceSheetCurrency
 from currency_scrapeYahoo import getListingCurrency
 import currency_getExchangeRate
+import sharesOutstanding
 
 START_DATE = '3/1/2020'
 DIVIDEND_START_DATE = '1/1/2010'
@@ -14,7 +15,7 @@ def fo(number):
 
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 
-stockName = "OPRA"
+stockName = 'sndr'
 
 bs = si.get_balance_sheet(stockName)
 cf = si.get_cash_flow(stockName)
@@ -47,9 +48,11 @@ cfi = cf.loc["totalCashflowsFromInvestingActivities"][0]
 cff = cf.loc["totalCashFromFinancingActivities"][0]
 
 marketPrice = si.get_live_price(stockName)
-shares = si.get_quote_data(stockName)['sharesOutstanding']
+sharesYahoo = si.get_quote_data(stockName)['sharesOutstanding']
+sharesXueqiu = sharesOutstanding.scrapeSharesOutstandingXueqiu(stockName)
+sharesFinviz = sharesOutstanding.scrapeSharesOutstandingFinviz(stockName)
 
-marketCap = marketPrice * shares
+marketCap = marketPrice * sharesYahoo
 currentRatio = totalCurrentAssets / totalCurrentLiab
 debtEquityRatio = totalLiab / (totalAssets - totalLiab)
 retainedEarningsAssetRatio = retainedEarnings / totalAssets
@@ -72,7 +75,9 @@ else:
 # PRINTING*****
 print(stockName, country, sector)
 print(listingCurrency, bsCurrency, "ExRate ", exRate)
-print("shares", shares / 1000000000.0, "B")
+print("shares Yahoo", sharesYahoo / 1000000000.0, "B")
+print("shares xueqiu", sharesXueqiu)
+print("shares finviz", sharesFinviz)
 print("A", round(totalAssets / exRate / 1000000000, 1), "B", "(",
       round(totalCurrentAssets / exRate / 1000000000.0, 1)
       , round((totalAssets - totalCurrentAssets) / exRate / 1000000000.0, 1), ")")
@@ -81,12 +86,12 @@ print("L", round(totalLiab / exRate / 1000000000), "B", "(",
       round((totalLiab - totalCurrentLiab) / exRate / 1000000000.0), ")")
 print("E", round((totalAssets - totalLiab) / exRate / 1000000000.0), "B")
 print("price shs", round(marketPrice, 2))
-print("BV/Shs", round((totalAssets - totalLiab) / exRate / shares, 2))
-print("MV USD", round(marketPrice * shares / 1000000000.0, 1), "B")
+print("BV/Shs", round((totalAssets - totalLiab) / exRate / sharesYahoo, 2))
+print("MV USD", round(marketPrice * sharesYahoo / 1000000000.0, 1), "B")
 # print("Eq USD", round((equity / exRate) / 1000000000.0), "B")
 
-print("P/B", round(marketPrice * shares / (equity / exRate), 2))
-print("P/E", round(marketPrice * shares / (netIncome / exRate), 2))
+print("P/B", round(marketPrice * sharesYahoo / (equity / exRate), 2))
+print("P/E", round(marketPrice * sharesYahoo / (netIncome / exRate), 2))
 print("S/B", round(revenue / equity, 2))
 print("                         ")
 print("********ALTMAN**********")
