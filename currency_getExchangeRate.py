@@ -9,4 +9,4 @@ def getExchangeRate(dictionary, firstCurr, secondCurr):
     elif currency in dictionary:
         return float(dictionary[currency])
     else:
-        raise Exception("no currency found")
+        raise Exception("no currency found", currency)
