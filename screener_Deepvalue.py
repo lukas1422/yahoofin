@@ -99,12 +99,12 @@ for comp in lines:
         pb = marketCap / (equity / exRate)
         pe = marketCap / (netIncome / exRate)
 
-        if pb < 1:
-            print(comp, ' pb < 1', pb)
+        if pb > 1:
+            print(comp, ' pb > 1', pb)
             continue
 
-        if 0 < pe < 10:
-            print(comp, ' 0< pe < 10')
+        if pe > 10 or pe < 0:
+            print(comp, ' pe > 10 or < 0')
             continue
 
         revenue = getFromDF(incomeStatement.loc["totalRevenue"])
