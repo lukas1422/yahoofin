@@ -15,7 +15,7 @@ def fo(number):
 
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 
-stockName = 'CTO'
+stockName = 'FF'
 
 info = si.get_company_info(stockName)
 country = info.loc["country"][0]
@@ -82,10 +82,10 @@ print("shares finviz", sharesFinviz)
 print("A", round(totalAssets / exRate / 1000000000, 1), "B", "(",
       round(totalCurrentAssets / exRate / 1000000000.0, 1)
       , round((totalAssets - totalCurrentAssets) / exRate / 1000000000.0, 1), ")")
-print("L", round(totalLiab / exRate / 1000000000), "B", "(",
-      round(totalCurrentLiab / exRate / 1000000000.0),
-      round((totalLiab - totalCurrentLiab) / exRate / 1000000000.0), ")")
-print("E", round((totalAssets - totalLiab) / exRate / 1000000000.0), "B")
+print("L", round(totalLiab / exRate / 1000000000, 1), "B", "(",
+      round(totalCurrentLiab / exRate / 1000000000.0, 1),
+      round((totalLiab - totalCurrentLiab) / exRate / 1000000000.0, 1), ")")
+print("E", round((totalAssets - totalLiab) / exRate / 1000000000.0, 1), "B")
 print("price shs", round(marketPrice, 2))
 print("BV/Shs", round((totalAssets - totalLiab) / exRate / sharesYahoo, 2))
 print("MV USD", round(marketPrice * sharesYahoo / 1000000000.0, 1), "B")
