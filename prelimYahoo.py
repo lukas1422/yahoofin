@@ -15,19 +15,14 @@ def fo(number):
 
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 
-stockName = 'sndr'
-
-bs = si.get_balance_sheet(stockName)
-cf = si.get_cash_flow(stockName)
-incomeStatement = si.get_income_statement(stockName)
+stockName = 'CTO'
 
 info = si.get_company_info(stockName)
 country = info.loc["country"][0]
 sector = info.loc['sector'][0]
+print(stockName, country, sector)
 
-bsCurrency = getBalanceSheetCurrency(stockName)
-listingCurrency = getListingCurrency(stockName)
-exRate = currency_getExchangeRate.getExchangeRate(exchange_rate_dict, listingCurrency, bsCurrency)
+bs = si.get_balance_sheet(stockName)
 
 # BS
 retainedEarnings = bs.loc["retainedEarnings"][0]
@@ -36,6 +31,13 @@ totalCurrentAssets = bs.loc["totalCurrentAssets"][0]
 totalCurrentLiab = bs.loc["totalCurrentLiabilities"][0]
 totalAssets = bs.loc["totalAssets"][0]
 totalLiab = bs.loc["totalLiab"][0]
+
+cf = si.get_cash_flow(stockName)
+incomeStatement = si.get_income_statement(stockName)
+
+bsCurrency = getBalanceSheetCurrency(stockName)
+listingCurrency = getListingCurrency(stockName)
+exRate = currency_getExchangeRate.getExchangeRate(exchange_rate_dict, listingCurrency, bsCurrency)
 
 # IS
 revenue = incomeStatement.loc["totalRevenue"][0]
@@ -72,7 +74,7 @@ else:
     divSum = 0.0
 
 # PRINTING*****
-print(stockName, country, sector)
+
 print(listingCurrency, bsCurrency, "ExRate ", exRate)
 print("shares Yahoo", sharesYahoo / 1000000000.0, "B")
 print("shares xueqiu", sharesXueqiu)
