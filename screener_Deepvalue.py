@@ -31,6 +31,7 @@ stock_df = pd.read_csv('list_companyInfo', sep="\t", index_col=False,
 listStocks = stock_df[(stock_df['price'] > 1)
                       & (stock_df['sector'].str
                          .contains('financial|healthcare', regex=True, case=False) == False)
+                      & (stock_df['industry'].str.contains('reit', regex=True, case=False) == False)
                       & (stock_df['country'].str.lower() != 'china')]['ticker'].tolist()
 
 print(listStocks.__len__(), listStocks)
