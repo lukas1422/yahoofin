@@ -1,6 +1,6 @@
 import yahoo_fin.stock_info as si
 import datetime
-from screener_Deepvalue import getFromDF
+from helperMethods import getFromDF
 from currency_scrapeYahoo import getBalanceSheetCurrency
 from currency_scrapeYahoo import getListingCurrency
 import currency_getExchangeRate
@@ -12,12 +12,24 @@ PRICE_INTERVAL = '1mo'
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 
 fileOutput = open('list_results_netnet', 'w')
-fileOutput.write("\n")
+
+COUNT = 0
+
+
+def increment():
+    global COUNT
+    COUNT = COUNT + 1
+    return COUNT
+
 
 with open("list_NewLowTopLoser", "r") as file:
     lines = file.read().rstrip().splitlines()
 
+print(lines)
+
 for comp in lines:
+    print(increment())
+
     try:
         info = si.get_company_info(comp)
 
@@ -77,7 +89,7 @@ for comp in lines:
         marketCap = marketPrice * shares
         pb = marketCap / (equity / exRate)
 
-        #retainedEarningsAssetRatio = retainedEarnings / totalAssets
+        # retainedEarningsAssetRatio = retainedEarnings / totalAssets
 
         data = si.get_data(comp, start_date=START_DATE, interval=PRICE_INTERVAL)
         divs = si.get_dividends(comp, start_date=DIVIDEND_START_DATE)
@@ -90,6 +102,7 @@ for comp in lines:
         outputString = "NN " + comp + " " \
                        + info.loc["country"][0].replace(" ", "_") + " " \
                        + info.loc['sector'][0].replace(" ", "_") \
+                       + listingCurrency + bsCurrency \
                        + " MV:" + str(round(marketCap / 1000000000.0, 1)) + 'B' \
                        + " Equity:" + str(round((totalAssets - totalLiab) / 1000000000.0, 1)) + 'B' \
                        + " CR:" + str(round(currentRatio, 1)) \

@@ -2,18 +2,10 @@ import yahoo_fin.stock_info as si
 
 from currency_scrapeYahoo import getBalanceSheetCurrency
 from currency_scrapeYahoo import getListingCurrency
-import math
 import currency_getExchangeRate
+from helperMethods import getFromDF
 
 COUNT = 0
-
-
-def getFromDF(df):
-    if df.empty:
-        return 0
-    elif math.isnan(df[0]):
-        return df[1]
-    return df[0]
 
 
 def increment():

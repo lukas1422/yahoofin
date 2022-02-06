@@ -12,10 +12,10 @@ def finvizToFile(urlBase, numStocks):
         req = Request(urlToScrape, headers={'User-Agent': 'Mozilla/5.0'})
         webpage = urlopen(req).read()
         soup = BeautifulSoup(webpage, "html.parser")
-        tBody = soup.find('div', attrs={"id": "screener-content"})
+        tBody = soup.find('div', {"id": "screener-content"})
 
         #print(tBody.getText)
-        for tr in tBody.find_all('tr', attrs={'valign': 'top'}):
+        for tr in tBody.find_all('tr', {'valign': 'top'}):
             # for td in tr.find_all('td', attrs={'class': 'screener-body-table-nw'}):
             index = tr.find_all('a')[0].get_text(strip=True)
             value = tr.find_all('a', {'class': 'screener-link-primary'})[0].get_text(strip=True)
