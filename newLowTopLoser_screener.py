@@ -32,6 +32,7 @@ for comp in lines:
 
     try:
         info = si.get_company_info(comp)
+        print(comp, info.loc['country'][0])
 
         if info.loc["country"][0].lower() == "china":
             print(comp, "NO CHINA")
@@ -71,14 +72,6 @@ for comp in lines:
             print(comp, 'cfo < 0', cfo)
             continue
 
-        # IS
-        incomeStatement = si.get_income_statement(comp)
-        revenue = getFromDF(incomeStatement.loc["totalRevenue"])
-        ebit = getFromDF(incomeStatement.loc["ebit"])
-        # netIncome = getFromDF(incomeStatement.loc['netIncome'])
-        # cfi = cf.loc["totalCashflowsFromInvestingActivities"][0]
-        # cff = cf.loc["totalCashFromFinancingActivities"][0]
-
         bsCurrency = getBalanceSheetCurrency(comp)
         listingCurrency = getListingCurrency(comp)
         exRate = currency_getExchangeRate.getExchangeRate(exchange_rate_dict,
@@ -89,6 +82,17 @@ for comp in lines:
         marketCap = marketPrice * shares
         pb = marketCap / (equity / exRate)
 
+        if pb > 1:
+            print(comp, 'pb > 1', pb)
+            continue
+
+        # IS
+        incomeStatement = si.get_income_statement(comp)
+        revenue = getFromDF(incomeStatement.loc["totalRevenue"])
+        ebit = getFromDF(incomeStatement.loc["ebit"])
+        # netIncome = getFromDF(incomeStatement.loc['netIncome'])
+        # cfi = cf.loc["totalCashflowsFromInvestingActivities"][0]
+        # cff = cf.loc["totalCashFromFinancingActivities"][0]
         # retainedEarningsAssetRatio = retainedEarnings / totalAssets
 
         data = si.get_data(comp, start_date=START_DATE, interval=PRICE_INTERVAL)
