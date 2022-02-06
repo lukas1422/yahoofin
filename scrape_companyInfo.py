@@ -30,5 +30,5 @@ for i in range(1, numStocks, 20):
                          + sector.replace(" ", "_") + "\t"
                          + industry.replace(" ", "_") + "\t"
                          + country.replace(" ", "_") + "\t"
-                         + cap)
+                         + cap + '\n')
         fileOutput.flush()
