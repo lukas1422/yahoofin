@@ -23,10 +23,21 @@ exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 fileOutput = open('list_results', 'w')
 fileOutput.write("\n")
 
-with open("list_usTickerAll", "r") as file:
-    lines = file.read().rstrip().splitlines()
+import pandas as pd
 
-for comp in lines:
+stock_df = pd.read_csv('list_companyInfo', sep="\t", index_col=False,
+                       names=['ticker', 'name', 'sector', 'industry', 'country', 'mv', 'price'])
+
+listStocks = stock_df[(stock_df['price'] > 1)
+                      & (stock_df['sector'].str
+                         .contains('financial|healthcare', regex=True, case=False) == False)
+                      & (stock_df['country'].str.lower() != 'china')]['ticker'].tolist()
+
+print(listStocks.__len__(), listStocks)
+# with open("list_usTickerAll", "r") as file:
+#     lines = file.read().rstrip().splitlines()
+
+for comp in listStocks:
     print(increment())
     try:
         marketPrice = si.get_live_price(comp)
