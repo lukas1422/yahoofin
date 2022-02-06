@@ -3,6 +3,7 @@ from urllib.request import Request, urlopen
 import re
 
 
+#this method does not return
 def scrapeSharesOutstandingXueqiu(comp):
     url = "https://xueqiu.com/S/" + comp
     req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})

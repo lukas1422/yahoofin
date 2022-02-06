@@ -44,7 +44,6 @@ for comp in listStocks:
         divSum = divs['dividend'].sum()
 
         incomeStatement = si.get_income_statement(comp, yearly=True)
-        # ebit = getFromDF(incomeStatement.loc["ebit"])
         netIncome = getFromDF(incomeStatement.loc['netIncome'])
 
         if netIncome < 0:
