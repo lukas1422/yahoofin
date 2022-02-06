@@ -22,13 +22,14 @@ for i in range(1, numStocks, 20):
         country = tr.find_all('a')[5].get_text(strip=True)
         cap = tr.find_all('a')[6].get_text(strip=True)
         pe = tr.find_all('a')[7].get_text(strip=True)
+        price = tr.find_all('a')[8].get_text(strip=True)
 
         print(index, ticker, name.replace(" ", "_"), sector.replace(" ", "_")
-              , industry.replace(" ", "_"), country.replace(" ", "_"), cap, pe)
+              , industry.replace(" ", "_"), country.replace(" ", "_"), cap, pe, price)
 
         fileOutput.write(ticker + "\t" + name.replace(" ", "_") + "\t"
                          + sector.replace(" ", "_") + "\t"
                          + industry.replace(" ", "_") + "\t"
                          + country.replace(" ", "_") + "\t"
-                         + cap + '\n')
+                         + cap + "\t" + price + '\n')
         fileOutput.flush()
