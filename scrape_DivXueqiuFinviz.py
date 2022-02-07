@@ -18,7 +18,7 @@ def scrapeDivXueqiu(comp):
             pattern = re.compile(r"quote:\s+({.*?})")
             dic = json.loads(pattern.search(searchText).group(1) + "}")
             # print(comp, 'dividend_yield' in dic, dic)
-            #print(comp, dic)
+            # print(comp, dic)
             if 'dividend_yield' in dic and dic['dividend_yield'] is not None and \
                     dic['dividend_yield'] != "null":
                 return dic['dividend_yield']
@@ -33,9 +33,7 @@ def scrapeDivFinviz(comp):
 
     for tb in soup.find_all('table', {"class": "snapshot-table2"}):
         for td in tb.find_all('td', text=re.compile('.*Dividend %.*')):
-            #print(comp, td.nextSibling.getText())
             return td.nextSibling.getText()
-
     return ""
 
 
