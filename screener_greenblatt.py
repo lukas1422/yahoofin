@@ -57,7 +57,7 @@ for comp in listStocks:
         pe = marketCap / (netIncome / exRate)
 
         outputString = comp + " " \
-                       + stock_df[stock_df['ticker'] == 'M'][['country', 'sector']] \
+                       + stock_df[stock_df['ticker'] == comp][['country', 'sector']] \
                            .to_string(index=False, header=False) + " " \
                        + listingCurrency + bsCurrency \
                        + " ROA:" + str(round(roa * 100, 2)) \
