@@ -18,7 +18,7 @@ def increment():
 
 START_DATE = '3/1/2020'
 DIVIDEND_START_DATE = '1/1/2010'
-# PRICE_INTERVAL = '1mo'
+PRICE_INTERVAL = '1mo'
 
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 
@@ -36,51 +36,26 @@ print(len(listStocks), listStocks)
 for comp in listStocks:
     print(increment())
     try:
-        marketPrice = si.get_live_price(comp)
 
-        # info = si.get_company_info(comp)
-        # if info.loc["country"][0].lower() == "china":
-        #     print(comp, "no china")
-        #     continue
 
         bs = si.get_balance_sheet(comp)
-        totalCurrentAssets = getFromDF(bs.loc["totalCurrentAssets"])
-        totalCurrentLiab = getFromDF(bs.loc["totalCurrentLiabilities"])
-        currentRatio = totalCurrentAssets / totalCurrentLiab
-
-        if currentRatio < 1:
-            print(comp, "current ratio < 1")
-            continue
 
         totalAssets = getFromDF(bs.loc["totalAssets"])
-        totalLiab = getFromDF(bs.loc["totalLiab"])
-        debtEquityRatio = totalLiab / (totalAssets - totalLiab)
-
-        if debtEquityRatio > 1:
-            print(comp, " de ratio> 1. ", debtEquityRatio)
-            continue
 
         incomeStatement = si.get_income_statement(comp, yearly=True)
         netIncome = getFromDF(incomeStatement.loc['netIncome'])
 
         roe = netIncome / totalAssets
 
-        equity = getFromDF(bs.loc["totalStockholderEquity"])
         shares = si.get_quote_data(comp)['sharesOutstanding']
 
         bsCurrency = getBalanceSheetCurrency(comp)
         listingCurrency = getListingCurrency(comp)
-        exRate = currency_getExchangeRate.getExchangeRate(exchange_rate_dict,
-                                                          listingCurrency, bsCurrency)
+        exRate = currency_getExchangeRate.getExchangeRate(exchange_rate_dict, listingCurrency, bsCurrency)
 
+        marketPrice = si.get_live_price(comp)
         marketCap = marketPrice * shares
         pe = marketCap / (netIncome / exRate)
-
-        data = si.get_data(comp, start_date=START_DATE, interval=PRICE_INTERVAL)
-        divs = si.get_dividends(comp, start_date=DIVIDEND_START_DATE)
-        percentile = 100.0 * (data['adjclose'][-1] - data['adjclose'].min()) / (
-                data['adjclose'].max() - data['adjclose'].min())
-        divSum = divs['dividend'].sum() if not divs.empty else 0
 
         outputString = comp + " " \
                        + stock_df[stock_df['ticker'] == 'M'][['country', 'sector']] \
