@@ -1,8 +1,10 @@
+import concurrent.futures
+
 from bs4 import BeautifulSoup
 from urllib.request import Request, urlopen
 import re
 import json
-
+from concurrent.futures import ProcessPoolExecutor, as_completed
 import pandas as pd
 
 
@@ -50,30 +52,41 @@ START_DATE = '3/1/2020'
 DIVIDEND_START_DATE = '1/1/2010'
 PRICE_INTERVAL = '1mo'
 
-fileOutput = open('list_divYield', 'w')
+fileOutput = open('list_divYieldXueqiu', 'w')
 
 stock_df = pd.read_csv('list_companyInfo', sep="\t", index_col=False,
                        names=['ticker', 'name', 'sector', 'industry', 'country', 'mv', 'price'])
 
 listStocks = stock_df[(stock_df['price'] > 1)]['ticker'].tolist()
 
-print(listStocks.__len__(), listStocks)
+# print(listStocks.__len__(), listStocks)
 
-for comp in listStocks:
-    print(increment())
-    try:
-        xueqiu = scrapeDivXueqiu(comp)
-        finviz = scrapeDivFinviz(comp)
+with concurrent.futures.ThreadPoolExecutor(max_workers=4) as executor:
+    for comp, futures in [(comp, executor.submit(scrapeDivXueqiu, comp)) for comp in listStocks]:
+        try:
+            data = futures.result(5)
+        except Exception as e:
+            print(e)
+        else:
+            print(comp, data)
+            fileOutput.write(comp + " " + data + '\n')
+            fileOutput.flush()
 
-        outputString = comp + " " \
-                       + stock_df[stock_df['ticker'] == 'M'][['country', 'sector']] \
-                           .to_string(index=False, header=False) + " " \
-                       + " xueqiu:" + str(xueqiu) \
-                       + " finviz:" + str(finviz)
-
-        print(outputString)
-        fileOutput.write(outputString + '\n')
-        fileOutput.flush()
-
-    except Exception as e:
-        print(comp, "exception", e)
+# for comp in listStocks:
+#     print(increment())
+#     try:
+#         xueqiu = scrapeDivXueqiu(comp)
+#         finviz = scrapeDivFinviz(comp)
+#
+#         outputString = comp + " " \
+#                        + stock_df[stock_df['ticker'] == 'M'][['country', 'sector']] \
+#                            .to_string(index=False, header=False) + " " \
+#                        + " xueqiu:" + str(xueqiu) \
+#                        + " finviz:" + str(finviz)
+#
+#         print(outputString)
+#         fileOutput.write(outputString + '\n')
+#         fileOutput.flush()
+#
+#     except Exception as e:
+#         print(comp, "exception", e)
