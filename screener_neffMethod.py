@@ -64,7 +64,7 @@ for comp in listStocks:
         divYield = divSum / marketPrice
 
         outputString = comp + " " \
-                       + stock_df[stock_df['ticker'] == 'M'][['country', 'sector']] \
+                       + stock_df[stock_df['ticker'] == comp][['country', 'sector']] \
                            .to_string(index=False, header=False) + " " \
                        + listingCurrency + bsCurrency \
                        + " PE:" + str(round(pe, 1)) \
