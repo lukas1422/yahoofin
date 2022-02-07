@@ -2,41 +2,48 @@ Investment routines
 
 Money aspect:
 
-52 week lows & Top losers
+****** 52 week lows & Top losers  ******
 -	Check at least 100 stocks that reach new lows.
 -	Run through screener.
 -	Done daily each morning
 
-Special situations
+****** Special situations  ******
 -	Bankruptcy like ACY
 -	Merger and acquisition
 -	Spinoff
 
-Low PBs.
+****** Low PBs. ******
 Magic 6’s
 -	PB < 0.6
 -	PE < 6x
 -	Dividend yield > 0.06
 -	Done weekly
 
-Net nets. (current assets – total liabilities > 0 )
--	Focus on Altman criteria, at least the balance sheet criteria like retained earnings > 0 (automatically satisfied ca > cl, but not sure about D/E)
+****** Net nets ******
+-	Focus on Altman criteria, at least the balance sheet criteria like retained earnings > 0
+-   current assets – total liabilities > 0
 -	Eliminate retained Earnings < 0
 -	Eliminate  D > E
 
-Business Aspect:
+****** Deepvalue ******
+- avoid Altman bankruptcy: CR > 1, DE < 1, PB < 1, RE > 0,
 
+Greenblatt (pick moat companies while paying cheap)
+- maximize ROA while minimizing PE
+- maximize ROA while minimizing PB (my version)
+
+Neff: (pick generous companies while paying cheap)
+- maximize dividend yield while minimizing PE
+- maximize dividend yield while minimizing PB (my version)
+
+****** Business ******:
 Upside risk and downside risk
-
 Robustness to interest rate normalization
-
 Supply and demand
-
 Competition
+Moats
 
-Any moat
-
-People Aspect
+****** People ******
 Quality of management
 Insider ownership
 

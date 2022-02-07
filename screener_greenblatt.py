@@ -27,8 +27,7 @@ fileOutput = open('list_greenblatt', 'w')
 stock_df = pd.read_csv('list_companyInfo', sep="\t", index_col=False,
                        names=['ticker', 'name', 'sector', 'industry', 'country', 'mv', 'price'])
 
-listStocks = stock_df[(stock_df['price'] > 1)
-                      & (stock_df['country'].str.lower() != 'china')]['ticker'].tolist()
+listStocks = stock_df[(stock_df['price'] > 1) & (stock_df['country'].str.lower() != 'china')]['ticker'].tolist()
 
 print(len(listStocks), listStocks)
 
