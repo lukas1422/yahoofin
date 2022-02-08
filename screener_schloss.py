@@ -67,8 +67,8 @@ for comp in listStocks:
         totalLiab = getFromDF(bs.loc["totalLiab"])
         debtEquityRatio = totalLiab / (totalAssets - totalLiab)
 
-        if debtEquityRatio > 1:
-            print(comp, " de ratio> 1. ", debtEquityRatio)
+        if debtEquityRatio > 1 or totalAssets < totalLiab:
+            print(comp, " de ratio> 1 or A<L. ", debtEquityRatio)
             continue
 
         # incomeStatement = si.get_income_statement(comp, yearly=True)
