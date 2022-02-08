@@ -29,8 +29,7 @@ exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 
 fileOutput = open('list_schlossOutput', 'w')
 
-ownership = pd.read_csv('list_insiderOwnership_finviz', sep=' ',
-                        index_col=False, names=['ticker', 'perc'])
+ownership = pd.read_csv('list_insiderOwnership_finviz', sep=' ', index_col=False, names=['ticker', 'perc'])
 ownership['perc'] = ownership['perc'].replace('-', '0')
 ownership['perc'] = ownership['perc'].str.rstrip("%").astype(float)
 ownershipDic = pd.Series(ownership.perc.values, index=ownership.ticker).to_dict()
@@ -45,8 +44,6 @@ listStocks = stock_df[(stock_df['price'] > 1)
                       & (stock_df['industry'].str.contains('reit', regex=True, case=False) == False)
                       & (stock_df['country'].str.lower() != 'china')]['ticker'].tolist()
 
-# print(len(listStocks), listStocks)
-
 for comp in listStocks:
     print(increment())
     try:
@@ -60,25 +57,7 @@ for comp in listStocks:
             print(comp, 'market price < 1: ', marketPrice)
             continue
 
-        # info = si.get_company_info(comp)
-        # if info.loc["country"][0].lower() == "china":
-        #     print(comp, "no china")
-        #     continue
-
-        # totalCurrentAssets = getFromDF(bs.loc["totalCurrentAssets"])
-        # totalCurrentLiab = getFromDF(bs.loc["totalCurrentLiabilities"])
-        # currentRatio = totalCurrentAssets / totalCurrentLiab
-        #
-        # if currentRatio < 1:
-        #     print(comp, "current ratio < 1")
-        #     continue
-
         bs = si.get_balance_sheet(comp)
-        # retainedEarnings = getFromDF(bs.loc["retainedEarnings"])
-        #
-        # if retainedEarnings < 0:
-        #     print(comp, " retained earnings < 0 ", retainedEarnings)
-        #     continue
 
         totalAssets = getFromDF(bs.loc["totalAssets"])
         totalLiab = getFromDF(bs.loc["totalLiab"])
@@ -90,21 +69,6 @@ for comp in listStocks:
         if debtEquityRatio > 1 or totalAssets < totalLiab:
             print(comp, " de ratio> 1 or A<L. ", debtEquityRatio)
             continue
-
-        # incomeStatement = si.get_income_statement(comp, yearly=True)
-        # ebit = getFromDF(incomeStatement.loc["ebit"])
-        # netIncome = getFromDF(incomeStatement.loc['netIncome'])
-        #
-        # if ebit < 0 or netIncome < 0:
-        #     print(comp, "ebit or net income < 0 ", ebit, " ", netIncome)
-        #     continue
-
-        # cf = si.get_cash_flow(comp)
-        # cfo = getFromDF(cf.loc["totalCashFromOperatingActivities"])
-        #
-        # if cfo < 0:
-        #     print(comp, "cfo < 0 ", cfo)
-        #     continue
 
         equity = getFromDF(bs.loc["totalStockholderEquity"])
 
@@ -120,21 +84,14 @@ for comp in listStocks:
 
         marketCap = marketPrice * shares
         pb = marketCap / (equity / exRate)
-        # pe = marketCap / (netIncome / exRate)
+
+        if pb < 0:
+            print(comp, ' pb < 0. mv equity exrate', marketCap, equity, exRate)
+            continue
 
         if pb > 1:
             print(comp, ' pb > 1', pb)
             continue
-
-        # if pe > 10 or pe < 0:
-        #     print(comp, ' pe > 10 or < 0')
-        #     continue
-
-        # revenue = getFromDF(incomeStatement.loc["totalRevenue"])
-        #
-        # retainedEarningsAssetRatio = retainedEarnings / totalAssets
-        # cfoAssetRatio = cfo / totalAssets
-        # ebitAssetRatio = ebit / totalAssets
 
         data = si.get_data(comp, start_date=START_DATE, interval=PRICE_INTERVAL)
         divs = si.get_dividends(comp, start_date=DIVIDEND_START_DATE)
