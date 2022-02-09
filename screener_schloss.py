@@ -11,6 +11,7 @@ from currency_scrapeYahoo import getBalanceSheetCurrency
 from currency_scrapeYahoo import getListingCurrency
 import currency_getExchangeRate
 from helperMethods import getFromDF
+from helperMethods import getInsiderOwnership
 
 COUNT = 0
 
@@ -29,11 +30,7 @@ exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 
 fileOutput = open('list_schlossOutput', 'w')
 
-ownership = pd.read_csv('list_insiderOwnership_finviz', sep=' ', index_col=False, names=['ticker', 'perc'])
-ownership['perc'] = ownership['perc'].replace('-', '0')
-ownership['perc'] = ownership['perc'].str.rstrip("%").astype(float)
-ownershipDic = pd.Series(ownership.perc.values, index=ownership.ticker).to_dict()
-print(ownershipDic)
+ownershipDic = getInsiderOwnership()
 
 stock_df = pd.read_csv('list_companyInfo', sep="\t", index_col=False,
                        names=['ticker', 'name', 'sector', 'industry', 'country', 'mv', 'price'])

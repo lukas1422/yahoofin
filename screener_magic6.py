@@ -50,7 +50,7 @@ for comp in listStocks:
     try:
         marketPrice = si.get_live_price(comp)
         if marketPrice < 1:
-            print(comp, 'market price < 1: ', marketPrice)
+            print(comp, 'market price < 1:', marketPrice)
             continue
 
         bs = si.get_balance_sheet(comp)
