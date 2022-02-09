@@ -5,6 +5,18 @@ from currency_scrapeYahoo import getListingCurrency
 import currency_getExchangeRate
 from helperMethods import getFromDF
 
+finvizDiv = pd.read_csv('list_divYieldFinviz', sep=' ', index_col=False, names=['ticker', 'divi'])
+finvizDiv['divi'] = finvizDiv['divi'].replace('-', '0')
+finvizDiv['divi'] = finvizDiv['divi'].str.rstrip("%").astype(float)
+finvizDic = pd.Series(finvizDiv.divi.values, index=finvizDiv.ticker).to_dict()
+
+xueqiuDiv = pd.read_csv('list_divYieldXueqiu', sep=' ', index_col=False, names=['ticker', 'divi'])
+xueqiuDiv['divi'] = xueqiuDiv['divi'].replace('-', '0')
+xueqiuDiv['divi'] = xueqiuDiv['divi'].replace('none', '0')
+xueqiuDiv['divi'] = xueqiuDiv['divi'].replace('error', '0')
+xueqiuDiv['divi'] = xueqiuDiv['divi'].astype(float)
+xueqiuDic = pd.Series(xueqiuDiv.divi.values, index=xueqiuDiv.ticker).to_dict()
+
 COUNT = 0
 
 
@@ -20,8 +32,7 @@ PRICE_INTERVAL = '1mo'
 
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 
-fileOutput = open('list_results', 'w')
-fileOutput.write("\n")
+fileOutput = open('list_magic6', 'w')
 
 stock_df = pd.read_csv('list_companyInfo', sep="\t", index_col=False,
                        names=['ticker', 'name', 'sector', 'industry', 'country', 'mv', 'price'])
@@ -32,7 +43,7 @@ listStocks = stock_df[(stock_df['price'] > 1)
                       & (stock_df['industry'].str.contains('reit', regex=True, case=False) == False)
                       & (stock_df['country'].str.lower() != 'china')]['ticker'].tolist()
 
-print(listStocks.len, listStocks)
+print(len(listStocks), listStocks)
 
 for comp in listStocks:
     print(increment())
@@ -42,51 +53,14 @@ for comp in listStocks:
             print(comp, 'market price < 1: ', marketPrice)
             continue
 
-        info = si.get_company_info(comp)
-        if info.loc["country"][0].lower() == "china":
-            print(comp, "no china")
-            continue
-
         bs = si.get_balance_sheet(comp)
-        totalCurrentAssets = getFromDF(bs.loc["totalCurrentAssets"])
-        totalCurrentLiab = getFromDF(bs.loc["totalCurrentLiabilities"])
-        currentRatio = totalCurrentAssets / totalCurrentLiab
 
-        if currentRatio < 1:
-            print(comp, "current ratio < 1")
-            continue
-
-        retainedEarnings = getFromDF(bs.loc["retainedEarnings"])
-
-        if retainedEarnings < 0:
-            print(comp, " retained earnings < 0 ", retainedEarnings)
-            continue
-
-        totalAssets = getFromDF(bs.loc["totalAssets"])
-        totalLiab = getFromDF(bs.loc["totalLiab"])
-        debtEquityRatio = totalLiab / (totalAssets - totalLiab)
-
-        if debtEquityRatio > 1:
-            print(comp, " de ratio> 1. ", debtEquityRatio)
-            continue
+        equity = getFromDF(bs.loc["totalStockholderEquity"])
+        shares = si.get_quote_data(comp)['sharesOutstanding']
 
         incomeStatement = si.get_income_statement(comp, yearly=True)
         ebit = getFromDF(incomeStatement.loc["ebit"])
         netIncome = getFromDF(incomeStatement.loc['netIncome'])
-
-        if ebit < 0 or netIncome < 0:
-            print(comp, "ebit or net income < 0 ", ebit, " ", netIncome)
-            continue
-
-        cf = si.get_cash_flow(comp)
-        cfo = getFromDF(cf.loc["totalCashFromOperatingActivities"])
-
-        if cfo < 0:
-            print(comp, "cfo < 0 ", cfo)
-            continue
-
-        equity = getFromDF(bs.loc["totalStockholderEquity"])
-        shares = si.get_quote_data(comp)['sharesOutstanding']
 
         bsCurrency = getBalanceSheetCurrency(comp)
         listingCurrency = getListingCurrency(comp)
@@ -97,25 +71,23 @@ for comp in listStocks:
         pb = marketCap / (equity / exRate)
         pe = marketCap / (netIncome / exRate)
 
-        if pb > 1:
+        if pb > 0.6:
             print(comp, ' pb > 1', pb)
             continue
 
-        if pe > 10 or pe < 0:
-            print(comp, ' pe > 10 or < 0')
+        if pe > 6 or pe < 0:
+            print(comp, ' pe > 6 or < 0')
             continue
-
-        revenue = getFromDF(incomeStatement.loc["totalRevenue"])
-
-        retainedEarningsAssetRatio = retainedEarnings / totalAssets
-        cfoAssetRatio = cfo / totalAssets
-        ebitAssetRatio = ebit / totalAssets
 
         data = si.get_data(comp, start_date=START_DATE, interval=PRICE_INTERVAL)
         divs = si.get_dividends(comp, start_date=DIVIDEND_START_DATE)
-        percentile = 100.0 * (data['adjclose'][-1] - data['adjclose'].min()) / (
-                data['adjclose'].max() - data['adjclose'].min())
+        # percentile = 100.0 * (data['adjclose'][-1] - data['adjclose'].min()) / (
+        #         data['adjclose'].max() - data['adjclose'].min())
         divSum = divs['dividend'].sum() if not divs.empty else 0
+
+        if divSum / marketPrice < 0.6:
+            print(comp, "div yield per year < 6%")
+            continue
 
         outputString = comp + " " \
                        + stock_df[stock_df['ticker'] == comp][['country', 'sector']] \
@@ -123,16 +95,10 @@ for comp in listStocks:
                        + listingCurrency + bsCurrency \
                        + " MV:" + str(round(marketCap / 1000000000.0, 1)) + 'B' \
                        + " PE " + str(round(pe, 1)) \
-                       + " Eq:" + str(round((totalAssets - totalLiab) / exRate / 1000000000.0, 1)) + 'B' \
-                       + " CR:" + str(round(currentRatio, 1)) \
-                       + " D/E:" + str(round(debtEquityRatio, 1)) \
-                       + " RE/A:" + str(round(retainedEarningsAssetRatio, 1)) \
-                       + " cfo/A:" + str(round(cfoAssetRatio, 1)) \
-                       + " ebit/A:" + str(round(ebitAssetRatio, 1)) \
-                       + " S/A " + str(round(revenue / totalAssets)) \
                        + " pb:" + str(round(pb, 1)) \
-                       + " 52w p%: " + str(round(percentile)) \
-                       + " div10yr: " + str(round(divSum / marketPrice, 2))
+                       + " div10yr: " + str(round(divSum / marketPrice / 10, 2)) \
+                       + "finviz div:" + finvizDic[comp] \
+                       + "xueqiu div:" + xueqiuDic[comp]
 
         print(outputString)
         fileOutput.write(outputString + '\n')
