@@ -81,8 +81,6 @@ for comp in listStocks:
 
         data = si.get_data(comp, start_date=START_DATE, interval=PRICE_INTERVAL)
         divs = si.get_dividends(comp, start_date=DIVIDEND_START_DATE)
-        # percentile = 100.0 * (data['adjclose'][-1] - data['adjclose'].min()) / (
-        #         data['adjclose'].max() - data['adjclose'].min())
         divSum = divs['dividend'].sum() if not divs.empty else 0
 
         if divSum / marketPrice < 0.6:
@@ -97,8 +95,8 @@ for comp in listStocks:
                        + " PE " + str(round(pe, 1)) \
                        + " pb:" + str(round(pb, 1)) \
                        + " div10yr: " + str(round(divSum / marketPrice / 10, 2)) \
-                       + "finviz div:" + finvizDic[comp] \
-                       + "xueqiu div:" + xueqiuDic[comp]
+                       + "finviz div:" + str(finvizDic[comp]) \
+                       + "xueqiu div:" + str(xueqiuDic[comp])
 
         print(outputString)
         fileOutput.write(outputString + '\n')
