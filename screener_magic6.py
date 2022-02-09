@@ -95,8 +95,8 @@ for comp in listStocks:
                        + " PE " + str(round(pe, 1)) \
                        + " pb:" + str(round(pb, 1)) \
                        + " div10yr: " + str(round(divSum / marketPrice / 10, 2)) \
-                       + "finviz div:" + str(finvizDic[comp]) \
-                       + "xueqiu div:" + str(xueqiuDic[comp])
+                       + " finviz div:" + str(round(finvizDic[comp],1)) \
+                       + " xueqiu div:" + str(round(xueqiuDic[comp],1))
 
         print(outputString)
         fileOutput.write(outputString + '\n')
