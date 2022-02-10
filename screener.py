@@ -61,8 +61,8 @@ for comp in listStocks:
         totalLiab = getFromDF(bs.loc["totalLiab"])
         debtEquityRatio = totalLiab / (totalAssets - totalLiab)
 
-        if debtEquityRatio > 1:
-            print(comp, "de ratio> 1.", debtEquityRatio)
+        if debtEquityRatio > 1 or totalAssets < totalLiab:
+            print(comp, "de ratio> 1 or negative equity", debtEquityRatio, totalAssets - totalLiab)
             continue
 
         incomeStatement = si.get_income_statement(comp, yearly=True)
@@ -86,6 +86,7 @@ for comp in listStocks:
         pCfo = marketCap / cfo
         if marketCap / cfo > 10:
             print(comp, "p/cfo>10", pCfo)
+            continue
 
         equity = getFromDF(bs.loc["totalStockholderEquity"])
         bsCurr = getBalanceSheetCurrency(comp)
@@ -96,7 +97,7 @@ for comp in listStocks:
         pe = marketCap / (netIncome / exRate)
 
         if pb > 0.6:
-            print(comp, ' pb > 0.6', pb)
+            print(comp, 'pb > 0.6', pb)
             continue
 
         #
@@ -138,8 +139,8 @@ for comp in listStocks:
                        + " D/E:" + str(round(debtEquityRatio, 1)) \
                        + " roaPB:" + str(round(roaPB, 2)) \
                        + " divPB:" + str(round(divPB, 2)) \
-                       + " insiderOwns:" + str(round(insider, 1)) \
-                       + " p/52wk low:" + str(round(marketPrice / low_52))
+                       + " insiderOwns:" + str(round(insider, 2)) \
+                       + " p/52wk low:" + str(round(marketPrice / low_52, 2))
 
         print(outputString)
         fileOutput.write(outputString + '\n')

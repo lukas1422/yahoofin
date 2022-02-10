@@ -5,6 +5,7 @@ import re
 
 #this method does not return
 def scrapeSharesOutstandingXueqiu(comp):
+    comp = comp.replace('-','.')
     url = "https://xueqiu.com/S/" + comp
     req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
     webpage = urlopen(req).read()
