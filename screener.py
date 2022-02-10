@@ -79,18 +79,19 @@ for comp in listStocks:
         if cfo < 0:
             print(comp, "cfo < 0 ", cfo)
             continue
+
+        shares = si.get_quote_data(comp)['sharesOutstanding']
+        marketCap = marketPrice * shares
+
         pCfo = marketCap / cfo
         if marketCap / cfo > 10:
             print(comp, "p/cfo>10", pCfo)
 
         equity = getFromDF(bs.loc["totalStockholderEquity"])
-        shares = si.get_quote_data(comp)['sharesOutstanding']
-
         bsCurr = getBalanceSheetCurrency(comp)
         listingCurr = getListingCurrency(comp)
         exRate = currency_getExchangeRate.getExchangeRate(exchange_rate_dict, listingCurr, bsCurr)
 
-        marketCap = marketPrice * shares
         pb = marketCap / (equity / exRate)
         pe = marketCap / (netIncome / exRate)
 
