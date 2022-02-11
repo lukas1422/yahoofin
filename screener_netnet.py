@@ -33,7 +33,8 @@ listStocks = stock_df[(stock_df['price'] > 1)
 
 print(len(listStocks), listStocks)
 
-# listStocks = ['apwc']
+# listStocks = ['AMSWA']
+# listStocks = ['APWC']
 
 for comp in listStocks:
     print(increment())
@@ -46,9 +47,9 @@ for comp in listStocks:
             print(comp, " current assets < total liab")
             continue
 
-        cash = getFromDF(bs.loc['cash'])
-        receivables = getFromDF(bs.loc['netReceivables'])
-        inventory = getFromDF(bs.loc['inventory'])
+        cash = getFromDF(bs.loc['cash']) if 'cash' in bs.index else 0.0
+        receivables = getFromDF(bs.loc['netReceivables']) if 'netReceivables' in bs.index else 0.0
+        inventory = getFromDF(bs.loc['inventory']) if 'inventory' in bs.index else 0.0
 
         marketPrice = si.get_live_price(comp)
         shares = si.get_quote_data(comp)['sharesOutstanding']
@@ -66,6 +67,8 @@ for comp in listStocks:
                   round(marketCap / 1000000000, 2))
             continue
 
+        outputString = ""
+
         if (cash - totalLiab) / exRate > marketCap:
             outputString = "cash netnet:" + comp + " " \
                            + listingCurr + bsCurr \
@@ -73,29 +76,27 @@ for comp in listStocks:
                            + " L:" + str(round(totalLiab / 1000000000, 2))
 
         elif (cash + receivables * 0.8 - totalLiab) / exRate > marketCap:
-            outputString = "cash receivable netnet:" + comp + " " \
-                           + listingCurr + bsCurr \
-                           + " cash:" + str(round(cash / 1000000000, 2)) \
-                           + " rec:" + str(round(receivables / 1000000000, 2)) \
-                           + " L:" + str(round(totalLiab / 1000000000, 2))
+            outputString = "cash receivable netnet:" + comp + " "
 
         elif (cash + receivables * 0.8 + inventory * 0.5 - totalLiab) / exRate > marketCap:
-            outputString = "cash rec inv netnet " + comp + " " \
-                           + listingCurr + bsCurr \
-                           + " cash:" + str(round(cash / 1000000000, 2)) \
-                           + " rec:" + str(round(receivables / 1000000000, 2)) \
-                           + " inv:" + str(round(inventory / 1000000000, 2)) \
-                           + " L:" + str(round(totalLiab / 1000000000, 2))
+            outputString = "cash rec inv netnet " + comp
 
         elif (currentAssets - totalLiab) / exRate > marketCap:
-            outputString = 'currentAsset netnet ' + comp + " " \
-                           + listingCurr + bsCurr \
-                           + " CA:" + str(round(currentAssets / 1000000000, 2)) \
-                           + " totalLiab" + str(round(totalLiab / 1000000000, 2))
+            outputString = 'currentAsset netnet ' + comp
+
         else:
             outputString = 'undefined net net, check' + comp
 
-        print(outputString + " mv:" + str(round(marketCap / 1000000000, 2)))
+        outputString = outputString + listingCurr + bsCurr \
+                       + " cash:" + str(round(cash / 1000000000, 2)) \
+                       + " rec:" + str(round(receivables / 1000000000, 2)) \
+                       + " inv:" + str(round(inventory / 1000000000, 2)) \
+                       + " CA:" + str(round(currentAssets / 1000000000, 2)) \
+                       + " L:" + str(round(totalLiab / 1000000000, 2)) \
+                       + " mv:" + str(round(marketCap / 1000000000, 2))
+
+        print(outputString)
+
         fileOutput.write(outputString + "mv:" + str(round(marketCap / 1000000000, 2)) + '\n')
         fileOutput.flush()
 
