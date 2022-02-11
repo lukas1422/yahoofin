@@ -15,7 +15,7 @@ def fo(number):
 
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 
-stockName = 'SENEA'
+stockName = 'APWC'
 
 info = si.get_company_info(stockName)
 country = info.loc["country"][0]
@@ -23,7 +23,7 @@ sector = info.loc['sector'][0]
 print(stockName, country, sector)
 
 bs = si.get_balance_sheet(stockName)
-#print(bs)
+print(bs)
 
 # BS
 retainedEarnings = bs.loc["retainedEarnings"][0]
@@ -44,6 +44,8 @@ exRate = currency_getExchangeRate.getExchangeRate(exchange_rate_dict, listingCur
 revenue = incomeStatement.loc["totalRevenue"][0]
 ebit = incomeStatement.loc["ebit"][0]
 netIncome = incomeStatement.loc['netIncome'][0]
+
+roa = netIncome / totalAssets
 
 # CF
 cfo = cf.loc["totalCashFromOperatingActivities"][0]
@@ -66,13 +68,13 @@ pb = marketCap / (equity / exRate)
 data = si.get_data(stockName, start_date=START_DATE, interval=PRICE_INTERVAL)
 divs = si.get_dividends(stockName, start_date=DIVIDEND_START_DATE)
 
-percentile = 100.0 * (marketPrice - data['adjclose'].min()) / (
-        data['adjclose'].max() - data['adjclose'].min())
+# print(data)
+percentile = 100.0 * (marketPrice - data['low'].min()) / (data['high'].max() - data['low'].min())
 
-if not divs.empty:
-    divSum = divs['dividend'].sum()
-else:
-    divSum = 0.0
+# if not divs.empty:
+divSum = divs['dividend'].sum() if not divs.empty else 0.0
+# else:
+#     divSum = 0.0
 
 # PRINTING*****
 
@@ -108,8 +110,9 @@ print("RE", round(retainedEarnings / 1000000000 / exRate, 2), "B")
 print("RE/A", round(retainedEarnings / totalAssets, 2))
 print("S/A", round(revenue / totalAssets, 2))
 print(" div return over 10 yrs ", round(divSum / marketPrice, 2))
-
 print("divsum marketprice", round(divSum, 2), round(marketPrice, 2))
+print('roa', roa)
+
 
 outputString = stockName + " " + country + " " + sector \
                + " MV:" + str(round(marketCap / 1000000000.0, 1)) + 'B' \
