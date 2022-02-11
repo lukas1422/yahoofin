@@ -33,9 +33,6 @@ listStocks = stock_df[(stock_df['price'] > 1)
 
 print(len(listStocks), listStocks)
 
-# listStocks = ['AMSWA']
-# listStocks = ['APWC']
-
 for comp in listStocks:
     print(increment())
     try:
