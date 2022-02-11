@@ -1,3 +1,5 @@
+# screens for stocks
+
 import yahoo_fin.stock_info as si
 import pandas as pd
 from currency_scrapeYahoo import getBalanceSheetCurrency
@@ -28,6 +30,7 @@ stock_df = pd.read_csv('list_companyInfo', sep="\t", index_col=False,
 listStocks = stock_df[(stock_df['price'] > 1)
                       & (stock_df['sector'].str
                          .contains('financial|healthcare', regex=True, case=False) == False)
+                      # & (stock_df['ticker'].str.lower() > 'w')
                       & (stock_df['industry'].str.contains('reit', regex=True, case=False) == False)
                       & (stock_df['country'].str.lower() != 'china')]['ticker'].tolist()
 
@@ -37,11 +40,18 @@ for comp in listStocks:
     print(increment())
     try:
         bs = si.get_balance_sheet(comp)
+
+        retainedEarnings = getFromDF(bs.loc["retainedEarnings"]) if 'retainedEarnings' in bs.index else 0
+
+        # RE>0 ensures that the stock is not a chronic cash burner
+        if retainedEarnings < 0:
+            print(comp, " retained earnings < 0 ", retainedEarnings)
+            continue
+
         currentAssets = getFromDF(bs.loc["totalCurrentAssets"]) \
             if 'totalCurrentAssets' in bs.index else 0.0
 
-        totalLiab = getFromDF(bs.loc["totalLiab"]) \
-            if 'totalLiab' in bs.index else 0.0
+        totalLiab = getFromDF(bs.loc["totalLiab"]) if 'totalLiab' in bs.index else 0.0
 
         if currentAssets < totalLiab:
             print(comp, " current assets < total liab",
@@ -86,7 +96,7 @@ for comp in listStocks:
             outputString = 'currentAsset netnet ' + comp
 
         else:
-            outputString = 'undefined net net, check' + comp
+            outputString = 'undefined net net,check:' + comp
 
         outputString = outputString + " " + listingCurr + bsCurr \
                        + " cash:" + str(round(cash / 1000000000, 2)) \
@@ -98,7 +108,7 @@ for comp in listStocks:
 
         print(outputString)
 
-        fileOutput.write(outputString + "mv:" + str(round(marketCap / 1000000000, 2)) + '\n')
+        fileOutput.write(outputString + '\n')
         fileOutput.flush()
 
 
