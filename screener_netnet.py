@@ -37,11 +37,15 @@ for comp in listStocks:
     print(increment())
     try:
         bs = si.get_balance_sheet(comp)
-        currentAssets = getFromDF(bs.loc["totalCurrentAssets"])
-        totalLiab = getFromDF(bs.loc["totalLiab"])
+        currentAssets = getFromDF(bs.loc["totalCurrentAssets"]) \
+            if 'totalCurrentAssets' in bs.index else 0.0
+
+        totalLiab = getFromDF(bs.loc["totalLiab"]) \
+            if 'totalLiab' in bs.index else 0.0
 
         if currentAssets < totalLiab:
-            print(comp, " current assets < total liab")
+            print(comp, " current assets < total liab",
+                  round(currentAssets / 1000000000, 2), round(totalLiab / 1000000000, 2))
             continue
 
         cash = getFromDF(bs.loc['cash']) if 'cash' in bs.index else 0.0
@@ -84,7 +88,7 @@ for comp in listStocks:
         else:
             outputString = 'undefined net net, check' + comp
 
-        outputString = outputString + listingCurr + bsCurr \
+        outputString = outputString + " " + listingCurr + bsCurr \
                        + " cash:" + str(round(cash / 1000000000, 2)) \
                        + " rec:" + str(round(receivables / 1000000000, 2)) \
                        + " inv:" + str(round(inventory / 1000000000, 2)) \
