@@ -38,17 +38,19 @@ print(len(listStocks), listStocks)
 for comp in listStocks:
     print(increment())
     try:
-        marketPrice = si.get_live_price(comp)
-
         bs = si.get_balance_sheet(comp)
         currentAssets = getFromDF(bs.loc["totalCurrentAssets"])
-        totalAssets = getFromDF(bs.loc["totalAssets"])
         totalLiab = getFromDF(bs.loc["totalLiab"])
+
+        if currentAssets < totalLiab:
+            print(comp, " current assets < total liab")
+            continue
 
         cash = getFromDF(bs.loc['cash'])
         receivables = getFromDF(bs.loc['netReceivables'])
         inventory = getFromDF(bs.loc['inventory'])
 
+        marketPrice = si.get_live_price(comp)
         shares = si.get_quote_data(comp)['sharesOutstanding']
         marketCap = marketPrice * shares
 
@@ -56,9 +58,12 @@ for comp in listStocks:
         listingCurr = getListingCurrency(comp)
         exRate = currency_getExchangeRate.getExchangeRate(exchange_rate_dict, listingCurr, bsCurr)
 
-        if currentAssets < totalLiab:
-            print(comp, 'current assets < total liab',
-                  round(currentAssets / 1000000000, 2), round(totalLiab / 1000000000, 2))
+        if (currentAssets - totalLiab) / exRate < marketCap:
+            print(comp, listingCurr, bsCurr,
+                  'current assets - total liab < mv. CA L MV:',
+                  round(currentAssets / 1000000000, 2),
+                  round(totalLiab / 1000000000, 2),
+                  round(marketCap / 1000000000, 2))
             continue
 
         if (cash - totalLiab) / exRate > marketCap:
