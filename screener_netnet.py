@@ -33,7 +33,7 @@ listStocks = stock_df[(stock_df['price'] > 1)
 
 print(len(listStocks), listStocks)
 
-# listStocks = ['apwc']
+# listStocks = ['AMSWA']
 
 for comp in listStocks:
     print(increment())
@@ -46,9 +46,9 @@ for comp in listStocks:
             print(comp, " current assets < total liab")
             continue
 
-        cash = getFromDF(bs.loc['cash'])
-        receivables = getFromDF(bs.loc['netReceivables'])
-        inventory = getFromDF(bs.loc['inventory'])
+        cash = getFromDF(bs.loc['cash']) if 'cash' in bs else 0.0
+        receivables = getFromDF(bs.loc['netReceivables']) if 'netReceivables' in bs else 0.0
+        inventory = getFromDF(bs.loc['inventory']) if 'inventory' in bs else 0.0
 
         marketPrice = si.get_live_price(comp)
         shares = si.get_quote_data(comp)['sharesOutstanding']
