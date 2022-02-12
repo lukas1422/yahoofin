@@ -3,6 +3,7 @@ from currency_scrapeYahoo import getBalanceSheetCurrency
 from currency_scrapeYahoo import getListingCurrency
 import currency_getExchangeRate
 import scrape_sharesOutstanding
+from helperMethods import getFromDF
 
 START_DATE = '3/1/2020'
 DIVIDEND_START_DATE = '1/1/2010'
@@ -15,7 +16,7 @@ def fo(number):
 
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 
-stockName = 'CLPS'
+stockName = 'YY'
 
 info = si.get_company_info(stockName)
 country = info.loc["country"][0]
@@ -23,7 +24,7 @@ sector = info.loc['sector'][0]
 print(stockName, country, sector)
 
 bs = si.get_balance_sheet(stockName)
-#print(bs)
+# print(bs)
 
 # BS
 retainedEarnings = bs.loc["retainedEarnings"][0]
@@ -32,6 +33,12 @@ totalCurrentAssets = bs.loc["totalCurrentAssets"][0]
 totalCurrentLiab = bs.loc["totalCurrentLiabilities"][0]
 totalAssets = bs.loc["totalAssets"][0]
 totalLiab = bs.loc["totalLiab"][0]
+cash = getFromDF(bs.loc['cash']) if 'cash' in bs.index else 0.0
+receivables = getFromDF(bs.loc['netReceivables']) if 'netReceivables' in bs.index else 0.0
+inventory = getFromDF(bs.loc['inventory']) if 'inventory' in bs.index else 0.0
+
+print(bs.loc['netReceivables'])
+print(bs.loc['inventory'])
 
 cf = si.get_cash_flow(stockName)
 incomeStatement = si.get_income_statement(stockName)
@@ -82,6 +89,7 @@ print(listingCurrency, bsCurrency, "ExRate ", exRate)
 print("shares Yahoo", sharesYahoo / 1000000000.0, "B")
 print("shares xueqiu", sharesXueqiu)
 print("shares finviz", sharesFinviz)
+print("cash", cash, "rec", receivables, "inv", inventory)
 print("A", round(totalAssets / exRate / 1000000000, 1), "B", "(",
       round(totalCurrentAssets / exRate / 1000000000.0, 1)
       , round((totalAssets - totalCurrentAssets) / exRate / 1000000000.0, 1), ")")
@@ -112,7 +120,6 @@ print("S/A", round(revenue / totalAssets, 2))
 print(" div return over 10 yrs ", round(divSum / marketPrice, 2))
 print("divsum marketprice", round(divSum, 2), round(marketPrice, 2))
 print('roa', roa)
-
 
 outputString = stockName + " " + country + " " + sector \
                + " MV:" + str(round(marketCap / 1000000000.0, 1)) + 'B' \

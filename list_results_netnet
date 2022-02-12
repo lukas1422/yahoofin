@@ -1,7 +1,1 @@
-undefined net net,check:APWC USDUSD cash:0.05 rec:0.11 inv:0.1 CA:0.26 L:0.1 mv:0.03 profit:0.01
-undefined net net,check:CLPS USDUSD cash:0.02 rec:0.04 inv:0.0 CA:0.08 L:0.02 mv:0.05 profit:-0.02
-undefined net net,check:CYD USDCNY cash:5.88 rec:8.39 inv:4.47 CA:19.26 L:14.46 mv:0.55 profit:-1.03
-undefined net net,check:FPH USDUSD cash:0.3 rec:0.08 inv:1.99 CA:2.37 L:1.05 mv:0.44 profit:-0.55
-undefined net net,check:GENC USDUSD cash:0.02 rec:0.0 inv:0.04 CA:0.17 L:0.01 mv:0.13 profit:-0.11
-undefined net net,check:GET USDUSD cash:0.27 rec:39.97 inv:0.06 CA:41.48 L:40.28 mv:1.19 profit:-21.2
-undefined net net,check:JCS USDUSD cash:0.01 rec:0.01 inv:0.01 CA:0.04 L:0.01 mv:0.02 profit:-0.01
+currentAsset netnet APWC USDUSD cash:0.04 rec:0.12 inv:0.13 CA:0.31 L:0.16 mv:0.04 profit:-0.06

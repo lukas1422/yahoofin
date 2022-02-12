@@ -6,7 +6,11 @@ def getFromDF(df):
     if df.empty:
         return 0
     elif math.isnan(df[0]):
-        return df[1]
+        if math.isnan(df[1]):
+            return 0
+            # raise ValueError("no value")
+        else:
+            return df[1]
     return df[0]
 
 
