@@ -87,11 +87,11 @@ for comp in listStocks:
         elif (cash + receivables * 0.5 - totalLiab) / exRate > marketCap:
             outputString = "cash receivable netnet:" + comp + " "
 
-        elif (cash + receivables * 0.5 + inventory * 0.2 - totalLiab) / exRate > marketCap:
+        elif (cash + receivables * 0.5 + inventory * 0.3 - totalLiab) / exRate > marketCap:
             outputString = "cash rec inv netnet " + comp
 
-        # elif (currentAssets - totalLiab) / exRate > marketCap:
-        #     outputString = 'currentAsset netnet ' + comp
+        elif (currentAssets - totalLiab) / exRate > marketCap:
+            outputString = 'currentAsset netnet ' + comp
 
         else:
             outputString = 'undefined net net,check:' + comp
@@ -104,7 +104,8 @@ for comp in listStocks:
                        + " L:" + str(round(totalLiab / 1000000000, 2)) \
                        + " mv:" + str(round(marketCap / 1000000000, 2)) \
                        + ' profit:' + str(round(((cash + 0.5 * receivables
-                                                  + 0.3 * inventory - totalLiab) / exRate - marketCap) / 1000000000, 2))
+                                                  + 0.3 * inventory - totalLiab) / exRate - marketCap)
+                                                / 1000000000, 2))
 
         print(outputString)
 
