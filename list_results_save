@@ -1,13 +1,7 @@
 
-cash receivable netnet:SFT  USDUSD cash:0.23 rec:0.01 inv:0.05 CA:0.3 L:0.07 mv:0.16mv:0.16
-cash receivable netnet:BTCM  USDUSD cash:0.31 rec:0.01 inv:0.0 CA:0.34 L:0.08 mv:0.23mv:0.23
-cash receivable netnet:TUSK  USDUSD cash:0.01 rec:0.42 inv:0.01 CA:0.46 L:0.26 mv:0.08mv:0.08
-
 cash rec inv netnet APWC USDUSD cash:0.05 rec:0.11 inv:0.1 CA:0.26 L:0.1 mv:0.04mv:0.04
-cash rec inv netnet NVFY USDUSD cash:0.01 rec:0.0 inv:0.03 CA:0.04 L:0.01 mv:0.01mv:0.01
 
 undefined net net, checkKL USDUSD cash:0.0 rec:0.0 inv:0.0 CA:0.0 L:0.0 mv:nanmv:nan
-currentAsset netnet OPFI USDUSD cash:0.03 rec:0.22 inv:0.0 CA:0.27 L:0.19 mv:0.06mv:0.06
 currentAsset netnet RBCN USDUSD cash:0.01 rec:0.0 inv:0.0 CA:0.03 L:0.0 mv:0.02mv:0.02
 currentAsset netnet TPC USDUSD cash:0.37 rec:3.3 inv:0.0 CA:4.08 L:3.5 mv:0.58mv:0.58
 currentAsset netnet ACTG USDUSD cash:0.17 rec:0.0 inv:0.0 CA:0.46 L:0.19 mv:0.21mv:0.21
