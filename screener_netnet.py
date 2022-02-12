@@ -48,14 +48,12 @@ for comp in listStocks:
             print(comp, " retained earnings < 0 ", retainedEarnings)
             continue
 
-        currentAssets = getFromDF(bs.loc["totalCurrentAssets"]) \
-            if 'totalCurrentAssets' in bs.index else 0.0
+        currentAssets = getFromDF(bs.loc["totalCurrentAssets"]) if 'totalCurrentAssets' in bs.index else 0.0
 
         totalLiab = getFromDF(bs.loc["totalLiab"]) if 'totalLiab' in bs.index else 0.0
 
         if currentAssets < totalLiab:
-            print(comp, " current assets < total liab",
-                  round(currentAssets / 1000000000, 2), round(totalLiab / 1000000000, 2))
+            print(comp, " current assets < total liab")
             continue
 
         cash = getFromDF(bs.loc['cash']) if 'cash' in bs.index else 0.0
@@ -72,7 +70,7 @@ for comp in listStocks:
 
         if (currentAssets - totalLiab) / exRate < marketCap:
             print(comp, listingCurr, bsCurr,
-                  'current assets - total liab < mv. CA L MV:',
+                  'current assets - total liab < mv. CurrAssets Liab MV:',
                   round(currentAssets / 1000000000, 2),
                   round(totalLiab / 1000000000, 2),
                   round(marketCap / 1000000000, 2))
@@ -86,14 +84,14 @@ for comp in listStocks:
                            + " cash:" + str(round(cash / 1000000000, 2)) \
                            + " L:" + str(round(totalLiab / 1000000000, 2))
 
-        elif (cash + receivables * 0.8 - totalLiab) / exRate > marketCap:
+        elif (cash + receivables * 0.5 - totalLiab) / exRate > marketCap:
             outputString = "cash receivable netnet:" + comp + " "
 
-        elif (cash + receivables * 0.8 + inventory * 0.5 - totalLiab) / exRate > marketCap:
+        elif (cash + receivables * 0.5 + inventory * 0.2 - totalLiab) / exRate > marketCap:
             outputString = "cash rec inv netnet " + comp
 
-        elif (currentAssets - totalLiab) / exRate > marketCap:
-            outputString = 'currentAsset netnet ' + comp
+        # elif (currentAssets - totalLiab) / exRate > marketCap:
+        #     outputString = 'currentAsset netnet ' + comp
 
         else:
             outputString = 'undefined net net,check:' + comp
