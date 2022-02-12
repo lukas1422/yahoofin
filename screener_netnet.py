@@ -104,7 +104,9 @@ for comp in listStocks:
                        + " inv:" + str(round(inventory / 1000000000, 2)) \
                        + " CA:" + str(round(currentAssets / 1000000000, 2)) \
                        + " L:" + str(round(totalLiab / 1000000000, 2)) \
-                       + " mv:" + str(round(marketCap / 1000000000, 2))
+                       + " mv:" + str(round(marketCap / 1000000000, 2)) \
+                       + ' profit:' + str(round(((cash + 0.5 * receivables
+                                                  + 0.3 * inventory - totalLiab) / exRate - marketCap) / 1000000000, 2))
 
         print(outputString)
 
