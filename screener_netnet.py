@@ -25,7 +25,7 @@ exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 fileOutput = open('list_results_netnet', 'w')
 
 stock_df = pd.read_csv('list_companyInfo', sep=" ", index_col=False,
-                       names=['ticker', 'name', 'sector', 'industry', 'country', 'mv', 'price','listingDate'])
+                       names=['ticker', 'name', 'sector', 'industry', 'country', 'mv', 'price', 'listingDate'])
 
 stock_df['listingDate'] = pd.to_datetime(stock_df['listingDate'])
 

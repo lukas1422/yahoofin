@@ -12,34 +12,31 @@ Money aspect:
 -	Merger and acquisition
 -	Spinoff
 
-****** Low PBs. ******
-Magic 6’s
+***** Magic 6’s *****
 -	PB < 0.6
 -	PE < 6x
--	Dividend yield > 0.06
--	Done weekly
+-	Dividend yield > 6%
 
 ****** Net nets ******
--	Focus on Altman criteria, at least the balance sheet criteria like retained earnings > 0
--   current assets – total liabilities > 0
--	Eliminate retained Earnings < 0
--	Eliminate  D > E
+- retained earnings > 0
+- current assets – total liabilities > 0
+- Profit = cash + 0.5*receivables + 0.2*inventory - all liabilities - marketValue
 
 ****** Deepvalue ******
-- avoid Altman bankruptcy: CR > 1, DE < 1, PB < 1, RE > 0,
+- avoid Altman bankruptcy: CR > 1, DE < 1, PB < 1, RE > 0
 
-Greenblatt (pick moat companies while paying cheap)
-- maximize ROA while minimizing PE
-- maximize ROA while minimizing PB (my version)
+***** Greenblatt
+- maximize CFO on Assets
+- minimizing PB
 
-Neff: (pick generous companies while paying cheap)
-- maximize dividend yield while minimizing PE
-- maximize dividend yield while minimizing PB (my version)
+***** Neff *****
+- maximize dividend yield
+- minimizing PB
 
-Schloss method:
+***** Schloss method *****
 - no financials
 - PB < 1
-- insiderownship > median (current 1.6%. top 25percentile ownership is 10%)
+- insider ownership > median (current 1.6%. top 25percentile ownership is 10%)
 - no long term debt
 - price near 52 week low
 
@@ -53,5 +50,3 @@ Moats
 ****** People ******
 Quality of management
 Insider ownership
-
-

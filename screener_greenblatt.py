@@ -24,15 +24,14 @@ exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 
 fileOutput = open('list_greenblatt', 'w')
 
-stock_df = pd.read_csv('list_companyInfo', sep="\t", index_col=False,
-                       names=['ticker', 'name', 'sector', 'industry', 'country', 'mv', 'price'])
-
-# listStocks = stock_df[(stock_df['price'] > 1) & (stock_df['country'].str.lower() != 'china')]['ticker'].tolist()
+stock_df = pd.read_csv('list_companyInfo', sep=" ", index_col=False,
+                       names=['ticker', 'name', 'sector', 'industry', 'country', 'mv', 'price', 'listingDate'])
+stock_df['listingDate'] = pd.to_datetime(stock_df['listingDate'])
 
 listStocks = stock_df[(stock_df['price'] > 1)
                       & (stock_df['sector'].str
                          .contains('financial|healthcare', regex=True, case=False) == False)
-                      # & (stock_df['ticker'].str.lower() > 'w')
+                      & (stock_df['listingDate'] < pd.to_datetime('2020-1-1'))
                       & (stock_df['industry'].str.contains('reit', regex=True, case=False) == False)
                       & (stock_df['country'].str.lower() != 'china')]['ticker'].tolist()
 
