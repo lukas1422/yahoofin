@@ -35,7 +35,7 @@ stock_df = pd.read_csv('list_companyInfo', sep=" ", index_col=False,
 stock_df['listingDate'] = pd.to_datetime(stock_df['listingDate'])
 
 listStocks = stock_df[stock_df['industry'].str
-                         .contains('fund|shell', regex=True, case=False) == False]['ticker'].tolist()
+                          .contains('fund|shell', regex=True, case=False) == False]['ticker'].tolist()
 
 print(len(listStocks), listStocks)
 
@@ -112,7 +112,7 @@ for comp in listStocks:
                        + " Eq:" + str(round((totalAssets - totalLiab) / exRate / 1000000000.0, 1)) + 'B' \
                        + " CR:" + str(round(currentRatio, 1)) \
                        + " D/E:" + str(round(debtEquityRatio, 1)) \
-                       + " S/A " + str(round(revenue / totalAssets)) \
+                       + " S/A " + str(round(revenue / totalAssets, 1)) \
                        + " pb:" + str(round(pb, 1)) \
                        + " 52w p%: " + str(round(percentile)) \
                        + " div10yr: " + str(round(divSum / marketPrice, 2))
