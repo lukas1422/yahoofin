@@ -16,7 +16,7 @@ def fo(number):
 
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 
-stockName = 'AAOI'
+stockName = 'LND'
 
 info = si.get_company_info(stockName)
 country = info.loc["country"][0]
@@ -37,8 +37,6 @@ cash = getFromDF(bs.loc['cash']) if 'cash' in bs.index else 0.0
 receivables = getFromDF(bs.loc['netReceivables']) if 'netReceivables' in bs.index else 0.0
 inventory = getFromDF(bs.loc['inventory']) if 'inventory' in bs.index else 0.0
 
-print(bs.loc['netReceivables'])
-print(bs.loc['inventory'])
 
 cf = si.get_cash_flow(stockName)
 incomeStatement = si.get_income_statement(stockName)
