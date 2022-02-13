@@ -2,6 +2,9 @@
 # retained earnings < 0
 # CFO < 0
 # D/E > 1
+# search for companies with a lot of debt, little cash, going bankrupt,
+# fragile to crashes
+
 import yahoo_fin.stock_info as si
 import pandas as pd
 from currency_scrapeYahoo import getBalanceSheetCurrency
@@ -32,7 +35,7 @@ stock_df = pd.read_csv('list_companyInfo', sep=" ", index_col=False,
 stock_df['listingDate'] = pd.to_datetime(stock_df['listingDate'])
 
 listStocks = stock_df[stock_df['industry'].str
-                         .contains('fund', regex=True, case=False) == False]['ticker'].tolist()
+                         .contains('fund|shell', regex=True, case=False) == False]['ticker'].tolist()
 
 print(len(listStocks), listStocks)
 
