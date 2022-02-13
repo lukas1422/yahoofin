@@ -41,28 +41,19 @@ print(len(listStocks), listStocks)
 for comp in listStocks:
     print(increment())
     try:
-
-        cf = si.get_cash_flow(comp)
+        cf = si.get_cash_flow(comp, yearly=False)
         cfo = getFromDF(cf.loc["totalCashFromOperatingActivities"])
         if cfo < 0:
             print(comp, "cfo < 0")
+            continue
 
-        # incomeStatement = si.get_income_statement(comp, yearly=True)
-        # netIncome = getFromDF(incomeStatement.loc['netIncome'])
-        #
-        # if netIncome < 0:
-        #     print(comp, "net income < 0")
-        #     continue
-
-        bs = si.get_balance_sheet(comp)
+        bs = si.get_balance_sheet(comp, yearly=False)
         totalAssets = getFromDF(bs.loc["totalAssets"])
         totalLiab = getFromDF(bs.loc["totalLiab"])
 
         if totalAssets < totalLiab:
             print(comp, "total A less than total L")
             continue
-
-        # roa = netIncome / totalAssets
 
         shares = si.get_quote_data(comp)['sharesOutstanding']
 
@@ -72,7 +63,6 @@ for comp in listStocks:
 
         marketPrice = si.get_live_price(comp)
         marketCap = marketPrice * shares
-        # pe = marketCap / (netIncome / exRate)
         equity = totalAssets - totalLiab
         pb = marketCap / (equity / exRate)
         cfoAssetRatio = cfo / totalAssets
