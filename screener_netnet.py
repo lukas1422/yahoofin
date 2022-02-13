@@ -1,4 +1,4 @@
-# screens for stocks
+# screens for netnets
 
 import yahoo_fin.stock_info as si
 import pandas as pd
