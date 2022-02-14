@@ -16,7 +16,7 @@ def fo(number):
 
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 
-stockName = '0743.HK'
+stockName = '1051.HK'
 
 info = si.get_company_info(stockName)
 country = info.loc["country"][0]
@@ -37,10 +37,8 @@ cash = getFromDF(bs.loc['cash']) if 'cash' in bs.index else 0.0
 receivables = getFromDF(bs.loc['netReceivables']) if 'netReceivables' in bs.index else 0.0
 inventory = getFromDF(bs.loc['inventory']) if 'inventory' in bs.index else 0.0
 
-
 cf = si.get_cash_flow(stockName)
 incomeStatement = si.get_income_statement(stockName)
-
 
 listingCurrency = getListingCurrency(stockName)
 bsCurrency = getBalanceSheetCurrency(stockName, listingCurrency)
@@ -60,15 +58,15 @@ cff = cf.loc["totalCashFromFinancingActivities"][0]
 
 marketPrice = si.get_live_price(stockName)
 sharesYahoo = si.get_quote_data(stockName)['sharesOutstanding']
-sharesXueqiu = scrape_sharesOutstanding.scrapeSharesOutstandingXueqiu(stockName)
+sharesXueqiu = scrape_sharesOutstanding.scrapeSharesOutstandingXueqiu2(stockName)
 sharesFinviz = scrape_sharesOutstanding.scrapeSharesOutstandingFinviz(stockName)
 
 marketCap = marketPrice * sharesYahoo
-currentRatio = totalCurrentAssets / totalCurrentLiab
-debtEquityRatio = totalLiab / (totalAssets - totalLiab)
-retainedEarningsAssetRatio = retainedEarnings / totalAssets
-cfoAssetRatio = cfo / totalAssets
-ebitAssetRatio = ebit / totalAssets
+currentRatio = totalCurrentAssets / totalCurrentLiab * 100
+debtEquityRatio = totalLiab / (totalAssets - totalLiab) * 100
+retainedEarningsAssetRatio = retainedEarnings / totalAssets * 100
+cfoAssetRatio = cfo / totalAssets * 100
+ebitAssetRatio = ebit / totalAssets * 100
 
 pb = marketCap / (equity / exRate)
 data = si.get_data(stockName, start_date=START_DATE, interval=PRICE_INTERVAL)
@@ -123,11 +121,11 @@ print('roa', roa)
 outputString = stockName + " " + country + " " + sector \
                + " MV:" + str(round(marketCap / 1000000000.0, 1)) + 'B' \
                + " Equity:" + str(round((totalAssets - totalLiab) / exRate / 1000000000.0, 1)) + 'B' \
-               + " CR:" + str(round(currentRatio, 1)) \
-               + " D/E:" + str(round(debtEquityRatio, 1)) \
-               + " RE/A:" + str(round(retainedEarningsAssetRatio, 1)) \
-               + " cfo/A:" + str(round(cfoAssetRatio, 1)) \
-               + " ebit/A:" + str(round(ebitAssetRatio, 1)) \
+               + " CR:" + str(round(currentRatio)) \
+               + " D/E:" + str(round(debtEquityRatio)) \
+               + " RE/A:" + str(round(retainedEarningsAssetRatio)) \
+               + " cfo/A:" + str(round(cfoAssetRatio)) \
+               + " ebit/A:" + str(round(ebitAssetRatio)) \
                + " pb:" + str(round(pb, 1)) \
                + " 52w p%: " + str(round(percentile)) \
                + " div10yr: " + str(round(divSum / marketPrice, 2))

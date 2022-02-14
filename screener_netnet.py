@@ -115,9 +115,9 @@ for comp in listStocks:
         additionalComment = ""
         if (cash - totalLiab) / exRate - marketCap > 0:
             profit = (cash - totalLiab) / exRate - marketCap
-            additionalComment = "clean cash netnet, profit:" + str(round(profit, 2))
+            additionalComment = " clean cash netnet, profit:" + str(round(profit, 2))
         elif (cash + receivables - totalLiab) / exRate - marketCap > 0:
-            additionalComment = "receivable conversion rate required: " \
+            additionalComment = " receivable conversion rate required: " \
                                 + str(round((totalLiab + marketCap * exRate - cash) / receivables, 2))
         elif (cash + 0.5 * receivables + inventory - totalLiab) / exRate - marketCap > 0:
             additionalComment = " inventory conversion rate required: " \
