@@ -38,6 +38,7 @@ stock_df = pd.read_csv('list_hkstocks', dtype=object, sep=" ", index_col=False, 
 
 stock_df['ticker'] = stock_df['ticker'].astype(str)
 
+
 def convertHK(ticker):
     if ticker.startswith('0'):
         return ticker[1:] + '.HK'
@@ -102,11 +103,14 @@ for comp in listStocks:
         equity = getFromDF(bs.loc["totalStockholderEquity"])
         shares = si.get_quote_data(comp)['sharesOutstanding']
 
-        bsCurrency = getBalanceSheetCurrency(comp)
         listingCurrency = getListingCurrency(comp)
+        bsCurrency = getBalanceSheetCurrency(comp, listingCurrency)
+
+        print("bs currency, listing currency", listingCurrency, bsCurrency)
         exRate = currency_getExchangeRate.getExchangeRate(exchange_rate_dict,
                                                           listingCurrency, bsCurrency)
 
+        print(bsCurrency, listingCurrency)
         marketCap = marketPrice * shares
         pb = marketCap / (equity / exRate)
         pe = marketCap / (netIncome / exRate)
@@ -131,20 +135,21 @@ for comp in listStocks:
                 data['adjclose'].max() - data['adjclose'].min())
         divSum = divs['dividend'].sum() if not divs.empty else 0
 
+        #                       # + stock_df[stock_df['ticker'] == comp][['country', 'sector']] \
+        #     .to_string(index=False, header=False) + " " \
+
         outputString = comp + " " \
-                       + stock_df[stock_df['ticker'] == comp][['country', 'sector']] \
-                           .to_string(index=False, header=False) + " " \
-                       + listingCurrency + bsCurrency \
+                       + listingCurrency + bsCurrency + str(round(exRate,2)) \
                        + " MV:" + str(round(marketCap / 1000000000.0, 1)) + 'B' \
                        + " PE " + str(round(pe, 1)) \
+                       + " pb:" + str(round(pb, 1)) \
                        + " Eq:" + str(round((totalAssets - totalLiab) / exRate / 1000000000.0, 1)) + 'B' \
                        + " CR:" + str(round(currentRatio, 1)) \
                        + " D/E:" + str(round(debtEquityRatio, 1)) \
                        + " RE/A:" + str(round(retainedEarningsAssetRatio, 1)) \
                        + " cfo/A:" + str(round(cfoAssetRatio, 1)) \
                        + " ebit/A:" + str(round(ebitAssetRatio, 1)) \
-                       + " S/A " + str(round(revenue / totalAssets)) \
-                       + " pb:" + str(round(pb, 1)) \
+                       + " S/A " + str(round(revenue / totalAssets, 2)) \
                        + " 52w p%: " + str(round(percentile)) \
                        + " div10yr: " + str(round(divSum / marketPrice, 2))
 

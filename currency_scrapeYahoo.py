@@ -17,10 +17,10 @@ def getListingCurrency(ticker):
         return ('not found')
 
     except Exception as e:
-        print("exception is  ", e)
+        print("getListingCurrency exception is  ", e)
 
 
-def getBalanceSheetCurrency(ticker):
+def getBalanceSheetCurrency(ticker, default):
     pattern = re.compile(r"Currency in\s+([A-Z]{3})")
     try:
         type = "balance-sheet"
@@ -31,7 +31,9 @@ def getBalanceSheetCurrency(ticker):
             if (a.getText().startswith("Currency in")):
                 return pattern.search(a.getText()).group(1)
 
-        return "USD"
+        return default
+
+        # return "USD"
 
     except Exception as e:
         print("exception is  ", e)
