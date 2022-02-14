@@ -21,7 +21,6 @@ PRICE_INTERVAL = '1mo'
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 
 fileOutput = open('list_results', 'w')
-fileOutput.write("\n")
 
 # US Version STARTS
 # stock_df = pd.read_csv('list_UScompanyInfo', sep="\t", index_col=False,
@@ -37,14 +36,10 @@ fileOutput.write("\n")
 # HK version STARTS
 stock_df = pd.read_csv('list_hkstocks', dtype=object, sep=" ", index_col=False, names=['ticker', 'name'])
 stock_df['ticker'] = stock_df['ticker'].astype(str)
-# HK Version ENDS
-
-listStocks = stock_df['ticker'].map(lambda x: convertHK(x)).tolist()
 hk_shares = pd.read_csv('list_hk_totalShares', sep="\t", index_col=False, names=['ticker', 'shares'])
-
-
+listStocks = stock_df['ticker'].map(lambda x: convertHK(x)).tolist()
 # listStocks = ['1513.HK']
-
+# HK Version ENDS
 
 print(len(listStocks), listStocks)
 
@@ -117,11 +112,11 @@ for comp in listStocks:
         pcfo = marketCap / (cfo / exRate)
 
         if pb > 1:
-            print(comp, ' pb > 1', pb)
+            print(comp, 'pb > 1', pb)
             continue
 
         if pcfo > 10 or pcfo < 0:
-            print(comp, ' pcfo > 10 or < 0', pcfo)
+            print(comp, 'pcfo > 10 or < 0', pcfo)
             continue
 
         revenue = getFromDF(incomeStatement.loc["totalRevenue"])
@@ -140,17 +135,17 @@ for comp in listStocks:
         #     .to_string(index=False, header=False) + " " \
 
         outputString = comp + " " \
-                       + listingCurrency + bsCurrency + str(round(exRate, 2)) \
+                       + listingCurrency + bsCurrency \
                        + " MV:" + str(round(marketCap / 1000000000.0, 1)) + 'B' \
                        + " Eq:" + str(round((totalAssets - totalLiab) / exRate / 1000000000.0, 1)) + 'B' \
-                       + " P/CFO " + str(round(pcfo, 2)) \
+                       + " P/CFO:" + str(round(pcfo, 2)) \
                        + " PB:" + str(round(pb, 1)) \
                        + " C/R:" + str(round(currentRatio, 2)) \
                        + " D/E:" + str(round(debtEquityRatio, 2)) \
                        + " RE/A:" + str(round(retainedEarningsAssetRatio, 2)) \
                        + " cfo/A:" + str(round(cfoAssetRatio, 2)) \
                        + " ebit/A:" + str(round(ebitAssetRatio, 2)) \
-                       + " S/A " + str(round(revenue / totalAssets, 2)) \
+                       + " S/A:" + str(round(revenue / totalAssets, 2)) \
                        + " 52w p%: " + str(round(percentile)) \
                        + " div10yr: " + str(round(divSum / marketPrice * 100))
 

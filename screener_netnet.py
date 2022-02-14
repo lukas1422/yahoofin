@@ -44,12 +44,13 @@ fileOutput = open('list_results_netnet', 'w')
 # HK version STARTS
 stock_df = pd.read_csv('list_hkstocks', dtype=object, sep=" ", index_col=False, names=['ticker', 'name'])
 stock_df['ticker'] = stock_df['ticker'].astype(str)
-# HK Version ENDS
 hk_shares = pd.read_csv('list_hk_totalShares', sep="\t", index_col=False, names=['ticker', 'shares'])
-
 listStocks = stock_df['ticker'].map(lambda x: convertHK(x)).tolist()
-
 # listStocks = ['1513.HK']
+
+# HK Version ENDS
+
+
 
 print(len(listStocks), listStocks)
 
@@ -92,9 +93,9 @@ for comp in listStocks:
         # shares = si.get_quote_data(comp)['sharesOutstanding']
         # shares = scrape_sharesOutstanding.scrapeTotalSharesXueqiu(comp)
         shares = hk_shares[hk_shares['ticker'] == comp]['shares'].values[0]
-        #print("shares ", shares)
+        # print("shares ", shares)
         marketCap = marketPrice * shares
-        #print("market cap ", marketCap)
+        # print("market cap ", marketCap)
 
         listingCurr = getListingCurrency(comp)
         bsCurr = getBalanceSheetCurrency(comp, listingCurr)
