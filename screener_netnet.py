@@ -51,6 +51,9 @@ print(len(listStocks), listStocks)
 for comp in listStocks:
     print(increment())
     try:
+        info = si.get_company_info(comp)
+        country = info.loc["country"][0]
+        sector = info.loc['sector'][0]
 
         marketPrice = si.get_live_price(comp)
 
@@ -125,6 +128,8 @@ for comp in listStocks:
                                             / inventory, 2))
 
         outputString = comp + " " + listingCurr + bsCurr \
+                       + country.replace(" ", "_") + " " \
+                       + sector.replace(" ", "_") + " " \
                        + " cash:" + str(round(cash / 1000000000, 2)) \
                        + " rec:" + str(round(receivables / 1000000000, 2)) \
                        + " inv:" + str(round(inventory / 1000000000, 2)) \

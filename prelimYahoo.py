@@ -96,7 +96,7 @@ print("L", round(totalLiab / exRate / 1000000000, 1), "B", "(",
 print("E", round((totalAssets - totalLiab) / exRate / 1000000000.0, 1), "B")
 print("price shs", round(marketPrice, 2))
 print("BV/Shs", round((totalAssets - totalLiab) / exRate / sharesYahoo, 2))
-print("MV USD", round(marketPrice * sharesYahoo / 1000000000.0, 1), "B")
+print("MV ListingCurr", round(marketPrice * sharesYahoo / 1000000000.0, 1), "B")
 # print("Eq USD", round((equity / exRate) / 1000000000.0), "B")
 
 print("P/B", round(marketPrice * sharesYahoo / (equity / exRate), 2))

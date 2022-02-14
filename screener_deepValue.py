@@ -59,10 +59,10 @@ for comp in listStocks:
         bs = si.get_balance_sheet(comp)
         totalCurrentAssets = getFromDF(bs.loc["totalCurrentAssets"])
         totalCurrentLiab = getFromDF(bs.loc["totalCurrentLiabilities"])
-        currentRatio = totalCurrentAssets / totalCurrentLiab * 100
+        currentRatio = totalCurrentAssets / totalCurrentLiab
 
         if currentRatio < 1:
-            print(comp, "current ratio < 1")
+            print(comp, "current ratio < 1", currentRatio)
             continue
 
         retainedEarnings = getFromDF(bs.loc["retainedEarnings"])
@@ -73,7 +73,7 @@ for comp in listStocks:
 
         totalAssets = getFromDF(bs.loc["totalAssets"])
         totalLiab = getFromDF(bs.loc["totalLiab"])
-        debtEquityRatio = totalLiab / (totalAssets - totalLiab) * 100
+        debtEquityRatio = totalLiab / (totalAssets - totalLiab)
 
         if debtEquityRatio > 1:
             print(comp, " de ratio> 1. ", debtEquityRatio)
@@ -120,9 +120,9 @@ for comp in listStocks:
 
         revenue = getFromDF(incomeStatement.loc["totalRevenue"])
 
-        retainedEarningsAssetRatio = retainedEarnings / totalAssets * 100
-        cfoAssetRatio = cfo / totalAssets * 100
-        ebitAssetRatio = ebit / totalAssets * 100
+        retainedEarningsAssetRatio = retainedEarnings / totalAssets
+        cfoAssetRatio = cfo / totalAssets
+        ebitAssetRatio = ebit / totalAssets
 
         data = si.get_data(comp, start_date=START_DATE, interval=PRICE_INTERVAL)
         divs = si.get_dividends(comp, start_date=DIVIDEND_START_DATE)
@@ -137,14 +137,14 @@ for comp in listStocks:
                        + listingCurrency + bsCurrency + str(round(exRate, 2)) \
                        + " MV:" + str(round(marketCap / 1000000000.0, 1)) + 'B' \
                        + " Eq:" + str(round((totalAssets - totalLiab) / exRate / 1000000000.0, 1)) + 'B' \
-                       + " P/CFO " + str(round(pcfo, 1)) \
+                       + " P/CFO " + str(round(pcfo, 2)) \
                        + " PB:" + str(round(pb, 1)) \
-                       + " C/R:" + str(round(currentRatio)) \
-                       + " D/E:" + str(round(debtEquityRatio)) \
-                       + " RE/A:" + str(round(retainedEarningsAssetRatio)) \
-                       + " cfo/A:" + str(round(cfoAssetRatio, )) \
-                       + " ebit/A:" + str(round(ebitAssetRatio)) \
-                       + " S/A " + str(round(revenue / totalAssets * 100)) \
+                       + " C/R:" + str(round(currentRatio, 2)) \
+                       + " D/E:" + str(round(debtEquityRatio, 2)) \
+                       + " RE/A:" + str(round(retainedEarningsAssetRatio, 2)) \
+                       + " cfo/A:" + str(round(cfoAssetRatio, 2)) \
+                       + " ebit/A:" + str(round(ebitAssetRatio, 2)) \
+                       + " S/A " + str(round(revenue / totalAssets, 2)) \
                        + " 52w p%: " + str(round(percentile)) \
                        + " div10yr: " + str(round(divSum / marketPrice * 100))
 
