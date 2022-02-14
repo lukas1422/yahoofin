@@ -23,7 +23,7 @@ def getInsiderOwnership():
 def convertHK(ticker):
     if ticker.startswith('0'):
         return ticker[1:] + '.HK'
-    return ticker
+    return ticker + '.HK'
 
 
 # def generateUSList():

@@ -23,7 +23,7 @@ exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 fileOutput = open('list_results', 'w')
 fileOutput.write("\n")
 
-# US Version
+# US Version STARTS
 # stock_df = pd.read_csv('list_UScompanyInfo', sep="\t", index_col=False,
 #                        names=['ticker', 'name', 'sector', 'industry', 'country', 'mv', 'price'])
 #
@@ -32,11 +32,12 @@ fileOutput.write("\n")
 #                          .contains('financial|healthcare', regex=True, case=False) == False)
 #                       & (stock_df['industry'].str.contains('reit', regex=True, case=False) == False)
 #                       & (stock_df['country'].str.lower() != 'china')]['ticker'].tolist()
+# US Version Ends
 
-# HK version
+# HK version STARTS
 stock_df = pd.read_csv('list_hkstocks', dtype=object, sep=" ", index_col=False, names=['ticker', 'name'])
-
 stock_df['ticker'] = stock_df['ticker'].astype(str)
+# HK Version ENDS
 
 listStocks = stock_df['ticker'].map(lambda x: convertHK(x)).tolist()
 
@@ -99,21 +100,22 @@ for comp in listStocks:
         listingCurrency = getListingCurrency(comp)
         bsCurrency = getBalanceSheetCurrency(comp, listingCurrency)
 
-        print("bs currency, listing currency", listingCurrency, bsCurrency)
+        print("listing currency, bs currency, ", listingCurrency, bsCurrency)
         exRate = currency_getExchangeRate.getExchangeRate(exchange_rate_dict,
                                                           listingCurrency, bsCurrency)
 
         print(bsCurrency, listingCurrency)
         marketCap = marketPrice * shares
         pb = marketCap / (equity / exRate)
-        pe = marketCap / (netIncome / exRate)
+        # pe = marketCap / (netIncome / exRate)
+        pcfo = marketCap / (cfo / exRate)
 
         if pb > 1:
             print(comp, ' pb > 1', pb)
             continue
 
-        if pe > 10 or pe < 0:
-            print(comp, ' pe > 10 or < 0', pe)
+        if pcfo > 10 or pcfo < 0:
+            print(comp, ' pcfo > 10 or < 0', pcfo)
             continue
 
         revenue = getFromDF(incomeStatement.loc["totalRevenue"])
@@ -134,10 +136,10 @@ for comp in listStocks:
         outputString = comp + " " \
                        + listingCurrency + bsCurrency + str(round(exRate, 2)) \
                        + " MV:" + str(round(marketCap / 1000000000.0, 1)) + 'B' \
-                       + " PE " + str(round(pe, 1)) \
-                       + " pb:" + str(round(pb, 1)) \
                        + " Eq:" + str(round((totalAssets - totalLiab) / exRate / 1000000000.0, 1)) + 'B' \
-                       + " CR:" + str(round(currentRatio, 1)) \
+                       + " P/CFO " + str(round(pcfo, 1)) \
+                       + " PB:" + str(round(pb, 1)) \
+                       + " C/R:" + str(round(currentRatio, 1)) \
                        + " D/E:" + str(round(debtEquityRatio, 1)) \
                        + " RE/A:" + str(round(retainedEarningsAssetRatio, 1)) \
                        + " cfo/A:" + str(round(cfoAssetRatio, 1)) \
