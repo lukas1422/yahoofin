@@ -2,9 +2,12 @@ from bs4 import BeautifulSoup
 from urllib.request import Request, urlopen
 import re
 import json
-
+import pandas as pd
 
 # this method does not return
+from helperMethods import convertHK
+
+
 def scrapeTotalSharesXueqiu(comp):
     if comp.endswith('HK'):
         comp = comp[:-3].zfill(5)
@@ -29,9 +32,9 @@ def scrapeTotalSharesXueqiu(comp):
                     # return str(float(dic['total_shares']) / 1000000000) + "B"
     except Exception as e:
         print(comp, e)
-        return "scrape xueqiu error"
+        return 0
     else:
-        return "scrape xueqiu none"
+        return 0
 
 
 def scrapeFloatingSharesXueqiu(comp):
@@ -73,3 +76,26 @@ def scrapeSharesOutstandingFinviz(comp):
                 return td.nextSibling.getText()
     except:
         return 0
+
+
+#
+# stock_df = pd.read_csv('list_redo', dtype=object, sep=" ", index_col=False, names=['ticker', 'name'])
+# stock_df['ticker'] = stock_df['ticker'].astype(str)
+# # HK Version ENDS
+#
+# listStocks = stock_df['ticker'].map(lambda x: convertHK(x)).tolist()
+#
+# print(len(listStocks), listStocks)
+#
+# for comp in listStocks:
+#
+#     try:
+#         xueqiu = scrapeTotalSharesXueqiu(comp)
+#         outputString = comp + " " + str(xueqiu)
+#
+#         print(outputString)
+#         fileOutput.write(outputString + '\n')
+#         fileOutput.flush()
+#
+#     except Exception as e:
+#         print(comp, "exception", e)
