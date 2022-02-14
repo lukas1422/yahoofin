@@ -40,6 +40,7 @@ stock_df['ticker'] = stock_df['ticker'].astype(str)
 # HK Version ENDS
 
 listStocks = stock_df['ticker'].map(lambda x: convertHK(x)).tolist()
+hk_shares = pd.read_csv('list_hk_totalShares', sep="\t", index_col=False, names=['ticker', 'shares'])
 
 print(len(listStocks), listStocks)
 
@@ -95,7 +96,8 @@ for comp in listStocks:
             continue
 
         equity = getFromDF(bs.loc["totalStockholderEquity"])
-        shares = si.get_quote_data(comp)['sharesOutstanding']
+        # shares = si.get_quote_data(comp)['sharesOutstanding']
+        shares = hk_shares[hk_shares['ticker'] == comp]['shares'].values[0]
 
         listingCurrency = getListingCurrency(comp)
         bsCurrency = getBalanceSheetCurrency(comp, listingCurrency)
