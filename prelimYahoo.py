@@ -16,7 +16,7 @@ def fo(number):
 
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 
-stockName = '1051.HK'
+stockName = '6127.HK'
 
 info = si.get_company_info(stockName)
 country = info.loc["country"][0]
@@ -58,7 +58,8 @@ cff = cf.loc["totalCashFromFinancingActivities"][0]
 
 marketPrice = si.get_live_price(stockName)
 sharesYahoo = si.get_quote_data(stockName)['sharesOutstanding']
-sharesXueqiu = scrape_sharesOutstanding.scrapeSharesOutstandingXueqiu2(stockName)
+sharesTotalXueqiu = scrape_sharesOutstanding.scrapeTotalSharesXueqiu(stockName)
+floatingSharesXueqiu = scrape_sharesOutstanding.scrapeFloatingSharesXueqiu(stockName)
 sharesFinviz = scrape_sharesOutstanding.scrapeSharesOutstandingFinviz(stockName)
 
 marketCap = marketPrice * sharesYahoo
@@ -84,7 +85,8 @@ divSum = divs['dividend'].sum() if not divs.empty else 0.0
 
 print(listingCurrency, bsCurrency, "ExRate ", exRate)
 print("shares Yahoo", sharesYahoo / 1000000000.0, "B")
-print("shares xueqiu", sharesXueqiu)
+print("total shares xueqiu", str(sharesTotalXueqiu / 1000000000) + "B")
+print("floating shares xueqiu", str(floatingSharesXueqiu / 1000000000) + "B")
 print("shares finviz", sharesFinviz)
 print("cash", cash, "rec", receivables, "inv", inventory)
 print("A", round(totalAssets / exRate / 1000000000, 1), "B", "(",

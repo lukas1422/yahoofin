@@ -5,23 +5,36 @@ import json
 
 
 # this method does not return
-def scrapeSharesOutstandingXueqiu(comp):
+def scrapeTotalSharesXueqiu(comp):
     if comp.endswith('HK'):
         comp = comp[:-3].zfill(5)
     comp = comp.replace('-', '.')
 
-    print('scrapeSharesOutstandingXueqiu', comp)
-    url = "https://xueqiu.com/S/" + comp
-    req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
-    webpage = urlopen(req).read()
-    soup = BeautifulSoup(webpage, "html.parser")
+    # print('scrapeSharesOutstandingXueqiu', comp)
+    try:
+        url = "https://xueqiu.com/S/" + comp
+        req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+        webpage = urlopen(req, timeout=5).read()
+        soup = BeautifulSoup(webpage, "html.parser")
 
-    for a in soup.find_all('td'):
-        if a.getText().startswith("总股本"):
-            return a.find('span').getText()
+        for a in soup.find_all('script'):
+            if a.getText().startswith('window.STOCK_PAGE'):
+                searchText = (a.getText())
+                pattern = re.compile(r"quote:\s+({.*?})")
+                dic = json.loads(pattern.search(searchText).group(1) + "}")
+                if 'total_shares' in dic and dic['total_shares'] is not None and \
+                        dic['total_shares'] != "null":
+                    print("scrape total shares:", dic['total_shares'])
+                    return float(dic['total_shares'])
+                    # return str(float(dic['total_shares']) / 1000000000) + "B"
+    except Exception as e:
+        print(comp, e)
+        return "scrape xueqiu error"
+    else:
+        return "scrape xueqiu none"
 
 
-def scrapeSharesOutstandingXueqiu2(comp):
+def scrapeFloatingSharesXueqiu(comp):
     if comp.endswith('HK'):
         comp = comp[:-3].zfill(5)
     comp = comp.replace('-', '.')

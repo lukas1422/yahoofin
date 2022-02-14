@@ -3,6 +3,8 @@
 
 import yahoo_fin.stock_info as si
 import pandas as pd
+
+import scrape_sharesOutstanding
 from currency_scrapeYahoo import getBalanceSheetCurrency
 from currency_scrapeYahoo import getListingCurrency
 import currency_getExchangeRate
@@ -46,10 +48,13 @@ stock_df['ticker'] = stock_df['ticker'].astype(str)
 
 listStocks = stock_df['ticker'].map(lambda x: convertHK(x)).tolist()
 
+# listStocks = ['6127.HK']
+
 print(len(listStocks), listStocks)
 
 for comp in listStocks:
     print(increment())
+
     try:
         info = si.get_company_info(comp)
         country = info.loc["country"][0]
@@ -83,7 +88,8 @@ for comp in listStocks:
         receivables = getFromDF(bs.loc['netReceivables']) if 'netReceivables' in bs.index else 0.0
         inventory = getFromDF(bs.loc['inventory']) if 'inventory' in bs.index else 0.0
 
-        shares = si.get_quote_data(comp)['sharesOutstanding']
+        # shares = si.get_quote_data(comp)['sharesOutstanding']
+        shares = scrape_sharesOutstanding.scrapeTotalSharesXueqiu(comp)
         marketCap = marketPrice * shares
 
         listingCurr = getListingCurrency(comp)
