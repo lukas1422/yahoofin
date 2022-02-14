@@ -120,7 +120,7 @@ for comp in listStocks:
             continue
 
         if pe > 10 or pe < 0:
-            print(comp, ' pe > 10 or < 0')
+            print(comp, ' pe > 10 or < 0', pe)
             continue
 
         revenue = getFromDF(incomeStatement.loc["totalRevenue"])
@@ -139,7 +139,7 @@ for comp in listStocks:
         #     .to_string(index=False, header=False) + " " \
 
         outputString = comp + " " \
-                       + listingCurrency + bsCurrency + str(round(exRate,2)) \
+                       + listingCurrency + bsCurrency + str(round(exRate, 2)) \
                        + " MV:" + str(round(marketCap / 1000000000.0, 1)) + 'B' \
                        + " PE " + str(round(pe, 1)) \
                        + " pb:" + str(round(pb, 1)) \
