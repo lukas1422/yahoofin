@@ -1,4 +1,5 @@
 # screens for netnets
+# both HK and US
 
 import yahoo_fin.stock_info as si
 import pandas as pd
@@ -50,6 +51,13 @@ print(len(listStocks), listStocks)
 for comp in listStocks:
     print(increment())
     try:
+
+        marketPrice = si.get_live_price(comp)
+
+        if marketPrice < 1:
+            print(comp, " cent stock ", marketPrice)
+            continue
+
         bs = si.get_balance_sheet(comp, yearly=False)
 
         retainedEarnings = getFromDF(bs.loc["retainedEarnings"]) if 'retainedEarnings' in bs.index else 0
@@ -64,17 +72,16 @@ for comp in listStocks:
         totalLiab = getFromDF(bs.loc["totalLiab"]) if 'totalLiab' in bs.index else 0.0
 
         if currentAssets < totalLiab:
-            print(comp, " current assets < total liab")
+            print(comp, " current assets < total liab", round(currentAssets / 1000000000, 2),
+                  round(totalLiab / 1000000000, 2))
             continue
 
         cash = getFromDF(bs.loc['cash']) if 'cash' in bs.index else 0.0
         receivables = getFromDF(bs.loc['netReceivables']) if 'netReceivables' in bs.index else 0.0
         inventory = getFromDF(bs.loc['inventory']) if 'inventory' in bs.index else 0.0
 
-        marketPrice = si.get_live_price(comp)
         shares = si.get_quote_data(comp)['sharesOutstanding']
         marketCap = marketPrice * shares
-
 
         listingCurr = getListingCurrency(comp)
         bsCurr = getBalanceSheetCurrency(comp, listingCurr)
