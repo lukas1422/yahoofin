@@ -87,32 +87,30 @@ for comp in listStocks:
         bsCurr = getBalanceSheetCurrency(comp, listingCurr)
         exRate = currency_getExchangeRate.getExchangeRate(exchange_rate_dict, listingCurr, bsCurr)
 
-        if (currentAssets - totalLiab) / exRate < marketCap:
+        if (cash + receivables + inventory - totalLiab) / exRate < marketCap:
             print(comp, listingCurr, bsCurr,
-                  'current assets - total liab < mv. CurrAssets Liab MV:',
-                  round(currentAssets / 1000000000, 2),
+                  'cash + rec + inventory - total liab < mv. cash rec inv Liab MV:',
+                  round(cash / 1000000000, 2),
+                  round(receivables / 1000000000, 2),
+                  round(inventory / 1000000000, 2),
                   round(totalLiab / 1000000000, 2),
                   round(marketCap / 1000000000, 2))
             continue
 
-        outputString = ""
-
-        if (cash - totalLiab) / exRate > marketCap:
-            outputString = "cash netnet:" + comp + " " \
-                           + listingCurr + bsCurr \
-                           + " cash:" + str(round(cash / 1000000000, 2)) \
-                           + " L:" + str(round(totalLiab / 1000000000, 2))
-
-        elif (cash + receivables * 0.5 - totalLiab) / exRate > marketCap:
-            outputString = "cash receivable netnet:" + comp + " "
-
-        elif (cash + receivables * 0.5 + inventory * 0.3 - totalLiab) / exRate > marketCap:
-            outputString = "cash rec inv netnet " + comp
-
-        elif (currentAssets - totalLiab) / exRate > marketCap:
-            outputString = 'currentAsset netnet ' + comp
-        else:
-            outputString = 'undefined net net,check:' + comp
+        # outputString = ""
+        # if (cash - totalLiab) / exRate > marketCap:
+        #     outputString = "cash netnet:" + comp + " " \
+        #                    + listingCurr + bsCurr \
+        #                    + " cash:" + str(round(cash / 1000000000, 2)) \
+        #                    + " L:" + str(round(totalLiab / 1000000000, 2))
+        # elif (cash + receivables * 0.5 - totalLiab) / exRate > marketCap:
+        #     outputString = "cash receivable netnet:" + comp + " "
+        # elif (cash + receivables * 0.5 + inventory * 0.3 - totalLiab) / exRate > marketCap:
+        #     outputString = "cash rec inv netnet " + comp
+        # elif (currentAssets - totalLiab) / exRate > marketCap:
+        #     outputString = 'currentAsset netnet ' + comp
+        # else:
+        #     outputString = 'undefined net net,check:' + comp
 
         additionalComment = ""
         if (cash - totalLiab) / exRate - marketCap > 0:
@@ -121,19 +119,19 @@ for comp in listStocks:
         elif (cash + receivables - totalLiab) / exRate - marketCap > 0:
             additionalComment = "receivable conversion rate required: " \
                                 + str(round((totalLiab + marketCap * exRate - cash) / receivables, 2))
-        elif (cash + 0.5* receivables + inventory - totalLiab) / exRate - marketCap > 0:
-            additionalComment = "inventory conversion rate required: " \
+        elif (cash + 0.5 * receivables + inventory - totalLiab) / exRate - marketCap > 0:
+            additionalComment = " inventory conversion rate required: " \
                                 + str(round((totalLiab + marketCap * exRate - cash - 0.5 * receivables)
                                             / inventory, 2))
 
-        outputString = outputString + " " + listingCurr + bsCurr \
+        outputString = comp + " " + listingCurr + bsCurr \
                        + " cash:" + str(round(cash / 1000000000, 2)) \
                        + " rec:" + str(round(receivables / 1000000000, 2)) \
                        + " inv:" + str(round(inventory / 1000000000, 2)) \
                        + " CA:" + str(round(currentAssets / 1000000000, 2)) \
                        + " L:" + str(round(totalLiab / 1000000000, 2)) \
                        + " mv:" + str(round(marketCap / 1000000000, 2)) \
-                       + " comment" + additionalComment
+                       + additionalComment
 
         # + ' profit:' + str(round(((cash + 0.5 * receivables
         #                            + 0.3 * inventory - totalLiab) / exRate - marketCap)
