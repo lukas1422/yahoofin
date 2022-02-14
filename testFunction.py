@@ -1,6 +1,6 @@
 import pandas as pd
 
-stock_df = pd.read_csv('list_companyInfo', sep="\t", index_col=False,
+stock_df = pd.read_csv('list_UScompanyInfo', sep="\t", index_col=False,
                        names=['ticker', 'name', 'sector', 'industry', 'country', 'mv', 'price'])
 
 # dtype='str', converters={'mv': float, 'price': float})

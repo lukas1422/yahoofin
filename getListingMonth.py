@@ -15,7 +15,7 @@ PRICE_INTERVAL = '1mo'
 
 fileOutput = open('list_listingDate', 'w')
 
-stock_df = pd.read_csv('list_companyInfo', sep="\t", index_col=False,
+stock_df = pd.read_csv('list_UScompanyInfo', sep="\t", index_col=False,
                        names=['ticker', 'name', 'sector', 'industry', 'country', 'mv', 'price'])
 
 listStocks = stock_df['ticker'].tolist()

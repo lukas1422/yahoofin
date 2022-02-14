@@ -3,7 +3,7 @@ import pandas as pd
 from currency_scrapeYahoo import getBalanceSheetCurrency
 from currency_scrapeYahoo import getListingCurrency
 import currency_getExchangeRate
-from helperMethods import getFromDF
+from helperMethods import getFromDF, convertHK
 
 COUNT = 0
 
@@ -24,7 +24,7 @@ fileOutput = open('list_results', 'w')
 fileOutput.write("\n")
 
 # US Version
-# stock_df = pd.read_csv('list_companyInfo', sep="\t", index_col=False,
+# stock_df = pd.read_csv('list_UScompanyInfo', sep="\t", index_col=False,
 #                        names=['ticker', 'name', 'sector', 'industry', 'country', 'mv', 'price'])
 #
 # listStocks = stock_df[(stock_df['price'] > 1)
@@ -37,13 +37,6 @@ fileOutput.write("\n")
 stock_df = pd.read_csv('list_hkstocks', dtype=object, sep=" ", index_col=False, names=['ticker', 'name'])
 
 stock_df['ticker'] = stock_df['ticker'].astype(str)
-
-
-def convertHK(ticker):
-    if ticker.startswith('0'):
-        return ticker[1:] + '.HK'
-    return ticker
-
 
 listStocks = stock_df['ticker'].map(lambda x: convertHK(x)).tolist()
 

@@ -20,6 +20,12 @@ def getInsiderOwnership():
     ownership['perc'] = ownership['perc'].str.rstrip("%").astype(float)
     return pd.Series(ownership.perc.values, index=ownership.ticker).to_dict()
 
+def convertHK(ticker):
+    if ticker.startswith('0'):
+        return ticker[1:] + '.HK'
+    return ticker
+
+
 # def generateUSList():
 #
 #

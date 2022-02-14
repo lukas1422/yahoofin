@@ -41,8 +41,9 @@ inventory = getFromDF(bs.loc['inventory']) if 'inventory' in bs.index else 0.0
 cf = si.get_cash_flow(stockName)
 incomeStatement = si.get_income_statement(stockName)
 
-bsCurrency = getBalanceSheetCurrency(stockName)
+
 listingCurrency = getListingCurrency(stockName)
+bsCurrency = getBalanceSheetCurrency(stockName, listingCurrency)
 exRate = currency_getExchangeRate.getExchangeRate(exchange_rate_dict, listingCurrency, bsCurrency)
 
 # IS
