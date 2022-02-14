@@ -121,9 +121,10 @@ for comp in listStocks:
         elif (cash + receivables - totalLiab) / exRate - marketCap > 0:
             additionalComment = "receivable conversion rate required: " \
                                 + str(round((totalLiab + marketCap * exRate - cash) / receivables, 2))
-        elif (cash + receivables + 0.5 * inventory - totalLiab) / exRate - marketCap > 0:
+        elif (cash + 0.5* receivables + inventory - totalLiab) / exRate - marketCap > 0:
             additionalComment = "inventory conversion rate required: " \
-                                + str(round((totalLiab + marketCap * exRate - cash - 0.5 * receivables) / inventory, 2))
+                                + str(round((totalLiab + marketCap * exRate - cash - 0.5 * receivables)
+                                            / inventory, 2))
 
         outputString = outputString + " " + listingCurr + bsCurr \
                        + " cash:" + str(round(cash / 1000000000, 2)) \
