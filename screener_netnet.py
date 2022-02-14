@@ -111,9 +111,19 @@ for comp in listStocks:
 
         elif (currentAssets - totalLiab) / exRate > marketCap:
             outputString = 'currentAsset netnet ' + comp
-
         else:
             outputString = 'undefined net net,check:' + comp
+
+        additionalComment = ""
+        if (cash - totalLiab) / exRate - marketCap > 0:
+            profit = (cash - totalLiab) / exRate - marketCap
+            additionalComment = "clean cash netnet, profit:" + str(round(profit, 2))
+        elif (cash + receivables - totalLiab) / exRate - marketCap > 0:
+            additionalComment = "receivable conversion rate required: " \
+                                + str(round((totalLiab + marketCap * exRate - cash) / receivables, 2))
+        elif (cash + receivables + inventory - totalLiab) / exRate - marketCap > 0:
+            additionalComment = "inventory conversion rate required: " \
+                                + str(round((totalLiab + marketCap * exRate - cash - 0.5 * receivables) / inventory, 2))
 
         outputString = outputString + " " + listingCurr + bsCurr \
                        + " cash:" + str(round(cash / 1000000000, 2)) \
@@ -122,9 +132,11 @@ for comp in listStocks:
                        + " CA:" + str(round(currentAssets / 1000000000, 2)) \
                        + " L:" + str(round(totalLiab / 1000000000, 2)) \
                        + " mv:" + str(round(marketCap / 1000000000, 2)) \
-                       + ' profit:' + str(round(((cash + 0.5 * receivables
-                                                  + 0.3 * inventory - totalLiab) / exRate - marketCap)
-                                                / 1000000000, 2))
+                       + " comment" + additionalComment
+
+        # + ' profit:' + str(round(((cash + 0.5 * receivables
+        #                            + 0.3 * inventory - totalLiab) / exRate - marketCap)
+        #                          / 1000000000, 2))
 
         print(outputString)
 

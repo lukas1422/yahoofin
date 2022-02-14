@@ -52,9 +52,9 @@ for comp in listStocks:
             continue
 
         info = si.get_company_info(comp)
-        if info.loc["country"][0].lower() == "china":
-            print(comp, "no china")
-            continue
+        # if info.loc["country"][0].lower() == "china":
+        #     print(comp, "no china")
+        #     continue
 
         bs = si.get_balance_sheet(comp)
         totalCurrentAssets = getFromDF(bs.loc["totalCurrentAssets"])
