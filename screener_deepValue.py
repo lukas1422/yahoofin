@@ -23,16 +23,30 @@ exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 fileOutput = open('list_results', 'w')
 fileOutput.write("\n")
 
-stock_df = pd.read_csv('list_companyInfo', sep="\t", index_col=False,
-                       names=['ticker', 'name', 'sector', 'industry', 'country', 'mv', 'price'])
+# US Version
+# stock_df = pd.read_csv('list_companyInfo', sep="\t", index_col=False,
+#                        names=['ticker', 'name', 'sector', 'industry', 'country', 'mv', 'price'])
+#
+# listStocks = stock_df[(stock_df['price'] > 1)
+#                       & (stock_df['sector'].str
+#                          .contains('financial|healthcare', regex=True, case=False) == False)
+#                       & (stock_df['industry'].str.contains('reit', regex=True, case=False) == False)
+#                       & (stock_df['country'].str.lower() != 'china')]['ticker'].tolist()
 
-listStocks = stock_df[(stock_df['price'] > 1)
-                      & (stock_df['sector'].str
-                         .contains('financial|healthcare', regex=True, case=False) == False)
-                      & (stock_df['industry'].str.contains('reit', regex=True, case=False) == False)
-                      & (stock_df['country'].str.lower() != 'china')]['ticker'].tolist()
+# HK version
+stock_df = pd.read_csv('list_hkstocks', dtype=object, sep=" ", index_col=False, names=['ticker', 'name'])
 
-print(listStocks.len, listStocks)
+stock_df['ticker'] = stock_df['ticker'].astype(str)
+
+def convertHK(ticker):
+    if ticker.startswith('0'):
+        return ticker[1:] + '.HK'
+    return ticker
+
+
+listStocks = stock_df['ticker'].map(lambda x: convertHK(x)).tolist()
+
+print(len(listStocks), listStocks)
 
 for comp in listStocks:
     print(increment())

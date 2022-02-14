@@ -4,7 +4,7 @@ def getExchangeRateDict():
 
 def getExchangeRate(dictionary, firstCurr, secondCurr):
     currency = firstCurr + secondCurr
-    if currency == 'USDUSD':
+    if firstCurr == secondCurr:
         return 1
     elif currency in dictionary:
         return float(dictionary[currency])
