@@ -56,7 +56,7 @@ def scrapeFloatingSharesXueqiu(comp):
                 dic = json.loads(pattern.search(searchText).group(1) + "}")
                 if 'float_shares' in dic and dic['float_shares'] is not None and \
                         dic['float_shares'] != "null":
-                    return str(float(dic['float_shares']) / 1000000000) + "B"
+                    return float(dic['float_shares'])
     except Exception as e:
         print(comp, e)
         return "scrape xueqiu error"
@@ -76,7 +76,6 @@ def scrapeSharesOutstandingFinviz(comp):
                 return td.nextSibling.getText()
     except:
         return 0
-
 
 #
 # stock_df = pd.read_csv('list_redo', dtype=object, sep=" ", index_col=False, names=['ticker', 'name'])

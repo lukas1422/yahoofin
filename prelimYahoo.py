@@ -16,7 +16,7 @@ def fo(number):
 
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 
-stockName = '6127.HK'
+stockName = '2698.HK'
 
 info = si.get_company_info(stockName)
 country = info.loc["country"][0]
@@ -28,11 +28,12 @@ bs = si.get_balance_sheet(stockName)
 
 # BS
 retainedEarnings = bs.loc["retainedEarnings"][0]
-equity = bs.loc["totalStockholderEquity"][0]
+#equity = bs.loc["totalStockholderEquity"][0]
 totalCurrentAssets = bs.loc["totalCurrentAssets"][0]
 totalCurrentLiab = bs.loc["totalCurrentLiabilities"][0]
 totalAssets = bs.loc["totalAssets"][0]
 totalLiab = bs.loc["totalLiab"][0]
+equity = totalAssets - totalLiab
 cash = getFromDF(bs.loc['cash']) if 'cash' in bs.index else 0.0
 receivables = getFromDF(bs.loc['netReceivables']) if 'netReceivables' in bs.index else 0.0
 inventory = getFromDF(bs.loc['inventory']) if 'inventory' in bs.index else 0.0
@@ -57,12 +58,12 @@ cfi = cf.loc["totalCashflowsFromInvestingActivities"][0]
 cff = cf.loc["totalCashFromFinancingActivities"][0]
 
 marketPrice = si.get_live_price(stockName)
-sharesYahoo = si.get_quote_data(stockName)['sharesOutstanding']
+#sharesYahoo = si.get_quote_data(stockName)['sharesOutstanding']
 sharesTotalXueqiu = scrape_sharesOutstanding.scrapeTotalSharesXueqiu(stockName)
 floatingSharesXueqiu = scrape_sharesOutstanding.scrapeFloatingSharesXueqiu(stockName)
 sharesFinviz = scrape_sharesOutstanding.scrapeSharesOutstandingFinviz(stockName)
 
-marketCap = marketPrice * sharesYahoo
+marketCap = marketPrice * sharesTotalXueqiu
 currentRatio = totalCurrentAssets / totalCurrentLiab * 100
 debtEquityRatio = totalLiab / (totalAssets - totalLiab) * 100
 retainedEarningsAssetRatio = retainedEarnings / totalAssets * 100
@@ -84,9 +85,9 @@ divSum = divs['dividend'].sum() if not divs.empty else 0.0
 # PRINTING*****
 
 print(listingCurrency, bsCurrency, "ExRate ", exRate)
-print("shares Yahoo", sharesYahoo / 1000000000.0, "B")
+# print("shares Yahoo", sharesYahoo / 1000000000.0, "B")
 print("total shares xueqiu", str(sharesTotalXueqiu / 1000000000) + "B")
-print("floating shares xueqiu", str(floatingSharesXueqiu / 1000000000) + "B")
+# print("floating shares xueqiu", str(floatingSharesXueqiu / 1000000000) + "B")
 print("shares finviz", sharesFinviz)
 print("cash", cash, "rec", receivables, "inv", inventory)
 print("A", round(totalAssets / exRate / 1000000000, 1), "B", "(",
@@ -97,12 +98,12 @@ print("L", round(totalLiab / exRate / 1000000000, 1), "B", "(",
       round((totalLiab - totalCurrentLiab) / exRate / 1000000000.0, 1), ")")
 print("E", round((totalAssets - totalLiab) / exRate / 1000000000.0, 1), "B")
 print("price shs", round(marketPrice, 2))
-print("BV/Shs", round((totalAssets - totalLiab) / exRate / sharesYahoo, 2))
-print("MV ListingCurr", round(marketPrice * sharesYahoo / 1000000000.0, 1), "B")
+print("BV/Shs", round((totalAssets - totalLiab) / exRate / sharesTotalXueqiu, 2))
+print("MV ListingCurr", round(marketPrice * sharesTotalXueqiu / 1000000000.0, 1), "B")
 # print("Eq USD", round((equity / exRate) / 1000000000.0), "B")
 
-print("P/B", round(marketPrice * sharesYahoo / (equity / exRate), 2))
-print("P/E", round(marketPrice * sharesYahoo / (netIncome / exRate), 2))
+print("P/B", round(marketPrice * sharesTotalXueqiu / (equity / exRate), 2))
+print("P/E", round(marketPrice * sharesTotalXueqiu / (netIncome / exRate), 2))
 print("S/B", round(revenue / equity, 2))
 print("                         ")
 print("********ALTMAN**********")
@@ -116,7 +117,7 @@ print("CFF", round(cff / 1000000000 / exRate, 2), "B")
 print("RE", round(retainedEarnings / 1000000000 / exRate, 2), "B")
 print("RE/A", round(retainedEarnings / totalAssets, 2))
 print("S/A", round(revenue / totalAssets, 2))
-print(" div return over 10 yrs ", round(divSum / marketPrice, 2))
+print("div return over 10 yrs ", round(divSum / marketPrice, 2))
 print("divsum marketprice", round(divSum, 2), round(marketPrice, 2))
 print('roa', roa)
 
