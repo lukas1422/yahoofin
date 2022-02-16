@@ -60,8 +60,8 @@ for comp in listStocks:
             continue
 
         totalCurrentAssets = getFromDF(bs.loc["totalCurrentAssets"]) if 'totalCurrentAssets' in bs.index else 0.0
-        totalCurrentLiab = getFromDF(bs.loc["totalCurrentLiabilities"]) \
-            if 'totalCurrentLiabilities' in bs.index else 0.0
+        totalCurrentLiab = getFromDF(
+            bs.loc["totalCurrentLiabilities"]) if 'totalCurrentLiabilities' in bs.index else 0.0
         currentRatio = totalCurrentAssets / totalCurrentLiab
 
         if currentRatio > 1:
@@ -130,11 +130,15 @@ for comp in listStocks:
                        + " MV:" + str(round(marketCap / 1000000000.0, 1)) + 'B' \
                        + " Eq:" + str(round((totalAssets - totalLiab) / exRate / 1000000000.0, 1)) + 'B' \
                        + " CR:" + str(round(currentRatio, 1)) \
-                       + " D/E:" + str(round(debtEquityRatio, 1)) \
-                       + " S/A " + str(round(revenue / totalAssets, 1)) \
+                       + " RE/A:" + str(round(retainedEarnings / totalAssets)) \
+                       + " EBIT/A:" + str(round(ebit / totalAssets)) \
+                       + " CFO/A" + str(round(cfo / totalAssets)) \
+                       + " NCA/A:" + str(round((totalCurrentAssets - totalCurrentLiab) / totalAssets, 2)) \
+                       + " E/D:" + str(round((totalAssets - totalLiab) / totalAssets, 1)) \
+                       + " S/A:" + str(round(revenue / totalAssets, 1)) \
                        + " pb:" + str(round(pb, 1)) \
-                       + " 52w p%: " + str(round(percentile)) \
-                       + " div10yr: " + str(round(divSum / marketPrice, 2))
+                       + " 52w p%:" + str(round(percentile)) \
+                       + " div10yr:" + str(round(divSum / marketPrice, 2))
 
         print(outputString)
         fileOutput.write(outputString + '\n')
