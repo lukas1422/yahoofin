@@ -92,7 +92,7 @@ for comp in listStocks:
 
         data = si.get_data(comp, start_date=START_DATE, interval=PRICE_INTERVAL)
         divs = si.get_dividends(comp, start_date=DIVIDEND_START_DATE)
-        low_52wk = data['adjclose'].min()
+        low_52wk = data['low'].min()
 
         if marketPrice > low_52wk * 1.1:
             print(comp, "exceeding 52wk low * 1.1")

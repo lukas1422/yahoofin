@@ -10,7 +10,7 @@ import pandas as pd
 from currency_scrapeYahoo import getBalanceSheetCurrency
 from currency_scrapeYahoo import getListingCurrency
 import currency_getExchangeRate
-from helperMethods import getFromDF
+from helperMethods import getFromDF, convertHK
 
 COUNT = 0
 
@@ -29,35 +29,43 @@ exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 
 fileOutput = open('list_shortTargets', 'w')
 
-stock_df = pd.read_csv('list_UScompanyInfo', sep=" ", index_col=False,
-                       names=['ticker', 'name', 'sector', 'industry', 'country', 'mv', 'price', 'listingDate'])
+# ## US
+# stock_df = pd.read_csv('list_UScompanyInfo', sep=" ", index_col=False,
+#                        names=['ticker', 'name', 'sector', 'industry', 'country', 'mv', 'price', 'listingDate'])
+#
+# stock_df['listingDate'] = pd.to_datetime(stock_df['listingDate'])
+#
+# listStocks = stock_df[stock_df['industry'].str
+#                           .contains('fund|shell', regex=True, case=False) == False]['ticker'].tolist()
+# ## US
 
-stock_df['listingDate'] = pd.to_datetime(stock_df['listingDate'])
-
-listStocks = stock_df[stock_df['industry'].str
-                          .contains('fund|shell', regex=True, case=False) == False]['ticker'].tolist()
+# HK version STARTS
+stock_df = pd.read_csv('list_hkstocks', dtype=object, sep=" ", index_col=False, names=['ticker', 'name'])
+stock_df['ticker'] = stock_df['ticker'].astype(str)
+hk_shares = pd.read_csv('list_hk_totalShares', sep="\t", index_col=False, names=['ticker', 'shares'])
+listStocks = stock_df['ticker'].map(lambda x: convertHK(x)).tolist()
+# listStocks = ['1513.HK']
+# HK Version ENDS
 
 print(len(listStocks), listStocks)
 
 for comp in listStocks:
     print(increment())
     try:
-        marketPrice = si.get_live_price(comp)
-
         bs = si.get_balance_sheet(comp)
+        retainedEarnings = getFromDF(bs.loc["retainedEarnings"]) if 'retainedEarnings' in bs.index else 0.0
+
+        if retainedEarnings > 0:
+            print(comp, " retained earnings > 0 ", retainedEarnings)
+            continue
+
         totalCurrentAssets = getFromDF(bs.loc["totalCurrentAssets"]) if 'totalCurrentAssets' in bs.index else 0.0
         totalCurrentLiab = getFromDF(bs.loc["totalCurrentLiabilities"]) \
             if 'totalCurrentLiabilities' in bs.index else 0.0
         currentRatio = totalCurrentAssets / totalCurrentLiab
 
         if currentRatio > 1:
-            print(comp, "current ratio > 1")
-            continue
-
-        retainedEarnings = getFromDF(bs.loc["retainedEarnings"]) if 'retainedEarnings' in bs.index else 0.0
-
-        if retainedEarnings > 0:
-            print(comp, " retained earnings > 0 ", retainedEarnings)
+            print(comp, "current ratio > 1", currentRatio)
             continue
 
         totalAssets = getFromDF(bs.loc["totalAssets"])
@@ -68,7 +76,7 @@ for comp in listStocks:
             print(comp, " de ratio < 1. ", debtEquityRatio)
             continue
 
-        incomeStatement = si.get_income_statement(comp, yearly=True)
+        incomeStatement = si.get_income_statement(comp, yearly=False)
         ebit = getFromDF(incomeStatement.loc["ebit"])
         netIncome = getFromDF(incomeStatement.loc['netIncome'])
 
@@ -86,27 +94,38 @@ for comp in listStocks:
 
         # equity = getFromDF(bs.loc["totalStockholderEquity"])
         equity = totalAssets - totalLiab
-        shares = si.get_quote_data(comp)['sharesOutstanding']
+        # shares = si.get_quote_data(comp)['sharesOutstanding']
+        shares = hk_shares[hk_shares['ticker'] == comp]['shares'].values[0]
 
-        bsCurrency = getBalanceSheetCurrency(comp)
         listingCurrency = getListingCurrency(comp)
+        bsCurrency = getBalanceSheetCurrency(comp, listingCurrency)
+
         exRate = currency_getExchangeRate.getExchangeRate(exchange_rate_dict,
                                                           listingCurrency, bsCurrency)
 
+        marketPrice = si.get_live_price(comp)
         marketCap = marketPrice * shares
         pb = marketCap / (equity / exRate)
+
+        if pb < 1:
+            print(comp, "pb < 1", pb)
+            continue
 
         revenue = getFromDF(incomeStatement.loc["totalRevenue"])
 
         data = si.get_data(comp, start_date=START_DATE, interval=PRICE_INTERVAL)
         divs = si.get_dividends(comp, start_date=DIVIDEND_START_DATE)
-        percentile = 100.0 * (data['adjclose'][-1] - data['adjclose'].min()) / (
-                data['adjclose'].max() - data['adjclose'].min())
+        percentile = 100.0 * (marketPrice - data['low'].min()) / (data['high'].max() - data['low'].min())
         divSum = divs['dividend'].sum() if not divs.empty else 0
 
-        outputString = comp + " " \
-                       + stock_df[stock_df['ticker'] == comp][['country', 'sector']] \
-                           .to_string(index=False, header=False) + " " \
+        info = si.get_company_info(comp)
+        country = info.loc['country'][0] if 'country' in info.index else ""
+        sector = info.loc['sector'][0] if 'sector' in info.index else ""
+
+        # + stock_df[stock_df['ticker'] == comp][['country', 'sector']] \
+        #     .to_string(index=False, header=False) + " " \
+
+        outputString = comp + " " + country + " " + sector + " " \
                        + listingCurrency + bsCurrency \
                        + " MV:" + str(round(marketCap / 1000000000.0, 1)) + 'B' \
                        + " Eq:" + str(round((totalAssets - totalLiab) / exRate / 1000000000.0, 1)) + 'B' \

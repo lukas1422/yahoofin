@@ -127,8 +127,8 @@ for comp in listStocks:
 
         data = si.get_data(comp, start_date=START_DATE, interval=PRICE_INTERVAL)
         divs = si.get_dividends(comp, start_date=DIVIDEND_START_DATE)
-        percentile = 100.0 * (data['adjclose'][-1] - data['adjclose'].min()) / (
-                data['adjclose'].max() - data['adjclose'].min())
+        percentile = 100.0 * (marketPrice - data['low'].min()) / (
+                data['high'].max() - data['low'].min())
         divSum = divs['dividend'].sum() if not divs.empty else 0
 
         #                       # + stock_df[stock_df['ticker'] == comp][['country', 'sector']] \
