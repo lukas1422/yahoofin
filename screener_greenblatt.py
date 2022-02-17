@@ -56,9 +56,9 @@ for comp in listStocks:
 
         shares = si.get_quote_data(comp)['sharesOutstanding']
 
-        bsCurrency = getBalanceSheetCurrency(comp)
-        listingCurrency = getListingCurrency(comp)
-        exRate = currency_getExchangeRate.getExchangeRate(exchange_rate_dict, listingCurrency, bsCurrency)
+        listingCurr = getListingCurrency(comp)
+        bsCurr = getBalanceSheetCurrency(comp, listingCurr)
+        exRate = currency_getExchangeRate.getExchangeRate(exchange_rate_dict, listingCurr, bsCurr)
 
         marketPrice = si.get_live_price(comp)
         marketCap = marketPrice * shares
@@ -69,7 +69,7 @@ for comp in listStocks:
         outputString = comp + " " \
                        + stock_df[stock_df['ticker'] == comp][['country', 'sector']] \
                            .to_string(index=False, header=False) + " " \
-                       + listingCurrency + bsCurrency \
+                       + listingCurr + bsCurr \
                        + " cfoAssetRatio:" + str(round(cfoAssetRatio * 100, 2)) \
                        + " PB:" + str(round(pb, 1)) \
                        + " cfoAsset/PB:" + str(round(cfoAssetRatio * 100 / pb, 2))

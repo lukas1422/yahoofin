@@ -47,8 +47,9 @@ if MARKET == Market.US:
 elif MARKET == Market.HK:
     stock_df = pd.read_csv('list_hkstocks', dtype=object, sep=" ", index_col=False, names=['ticker', 'name'])
     stock_df['ticker'] = stock_df['ticker'].astype(str)
-    hk_shares = pd.read_csv('list_hk_totalShares', sep="\t", index_col=False, names=['ticker', 'shares'])
     listStocks = stock_df['ticker'].map(lambda x: convertHK(x)).tolist()
+
+    hk_shares = pd.read_csv('list_hk_totalShares', sep="\t", index_col=False, names=['ticker', 'shares'])
     # listStocks = ['1513.HK']
 else:
     raise Exception("market not found")
@@ -62,6 +63,10 @@ for comp in listStocks:
         info = si.get_company_info(comp)
         country = info.loc["country"][0]
         sector = info.loc['sector'][0]
+
+        if sector == 'Real_Estate':
+            print(comp, " no real estate ")
+            continue
 
         marketPrice = si.get_live_price(comp)
 

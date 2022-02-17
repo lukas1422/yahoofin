@@ -4,10 +4,19 @@ import re
 import json
 import pandas as pd
 
+import Market
+from helperMethods import convertHK
+
 
 def scrapeDivXueqiu(comp):
     try:
-        url = "https://xueqiu.com/S/" + comp
+        comp1 = comp[:-3].zfill(5) if comp.endswith('HK') else comp
+        # if comp.endswith('HK'):
+        #     comp1 = comp[:-3].zfill(5)
+        # #comp1 = comp.replace('-', '.')
+
+        url = "https://xueqiu.com/S/" + comp1
+        print(url)
         req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
         webpage = urlopen(req, timeout=5).read()
         soup = BeautifulSoup(webpage, "html.parser")
@@ -41,6 +50,8 @@ def scrapeDivXueqiu(comp):
 
 COUNT = 0
 
+MARKET = Market.Market.HK
+
 
 def increment():
     global COUNT
@@ -48,12 +59,25 @@ def increment():
     return COUNT
 
 
-fileOutput = open('list_divYieldXueqiu', 'w')
+if MARKET == Market.Market.US:
 
-stock_df = pd.read_csv('list_UScompanyInfo', sep="\t", index_col=False,
-                       names=['ticker', 'name', 'sector', 'industry', 'country', 'mv', 'price'])
+    fileOutput = open('list_divYieldXueqiuUS', 'w')
 
-listStocks = stock_df[(stock_df['price'] > 1)]['ticker'].tolist()
+    stock_df = pd.read_csv('list_UScompanyInfo', sep="\t", index_col=False,
+                           names=['ticker', 'name', 'sector', 'industry', 'country', 'mv', 'price'])
+
+    listStocks = stock_df[(stock_df['price'] > 1)]['ticker'].tolist()
+
+elif MARKET == Market.Market.HK:
+    fileOutput = open('list_divYieldXueqiuHK', 'w')
+    stock_df = pd.read_csv('list_hkstocks', dtype=object, sep=" ", index_col=False, names=['ticker', 'name'])
+    stock_df['ticker'] = stock_df['ticker'].astype(str)
+    listStocks = stock_df['ticker'].map(lambda x: convertHK(x)).tolist()
+
+else:
+    raise Exception("market not found")
+
+print(listStocks)
 
 for comp in listStocks:
     print(increment())

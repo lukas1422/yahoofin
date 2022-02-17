@@ -50,10 +50,9 @@ for comp in listStocks:
             print(comp, 'net income < 0', netIncome)
             continue
 
-        bsCurrency = getBalanceSheetCurrency(comp)
-        listingCurrency = getListingCurrency(comp)
-        exRate = currency_getExchangeRate.getExchangeRate(exchange_rate_dict,
-                                                          listingCurrency, bsCurrency)
+        listingCurr = getListingCurrency(comp)
+        bsCurr = getBalanceSheetCurrency(comp, listingCurr)
+        exRate = currency_getExchangeRate.getExchangeRate(exchange_rate_dict, listingCurr, bsCurr)
         shares = si.get_quote_data(comp)['sharesOutstanding']
 
         marketPrice = si.get_live_price(comp)
@@ -66,7 +65,7 @@ for comp in listStocks:
         outputString = comp + " " \
                        + stock_df[stock_df['ticker'] == comp][['country', 'sector']] \
                            .to_string(index=False, header=False) + " " \
-                       + listingCurrency + bsCurrency \
+                       + listingCurr + bsCurr \
                        + " PE:" + str(round(pe, 1)) \
                        + " div10yr: " + str(round(divSum / marketPrice * 100, 2)) \
                        + " div/PE:" + str(round(divYield * 100 / pe, 2))

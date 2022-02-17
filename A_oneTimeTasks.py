@@ -36,7 +36,7 @@ def increment():
     return COUNT
 
 
-fileOutput = open('list_divYieldXueqiu', 'w')
+fileOutput = open('list_divYieldXueqiuUS', 'w')
 
 stock_df = pd.read_csv('list_UScompanyInfo', sep="\t", index_col=False,
                        names=['ticker', 'name', 'sector', 'industry', 'country', 'mv', 'price'])

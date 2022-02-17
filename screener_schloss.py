@@ -100,7 +100,7 @@ for comp in listStocks:
         pb = marketCap / (equity / exRate)
 
         if pb < 0 or pb > 1:
-            print(comp, ' pb < 0. mv equity exrate', marketCap, equity, exRate)
+            print(comp, ' pb < 0 or pb > 1. mv equity exrate', pb, marketCap, equity, exRate)
             continue
 
         data = si.get_data(comp, start_date=START_DATE, interval=PRICE_INTERVAL)
@@ -108,7 +108,8 @@ for comp in listStocks:
         low_52wk = data['low'].min()
 
         if marketPrice > low_52wk * 1.1:
-            print(comp, "exceeding 52wk low * 1.1, P/Low ratio:", round(marketPrice / low_52wk, 2))
+            print(comp, "exceeding 52wk low * 1.1, P/Low ratio:", marketPrice, low_52wk,
+                  round(marketPrice / low_52wk, 2))
             continue
 
         insiderPercOutput = str(round(insiderPerc, 1)) if MARKET == Market.US else "non data"
@@ -116,6 +117,10 @@ for comp in listStocks:
         info = si.get_company_info(comp)
         country = info.loc["country"][0]
         sector = info.loc['sector'][0]
+
+        if sector == 'Real Estate':
+            print(comp, " no real estate ")
+            continue
 
         outputString = comp + " " + listingCurrency + bsCurrency + " " \
                        + country.replace(" ", "_") + " " \

@@ -1,24 +1,15 @@
 import yahoo_fin.stock_info as si
 import pandas as pd
+
+from Market import Market
 from currency_scrapeYahoo import getBalanceSheetCurrency
 from currency_scrapeYahoo import getListingCurrency
 import currency_getExchangeRate
-from helperMethods import getFromDF
-
-finvizDiv = pd.read_csv('list_divYieldFinviz', sep=' ', index_col=False, names=['ticker', 'divi'])
-finvizDiv['divi'] = finvizDiv['divi'].replace('-', '0')
-finvizDiv['divi'] = finvizDiv['divi'].str.rstrip("%").astype(float)
-finvizDic = pd.Series(finvizDiv.divi.values, index=finvizDiv.ticker).to_dict()
-
-xueqiuDiv = pd.read_csv('list_divYieldXueqiu', sep=' ', index_col=False, names=['ticker', 'divi'])
-xueqiuDiv['divi'] = xueqiuDiv['divi'].replace('-', '0')
-xueqiuDiv['divi'] = xueqiuDiv['divi'].replace('none', '0')
-xueqiuDiv['divi'] = xueqiuDiv['divi'].replace('error', '0')
-xueqiuDiv['divi'] = xueqiuDiv['divi'].astype(float)
-xueqiuDic = pd.Series(xueqiuDiv.divi.values, index=xueqiuDiv.ticker).to_dict()
+from helperMethods import getFromDF, convertHK
 
 COUNT = 0
 
+MARKET = Market.HK
 
 def increment():
     global COUNT
@@ -34,14 +25,36 @@ exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 
 fileOutput = open('list_magic6', 'w')
 
-stock_df = pd.read_csv('list_UScompanyInfo', sep="\t", index_col=False,
-                       names=['ticker', 'name', 'sector', 'industry', 'country', 'mv', 'price'])
+if MARKET == Market.US:
+    stock_df = pd.read_csv('list_UScompanyInfo', sep="\t", index_col=False,
+                           names=['ticker', 'name', 'sector', 'industry', 'country', 'mv', 'price'])
 
-listStocks = stock_df[(stock_df['price'] > 1)
-                      & (stock_df['sector'].str
-                         .contains('financial|healthcare', regex=True, case=False) == False)
-                      & (stock_df['industry'].str.contains('reit', regex=True, case=False) == False)
-                      & (stock_df['country'].str.lower() != 'china')]['ticker'].tolist()
+    listStocks = stock_df[(stock_df['price'] > 1)
+                          & (stock_df['sector'].str
+                             .contains('financial|healthcare', regex=True, case=False) == False)
+                          & (stock_df['industry'].str.contains('reit', regex=True, case=False) == False)
+                          & (stock_df['country'].str.lower() != 'china')]['ticker'].tolist()
+
+    finvizDiv = pd.read_csv('list_divYieldFinvizUS', sep=' ', index_col=False, names=['ticker', 'divi'])
+    finvizDiv['divi'] = finvizDiv['divi'].replace('-', '0')
+    finvizDiv['divi'] = finvizDiv['divi'].str.rstrip("%").astype(float)
+    finvizDic = pd.Series(finvizDiv.divi.values, index=finvizDiv.ticker).to_dict()
+
+    xueqiuDiv = pd.read_csv('list_divYieldXueqiuUS', sep=' ', index_col=False, names=['ticker', 'divi'])
+    xueqiuDiv['divi'] = xueqiuDiv['divi'].replace('-', '0')
+    xueqiuDiv['divi'] = xueqiuDiv['divi'].replace('none', '0')
+    xueqiuDiv['divi'] = xueqiuDiv['divi'].replace('error', '0')
+    xueqiuDiv['divi'] = xueqiuDiv['divi'].astype(float)
+    xueqiuDic = pd.Series(xueqiuDiv.divi.values, index=xueqiuDiv.ticker).to_dict()
+
+elif MARKET == Market.HK:
+    stock_df = pd.read_csv('list_hkstocks', dtype=object, sep=" ", index_col=False, names=['ticker', 'name'])
+    stock_df['ticker'] = stock_df['ticker'].astype(str)
+    hk_shares = pd.read_csv('list_hk_totalShares', sep="\t", index_col=False, names=['ticker', 'shares'])
+    listStocks = stock_df['ticker'].map(lambda x: convertHK(x)).tolist()
+
+else:
+    raise Exception(" market not found")
 
 print(len(listStocks), listStocks)
 
