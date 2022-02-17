@@ -52,6 +52,12 @@ print(len(listStocks), listStocks)
 for comp in listStocks:
     print(increment())
     try:
+
+        marketPrice = si.get_live_price(comp)
+        if marketPrice < 1:
+            print(comp, " market price < 1 ", marketPrice)
+            continue
+
         bs = si.get_balance_sheet(comp, yearly=False)
         retainedEarnings = getFromDF(bs.loc["retainedEarnings"]) if 'retainedEarnings' in bs.index else 0.0
 
@@ -103,7 +109,6 @@ for comp in listStocks:
         exRate = currency_getExchangeRate.getExchangeRate(exchange_rate_dict,
                                                           listingCurrency, bsCurrency)
 
-        marketPrice = si.get_live_price(comp)
         marketCap = marketPrice * shares
         pb = marketCap / (equity / exRate)
 
@@ -132,13 +137,13 @@ for comp in listStocks:
                        + " MV:" + str(round(marketCap / 1000000000.0, 1)) + 'B' \
                        + " Eq:" + str(round((totalAssets - totalLiab) / exRate / 1000000000.0, 1)) + 'B' \
                        + " CR:" + str(round(currentRatio, 1)) \
-                       + " RE/A:" + str(round(retainedEarnings / totalAssets)) \
-                       + " EBIT/A:" + str(round(ebit / totalAssets)) \
-                       + " CFO/A" + str(round(cfo / totalAssets)) \
+                       + " RE/A:" + str(round(retainedEarnings / totalAssets, 2)) \
+                       + " EBIT/A:" + str(round(ebit / totalAssets, 2)) \
+                       + " CFO/A" + str(round(cfo / totalAssets, 2)) \
                        + " NCA/A:" + str(round((totalCurrentAssets - totalCurrentLiab) / totalAssets, 2)) \
-                       + " E/D:" + str(round((totalAssets - totalLiab) / totalAssets, 1)) \
-                       + " S/A:" + str(round(revenue / totalAssets, 1)) \
-                       + " pb:" + str(round(pb, 1)) \
+                       + " E/D:" + str(round((totalAssets - totalLiab) / totalAssets, 2)) \
+                       + " S/A:" + str(round(revenue / totalAssets, 2)) \
+                       + " pb:" + str(round(pb, 2)) \
                        + " 52w p%:" + str(round(percentile)) \
                        + " div10yr:" + str(round(divSum / marketPrice, 2))
 

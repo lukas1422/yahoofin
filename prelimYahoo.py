@@ -16,7 +16,7 @@ def fo(number):
 
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 
-stockName = '0209.HK'
+stockName = '0244.HK'
 
 info = si.get_company_info(stockName)
 country = info.loc["country"][0]
