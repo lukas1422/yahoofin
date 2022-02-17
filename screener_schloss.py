@@ -14,6 +14,7 @@ from currency_scrapeYahoo import getListingCurrency
 import currency_getExchangeRate
 from helperMethods import getFromDF, convertHK
 from helperMethods import getInsiderOwnership
+from datetime import datetime, timedelta
 
 COUNT = 0
 MARKET = Market.HK
@@ -25,7 +26,8 @@ def increment():
     return COUNT
 
 
-START_DATE = '3/1/2020'
+# START_DATE = '3/1/2020'
+START_DATE = (datetime.today() - timedelta(weeks=52)).strftime('%-m/%-d/%Y')
 DIVIDEND_START_DATE = '1/1/2010'
 PRICE_INTERVAL = '1mo'
 
@@ -106,7 +108,7 @@ for comp in listStocks:
         low_52wk = data['low'].min()
 
         if marketPrice > low_52wk * 1.1:
-            print(comp, "exceeding 52wk low * 1.1")
+            print(comp, "exceeding 52wk low * 1.1, P/Low ratio:", round(marketPrice / low_52wk, 2))
             continue
 
         insiderPercOutput = str(round(insiderPerc, 1)) if MARKET == Market.US else "non data"
