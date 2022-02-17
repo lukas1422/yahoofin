@@ -7,13 +7,16 @@
 
 import yahoo_fin.stock_info as si
 import pandas as pd
+
+from Market import Market
 from currency_scrapeYahoo import getBalanceSheetCurrency
 from currency_scrapeYahoo import getListingCurrency
 import currency_getExchangeRate
-from helperMethods import getFromDF
+from helperMethods import getFromDF, convertHK
 from helperMethods import getInsiderOwnership
 
 COUNT = 0
+MARKET = Market.HK
 
 
 def increment():
@@ -32,24 +35,37 @@ fileOutput = open('list_schlossOutput', 'w')
 
 ownershipDic = getInsiderOwnership()
 
-stock_df = pd.read_csv('list_UScompanyInfo', sep="\t", index_col=False,
-                       names=['ticker', 'name', 'sector', 'industry', 'country', 'mv', 'price'])
+if MARKET == Market.US:
+    stock_df = pd.read_csv('list_UScompanyInfo', sep="\t", index_col=False,
+                           names=['ticker', 'name', 'sector', 'industry', 'country', 'mv', 'price'])
 
-listStocks = stock_df[(stock_df['price'] > 1)
-                      & (stock_df['sector'].str
-                         .contains('financial|healthcare', regex=True, case=False) == False)
-                      & (stock_df['industry'].str.contains('reit', regex=True, case=False) == False)
-                      & (stock_df['country'].str.lower() != 'china')]['ticker'].tolist()
+    listStocks = stock_df[(stock_df['price'] > 1)
+                          & (stock_df['sector'].str
+                             .contains('financial|healthcare', regex=True, case=False) == False)
+                          & (stock_df['industry'].str.contains('reit', regex=True, case=False) == False)
+                          & (stock_df['country'].str.lower() != 'china')]['ticker'].tolist()
+elif MARKET == Market.HK:
+    stock_df = pd.read_csv('list_hkstocks', dtype=object, sep=" ", index_col=False, names=['ticker', 'name'])
+    stock_df['ticker'] = stock_df['ticker'].astype(str)
+    hk_shares = pd.read_csv('list_hk_totalShares', sep="\t", index_col=False, names=['ticker', 'shares'])
+    listStocks = stock_df['ticker'].map(lambda x: convertHK(x)).tolist()
+    # listStocks = ['1513.HK']
+else:
+    raise Exception("market not found")
 
 for comp in listStocks:
     print(increment())
     try:
-        insiderPerc = ownershipDic[comp]
-        if insiderPerc < 10:
-            print(comp, "insider ownership < 10%", insiderPerc)
-            continue
+        if MARKET == Market.US:
+            insiderPerc = ownershipDic[comp]
+            if insiderPerc < 10:
+                print(comp, "insider ownership < 10%", insiderPerc)
+                continue
+        else:
+            insiderPerc = {}
 
         marketPrice = si.get_live_price(comp)
+
         if marketPrice < 1:
             print(comp, 'market price < 1: ', marketPrice)
             continue
@@ -74,20 +90,15 @@ for comp in listStocks:
 
         shares = si.get_quote_data(comp)['sharesOutstanding']
 
-        bsCurrency = getBalanceSheetCurrency(comp)
         listingCurrency = getListingCurrency(comp)
-        exRate = currency_getExchangeRate.getExchangeRate(exchange_rate_dict,
-                                                          listingCurrency, bsCurrency)
+        bsCurrency = getBalanceSheetCurrency(comp, listingCurrency)
+        exRate = currency_getExchangeRate.getExchangeRate(exchange_rate_dict, listingCurrency, bsCurrency)
 
         marketCap = marketPrice * shares
         pb = marketCap / (equity / exRate)
 
-        if pb < 0:
+        if pb < 0 or pb > 1:
             print(comp, ' pb < 0. mv equity exrate', marketCap, equity, exRate)
-            continue
-
-        if pb > 1:
-            print(comp, ' pb > 1', pb)
             continue
 
         data = si.get_data(comp, start_date=START_DATE, interval=PRICE_INTERVAL)
@@ -98,16 +109,22 @@ for comp in listStocks:
             print(comp, "exceeding 52wk low * 1.1")
             continue
 
-        outputString = comp + " " \
-                       + stock_df[stock_df['ticker'] == comp][['country', 'sector']] \
-                           .to_string(index=False, header=False) + " " \
+        insiderPercOutput = str(round(insiderPerc, 1)) if MARKET == Market.US else "non data"
+
+        info = si.get_company_info(comp)
+        country = info.loc["country"][0]
+        sector = info.loc['sector'][0]
+
+        outputString = comp + " " + listingCurrency + bsCurrency + " " \
+                       + country.replace(" ", "_") + " " \
+                       + sector.replace(" ", "_") + " " \
                        + listingCurrency + bsCurrency \
                        + " MV:" + str(round(marketCap / 1000000000.0, 1)) + 'B' \
                        + " Eq:" + str(round((totalAssets - totalLiab) / exRate / 1000000000.0, 1)) + 'B' \
                        + " D/E:" + str(round(debtEquityRatio, 1)) \
                        + " LT debt ratio" + str(round(longTermDebtRatio, 1)) \
                        + " pb:" + str(round(pb, 1)) \
-                       + " insider%:" + str(round(insiderPerc, 1)) \
+                       + " insider%:" + insiderPercOutput \
                        + " p/52low: " + str(round(marketPrice / low_52wk))
 
         print(outputString)
