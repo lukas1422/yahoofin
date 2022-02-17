@@ -125,7 +125,9 @@ for comp in listStocks:
         # + stock_df[stock_df['ticker'] == comp][['country', 'sector']] \
         #     .to_string(index=False, header=False) + " " \
 
-        outputString = comp + " " + country + " " + sector + " " \
+        outputString = comp + " " + \
+                       + info.loc["country"][0].replace(" ", "_") + " " \
+                       + info.loc['sector'][0].replace(" ", "_") \
                        + listingCurrency + bsCurrency \
                        + " MV:" + str(round(marketCap / 1000000000.0, 1)) + 'B' \
                        + " Eq:" + str(round((totalAssets - totalLiab) / exRate / 1000000000.0, 1)) + 'B' \
