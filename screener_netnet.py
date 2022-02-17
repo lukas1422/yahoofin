@@ -5,12 +5,15 @@ import yahoo_fin.stock_info as si
 import pandas as pd
 
 import scrape_sharesOutstanding
+from Market import Market
 from currency_scrapeYahoo import getBalanceSheetCurrency
 from currency_scrapeYahoo import getListingCurrency
 import currency_getExchangeRate
 from helperMethods import getFromDF, convertHK
 
 COUNT = 0
+
+MARKET = Market.HK
 
 
 def increment():
@@ -28,31 +31,28 @@ exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 fileOutput = open('list_results_netnet', 'w')
 
 # US Version Starts
-# stock_df = pd.read_csv('list_UScompanyInfo', sep=" ", index_col=False,
-#                        names=['ticker', 'name', 'sector', 'industry', 'country', 'mv', 'price', 'listingDate'])
-#
-# stock_df['listingDate'] = pd.to_datetime(stock_df['listingDate'])
-#
-# listStocks = stock_df[(stock_df['price'] > 1)
-#                       & (stock_df['sector'].str
-#                          .contains('financial|healthcare', regex=True, case=False) == False)
-#                       & (stock_df['listingDate'] < pd.to_datetime('2010-1-1'))
-#                       & (stock_df['industry'].str.contains('reit', regex=True, case=False) == False)
-#                       & (stock_df['country'].str.lower() != 'china')]['ticker'].tolist()
-# US version ends
+if MARKET == Market.US:
+    stock_df = pd.read_csv('list_UScompanyInfo', sep=" ", index_col=False,
+                           names=['ticker', 'name', 'sector', 'industry', 'country', 'mv', 'price', 'listingDate'])
 
-# HK version STARTS
-stock_df = pd.read_csv('list_hkstocks', dtype=object, sep=" ", index_col=False, names=['ticker', 'name'])
-stock_df['ticker'] = stock_df['ticker'].astype(str)
-hk_shares = pd.read_csv('list_hk_totalShares', sep="\t", index_col=False, names=['ticker', 'shares'])
-listStocks = stock_df['ticker'].map(lambda x: convertHK(x)).tolist()
-# listStocks = ['1513.HK']
+    stock_df['listingDate'] = pd.to_datetime(stock_df['listingDate'])
 
-# HK Version ENDS
+    listStocks = stock_df[(stock_df['price'] > 1)
+                          & (stock_df['sector'].str
+                             .contains('financial|healthcare', regex=True, case=False) == False)
+                          & (stock_df['listingDate'] < pd.to_datetime('2010-1-1'))
+                          & (stock_df['industry'].str.contains('reit', regex=True, case=False) == False)
+                          & (stock_df['country'].str.lower() != 'china')]['ticker'].tolist()
+elif MARKET == Market.HK:
+    stock_df = pd.read_csv('list_hkstocks', dtype=object, sep=" ", index_col=False, names=['ticker', 'name'])
+    stock_df['ticker'] = stock_df['ticker'].astype(str)
+    hk_shares = pd.read_csv('list_hk_totalShares', sep="\t", index_col=False, names=['ticker', 'shares'])
+    listStocks = stock_df['ticker'].map(lambda x: convertHK(x)).tolist()
+    # listStocks = ['1513.HK']
+else:
+    raise Exception("market not found")
 
-
-
-print(len(listStocks), listStocks)
+print(MARKET, len(listStocks), listStocks)
 
 for comp in listStocks:
     print(increment())
@@ -90,9 +90,14 @@ for comp in listStocks:
         receivables = getFromDF(bs.loc['netReceivables']) if 'netReceivables' in bs.index else 0.0
         inventory = getFromDF(bs.loc['inventory']) if 'inventory' in bs.index else 0.0
 
-        # shares = si.get_quote_data(comp)['sharesOutstanding']
         # shares = scrape_sharesOutstanding.scrapeTotalSharesXueqiu(comp)
-        shares = hk_shares[hk_shares['ticker'] == comp]['shares'].values[0]
+        if MARKET == Market.US:
+            shares = si.get_quote_data(comp)['sharesOutstanding']
+        elif MARKET == Market.HK:
+            shares = hk_shares[hk_shares['ticker'] == comp]['shares'].values[0]
+        else:
+            raise Exception("version not found ", MARKET)
+
         # print("shares ", shares)
         marketCap = marketPrice * shares
         # print("market cap ", marketCap)

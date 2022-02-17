@@ -141,7 +141,7 @@ for comp in listStocks:
                        + " EBIT/A:" + str(round(ebit / totalAssets, 2)) \
                        + " CFO/A" + str(round(cfo / totalAssets, 2)) \
                        + " NCA/A:" + str(round((totalCurrentAssets - totalCurrentLiab) / totalAssets, 2)) \
-                       + " E/D:" + str(round((totalAssets - totalLiab) / totalAssets, 2)) \
+                       + " E/A:" + str(round((totalAssets - totalLiab) / totalAssets, 2)) \
                        + " S/A:" + str(round(revenue / totalAssets, 2)) \
                        + " pb:" + str(round(pb, 2)) \
                        + " 52w p%:" + str(round(percentile)) \
