@@ -78,6 +78,11 @@ for comp in listStocks:
             print(comp, " retained earnings <= 0 ", retainedEarnings)
             continue
 
+        cash = getFromDF(bs.loc['cash']) if 'cash' in bs.index else 0.0
+        if cash == 0:
+            print(comp, 'cash is 0 ')
+            continue
+
         currentAssets = getFromDF(bs.loc["totalCurrentAssets"]) if 'totalCurrentAssets' in bs.index else 0.0
 
         totalLiab = getFromDF(bs.loc["totalLiab"]) if 'totalLiab' in bs.index else 0.0
@@ -87,13 +92,8 @@ for comp in listStocks:
                   round(totalLiab / 1000000000, 2))
             continue
 
-        cash = getFromDF(bs.loc['cash']) if 'cash' in bs.index else 0.0
         receivables = getFromDF(bs.loc['netReceivables']) if 'netReceivables' in bs.index else 0.0
         inventory = getFromDF(bs.loc['inventory']) if 'inventory' in bs.index else 0.0
-
-        if cash == 0:
-            print(comp, 'cash is 0 ')
-            continue
 
         # shares = scrape_sharesOutstanding.scrapeTotalSharesXueqiu(comp)
         if MARKET == Market.US:
@@ -101,7 +101,7 @@ for comp in listStocks:
         elif MARKET == Market.HK:
             shares = hk_shares[hk_shares['ticker'] == comp]['shares'].values[0]
         else:
-            raise Exception("version not found ", MARKET)
+            raise Exception("market not found ", MARKET)
 
         # print("shares ", shares)
         marketCap = marketPrice * shares
