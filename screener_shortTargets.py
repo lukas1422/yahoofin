@@ -44,7 +44,7 @@ stock_df = pd.read_csv('list_hkstocks', dtype=object, sep=" ", index_col=False, 
 stock_df['ticker'] = stock_df['ticker'].astype(str)
 hk_shares = pd.read_csv('list_hk_totalShares', sep="\t", index_col=False, names=['ticker', 'shares'])
 listStocks = stock_df['ticker'].map(lambda x: convertHK(x)).tolist()
-# listStocks = ['1513.HK']
+# listStocks = ['0244.HK']
 # HK Version ENDS
 
 print(len(listStocks), listStocks)
@@ -130,9 +130,9 @@ for comp in listStocks:
         # + stock_df[stock_df['ticker'] == comp][['country', 'sector']] \
         #     .to_string(index=False, header=False) + " " \
 
-        outputString = comp + " " + \
-                       + info.loc["country"][0].replace(" ", "_") + " " \
-                       + info.loc['sector'][0].replace(" ", "_") \
+        outputString = comp + " " \
+                       + country.replace(" ", "_") + " " \
+                       + sector.replace(" ", "_") + " " \
                        + listingCurrency + bsCurrency \
                        + " MV:" + str(round(marketCap / 1000000000.0, 1)) + 'B' \
                        + " Eq:" + str(round((totalAssets - totalLiab) / exRate / 1000000000.0, 1)) + 'B' \
