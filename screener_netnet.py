@@ -148,7 +148,7 @@ for comp in listStocks:
                                 + str(round((totalLiab + marketCap * exRate - cash - 0.5 * receivables)
                                             / inventory, 2))
 
-        outputString = comp + " " + listingCurr + bsCurr \
+        outputString = comp + " " + listingCurr + bsCurr + " " \
                        + country.replace(" ", "_") + " " \
                        + sector.replace(" ", "_") + " " \
                        + " cash:" + str(round(cash / 1000000000, 2)) \

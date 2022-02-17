@@ -2,3 +2,9 @@
 0088.HK HKDHKDHong_Kong Real_Estate  cash:1.91 rec:0.04 inv:4.8 CA:6.84 L:0.3 mv:3.09 inventory conversion rate required: 0.3
 0116.HK HKDHKDHong_Kong Consumer_Cyclical  cash:1.22 rec:1.12 inv:9.84 CA:12.86 L:4.28 mv:7.74
 0125.HK HKDHKDHong_Kong Consumer_Cyclical  cash:0.3 rec:0.26 inv:0.12 CA:0.69 L:0.3 mv:0.33
+0321.HK HKDHKDHong_Kong Consumer_Cyclical  cash:2.33 rec:1.35 inv:2.71 CA:6.79 L:3.96 mv:2.38
+0420.HK HKDHKDHong_Kong Consumer_Cyclical  cash:1.04 rec:1.27 inv:1.53 CA:4.05 L:2.13 mv:1.7
+0450.HK HKDHKDHong_Kong Industrials  cash:0.65 rec:0.84 inv:0.83 CA:2.85 L:1.02 mv:1.19
+0503.HK HKDUSDChina Healthcare  cash:0.1 rec:0.04 inv:0.01 CA:0.19 L:0.05 mv:0.41 receivable conversion rate required: 0.11
+0532.HK HKDHKDHong_Kong Technology  cash:0.78 rec:1.36 inv:0.73 CA:3.0 L:1.75 mv:0.75
+0605.HK HKDHKDHong_Kong Financial_Services  cash:0.71 rec:3.53 inv:0.0 CA:4.29 L:1.69 mv:0.36 receivable conversion rate required: 0.38
