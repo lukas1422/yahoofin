@@ -52,7 +52,7 @@ print(len(listStocks), listStocks)
 for comp in listStocks:
     print(increment())
     try:
-        bs = si.get_balance_sheet(comp)
+        bs = si.get_balance_sheet(comp, yearly=False)
         retainedEarnings = getFromDF(bs.loc["retainedEarnings"]) if 'retainedEarnings' in bs.index else 0.0
 
         if retainedEarnings > 0:

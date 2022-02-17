@@ -16,14 +16,14 @@ def fo(number):
 
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 
-stockName = '2698.HK'
+stockName = '0209.HK'
 
 info = si.get_company_info(stockName)
 country = info.loc["country"][0]
 sector = info.loc['sector'][0]
 print(stockName, country, sector)
 
-bs = si.get_balance_sheet(stockName)
+bs = si.get_balance_sheet(stockName, yearly=False)
 # print(bs)
 
 # BS
