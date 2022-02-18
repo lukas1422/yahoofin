@@ -52,7 +52,10 @@ elif MARKET == Market.HK:
     stock_df = pd.read_csv('list_hkstocks', dtype=object, sep=" ", index_col=False, names=['ticker', 'name'])
     stock_df['ticker'] = stock_df['ticker'].astype(str)
     hk_shares = pd.read_csv('list_hk_totalShares', sep="\t", index_col=False, names=['ticker', 'shares'])
-    listStocks = stock_df['ticker'].map(lambda x: convertHK(x)).tolist()
+    stock_df['ticker'] = stock_df['ticker'].map(lambda x: convertHK(x))
+    listStocks = stock_df['ticker'].tolist()
+    # print(stock_df)
+    # listStocks = stock_df['ticker'].tolist()
 
     xueqiuDiv = pd.read_csv('list_divYieldXueqiuHK', sep=' ', index_col=False, names=['ticker', 'divi'])
     xueqiuDiv['divi'] = xueqiuDiv['divi'].replace('-', '0')
@@ -69,6 +72,9 @@ print(len(listStocks), listStocks)
 for comp in listStocks:
     print(increment())
     try:
+        # comp = convertHK(ticker)
+        # companyName = stock_df[stock_df['ticker'] == ticker]['name'][0]
+
         info = si.get_company_info(comp)
         country = info.loc["country"][0]
         sector = info.loc['sector'][0]
@@ -123,7 +129,9 @@ for comp in listStocks:
 
         finvizComment = " finviz div:" + str(round(finvizDic[comp], 1)) if MARKET == Market.US else ""
 
-        outputString = comp + " " + listingCurr + bsCurr + " " \
+        outputString = comp + " " + stock_df[stock_df['ticker'] == comp]['name'] \
+            .to_string(index=False, header=False) \
+                       + " " + listingCurr + bsCurr + " " \
                        + country.replace(" ", "_") + " " \
                        + sector.replace(" ", "_") \
                        + " MV:" + str(round(marketCap / 1000000000.0, 1)) + 'B' \
