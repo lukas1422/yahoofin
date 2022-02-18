@@ -153,7 +153,7 @@ for comp in listStocks:
                                 + str(round((totalLiab + marketCap * exRate - cash - 0.5 * receivables)
                                             / inventory, 2))
 
-        outputString = comp + stock_df[stock_df['ticker'] == comp]['name'] \
+        outputString = comp + " " + stock_df[stock_df['ticker'] == comp]['name'] \
             .to_string(index=False, header=False) + " " \
                        + listingCurr + bsCurr + " " \
                        + country.replace(" ", "_") + " " \
