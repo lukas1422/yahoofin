@@ -134,7 +134,7 @@ for comp in listStocks:
             print(comp, " no real estate or financial ")
             continue
 
-        outputString = comp + " " + listingCurrency + bsCurrency + " " \
+        outputString = comp + " " \
                        + country.replace(" ", "_") + " " \
                        + sector.replace(" ", "_") + " " \
                        + listingCurrency + bsCurrency \
