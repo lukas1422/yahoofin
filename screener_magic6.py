@@ -11,6 +11,7 @@ COUNT = 0
 
 MARKET = Market.HK
 
+
 def increment():
     global COUNT
     COUNT = COUNT + 1
@@ -53,6 +54,13 @@ elif MARKET == Market.HK:
     hk_shares = pd.read_csv('list_hk_totalShares', sep="\t", index_col=False, names=['ticker', 'shares'])
     listStocks = stock_df['ticker'].map(lambda x: convertHK(x)).tolist()
 
+    xueqiuDiv = pd.read_csv('list_divYieldXueqiuHK', sep=' ', index_col=False, names=['ticker', 'divi'])
+    xueqiuDiv['divi'] = xueqiuDiv['divi'].replace('-', '0')
+    xueqiuDiv['divi'] = xueqiuDiv['divi'].replace('none', '0')
+    xueqiuDiv['divi'] = xueqiuDiv['divi'].replace('error', '0')
+    xueqiuDiv['divi'] = xueqiuDiv['divi'].astype(float)
+    xueqiuDic = pd.Series(xueqiuDiv.divi.values, index=xueqiuDiv.ticker).to_dict()
+
 else:
     raise Exception(" market not found")
 
@@ -75,17 +83,16 @@ for comp in listStocks:
         ebit = getFromDF(incomeStatement.loc["ebit"])
         netIncome = getFromDF(incomeStatement.loc['netIncome'])
 
-        bsCurrency = getBalanceSheetCurrency(comp)
-        listingCurrency = getListingCurrency(comp)
-        exRate = currency_getExchangeRate.getExchangeRate(exchange_rate_dict,
-                                                          listingCurrency, bsCurrency)
+        listingCurr = getListingCurrency(comp)
+        bsCurr = getBalanceSheetCurrency(comp, listingCurr)
+        exRate = currency_getExchangeRate.getExchangeRate(exchange_rate_dict, listingCurr, bsCurr)
 
         marketCap = marketPrice * shares
         pb = marketCap / (equity / exRate)
         pe = marketCap / (netIncome / exRate)
 
         if pb > 0.6:
-            print(comp, ' pb > 1', pb)
+            print(comp, ' pb > 0.6 ', pb)
             continue
 
         if pe > 6 or pe < 0:
@@ -100,16 +107,21 @@ for comp in listStocks:
             print(comp, "div yield per year < 6%")
             continue
 
-        outputString = comp + " " \
-                       + stock_df[stock_df['ticker'] == comp][['country', 'sector']] \
-                           .to_string(index=False, header=False) + " " \
-                       + listingCurrency + bsCurrency \
+        info = si.get_company_info(comp)
+        country = info.loc["country"][0]
+        sector = info.loc['sector'][0]
+
+        finvizComment = " finviz div:" + str(round(finvizDic[comp], 1)) if MARKET == Market.US else ""
+
+        outputString = comp + " " + listingCurr + bsCurr + " " \
+                       + country.replace(" ", "_") + " " \
+                       + sector.replace(" ", "_") \
                        + " MV:" + str(round(marketCap / 1000000000.0, 1)) + 'B' \
                        + " PE " + str(round(pe, 1)) \
                        + " pb:" + str(round(pb, 1)) \
                        + " div10yr: " + str(round(divSum / marketPrice / 10, 2)) \
-                       + " finviz div:" + str(round(finvizDic[comp],1)) \
-                       + " xueqiu div:" + str(round(xueqiuDic[comp],1))
+                       + finvizComment \
+                       + " xueqiu div:" + str(round(xueqiuDic[comp], 1))
 
         print(outputString)
         fileOutput.write(outputString + '\n')
