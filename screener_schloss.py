@@ -111,7 +111,8 @@ for comp in listStocks:
         pb = marketCap / (equity / exRate)
 
         if pb < 0 or pb > 1:
-            print(comp, ' pb < 0 or pb > 1. mv equity exrate', pb, marketCap, equity, exRate)
+            print(comp, ' pb < 0 or pb > 1. mv equity exrate', pb,
+                  marketCap / 1000000000, equity / 1000000000, exRate)
             continue
 
         data = si.get_data(comp, start_date=START_DATE, interval=PRICE_INTERVAL)
@@ -129,8 +130,8 @@ for comp in listStocks:
         country = info.loc["country"][0]
         sector = info.loc['sector'][0]
 
-        if sector == 'Real Estate':
-            print(comp, " no real estate ")
+        if 'real estate' in sector.lower() or 'financial' in sector.lower():
+            print(comp, " no real estate or financial ")
             continue
 
         outputString = comp + " " + listingCurrency + bsCurrency + " " \

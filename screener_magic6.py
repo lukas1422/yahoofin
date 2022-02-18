@@ -69,6 +69,14 @@ print(len(listStocks), listStocks)
 for comp in listStocks:
     print(increment())
     try:
+        info = si.get_company_info(comp)
+        country = info.loc["country"][0]
+        sector = info.loc['sector'][0]
+
+        if 'real estate' in sector.lower() or 'financial' in sector.lower():
+            print(comp, " no real estate or financial ")
+            continue
+
         marketPrice = si.get_live_price(comp)
         if marketPrice < 1:
             print(comp, 'market price < 1:', marketPrice)
@@ -112,10 +120,6 @@ for comp in listStocks:
         if divSum / marketPrice < 0.6:
             print(comp, "div yield per year < 6%")
             continue
-
-        info = si.get_company_info(comp)
-        country = info.loc["country"][0]
-        sector = info.loc['sector'][0]
 
         finvizComment = " finviz div:" + str(round(finvizDic[comp], 1)) if MARKET == Market.US else ""
 
