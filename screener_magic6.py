@@ -96,7 +96,7 @@ for comp in listStocks:
             continue
 
         if pe > 6 or pe < 0:
-            print(comp, ' pe > 6 or < 0')
+            print(comp, ' pe > 6 or < 0', pe)
             continue
 
         data = si.get_data(comp, start_date=START_DATE, interval=PRICE_INTERVAL)
