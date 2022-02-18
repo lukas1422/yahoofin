@@ -9,7 +9,7 @@ from helperMethods import getFromDF, convertHK
 
 COUNT = 0
 
-MARKET = Market.HK
+MARKET = Market.US
 
 
 def increment():
@@ -28,8 +28,8 @@ fileOutput = open('list_results', 'w')
 
 if MARKET == Market.US:
     # US Version STARTS
-    stock_df = pd.read_csv('list_UScompanyInfo', sep="\t", index_col=False,
-                           names=['ticker', 'name', 'sector', 'industry', 'country', 'mv', 'price'])
+    stock_df = pd.read_csv('list_UScompanyInfo', sep=" ", index_col=False,
+                           names=['ticker', 'name', 'sector', 'industry', 'country', 'mv', 'price', 'listDate'])
 
     listStocks = stock_df[(stock_df['price'] > 1)
                           & (stock_df['sector'].str
@@ -41,8 +41,9 @@ if MARKET == Market.US:
 elif MARKET == Market.HK:
     stock_df = pd.read_csv('list_hkstocks', dtype=object, sep=" ", index_col=False, names=['ticker', 'name'])
     stock_df['ticker'] = stock_df['ticker'].astype(str)
+    stock_df['ticker'] = stock_df['ticker'].map(lambda x: convertHK(x))
     hk_shares = pd.read_csv('list_hk_totalShares', sep="\t", index_col=False, names=['ticker', 'shares'])
-    listStocks = stock_df['ticker'].map(lambda x: convertHK(x)).tolist()
+    listStocks = stock_df['ticker'].tolist()
     # listStocks = ['1513.HK']
 else:
     raise Exception("market not found")
@@ -121,7 +122,7 @@ for comp in listStocks:
         # pe = marketCap / (netIncome / exRate)
         pCfo = marketCap / (cfo / exRate)
 
-        if pb > 1 or pb <= 0:
+        if pb >= 1 or pb <= 0:
             print(comp, 'pb > 1 or pb <= 0', pb)
             continue
 

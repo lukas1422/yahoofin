@@ -13,7 +13,7 @@ from helperMethods import getFromDF, convertHK
 
 COUNT = 0
 
-MARKET = Market.HK
+MARKET = Market.US
 
 
 def increment():
@@ -40,15 +40,15 @@ if MARKET == Market.US:
     listStocks = stock_df[(stock_df['price'] > 1)
                           & (stock_df['sector'].str
                              .contains('financial|healthcare', regex=True, case=False) == False)
-                          & (stock_df['listingDate'] < pd.to_datetime('2010-1-1'))
+                          & (stock_df['listingDate'] < pd.to_datetime('2020-1-1'))
                           & (stock_df['industry'].str.contains('reit', regex=True, case=False) == False)
                           & (stock_df['country'].str.lower() != 'china')]['ticker'].tolist()
 
 elif MARKET == Market.HK:
     stock_df = pd.read_csv('list_hkstocks', dtype=object, sep=" ", index_col=False, names=['ticker', 'name'])
     stock_df['ticker'] = stock_df['ticker'].astype(str)
-    listStocks = stock_df['ticker'].map(lambda x: convertHK(x)).tolist()
-
+    stock_df['ticker'] = stock_df['ticker'].map(lambda x: convertHK(x))
+    listStocks = stock_df['ticker'].tolist()
     hk_shares = pd.read_csv('list_hk_totalShares', sep="\t", index_col=False, names=['ticker', 'shares'])
     # listStocks = ['1513.HK']
 else:
@@ -153,7 +153,9 @@ for comp in listStocks:
                                 + str(round((totalLiab + marketCap * exRate - cash - 0.5 * receivables)
                                             / inventory, 2))
 
-        outputString = comp + " " + listingCurr + bsCurr + " " \
+        outputString = comp + stock_df[stock_df['ticker'] == comp]['name'] \
+            .to_string(index=False, header=False) + " " \
+                       + listingCurr + bsCurr + " " \
                        + country.replace(" ", "_") + " " \
                        + sector.replace(" ", "_") + " " \
                        + " cash:" + str(round(cash / 1000000000, 2)) \

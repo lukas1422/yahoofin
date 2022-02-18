@@ -138,7 +138,7 @@ for comp in listStocks:
             continue
 
         outputString = comp + " " + stock_df[stock_df['ticker'] == comp]['name'] \
-            .to_string(index=False, header=False) \
+            .to_string(index=False, header=False) + " " \
                        + country.replace(" ", "_") + " " \
                        + sector.replace(" ", "_") + " " \
                        + listingCurrency + bsCurrency \
