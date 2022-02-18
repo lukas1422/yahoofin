@@ -75,6 +75,12 @@ for comp in listStocks:
             continue
 
         bs = si.get_balance_sheet(comp)
+        retainedEarnings = getFromDF(bs.loc["retainedEarnings"]) if 'retainedEarnings' in bs.index else 0
+
+        # RE>0 ensures that the stock is not a chronic cash burner
+        if retainedEarnings <= 0:
+            print(comp, " retained earnings <= 0 ", retainedEarnings)
+            continue
 
         equity = getFromDF(bs.loc["totalStockholderEquity"])
         shares = si.get_quote_data(comp)['sharesOutstanding']

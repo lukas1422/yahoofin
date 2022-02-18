@@ -58,21 +58,32 @@ else:
 for comp in listStocks:
     print(increment())
     try:
+
+        marketPrice = si.get_live_price(comp)
+        if marketPrice < 1:
+            print(comp, 'market price < 1: ', marketPrice)
+            continue
+
         if MARKET == Market.US:
             insiderPerc = ownershipDic[comp]
             if insiderPerc < 10:
                 print(comp, "insider ownership < 10%", insiderPerc)
                 continue
         else:
-            insiderPerc = {}
+            insiderPerc = float(si.get_holders(comp).get('Major Holders')[0][0].rstrip("%"))
+            print(comp, "insider percent", insiderPerc)
 
-        marketPrice = si.get_live_price(comp)
-
-        if marketPrice < 1:
-            print(comp, 'market price < 1: ', marketPrice)
+        if insiderPerc < 10:
+            print(comp, "insider percentage < 10 ", insiderPerc)
             continue
 
         bs = si.get_balance_sheet(comp)
+        retainedEarnings = getFromDF(bs.loc["retainedEarnings"]) if 'retainedEarnings' in bs.index else 0
+
+        # RE>0 ensures that the stock is not a chronic cash burner
+        if retainedEarnings <= 0:
+            print(comp, " retained earnings <= 0 ", retainedEarnings)
+            continue
 
         totalAssets = getFromDF(bs.loc["totalAssets"])
         totalLiab = getFromDF(bs.loc["totalLiab"])
@@ -112,7 +123,7 @@ for comp in listStocks:
                   round(marketPrice / low_52wk, 2))
             continue
 
-        insiderPercOutput = str(round(insiderPerc, 1)) if MARKET == Market.US else "non data"
+        # insiderPercOutput = str(round(insiderPerc, 1)) if MARKET == Market.US else "non data"
 
         info = si.get_company_info(comp)
         country = info.loc["country"][0]
@@ -128,10 +139,10 @@ for comp in listStocks:
                        + listingCurrency + bsCurrency \
                        + " MV:" + str(round(marketCap / 1000000000.0, 1)) + 'B' \
                        + " Eq:" + str(round((totalAssets - totalLiab) / exRate / 1000000000.0, 1)) + 'B' \
-                       + " D/E:" + str(round(debtEquityRatio, 1)) \
-                       + " LT debt ratio" + str(round(longTermDebtRatio, 1)) \
                        + " pb:" + str(round(pb, 1)) \
-                       + " insider%:" + insiderPercOutput \
+                       + " D/E:" + str(round(debtEquityRatio, 1)) \
+                       + " LT_debt_ratio:" + str(round(longTermDebtRatio, 1)) \
+                       + " insider%:" + str(insiderPerc) \
                        + " p/52low: " + str(round(marketPrice / low_52wk))
 
         print(outputString)
