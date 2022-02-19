@@ -18,6 +18,8 @@ from datetime import datetime, timedelta
 
 COUNT = 0
 MARKET = Market.HK
+yearlyFlag = False
+INSIDER_OWN_MIN = 30
 
 
 def increment():
@@ -69,18 +71,18 @@ for comp in listStocks:
 
         if MARKET == Market.US:
             insiderPerc = ownershipDic[comp]
-            if insiderPerc < 10:
-                print(comp, "insider ownership < 10%", insiderPerc)
+            if insiderPerc < INSIDER_OWN_MIN:
+                print(comp, "insider ownership < " + str(INSIDER_OWN_MIN), insiderPerc)
                 continue
         else:
             insiderPerc = float(si.get_holders(comp).get('Major Holders')[0][0].rstrip("%"))
             print(comp, "insider percent", insiderPerc)
 
-        if insiderPerc < 10:
-            print(comp, "insider percentage < 10 ", insiderPerc)
+        if insiderPerc < INSIDER_OWN_MIN:
+            print(comp, "insider percentage < " + str(INSIDER_OWN_MIN), insiderPerc)
             continue
 
-        bs = si.get_balance_sheet(comp)
+        bs = si.get_balance_sheet(comp, yearly=yearlyFlag)
         retainedEarnings = getFromDF(bs.loc["retainedEarnings"]) if 'retainedEarnings' in bs.index else 0
 
         # RE>0 ensures that the stock is not a chronic cash burner
@@ -99,12 +101,20 @@ for comp in listStocks:
             print(comp, " de ratio> 1 or A<L. ", debtEquityRatio)
             continue
 
-        equity = getFromDF(bs.loc["totalStockholderEquity"])
+        # equity = getFromDF(bs.loc["totalStockholderEquity"])
+        equity = totalAssets - totalLiab
 
         if equity < 0:
             print(comp, "equity < 0", equity)
 
-        shares = si.get_quote_data(comp)['sharesOutstanding']
+        if MARKET == Market.US:
+            shares = si.get_quote_data(comp)['sharesOutstanding']
+        elif MARKET == Market.HK:
+            shares = hk_shares[hk_shares['ticker'] == comp]['shares'].values[0]
+        else:
+            raise Exception(str(comp + " no shares"))
+
+        # shares = si.get_quote_data(comp)['sharesOutstanding']
 
         listingCurrency = getListingCurrency(comp)
         bsCurrency = getBalanceSheetCurrency(comp, listingCurrency)
@@ -148,7 +158,7 @@ for comp in listStocks:
                        + " D/E:" + str(round(debtEquityRatio, 1)) \
                        + " LT_debt_ratio:" + str(round(longTermDebtRatio, 1)) \
                        + " insider%:" + str(insiderPerc) \
-                       + " p/52low: " + str(round(marketPrice / low_52wk))
+                       + " p/52Low: " + str(round(marketPrice / low_52wk))
 
         print(outputString)
         fileOutput.write(outputString + '\n')

@@ -54,7 +54,7 @@ elif MARKET == Market.HK:
     hk_shares = pd.read_csv('list_hk_totalShares', sep="\t", index_col=False, names=['ticker', 'shares'])
     stock_df['ticker'] = stock_df['ticker'].map(lambda x: convertHK(x))
     listStocks = stock_df['ticker'].tolist()
-    listStocks = ['0857.HK']
+    # listStocks = ['0857.HK']
     # print(stock_df)
     # listStocks = stock_df['ticker'].tolist()
 
