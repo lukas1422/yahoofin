@@ -64,7 +64,7 @@ for comp in listStocks:
         country = info.loc["country"][0]
         sector = info.loc['sector'][0]
 
-        if sector == 'Real_Estate':
+        if 'real' in sector.lower():
             print(comp, " no real estate ")
             continue
 
@@ -126,30 +126,15 @@ for comp in listStocks:
                   round(marketCap / 1000000000, 2))
             continue
 
-        # outputString = ""
-        # if (cash - totalLiab) / exRate > marketCap:
-        #     outputString = "cash netnet:" + comp + " " \
-        #                    + listingCurr + bsCurr \
-        #                    + " cash:" + str(round(cash / 1000000000, 2)) \
-        #                    + " L:" + str(round(totalLiab / 1000000000, 2))
-        # elif (cash + receivables * 0.5 - totalLiab) / exRate > marketCap:
-        #     outputString = "cash receivable netnet:" + comp + " "
-        # elif (cash + receivables * 0.5 + inventory * 0.3 - totalLiab) / exRate > marketCap:
-        #     outputString = "cash rec inv netnet " + comp
-        # elif (currentAssets - totalLiab) / exRate > marketCap:
-        #     outputString = 'currentAsset netnet ' + comp
-        # else:
-        #     outputString = 'undefined net net,check:' + comp
-
         additionalComment = ""
         if (cash - totalLiab) / exRate - marketCap > 0:
             profit = (cash - totalLiab) / exRate - marketCap
-            additionalComment = " clean cash netnet, profit:" + str(round(profit, 2))
+            additionalComment = " CASH netnet, profit:" + str(round(profit, 2))
         elif (cash + receivables - totalLiab) / exRate - marketCap > 0:
-            additionalComment = " receivable conversion rate required: " \
+            additionalComment = " receivable conversion rate:" \
                                 + str(round((totalLiab + marketCap * exRate - cash) / receivables, 2))
         elif (cash + 0.5 * receivables + inventory - totalLiab) / exRate - marketCap > 0:
-            additionalComment = " inventory conversion rate required: " \
+            additionalComment = " inventory conversion rate:" \
                                 + str(round((totalLiab + marketCap * exRate - cash - 0.5 * receivables)
                                             / inventory, 2))
 

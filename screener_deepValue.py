@@ -159,7 +159,7 @@ for comp in listStocks:
                        + " ebit/A:" + str(round(ebitAssetRatio, 2)) \
                        + " S/A:" + str(round(revenue / totalAssets, 2)) \
                        + " 52w p%: " + str(round(percentile)) \
-                       + " div10yr: " + str(round(divSum / marketPrice * 100))
+                       + " divYld: " + str(round(divSum / marketPrice * 10))
 
         print(outputString)
         fileOutput.write(outputString + '\n')
