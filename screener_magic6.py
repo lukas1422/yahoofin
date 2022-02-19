@@ -125,6 +125,11 @@ for comp in listStocks:
         pb = marketCap / (equity / exRate)
         pCfo = marketCap / (cfo / exRate)
 
+        if MARKET == Market.HK:
+            if marketCap < 1000000000:
+                print(comp, "HK market cap less than 1B", marketCap/1000000000)
+                continue
+
         if pb > 0.6:
             print(comp, ' pb > 0.6 ', pb)
             continue

@@ -158,7 +158,7 @@ for comp in listStocks:
                        + " cfo/A:" + str(round(cfoAssetRatio, 2)) \
                        + " ebit/A:" + str(round(ebitAssetRatio, 2)) \
                        + " S/A:" + str(round(revenue / totalAssets, 2)) \
-                       + " 52w p%: " + str(round(percentile)) \
+                       + " 52w_p%:" + str(round(percentile)) \
                        + " divYld: " + str(round(divSum / marketPrice * 10))
 
         print(outputString)
