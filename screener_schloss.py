@@ -76,7 +76,7 @@ for comp in listStocks:
                 continue
         else:
             insiderPerc = float(si.get_holders(comp).get('Major Holders')[0][0].rstrip("%"))
-            print(comp, "insider percent", insiderPerc)
+            print(comp, MARKET, "insider percent", insiderPerc)
 
         if insiderPerc < INSIDER_OWN_MIN:
             print(comp, "insider percentage < " + str(INSIDER_OWN_MIN), insiderPerc)
@@ -112,7 +112,7 @@ for comp in listStocks:
         elif MARKET == Market.HK:
             shares = hk_shares[hk_shares['ticker'] == comp]['shares'].values[0]
         else:
-            raise Exception(str(comp + " no shares"))
+            raise Exception(str(comp + " no shares found for market non US non HK"))
 
         # shares = si.get_quote_data(comp)['sharesOutstanding']
 
@@ -121,6 +121,12 @@ for comp in listStocks:
         exRate = currency_getExchangeRate.getExchangeRate(exchange_rate_dict, listingCurrency, bsCurrency)
 
         marketCap = marketPrice * shares
+
+        if MARKET == Market.HK:
+            if marketCap < 1000000000:
+                print(comp, "market cap < 1B", marketCap)
+                continue
+
         pb = marketCap / (equity / exRate)
 
         if pb < 0 or pb > 1:
@@ -157,7 +163,7 @@ for comp in listStocks:
                        + " pb:" + str(round(pb, 1)) \
                        + " D/E:" + str(round(debtEquityRatio, 1)) \
                        + " LT_debt_ratio:" + str(round(longTermDebtRatio, 1)) \
-                       + " insider%:" + str(insiderPerc) \
+                       + " insider%:" + str(round(insiderPerc)) \
                        + " p/52Low: " + str(round(marketPrice / low_52wk))
 
         print(outputString)
