@@ -151,10 +151,6 @@ for comp in listStocks:
                        + " mv:" + str(round(marketCap / 1000000000, 2)) \
                        + additionalComment
 
-        # + ' profit:' + str(round(((cash + 0.5 * receivables
-        #                            + 0.3 * inventory - totalLiab) / exRate - marketCap)
-        #                          / 1000000000, 2))
-
         print(outputString)
 
         fileOutput.write(outputString + '\n')
