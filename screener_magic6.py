@@ -10,7 +10,7 @@ from helperMethods import getFromDF, convertHK
 COUNT = 0
 
 MARKET = Market.HK
-
+yearlyFlag = False
 
 def increment():
     global COUNT
@@ -54,6 +54,7 @@ elif MARKET == Market.HK:
     hk_shares = pd.read_csv('list_hk_totalShares', sep="\t", index_col=False, names=['ticker', 'shares'])
     stock_df['ticker'] = stock_df['ticker'].map(lambda x: convertHK(x))
     listStocks = stock_df['ticker'].tolist()
+    listStocks = ['0857.HK']
     # print(stock_df)
     # listStocks = stock_df['ticker'].tolist()
 
@@ -88,7 +89,7 @@ for comp in listStocks:
             print(comp, 'market price < 1:', marketPrice)
             continue
 
-        bs = si.get_balance_sheet(comp)
+        bs = si.get_balance_sheet(comp, yearly=yearlyFlag)
         retainedEarnings = getFromDF(bs.loc["retainedEarnings"]) if 'retainedEarnings' in bs.index else 0
 
         # RE>0 ensures that the stock is not a chronic cash burner
@@ -96,10 +97,20 @@ for comp in listStocks:
             print(comp, " retained earnings <= 0 ", retainedEarnings)
             continue
 
-        equity = getFromDF(bs.loc["totalStockholderEquity"])
-        shares = si.get_quote_data(comp)['sharesOutstanding']
+        if MARKET == Market.US:
+            shares = si.get_quote_data(comp)['sharesOutstanding']
+        elif MARKET == Market.HK:
+            shares = hk_shares[hk_shares['ticker'] == comp]['shares'].values[0]
+        else:
+            raise Exception(str(comp + " no shares"))
 
-        incomeStatement = si.get_income_statement(comp, yearly=True)
+        # equity = getFromDF(bs.loc["totalStockholderEquity"])
+        totalAssets = getFromDF(bs.loc["totalAssets"])
+        totalLiab = getFromDF(bs.loc["totalLiab"])
+        equity = totalAssets - totalLiab
+        # shares = si.get_quote_data(comp)['sharesOutstanding']
+
+        incomeStatement = si.get_income_statement(comp, yearly=yearlyFlag)
         ebit = getFromDF(incomeStatement.loc["ebit"])
         netIncome = getFromDF(incomeStatement.loc['netIncome'])
 
@@ -107,16 +118,19 @@ for comp in listStocks:
         bsCurr = getBalanceSheetCurrency(comp, listingCurr)
         exRate = currency_getExchangeRate.getExchangeRate(exchange_rate_dict, listingCurr, bsCurr)
 
+        cf = si.get_cash_flow(comp, yearly=yearlyFlag)
+        cfo = cf.loc["totalCashFromOperatingActivities"][0]
+
         marketCap = marketPrice * shares
         pb = marketCap / (equity / exRate)
-        pe = marketCap / (netIncome / exRate)
+        pCfo = marketCap / (cfo / exRate)
 
         if pb > 0.6:
             print(comp, ' pb > 0.6 ', pb)
             continue
 
-        if pe > 6 or pe < 0:
-            print(comp, ' pe > 6 or < 0', pe)
+        if pCfo > 6 or pCfo < 0:
+            print(comp, ' pCfo > 6 or < 0', pCfo)
             continue
 
         data = si.get_data(comp, start_date=START_DATE, interval=PRICE_INTERVAL)
@@ -135,11 +149,11 @@ for comp in listStocks:
                        + country.replace(" ", "_") + " " \
                        + sector.replace(" ", "_") \
                        + " MV:" + str(round(marketCap / 1000000000.0, 1)) + 'B' \
-                       + " PE " + str(round(pe, 1)) \
+                       + " PCFO " + str(round(pCfo, 1)) \
                        + " pb:" + str(round(pb, 1)) \
-                       + " div10yr: " + str(round(divSum / marketPrice / 10, 2)) \
+                       + " div10yr Yr Yld: " + str(round(divSum / marketPrice * 10)) \
                        + finvizComment \
-                       + " xueqiu div:" + str(round(xueqiuDic[comp], 1))
+                       + " xueqiu div:" + str(round(xueqiuDic[comp], 2))
 
         print(outputString)
         fileOutput.write(outputString + '\n')
