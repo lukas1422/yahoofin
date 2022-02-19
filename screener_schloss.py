@@ -97,8 +97,8 @@ for comp in listStocks:
 
         longTermDebtRatio = (totalLiab - currentLiab) / totalAssets
 
-        if debtEquityRatio > 1 or totalAssets < totalLiab:
-            print(comp, " de ratio> 1 or A<L. ", debtEquityRatio)
+        if debtEquityRatio > 0.5 or totalAssets < totalLiab:
+            print(comp, "DE Ratio > 0.5 OR  A<L. ", debtEquityRatio)
             continue
 
         # equity = getFromDF(bs.loc["totalStockholderEquity"])

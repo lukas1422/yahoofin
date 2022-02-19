@@ -151,7 +151,7 @@ for comp in listStocks:
                        + " MV:" + str(round(marketCap / 1000000000.0, 1)) + 'B' \
                        + " PCFO " + str(round(pCfo, 1)) \
                        + " pb:" + str(round(pb, 1)) \
-                       + " div10yr Yr Yld: " + str(round(divSum / marketPrice * 10)) \
+                       + " div_annual_yld:" + str(round(divSum / marketPrice * 10)) \
                        + finvizComment \
                        + " xueqiu div:" + str(round(xueqiuDic[comp], 2))
 

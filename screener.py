@@ -21,7 +21,7 @@ PRICE_INTERVAL = '1mo'
 
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 
-fileOutput = open('list_results', 'w')
+fileOutput = open('list_deepValue', 'w')
 
 stock_df = pd.read_csv('list_UScompanyInfo', sep=" ", index_col=False,
                        names=['ticker', 'name', 'sector', 'industry', 'country', 'mv', 'price'])

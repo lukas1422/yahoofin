@@ -24,7 +24,7 @@ PRICE_INTERVAL = '1mo'
 
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 
-fileOutput = open('list_results', 'w')
+fileOutput = open('list_deepValue', 'w')
 
 if MARKET == Market.US:
     # US Version STARTS
