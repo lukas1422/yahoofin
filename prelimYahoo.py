@@ -16,21 +16,25 @@ def fo(number):
 
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 
-stockName = '0857.HK'
-stockName = 'VIAC'
+stockName = '1812.HK'
+# stockName = 'VIAC'
 yearlyFlag = False
 
 info = si.get_company_info(stockName)
 country = info.loc["country"][0]
 sector = info.loc['sector'][0]
-print(stockName, country, sector)
+industry = info.loc['industry'][0]
+longName = info.loc['longBusinessSummary'][0]
+
+print(stockName, country, sector, industry)
+print(longName)
 
 bs = si.get_balance_sheet(stockName, yearly=yearlyFlag)
-# print(bs)
+print("balance sheet date:", bs.columns[0].strftime('%Y/%-m/%-d'))
 
 # BS
 retainedEarnings = bs.loc["retainedEarnings"][0]
-#equity = bs.loc["totalStockholderEquity"][0]
+# equity = bs.loc["totalStockholderEquity"][0]
 totalCurrentAssets = bs.loc["totalCurrentAssets"][0]
 totalCurrentLiab = bs.loc["totalCurrentLiabilities"][0]
 totalAssets = bs.loc["totalAssets"][0]
@@ -41,7 +45,10 @@ receivables = getFromDF(bs.loc['netReceivables']) if 'netReceivables' in bs.inde
 inventory = getFromDF(bs.loc['inventory']) if 'inventory' in bs.index else 0.0
 
 cf = si.get_cash_flow(stockName, yearly=yearlyFlag)
+print("cash flow statement date:", cf.columns[0].strftime('%Y/%-m/%-d'))
+
 incomeStatement = si.get_income_statement(stockName, yearly=yearlyFlag)
+print("income statement date:", incomeStatement.columns[0].strftime('%Y/%-m/%-d'))
 
 listingCurrency = getListingCurrency(stockName)
 bsCurrency = getBalanceSheetCurrency(stockName, listingCurrency)
@@ -58,9 +65,10 @@ roa = netIncome / totalAssets
 cfo = cf.loc["totalCashFromOperatingActivities"][0]
 cfi = cf.loc["totalCashflowsFromInvestingActivities"][0]
 cff = cf.loc["totalCashFromFinancingActivities"][0]
+cfoA = cfo / totalAssets
 
 marketPrice = si.get_live_price(stockName)
-#sharesYahoo = si.get_quote_data(stockName)['sharesOutstanding']
+# sharesYahoo = si.get_quote_data(stockName)['sharesOutstanding']
 sharesTotalXueqiu = scrape_sharesOutstanding.scrapeTotalSharesXueqiu(stockName)
 floatingSharesXueqiu = scrape_sharesOutstanding.scrapeFloatingSharesXueqiu(stockName)
 sharesFinviz = scrape_sharesOutstanding.scrapeSharesOutstandingFinviz(stockName)
@@ -91,7 +99,8 @@ print(listingCurrency, bsCurrency, "ExRate ", exRate)
 print("total shares xueqiu", str(sharesTotalXueqiu / 1000000000) + "B")
 # print("floating shares xueqiu", str(floatingSharesXueqiu / 1000000000) + "B")
 print("shares finviz", sharesFinviz)
-print("cash", cash, "rec", receivables, "inv", inventory)
+print("cash", round(cash / 1000000000, 2), "rec", round(receivables / 1000000000, 2), "inv",
+      round(inventory / 1000000000, 2))
 print("A", round(totalAssets / exRate / 1000000000, 1), "B", "(",
       round(totalCurrentAssets / exRate / 1000000000.0, 1)
       , round((totalAssets - totalCurrentAssets) / exRate / 1000000000.0, 1), ")")
@@ -119,18 +128,19 @@ print("CFF", round(cff / 1000000000 / exRate, 2), "B")
 print("RE", round(retainedEarnings / 1000000000 / exRate, 2), "B")
 print("RE/A", round(retainedEarnings / totalAssets, 2))
 print("S/A", round(revenue / totalAssets, 2))
-print("div return over 10 yrs ", round(divSum / marketPrice, 2))
-print("divsum marketprice", round(divSum, 2), round(marketPrice, 2))
+print("div annual yield:", round(divSum / marketPrice * 10))
+print("divsum marketprice:", round(divSum, 2), round(marketPrice, 2))
 print('roa', roa)
+print('cfoA', cfoA)
 
 outputString = stockName + " " + country + " " + sector \
                + " MV:" + str(round(marketCap / 1000000000.0, 1)) + 'B' \
                + " Equity:" + str(round((totalAssets - totalLiab) / exRate / 1000000000.0, 1)) + 'B' \
                + " CR:" + str(round(currentRatio, 2)) \
-               + " D/E:" + str(round(debtEquityRatio,2 )) \
-               + " RE/A:" + str(round(retainedEarningsAssetRatio,2)) \
-               + " cfo/A:" + str(round(cfoAssetRatio,2)) \
-               + " ebit/A:" + str(round(ebitAssetRatio,2)) \
+               + " D/E:" + str(round(debtEquityRatio, 2)) \
+               + " RE/A:" + str(round(retainedEarningsAssetRatio, 2)) \
+               + " cfo/A:" + str(round(cfoAssetRatio, 2)) \
+               + " ebit/A:" + str(round(ebitAssetRatio, 2)) \
                + " pb:" + str(round(pb, 2)) \
                + " 52w p%:" + str(round(percentile)) \
                + " div10yr:" + str(round(divSum / marketPrice, 2))

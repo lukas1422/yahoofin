@@ -27,7 +27,7 @@ def scrapeTotalSharesXueqiu(comp):
                 dic = json.loads(pattern.search(searchText).group(1) + "}")
                 if 'total_shares' in dic and dic['total_shares'] is not None and \
                         dic['total_shares'] != "null":
-                    print("scrape total shares:", dic['total_shares'])
+                    print("xueqiu total shares:", str(round(dic['total_shares'] / 1000000000, 2)) + "B")
                     return float(dic['total_shares'])
                     # return str(float(dic['total_shares']) / 1000000000) + "B"
     except Exception as e:
@@ -42,7 +42,7 @@ def scrapeFloatingSharesXueqiu(comp):
         comp = comp[:-3].zfill(5)
     comp = comp.replace('-', '.')
 
-    print('scrapeSharesOutstandingXueqiu', comp)
+    #print('scrapeSharesOutstandingXueqiu', comp)
     try:
         url = "https://xueqiu.com/S/" + comp
         req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
