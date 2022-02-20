@@ -59,17 +59,16 @@ for comp in listStocks:
 
         info = si.get_company_info(comp)
         bs = si.get_balance_sheet(comp, yearly=yearlyFlag)
-        totalCurrentAssets = getFromDF(bs.loc["totalCurrentAssets"]) if 'totalCurrentAssets' in bs.index else 0.0
-        totalCurrentLiab = getFromDF(
-            bs.loc["totalCurrentLiabilities"]) if 'totalCurrentLiabilities' in bs.index else 0.0
+        totalCurrentAssets = getFromDF(bs.loc["totalCurrentAssets"])
+        totalCurrentLiab = getFromDF(bs.loc["totalCurrentLiabilities"])
         currentRatio = totalCurrentAssets / totalCurrentLiab
 
         retainedEarnings = getFromDF(bs.loc["retainedEarnings"])
 
         totalAssets = getFromDF(bs.loc["totalAssets"])
         totalLiab = getFromDF(bs.loc["totalLiab"])
-        goodWill = getFromDF(bs.loc['goodWill']) if 'goodWill' in bs.index else 0.0
-        intangibles = getFromDF(bs.loc['intangibleAssets']) if 'intangibleAssets' in bs.index else 0.0
+        goodWill = getFromDF(bs.loc['goodWill'])
+        intangibles = getFromDF(bs.loc['intangibleAssets'])
         equity = totalAssets - totalLiab - goodWill - intangibles
         debtEquityRatio = totalLiab / equity
         incomeStatement = si.get_income_statement(comp, yearly=yearlyFlag)
@@ -77,7 +76,6 @@ for comp in listStocks:
         netIncome = getFromDF(incomeStatement.loc['netIncome'])
         cf = si.get_cash_flow(comp, yearly=yearlyFlag)
         cfo = getFromDF(cf.loc["totalCashFromOperatingActivities"])
-
         # shares = hk_shares[hk_shares['ticker'] == comp]['shares'].values[0]
 
         revenue = getFromDF(incomeStatement.loc["totalRevenue"])

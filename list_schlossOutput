@@ -1,0 +1,29 @@
+0032.HK 港通控股 Hong_Kong Consumer_Defensive HKDHKD MV:4.1B Eq:9.5B pb:0.4 D/E:0.1 LT_debt_ratio:0.0 insider%:69 p/52Low: 10%
+0057.HK 震雄集團 Hong_Kong Industrials HKDHKD MV:1.5B Eq:3.1B pb:0.5 D/E:0.4 LT_debt_ratio:0.0 insider%:71 p/52Low: 9%
+0062.HK 載通s Hong_Kong Industrials HKDHKD MV:6.0B Eq:13.2B pb:0.5 D/E:0.5 LT_debt_ratio:0.2 insider%:54 p/52Low: 6%
+0071.HK 美麗華酒店s Hong_Kong Industrials HKDHKD MV:9.0B Eq:20.0B pb:0.5 D/E:0.1 LT_debt_ratio:0.0 insider%:66 p/52Low: 5%
+ERROR 0444.HK TypeError("object of type 'NoneType' has no len()")
+0450.HK 鴻興印刷集團 Hong_Kong Industrials HKDHKD MV:1.2B Eq:3.3B pb:0.4 D/E:0.3 LT_debt_ratio:0.1 insider%:68 p/52Low: 8%
+ERROR 0462.HK TypeError("object of type 'NoneType' has no len()")
+0517.HK 中遠海運國際s Hong_Kong Industrials HKDHKD MV:3.9B Eq:8.4B pb:0.5 D/E:0.2 LT_debt_ratio:0.0 insider%:69 p/52Low: 9%
+0533.HK 金利來集團 Hong_Kong Consumer_Cyclical HKDHKD MV:1.6B Eq:4.5B pb:0.4 D/E:0.2 LT_debt_ratio:0.1 insider%:68 p/52Low: 4%
+0538.HK 味千（中國） Hong_Kong Consumer_Cyclical HKDCNY MV:1.3B Eq:3.9B pb:0.3 D/E:0.4 LT_debt_ratio:0.1 insider%:51 p/52Low: 6%
+ERROR 0591.HK TypeError("object of type 'NoneType' has no len()")
+ERROR 0627.HK TypeError("object of type 'NoneType' has no len()")
+ERROR 0648.HK TypeError("object of type 'NoneType' has no len()")
+0693.HK 陳唱國際 Hong_Kong Consumer_Cyclical HKDHKD MV:4.0B Eq:12.0B pb:0.3 D/E:0.5 LT_debt_ratio:0.1 insider%:71 p/52Low: 0%
+ERROR 0820.HK TypeError("object of type 'NoneType' has no len()")
+0950.HK 李氏大藥廠s Hong_Kong Healthcare HKDHKD MV:1.8B Eq:3.5B pb:0.7 D/E:0.3 LT_debt_ratio:0.0 insider%:60 p/52Low: 4%
+ERROR 0967.HK TypeError("object of type 'NoneType' has no len()")
+ERROR 0994.HK ImportError('html5lib not found, please install it')
+1122.HK 慶鈴汽車股份s China Industrials HKDCNY MV:3.9B Eq:9.6B pb:0.4 D/E:0.4 LT_debt_ratio:0.0 insider%:40 p/52Low: 7%
+ERROR 1167.HK IndexError('list index out of range')
+ERROR 1178.HK TypeError("object of type 'NoneType' has no len()")
+ERROR 1194.HK TypeError("object of type 'NoneType' has no len()")
+ERROR 1270.HK TypeError("object of type 'NoneType' has no len()")
+1286.HK 鷹普精密 Hong_Kong Industrials HKDHKD MV:3.5B Eq:4.2B pb:0.9 D/E:0.5 LT_debt_ratio:0.1 insider%:61 p/52Low: 8%
+ERROR 1395.HK TypeError("object of type 'NoneType' has no len()")
+ERROR 1552.HK TypeError("object of type 'NoneType' has no len()")
+ERROR 1571.HK IndexError('list index out of range')
+ERROR 1665.HK Exception('getExchangeRate, no currency found', 'HKD', 'MYR')
+ERROR 1667.HK TypeError("object of type 'NoneType' has no len()")

@@ -16,7 +16,8 @@ def fo(number):
 
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 
-stockName = '1812.HK'
+# stockName = '0001.HK'
+stockName = '1122.HK'
 # stockName = 'VIAC'
 yearlyFlag = False
 
@@ -30,8 +31,8 @@ print(stockName, country, sector, industry)
 print(longName)
 
 bs = si.get_balance_sheet(stockName, yearly=yearlyFlag)
+print("bs", bs)
 print("balance sheet date:", bs.columns[0].strftime('%Y/%-m/%-d'))
-print(bs)
 # BS
 retainedEarnings = bs.loc["retainedEarnings"][0]
 # equity = bs.loc["totalStockholderEquity"][0]
@@ -65,9 +66,9 @@ netIncome = incomeStatement.loc['netIncome'][0]
 roa = netIncome / totalAssets
 
 # CF
-cfo = cf.loc["totalCashFromOperatingActivities"][0]
-cfi = cf.loc["totalCashflowsFromInvestingActivities"][0]
-cff = cf.loc["totalCashFromFinancingActivities"][0]
+cfo = getFromDF(cf.loc["totalCashFromOperatingActivities"]) if 'totalCashFromOperatingActivities' in cf.index else 0.0
+cfi = getFromDF(cf.loc["totalCashflowsFromInvestingActivities"]) if 'totalCashflowsFromInvestingActivities' in cf.index else 0.0
+cff = getFromDF(cf.loc["totalCashFromFinancingActivities"]) if 'totalCashFromFinancingActivities' in cf.index else 0.0
 cfoA = cfo / totalAssets
 
 marketPrice = si.get_live_price(stockName)

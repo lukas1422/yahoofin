@@ -108,7 +108,8 @@ for comp in listStocks:
             continue
 
         cf = si.get_cash_flow(comp, yearly=yearlyFlag)
-        cfo = getFromDF(cf.loc["totalCashFromOperatingActivities"]) if 'totalCashFromOperatingActivities' in cf.index else 0.0
+        cfo = getFromDF(
+            cf.loc["totalCashFromOperatingActivities"]) if 'totalCashFromOperatingActivities' in cf.index else 0.0
 
         if cfo <= 0:
             print(comp, "cfo <= 0 ", cfo)

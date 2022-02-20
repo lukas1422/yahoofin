@@ -1,1 +1,39 @@
 0057.HK 震雄集團 HKDHKD Hong_Kong Industrials  cash:0.82 rec:1.36 inv:0.95 CA:3.3 L:1.36 mv:1.51鸡肋:CA-L>MV
+0116.HK 周生生s HKDHKD Hong_Kong Consumer_Cyclical  cash:1.22 rec:1.12 inv:9.84 CA:12.86 L:4.28 mv:7.8鸡肋:CA-L>MV
+ERROR BS IS EMPTY 0255.HK
+ERROR BS IS EMPTY 0301.HK
+0321.HK 德永佳集團s HKDHKD Hong_Kong Consumer_Cyclical  cash:2.33 rec:1.35 inv:2.71 CA:6.79 L:3.96 mv:2.36鸡肋:CA-L>MV
+0420.HK 福田實業 HKDHKD Hong_Kong Consumer_Cyclical  cash:1.04 rec:1.27 inv:1.53 CA:4.05 L:2.13 mv:1.69鸡肋:CA-L>MV
+ERROR 0444.HK TypeError("object of type 'NoneType' has no len()")
+0450.HK 鴻興印刷集團 HKDHKD Hong_Kong Industrials  cash:0.65 rec:0.84 inv:0.83 CA:2.85 L:1.02 mv:1.18鸡肋:CA-L>MV
+ERROR 0462.HK TypeError("object of type 'NoneType' has no len()")
+ERROR 0591.HK TypeError("object of type 'NoneType' has no len()")
+ERROR 0627.HK TypeError("object of type 'NoneType' has no len()")
+ERROR 0648.HK TypeError("object of type 'NoneType' has no len()")
+ERROR BS IS EMPTY 0763.HK
+ERROR 0820.HK TypeError("object of type 'NoneType' has no len()")
+ERROR 0941.HK Exception('getExchangeRate, no currency found', 'not found', 'CNY')
+ERROR 0967.HK TypeError("object of type 'NoneType' has no len()")
+ERROR BS IS EMPTY 0984.HK
+ERROR BS IS EMPTY 1090.HK
+ERROR BS IS EMPTY 1091.HK
+ERROR 1178.HK TypeError("object of type 'NoneType' has no len()")
+ERROR BS IS EMPTY 1193.HK
+ERROR 1194.HK TypeError("object of type 'NoneType' has no len()")
+ERROR 1270.HK TypeError("object of type 'NoneType' has no len()")
+1358.HK 普華和順 HKDCNY China Healthcare  cash:2.41 rec:0.13 inv:0.04 CA:2.58 L:0.13 mv:1.69 CASH netnet, profit:1089477561.45
+ERROR 1395.HK TypeError("object of type 'NoneType' has no len()")
+ERROR BS IS EMPTY 1518.HK
+ERROR 1552.HK TypeError("object of type 'NoneType' has no len()")
+ERROR 1665.HK Exception('getExchangeRate, no currency found', 'HKD', 'MYR')
+ERROR 1666.HK IndexError('list index out of range')
+ERROR 1667.HK TypeError("object of type 'NoneType' has no len()")
+ERROR 1690.HK TypeError("object of type 'NoneType' has no len()")
+ERROR 1706.HK TypeError("object of type 'NoneType' has no len()")
+ERROR BS IS EMPTY 1760.HK
+ERROR 1863.HK TypeError("object of type 'NoneType' has no len()")
+ERROR BS IS EMPTY 1948.HK
+ERROR BS IS EMPTY 1981.HK
+ERROR 2108.HK TypeError("object of type 'NoneType' has no len()")
+ERROR BS IS EMPTY 2175.HK
+ERROR BS IS EMPTY 2197.HK

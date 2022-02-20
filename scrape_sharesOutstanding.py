@@ -31,7 +31,7 @@ def scrapeTotalSharesXueqiu(comp):
                     return float(dic['total_shares'])
                     # return str(float(dic['total_shares']) / 1000000000) + "B"
     except Exception as e:
-        print(comp, e)
+        print(comp, "scrapeTotalSharesXueqiu", e)
         return 0
     else:
         return 0
@@ -42,7 +42,7 @@ def scrapeFloatingSharesXueqiu(comp):
         comp = comp[:-3].zfill(5)
     comp = comp.replace('-', '.')
 
-    #print('scrapeSharesOutstandingXueqiu', comp)
+    # print('scrapeSharesOutstandingXueqiu', comp)
     try:
         url = "https://xueqiu.com/S/" + comp
         req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})

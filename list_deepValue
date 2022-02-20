@@ -1,0 +1,18 @@
+ERROR BS IS EMPTY AESC
+ERROR BS IS EMPTY AMBA
+ERROR ARKOW KeyError('sharesOutstanding')
+ERROR BS IS EMPTY ARQQ
+ERROR BS IS EMPTY ASIX
+ERROR ASR Exception('getExchangeRate, no currency found', 'USD', 'MXN')
+ERROR BBL IndexError('list index out of range')
+ERROR BRZE IndexError('list index out of range')
+ERROR CCU Exception('getExchangeRate, no currency found', 'USD', 'CLP')
+ERROR BS IS EMPTY CDE
+ERROR CENN TypeError("object of type 'NoneType' has no len()")
+CEPU Argentina Utilities USDARS MV:0.6B Eq:1.0B P/CFO:5.81 PB:0.5 C/R:1.9 D/E:0.72 RE/A:0.41 cfo/A:0.05 ebit/A:0.02 S/A:0.07 52w_p%:75 divYld: 1
+ERROR BS IS EMPTY CLSK
+ERROR BS IS EMPTY CMPOW
+CTRM Cyprus Industrials USDUSD MV:0.2B Eq:0.3B P/CFO:7.33 PB:0.5 C/R:1.85 D/E:0.3 RE/A:0.05 cfo/A:0.05 ebit/A:0.04 S/A:0.1 52w_p%:3 divYld: 0
+ERROR CYD ZeroDivisionError('division by zero')
+ERROR DCFC TypeError("object of type 'NoneType' has no len()")
+ERROR BS IS EMPTY DOUG
