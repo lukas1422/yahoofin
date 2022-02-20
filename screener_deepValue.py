@@ -29,7 +29,7 @@ fileOutput = open('list_deepValue', 'w')
 
 if MARKET == Market.US:
     # US Version STARTS
-    stock_df = pd.read_csv('list_UScompanyInfo', sep=" ", index_col=False,
+    stock_df = pd.read_csv('list_US_companyInfo', sep=" ", index_col=False,
                            names=['ticker', 'name', 'sector', 'industry', 'country', 'mv', 'price', 'listDate'])
 
     listStocks = stock_df[(stock_df['price'] > 1)
@@ -40,10 +40,10 @@ if MARKET == Market.US:
 # US Version Ends
 
 elif MARKET == Market.HK:
-    stock_df = pd.read_csv('list_hkstocks', dtype=object, sep=" ", index_col=False, names=['ticker', 'name'])
+    stock_df = pd.read_csv('list_HK_Tickers', dtype=object, sep=" ", index_col=False, names=['ticker', 'name'])
     stock_df['ticker'] = stock_df['ticker'].astype(str)
     stock_df['ticker'] = stock_df['ticker'].map(lambda x: convertHK(x))
-    hk_shares = pd.read_csv('list_hk_totalShares', sep="\t", index_col=False, names=['ticker', 'shares'])
+    hk_shares = pd.read_csv('list_HK_totalShares', sep="\t", index_col=False, names=['ticker', 'shares'])
     listStocks = stock_df['ticker'].tolist()
     # listStocks = ['1513.HK']
 else:

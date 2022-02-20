@@ -40,7 +40,7 @@ fileOutput = open('list_schlossOutput', 'w')
 ownershipDic = getInsiderOwnership()
 
 if MARKET == Market.US:
-    stock_df = pd.read_csv('list_UScompanyInfo', sep="\t", index_col=False,
+    stock_df = pd.read_csv('list_US_companyInfo', sep="\t", index_col=False,
                            names=['ticker', 'name', 'sector', 'industry', 'country', 'mv', 'price'])
 
     listStocks = stock_df[(stock_df['price'] > 1)
@@ -49,9 +49,9 @@ if MARKET == Market.US:
                           & (stock_df['industry'].str.contains('reit', regex=True, case=False) == False)
                           & (stock_df['country'].str.lower() != 'china')]['ticker'].tolist()
 elif MARKET == Market.HK:
-    stock_df = pd.read_csv('list_hkstocks', dtype=object, sep=" ", index_col=False, names=['ticker', 'name'])
+    stock_df = pd.read_csv('list_HK_Tickers', dtype=object, sep=" ", index_col=False, names=['ticker', 'name'])
     stock_df['ticker'] = stock_df['ticker'].astype(str)
-    hk_shares = pd.read_csv('list_hk_totalShares', sep="\t", index_col=False, names=['ticker', 'shares'])
+    hk_shares = pd.read_csv('list_HK_totalShares', sep="\t", index_col=False, names=['ticker', 'shares'])
     stock_df['ticker'] = stock_df['ticker'].map(lambda x: convertHK(x))
     listStocks = stock_df['ticker'].tolist()
     # listStocks = ['1513.HK']

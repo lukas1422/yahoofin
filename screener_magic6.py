@@ -27,7 +27,7 @@ exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 fileOutput = open('list_magic6', 'w')
 
 if MARKET == Market.US:
-    stock_df = pd.read_csv('list_UScompanyInfo', sep="\t", index_col=False,
+    stock_df = pd.read_csv('list_US_companyInfo', sep="\t", index_col=False,
                            names=['ticker', 'name', 'sector', 'industry', 'country', 'mv', 'price'])
 
     listStocks = stock_df[(stock_df['price'] > 1)
@@ -49,9 +49,9 @@ if MARKET == Market.US:
     xueqiuDic = pd.Series(xueqiuDiv.divi.values, index=xueqiuDiv.ticker).to_dict()
 
 elif MARKET == Market.HK:
-    stock_df = pd.read_csv('list_hkstocks', dtype=object, sep=" ", index_col=False, names=['ticker', 'name'])
+    stock_df = pd.read_csv('list_HK_Tickers', dtype=object, sep=" ", index_col=False, names=['ticker', 'name'])
     stock_df['ticker'] = stock_df['ticker'].astype(str)
-    hk_shares = pd.read_csv('list_hk_totalShares', sep="\t", index_col=False, names=['ticker', 'shares'])
+    hk_shares = pd.read_csv('list_HK_totalShares', sep="\t", index_col=False, names=['ticker', 'shares'])
     stock_df['ticker'] = stock_df['ticker'].map(lambda x: convertHK(x))
     listStocks = stock_df['ticker'].tolist()
     # listStocks = ['0857.HK']

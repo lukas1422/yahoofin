@@ -25,7 +25,7 @@ exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 fileOutput = open('list_neff', 'w')
 fileOutput.write("\n")
 
-stock_df = pd.read_csv('list_UScompanyInfo', sep="\t", index_col=False,
+stock_df = pd.read_csv('list_US_companyInfo', sep="\t", index_col=False,
                        names=['ticker', 'name', 'sector', 'industry', 'country', 'mv', 'price'])
 
 listStocks = stock_df[(stock_df['price'] > 1)]['ticker'].tolist()

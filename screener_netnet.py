@@ -32,7 +32,7 @@ fileOutput = open('list_results_netnet', 'w')
 
 # US Version Starts
 if MARKET == Market.US:
-    stock_df = pd.read_csv('list_UScompanyInfo', sep=" ", index_col=False,
+    stock_df = pd.read_csv('list_US_companyInfo', sep=" ", index_col=False,
                            names=['ticker', 'name', 'sector', 'industry', 'country', 'mv', 'price', 'listingDate'])
 
     stock_df['listingDate'] = pd.to_datetime(stock_df['listingDate'])
@@ -45,11 +45,11 @@ if MARKET == Market.US:
                           & (stock_df['country'].str.lower() != 'china')]['ticker'].tolist()
 
 elif MARKET == Market.HK:
-    stock_df = pd.read_csv('list_hkstocks', dtype=object, sep=" ", index_col=False, names=['ticker', 'name'])
+    stock_df = pd.read_csv('list_HK_Tickers', dtype=object, sep=" ", index_col=False, names=['ticker', 'name'])
     stock_df['ticker'] = stock_df['ticker'].astype(str)
     stock_df['ticker'] = stock_df['ticker'].map(lambda x: convertHK(x))
     listStocks = stock_df['ticker'].tolist()
-    hk_shares = pd.read_csv('list_hk_totalShares', sep="\t", index_col=False, names=['ticker', 'shares'])
+    hk_shares = pd.read_csv('list_HK_totalShares', sep="\t", index_col=False, names=['ticker', 'shares'])
     # listStocks = ['1513.HK']
 else:
     raise Exception("market not found")

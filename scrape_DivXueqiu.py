@@ -63,14 +63,14 @@ if MARKET == Market.Market.US:
 
     fileOutput = open('list_divYieldXueqiuUS', 'w')
 
-    stock_df = pd.read_csv('list_UScompanyInfo', sep="\t", index_col=False,
+    stock_df = pd.read_csv('list_US_companyInfo', sep="\t", index_col=False,
                            names=['ticker', 'name', 'sector', 'industry', 'country', 'mv', 'price'])
 
     listStocks = stock_df[(stock_df['price'] > 1)]['ticker'].tolist()
 
 elif MARKET == Market.Market.HK:
     fileOutput = open('list_divYieldXueqiuHK', 'w')
-    stock_df = pd.read_csv('list_hkstocks', dtype=object, sep=" ", index_col=False, names=['ticker', 'name'])
+    stock_df = pd.read_csv('list_HK_Tickers', dtype=object, sep=" ", index_col=False, names=['ticker', 'name'])
     stock_df['ticker'] = stock_df['ticker'].astype(str)
     listStocks = stock_df['ticker'].map(lambda x: convertHK(x)).tolist()
 
