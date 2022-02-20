@@ -107,7 +107,10 @@ for comp in listStocks:
         # equity = getFromDF(bs.loc["totalStockholderEquity"])
         totalAssets = getFromDF(bs.loc["totalAssets"])
         totalLiab = getFromDF(bs.loc["totalLiab"])
-        equity = totalAssets - totalLiab
+
+        goodWill = getFromDF(bs.loc['goodWill'] if 'goodWill' in bs.index else 0.0)
+        intangibles = getFromDF(bs.loc['intangibleAssets'] if 'intangibleAssets' in bs.index else 0.0)
+        equity = totalAssets - totalLiab - goodWill - intangibles
         # shares = si.get_quote_data(comp)['sharesOutstanding']
 
         incomeStatement = si.get_income_statement(comp, yearly=yearlyFlag)

@@ -10,6 +10,7 @@ from helperMethods import getFromDF, convertHK
 COUNT = 0
 
 MARKET = Market.US
+yearlyFlag = False
 
 
 def increment():
@@ -63,7 +64,7 @@ for comp in listStocks:
         #     print(comp, "no china")
         #     continue
 
-        bs = si.get_balance_sheet(comp, yearly=False)
+        bs = si.get_balance_sheet(comp, yearly=yearlyFlag)
         totalCurrentAssets = getFromDF(bs.loc["totalCurrentAssets"])
         totalCurrentLiab = getFromDF(bs.loc["totalCurrentLiabilities"])
         currentRatio = totalCurrentAssets / totalCurrentLiab
@@ -80,13 +81,16 @@ for comp in listStocks:
 
         totalAssets = getFromDF(bs.loc["totalAssets"])
         totalLiab = getFromDF(bs.loc["totalLiab"])
-        debtEquityRatio = totalLiab / (totalAssets - totalLiab)
+        goodWill = getFromDF(bs.loc['goodWill'] if 'goodWill' in bs.index else 0.0)
+        intangibles = getFromDF(bs.loc['intangibleAssets'] if 'intangibleAssets' in bs.index else 0.0)
+        tangibleEquity = totalAssets - totalLiab - goodWill - intangibles
+        debtEquityRatio = totalLiab / tangibleEquity
 
         if debtEquityRatio > 1:
             print(comp, "de ratio> 1. ", debtEquityRatio)
             continue
 
-        incomeStatement = si.get_income_statement(comp, yearly=False)
+        incomeStatement = si.get_income_statement(comp, yearly=yearlyFlag)
         ebit = getFromDF(incomeStatement.loc["ebit"])
         netIncome = getFromDF(incomeStatement.loc['netIncome'])
 
@@ -94,14 +98,14 @@ for comp in listStocks:
             print(comp, "ebit or net income < 0 ", ebit, " ", netIncome)
             continue
 
-        cf = si.get_cash_flow(comp, yearly=False)
+        cf = si.get_cash_flow(comp, yearly=yearlyFlag)
         cfo = getFromDF(cf.loc["totalCashFromOperatingActivities"])
 
         if cfo <= 0:
             print(comp, "cfo <= 0 ", cfo)
             continue
 
-        equity = getFromDF(bs.loc["totalStockholderEquity"])
+        #equity = getFromDF(bs.loc["totalStockholderEquity"])
 
         if MARKET == Market.US:
             shares = si.get_quote_data(comp)['sharesOutstanding']
@@ -118,7 +122,7 @@ for comp in listStocks:
 
         print(bsCurrency, listingCurrency)
         marketCap = marketPrice * shares
-        pb = marketCap / (equity / exRate)
+        pb = marketCap / (tangibleEquity / exRate)
         # pe = marketCap / (netIncome / exRate)
         pCfo = marketCap / (cfo / exRate)
 
@@ -149,7 +153,7 @@ for comp in listStocks:
         outputString = comp + " " + country.replace(" ", "_") + " " \
                        + sector.replace(" ", "_") + " " + listingCurrency + bsCurrency \
                        + " MV:" + str(round(marketCap / 1000000000.0, 1)) + 'B' \
-                       + " Eq:" + str(round((totalAssets - totalLiab) / exRate / 1000000000.0, 1)) + 'B' \
+                       + " Eq:" + str(round(tangibleEquity / exRate / 1000000000.0, 1)) + 'B' \
                        + " P/CFO:" + str(round(pCfo, 2)) \
                        + " PB:" + str(round(pb, 1)) \
                        + " C/R:" + str(round(currentRatio, 2)) \

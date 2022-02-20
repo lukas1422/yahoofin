@@ -31,7 +31,7 @@ print(longName)
 
 bs = si.get_balance_sheet(stockName, yearly=yearlyFlag)
 print("balance sheet date:", bs.columns[0].strftime('%Y/%-m/%-d'))
-
+print(bs)
 # BS
 retainedEarnings = bs.loc["retainedEarnings"][0]
 # equity = bs.loc["totalStockholderEquity"][0]
@@ -43,6 +43,9 @@ equity = totalAssets - totalLiab
 cash = getFromDF(bs.loc['cash']) if 'cash' in bs.index else 0.0
 receivables = getFromDF(bs.loc['netReceivables']) if 'netReceivables' in bs.index else 0.0
 inventory = getFromDF(bs.loc['inventory']) if 'inventory' in bs.index else 0.0
+goodWill = getFromDF(bs.loc['goodWill'] if 'goodWill' in bs.index else 0.0)
+
+print("goodwill is ", goodWill)
 
 cf = si.get_cash_flow(stockName, yearly=yearlyFlag)
 print("cash flow statement date:", cf.columns[0].strftime('%Y/%-m/%-d'))
@@ -94,7 +97,10 @@ divSum = divs['dividend'].sum() if not divs.empty else 0.0
 
 # PRINTING*****
 
-print(listingCurrency, bsCurrency, "ExRate ", exRate)
+###exchange rate override?
+exRate = 1
+
+print("listing Currency:", listingCurrency, "balance sheet currency", bsCurrency, "ExRate ", exRate)
 # print("shares Yahoo", sharesYahoo / 1000000000.0, "B")
 print("total shares xueqiu", str(sharesTotalXueqiu / 1000000000) + "B")
 # print("floating shares xueqiu", str(floatingSharesXueqiu / 1000000000) + "B")
@@ -108,10 +114,11 @@ print("L", round(totalLiab / exRate / 1000000000, 1), "B", "(",
       round(totalCurrentLiab / exRate / 1000000000.0, 1),
       round((totalLiab - totalCurrentLiab) / exRate / 1000000000.0, 1), ")")
 print("E", round((totalAssets - totalLiab) / exRate / 1000000000.0, 1), "B")
-print("price shs", round(marketPrice, 2))
-print("BV/Shs", round((totalAssets - totalLiab) / exRate / sharesTotalXueqiu, 2))
-print("MV ListingCurr", round(marketPrice * sharesTotalXueqiu / 1000000000.0, 1), "B")
+print("BV per share", round((totalAssets - totalLiab) / exRate / sharesTotalXueqiu, 2))
+print("Market price", round(marketPrice, 2), listingCurrency)
+print("Market Cap", str(round(marketPrice * sharesTotalXueqiu / 1000000000.0, 1)) + "B")
 # print("Eq USD", round((equity / exRate) / 1000000000.0), "B")
+
 
 print("P/B", round(marketPrice * sharesTotalXueqiu / (equity / exRate), 2))
 print("P/E", round(marketPrice * sharesTotalXueqiu / (netIncome / exRate), 2))

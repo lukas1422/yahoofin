@@ -14,7 +14,7 @@ from helperMethods import getFromDF, convertHK
 COUNT = 0
 
 MARKET = Market.US
-
+yearlyFlag = False
 
 def increment():
     global COUNT
@@ -74,7 +74,7 @@ for comp in listStocks:
             print(comp, " cent stock ", marketPrice)
             continue
 
-        bs = si.get_balance_sheet(comp, yearly=False)
+        bs = si.get_balance_sheet(comp, yearly=yearlyFlag)
 
         retainedEarnings = getFromDF(bs.loc["retainedEarnings"]) if 'retainedEarnings' in bs.index else 0
 
@@ -108,9 +108,7 @@ for comp in listStocks:
         else:
             raise Exception("market not found ", MARKET)
 
-        # print("shares ", shares)
         marketCap = marketPrice * shares
-        # print("market cap ", marketCap)
 
         listingCurr = getListingCurrency(comp)
         bsCurr = getBalanceSheetCurrency(comp, listingCurr)
