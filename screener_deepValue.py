@@ -83,8 +83,8 @@ for comp in listStocks:
         totalLiab = getFromDF(bs.loc["totalLiab"])
         goodWill = getFromDF(bs.loc['goodWill'] if 'goodWill' in bs.index else 0.0)
         intangibles = getFromDF(bs.loc['intangibleAssets'] if 'intangibleAssets' in bs.index else 0.0)
-        tangibleEquity = totalAssets - totalLiab - goodWill - intangibles
-        debtEquityRatio = totalLiab / tangibleEquity
+        equity = totalAssets - totalLiab - goodWill - intangibles
+        debtEquityRatio = totalLiab / equity
 
         if debtEquityRatio > 1:
             print(comp, "de ratio> 1. ", debtEquityRatio)
@@ -122,7 +122,7 @@ for comp in listStocks:
 
         print(bsCurrency, listingCurrency)
         marketCap = marketPrice * shares
-        pb = marketCap / (tangibleEquity / exRate)
+        pb = marketCap / (equity / exRate)
         # pe = marketCap / (netIncome / exRate)
         pCfo = marketCap / (cfo / exRate)
 
@@ -153,7 +153,7 @@ for comp in listStocks:
         outputString = comp + " " + country.replace(" ", "_") + " " \
                        + sector.replace(" ", "_") + " " + listingCurrency + bsCurrency \
                        + " MV:" + str(round(marketCap / 1000000000.0, 1)) + 'B' \
-                       + " Eq:" + str(round(tangibleEquity / exRate / 1000000000.0, 1)) + 'B' \
+                       + " Eq:" + str(round(equity / exRate / 1000000000.0, 1)) + 'B' \
                        + " P/CFO:" + str(round(pCfo, 2)) \
                        + " PB:" + str(round(pb, 1)) \
                        + " C/R:" + str(round(currentRatio, 2)) \

@@ -98,8 +98,9 @@ for comp in listStocks:
             print(comp, "cfo > 0 ", cfo)
             continue
 
-        # equity = getFromDF(bs.loc["totalStockholderEquity"])
-        equity = totalAssets - totalLiab
+        goodWill = getFromDF(bs.loc['goodWill'] if 'goodWill' in bs.index else 0.0)
+        intangibles = getFromDF(bs.loc['intangibleAssets'] if 'intangibleAssets' in bs.index else 0.0)
+        equity = totalAssets - totalLiab - goodWill - intangibles
         # shares = si.get_quote_data(comp)['sharesOutstanding']
         shares = hk_shares[hk_shares['ticker'] == comp]['shares'].values[0]
 
@@ -135,7 +136,7 @@ for comp in listStocks:
                        + sector.replace(" ", "_") + " " \
                        + listingCurrency + bsCurrency \
                        + " MV:" + str(round(marketCap / 1000000000.0, 1)) + 'B' \
-                       + " Eq:" + str(round((totalAssets - totalLiab) / exRate / 1000000000.0, 1)) + 'B' \
+                       + " Eq:" + str(round(equity / exRate / 1000000000.0, 1)) + 'B' \
                        + " CR:" + str(round(currentRatio, 1)) \
                        + " RE/A:" + str(round(retainedEarnings / totalAssets, 2)) \
                        + " EBIT/A:" + str(round(ebit / totalAssets, 2)) \

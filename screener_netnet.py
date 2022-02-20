@@ -13,7 +13,7 @@ from helperMethods import getFromDF, convertHK
 
 COUNT = 0
 
-MARKET = Market.US
+MARKET = Market.HK
 yearlyFlag = False
 
 def increment():
@@ -71,7 +71,7 @@ for comp in listStocks:
         marketPrice = si.get_live_price(comp)
 
         if marketPrice < 1:
-            print(comp, " cent stock ", marketPrice)
+            print(comp, "cent stock", marketPrice)
             continue
 
         bs = si.get_balance_sheet(comp, yearly=yearlyFlag)

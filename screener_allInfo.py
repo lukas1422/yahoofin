@@ -5,16 +5,9 @@ from currency_scrapeYahoo import getBalanceSheetCurrency
 from currency_scrapeYahoo import getListingCurrency
 import math
 import currency_getExchangeRate
+from helperMethods import getFromDF
 
 COUNT = 0
-
-
-def getFromDF(df):
-    if df.empty:
-        return 0
-    elif math.isnan(df[0]):
-        return df[1]
-    return df[0]
 
 
 def increment():
@@ -51,31 +44,21 @@ for comp in lines:
         else:
             try:
                 cf = si.get_cash_flow(comp)
-                incomeStatement = si.get_income_statement(comp, yearly=True)
+                incomeStatement = si.get_income_statement(comp, yearly=False)
 
-                equity = getFromDF(bs.loc["totalStockholderEquity"])
                 totalCurrentAssets = getFromDF(bs.loc["totalCurrentAssets"])
                 totalCurrentLiab = getFromDF(bs.loc["totalCurrentLiabilities"])
                 totalAssets = getFromDF(bs.loc["totalAssets"])
                 totalLiab = getFromDF(bs.loc["totalLiab"])
+                goodWill = getFromDF(bs.loc['goodWill'] if 'goodWill' in bs.index else 0.0)
+                intangibles = getFromDF(bs.loc['intangibleAssets'] if 'intangibleAssets' in bs.index else 0.0)
+                equity = totalAssets - totalLiab - goodWill - intangibles
+
                 retainedEarnings = getFromDF(bs.loc["retainedEarnings"])
 
-                # print(comp, "bs.loc[total assets ]", bs.loc['totalAssets'])
-                # print(comp, "bs.loc[retained Earnings]", bs.loc['retainedEarnings'])
-                # print(comp, "retained earnings ", retainedEarnings)
-
-                # IS
-                # revenue = incomeStatement.loc["totalRevenue"][0]
                 ebit = getFromDF(incomeStatement.loc["ebit"])
-                # netIncome = getFromDF(incomeStatement.loc['netIncome'])
 
-                print(incomeStatement)
-
-                # CF
                 cfo = getFromDF(cf.loc["totalCashFromOperatingActivities"])
-                # print("cfo ", cfo, cf.loc["totalCashFromOperatingActivities"])
-                # cfi = cf.loc["totalCashflowsFromInvestingActivities"][0]
-                # cff = cf.loc["totalCashFromFinancingActivities"][0]
                 marketPrice = si.get_live_price(comp)
                 shares = si.get_quote_data(comp)['sharesOutstanding']
             except Exception as e:
@@ -89,15 +72,14 @@ for comp in lines:
                 ebitAssetRatio = ebit / totalAssets
 
                 try:
-                    balanceSheetCurrency = getBalanceSheetCurrency(comp)
-                    listingCurrency = getListingCurrency(comp)
-                    exRate = currency_getExchangeRate.getExchangeRate(exchange_rate_dict,
-                                                                      listingCurrency, balanceSheetCurrency)
+                    listingCurr = getListingCurrency(comp)
+
+                    bsCurr = getBalanceSheetCurrency(comp, listingCurr)
+                    exRate = currency_getExchangeRate.getExchangeRate(exchange_rate_dict, listingCurr, bsCurr)
                     pb = marketCap / (equity / exRate)
                     data = si.get_data(comp, start_date=START_DATE, interval=PRICE_INTERVAL)
                     divs = si.get_dividends(comp, start_date=DIVIDEND_START_DATE)
-                    percentile = 100.0 * (data['adjclose'][-1] - data['adjclose'].min()) / (
-                            data['adjclose'].max() - data['adjclose'].min())
+                    percentile = 100.0 * (marketPrice - data['low'].min()) / (data['high'].max() - data['low'].min())
                     divSum = divs['dividend'].sum() if not divs.empty else 0
 
                 except Exception as e:
@@ -106,7 +88,7 @@ for comp in lines:
 
                     outputString = comp + " " + country.replace(" ", "_") + " " \
                                    + sector.replace(" ", "_") + " " \
-                                   + listingCurrency + balanceSheetCurrency \
+                                   + listingCurr + bsCurr \
                                    + " MV:" + str(round(marketCap / 1000000000.0, 1)) + 'B' \
                                    + " Equity:" + str(
                         round((totalAssets - totalLiab) / exRate / 1000000000.0, 1)) + 'B' \

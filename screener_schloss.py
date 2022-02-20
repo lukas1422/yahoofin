@@ -102,7 +102,9 @@ for comp in listStocks:
             continue
 
         # equity = getFromDF(bs.loc["totalStockholderEquity"])
-        equity = totalAssets - totalLiab
+        goodWill = getFromDF(bs.loc['goodWill'] if 'goodWill' in bs.index else 0.0)
+        intangibles = getFromDF(bs.loc['intangibleAssets'] if 'intangibleAssets' in bs.index else 0.0)
+        equity = totalAssets - totalLiab - goodWill - intangibles
 
         if equity < 0:
             print(comp, "equity < 0", equity)
