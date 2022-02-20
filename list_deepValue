@@ -16,3 +16,4 @@ CTRM Cyprus Industrials USDUSD MV:0.2B Eq:0.3B P/CFO:7.33 PB:0.5 C/R:1.85 D/E:0.
 ERROR CYD ZeroDivisionError('division by zero')
 ERROR DCFC TypeError("object of type 'NoneType' has no len()")
 ERROR BS IS EMPTY DOUG
+ERROR BS IS EMPTY EXTN

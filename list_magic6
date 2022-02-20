@@ -34,3 +34,8 @@ ERROR 1194.HK TypeError("object of type 'NoneType' has no len()")
 ERROR 1270.HK TypeError("object of type 'NoneType' has no len()")
 ERROR 1313.HK KeyError('totalCashFromOperatingActivities')
 1333.HK 中國忠旺 HKDCNY China Basic_Materials MV:9.2B PCFO 4.4 pb:0.2 div_annual_yld:9 xueqiu div:0.0
+ERROR 1395.HK TypeError("object of type 'NoneType' has no len()")
+ERROR 1475.HK KeyError('totalCashFromOperatingActivities')
+ERROR BS IS EMPTY 1518.HK
+ERROR 1525.HK Exception('1525.HK', <HTTPError 404: 'Not Found'>)
+ERROR 1552.HK TypeError("object of type 'NoneType' has no len()")
