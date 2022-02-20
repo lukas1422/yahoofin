@@ -43,7 +43,7 @@ equity = totalAssets - totalLiab
 cash = getFromDF(bs.loc['cash']) if 'cash' in bs.index else 0.0
 receivables = getFromDF(bs.loc['netReceivables']) if 'netReceivables' in bs.index else 0.0
 inventory = getFromDF(bs.loc['inventory']) if 'inventory' in bs.index else 0.0
-goodWill = getFromDF(bs.loc['goodWill'] if 'goodWill' in bs.index else 0.0)
+goodWill = getFromDF(bs.loc['goodWill']) if 'goodWill' in bs.index else 0.0
 
 print("goodwill is ", goodWill)
 

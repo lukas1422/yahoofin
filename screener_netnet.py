@@ -16,6 +16,7 @@ COUNT = 0
 MARKET = Market.HK
 yearlyFlag = False
 
+
 def increment():
     global COUNT
     COUNT = COUNT + 1
@@ -64,8 +65,8 @@ for comp in listStocks:
         country = info.loc["country"][0]
         sector = info.loc['sector'][0]
 
-        if 'real' in sector.lower():
-            print(comp, " no real estate ")
+        if 'real estate' in sector.lower() or 'financial' in sector.lower():
+            print(comp, " no real estate or financial ")
             continue
 
         marketPrice = si.get_live_price(comp)
@@ -110,6 +111,12 @@ for comp in listStocks:
 
         marketCap = marketPrice * shares
 
+        if MARKET == Market.HK:
+            if marketCap < 1000000000:
+                print(comp, "HK market cap less than 1B", marketCap/1000000000)
+                continue
+
+
         listingCurr = getListingCurrency(comp)
         bsCurr = getBalanceSheetCurrency(comp, listingCurr)
         exRate = currency_getExchangeRate.getExchangeRate(exchange_rate_dict, listingCurr, bsCurr)
@@ -135,6 +142,8 @@ for comp in listStocks:
             additionalComment = " inventory conversion rate:" \
                                 + str(round((totalLiab + marketCap * exRate - cash - 0.5 * receivables)
                                             / inventory, 2))
+        elif (cash + receivables + inventory - totalLiab) / exRate - marketCap > 0:
+            additionalComment = "鸡肋:CA-L>MV"
 
         outputString = comp + " " + stock_df[stock_df['ticker'] == comp]['name'] \
             .to_string(index=False, header=False) + " " \

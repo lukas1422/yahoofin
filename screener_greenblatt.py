@@ -63,8 +63,8 @@ for comp in listStocks:
         marketPrice = si.get_live_price(comp)
         marketCap = marketPrice * shares
 
-        goodWill = getFromDF(bs.loc['goodWill'] if 'goodWill' in bs.index else 0.0)
-        intangibles = getFromDF(bs.loc['intangibleAssets'] if 'intangibleAssets' in bs.index else 0.0)
+        goodWill = getFromDF(bs.loc['goodWill']) if 'goodWill' in bs.index else 0.0
+        intangibles = getFromDF(bs.loc['intangibleAssets']) if 'intangibleAssets' in bs.index else 0.0
         equity = totalAssets - totalLiab - goodWill - intangibles
 
         pb = marketCap / (equity / exRate)
@@ -84,3 +84,5 @@ for comp in listStocks:
 
     except Exception as e:
         print(comp, "exception", e)
+        raise Exception(comp, "raising exceptiona again", e)
+

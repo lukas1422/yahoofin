@@ -50,8 +50,8 @@ for comp in lines:
                 totalCurrentLiab = getFromDF(bs.loc["totalCurrentLiabilities"])
                 totalAssets = getFromDF(bs.loc["totalAssets"])
                 totalLiab = getFromDF(bs.loc["totalLiab"])
-                goodWill = getFromDF(bs.loc['goodWill'] if 'goodWill' in bs.index else 0.0)
-                intangibles = getFromDF(bs.loc['intangibleAssets'] if 'intangibleAssets' in bs.index else 0.0)
+                goodWill = getFromDF(bs.loc['goodWill']) if 'goodWill' in bs.index else 0.0
+                intangibles = getFromDF(bs.loc['intangibleAssets']) if 'intangibleAssets' in bs.index else 0.0
                 equity = totalAssets - totalLiab - goodWill - intangibles
 
                 retainedEarnings = getFromDF(bs.loc["retainedEarnings"])

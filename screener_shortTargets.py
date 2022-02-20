@@ -98,8 +98,8 @@ for comp in listStocks:
             print(comp, "cfo > 0 ", cfo)
             continue
 
-        goodWill = getFromDF(bs.loc['goodWill'] if 'goodWill' in bs.index else 0.0)
-        intangibles = getFromDF(bs.loc['intangibleAssets'] if 'intangibleAssets' in bs.index else 0.0)
+        goodWill = getFromDF(bs.loc['goodWill']) if 'goodWill' in bs.index else 0.0
+        intangibles = getFromDF(bs.loc['intangibleAssets']) if 'intangibleAssets' in bs.index else 0.0
         equity = totalAssets - totalLiab - goodWill - intangibles
         # shares = si.get_quote_data(comp)['sharesOutstanding']
         shares = hk_shares[hk_shares['ticker'] == comp]['shares'].values[0]
@@ -154,3 +154,5 @@ for comp in listStocks:
 
     except Exception as e:
         print(comp, "exception", e)
+        raise Exception(comp, "raising exceptiona again", e)
+

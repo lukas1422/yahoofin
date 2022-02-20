@@ -30,6 +30,7 @@ def increment():
 
 # START_DATE = '3/1/2020'
 START_DATE = (datetime.today() - timedelta(weeks=52)).strftime('%-m/%-d/%Y')
+print("data start date:", START_DATE)
 DIVIDEND_START_DATE = '1/1/2010'
 PRICE_INTERVAL = '1mo'
 
@@ -54,7 +55,6 @@ elif MARKET == Market.HK:
     hk_shares = pd.read_csv('list_HK_totalShares', sep="\t", index_col=False, names=['ticker', 'shares'])
     stock_df['ticker'] = stock_df['ticker'].map(lambda x: convertHK(x))
     listStocks = stock_df['ticker'].tolist()
-    # listStocks = ['1513.HK']
 else:
     raise Exception("market not found")
 
@@ -63,6 +63,14 @@ print(len(listStocks), listStocks)
 for comp in listStocks:
     print(increment())
     try:
+
+        info = si.get_company_info(comp)
+        country = info.loc["country"][0]
+        sector = info.loc['sector'][0]
+
+        if 'real estate' in sector.lower() or 'financial' in sector.lower():
+            print(comp, " no real estate or financial ")
+            continue
 
         marketPrice = si.get_live_price(comp)
         if marketPrice < 1:
@@ -102,8 +110,8 @@ for comp in listStocks:
             continue
 
         # equity = getFromDF(bs.loc["totalStockholderEquity"])
-        goodWill = getFromDF(bs.loc['goodWill'] if 'goodWill' in bs.index else 0.0)
-        intangibles = getFromDF(bs.loc['intangibleAssets'] if 'intangibleAssets' in bs.index else 0.0)
+        goodWill = getFromDF(bs.loc['goodWill']) if 'goodWill' in bs.index else 0.0
+        intangibles = getFromDF(bs.loc['intangibleAssets']) if 'intangibleAssets' in bs.index else 0.0
         equity = totalAssets - totalLiab - goodWill - intangibles
 
         if equity < 0:
@@ -126,7 +134,7 @@ for comp in listStocks:
 
         if MARKET == Market.HK:
             if marketCap < 1000000000:
-                print(comp, "market cap < 1B", marketCap)
+                print(comp, "market cap < 1B TOO SMALL", marketCap)
                 continue
 
         pb = marketCap / (equity / exRate)
@@ -147,14 +155,6 @@ for comp in listStocks:
 
         # insiderPercOutput = str(round(insiderPerc, 1)) if MARKET == Market.US else "non data"
 
-        info = si.get_company_info(comp)
-        country = info.loc["country"][0]
-        sector = info.loc['sector'][0]
-
-        if 'real estate' in sector.lower() or 'financial' in sector.lower():
-            print(comp, " no real estate or financial ")
-            continue
-
         outputString = comp + " " + stock_df[stock_df['ticker'] == comp]['name'] \
             .to_string(index=False, header=False) + " " \
                        + country.replace(" ", "_") + " " \
@@ -166,11 +166,12 @@ for comp in listStocks:
                        + " D/E:" + str(round(debtEquityRatio, 1)) \
                        + " LT_debt_ratio:" + str(round(longTermDebtRatio, 1)) \
                        + " insider%:" + str(round(insiderPerc)) \
-                       + " p/52Low: " + str(round(marketPrice / low_52wk))
+                       + " p/52Low: " + str(round(marketPrice / low_52wk, 2))
 
         print(outputString)
         fileOutput.write(outputString + '\n')
         fileOutput.flush()
 
     except Exception as e:
-        print(comp, "exception", e)
+        raise Exception(comp, "reraising", e)
+        # print(comp, "exception", e)
