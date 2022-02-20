@@ -76,3 +76,5 @@ for comp in listStocks:
 
     except Exception as e:
         print(comp, "exception", e)
+        raise Exception(comp, "raising exception again", e)
+

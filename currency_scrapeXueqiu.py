@@ -23,4 +23,5 @@ try:
             print(dic['symbol'], dic['currency'])
 
 except Exception as e:
-    print('exception occurred', e)
+    raise Exception(comp, "raising exception again", e)
+

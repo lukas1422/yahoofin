@@ -65,8 +65,8 @@ for comp in listStocks:
         #     continue
 
         bs = si.get_balance_sheet(comp, yearly=yearlyFlag)
-        totalCurrentAssets = getFromDF(bs.loc["totalCurrentAssets"])
-        totalCurrentLiab = getFromDF(bs.loc["totalCurrentLiabilities"])
+        totalCurrentAssets = getFromDF(bs.loc["totalCurrentAssets"]) if 'totalCurrentAssets' in bs.index else 0.0
+        totalCurrentLiab = getFromDF(bs.loc["totalCurrentLiabilities"]) if 'totalCurrentLiabilities' in bs.index else 0.0
         currentRatio = totalCurrentAssets / totalCurrentLiab
 
         if currentRatio <= 1:

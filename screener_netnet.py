@@ -50,8 +50,8 @@ elif MARKET == Market.HK:
     stock_df['ticker'] = stock_df['ticker'].astype(str)
     stock_df['ticker'] = stock_df['ticker'].map(lambda x: convertHK(x))
     listStocks = stock_df['ticker'].tolist()
-    hk_shares = pd.read_csv('list_HK_totalShares', sep="\t", index_col=False, names=['ticker', 'shares'])
-    # listStocks = ['1513.HK']
+    hk_shares = pd.read_csv('list_HK_totalShare4s', sep="\t", index_col=False, names=['ticker', 'shares'])
+    listStocks = ['0067.HK']
 else:
     raise Exception("market not found")
 
@@ -166,3 +166,5 @@ for comp in listStocks:
 
     except Exception as e:
         print(comp, "exception", e)
+        raise Exception(comp, "raising exception again", e)
+

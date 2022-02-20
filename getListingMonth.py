@@ -31,4 +31,4 @@ for comp in listStocks:
         fileOutput.write(outputString + '\n')
         fileOutput.flush()
     except Exception as e:
-        print(comp, "exception", e)
+        raise Exception(comp, "reraising", e)

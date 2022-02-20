@@ -36,71 +36,62 @@ for comp in lines:
         country = info.loc["country"][0]
         sector = info.loc['sector'][0]
         bs = si.get_balance_sheet(comp)
-    except Exception as e:
-        print(comp, "exception on info or BS")
-    else:
+
         if (country.lower()) == " testFile ":
             print(comp, "NO CHINA")
-        else:
-            try:
-                cf = si.get_cash_flow(comp)
-                incomeStatement = si.get_income_statement(comp, yearly=False)
+            continue
 
-                totalCurrentAssets = getFromDF(bs.loc["totalCurrentAssets"])
-                totalCurrentLiab = getFromDF(bs.loc["totalCurrentLiabilities"])
-                totalAssets = getFromDF(bs.loc["totalAssets"])
-                totalLiab = getFromDF(bs.loc["totalLiab"])
-                goodWill = getFromDF(bs.loc['goodWill']) if 'goodWill' in bs.index else 0.0
-                intangibles = getFromDF(bs.loc['intangibleAssets']) if 'intangibleAssets' in bs.index else 0.0
-                equity = totalAssets - totalLiab - goodWill - intangibles
+        cf = si.get_cash_flow(comp)
+        incomeStatement = si.get_income_statement(comp, yearly=False)
 
-                retainedEarnings = getFromDF(bs.loc["retainedEarnings"])
+        totalCurrentAssets = getFromDF(bs.loc["totalCurrentAssets"])
+        totalCurrentLiab = getFromDF(bs.loc["totalCurrentLiabilities"])
+        totalAssets = getFromDF(bs.loc["totalAssets"])
+        totalLiab = getFromDF(bs.loc["totalLiab"])
+        goodWill = getFromDF(bs.loc['goodWill']) if 'goodWill' in bs.index else 0.0
+        intangibles = getFromDF(bs.loc['intangibleAssets']) if 'intangibleAssets' in bs.index else 0.0
+        equity = totalAssets - totalLiab - goodWill - intangibles
 
-                ebit = getFromDF(incomeStatement.loc["ebit"])
+        retainedEarnings = getFromDF(bs.loc["retainedEarnings"])
 
-                cfo = getFromDF(cf.loc["totalCashFromOperatingActivities"])
-                marketPrice = si.get_live_price(comp)
-                shares = si.get_quote_data(comp)['sharesOutstanding']
-            except Exception as e:
-                print("error when getting data ", comp, e)
-            else:
-                marketCap = marketPrice * shares
-                currentRatio = totalCurrentAssets / totalCurrentLiab
-                debtEquityRatio = totalLiab / (totalAssets - totalLiab)
-                retainedEarningsAssetRatio = retainedEarnings / totalAssets
-                cfoAssetRatio = cfo / totalAssets
-                ebitAssetRatio = ebit / totalAssets
+        ebit = getFromDF(incomeStatement.loc["ebit"])
 
-                try:
-                    listingCurr = getListingCurrency(comp)
+        cfo = getFromDF(cf.loc["totalCashFromOperatingActivities"])
+        marketPrice = si.get_live_price(comp)
+        shares = si.get_quote_data(comp)['sharesOutstanding']
 
-                    bsCurr = getBalanceSheetCurrency(comp, listingCurr)
-                    exRate = currency_getExchangeRate.getExchangeRate(exchange_rate_dict, listingCurr, bsCurr)
-                    pb = marketCap / (equity / exRate)
-                    data = si.get_data(comp, start_date=START_DATE, interval=PRICE_INTERVAL)
-                    divs = si.get_dividends(comp, start_date=DIVIDEND_START_DATE)
-                    percentile = 100.0 * (marketPrice - data['low'].min()) / (data['high'].max() - data['low'].min())
-                    divSum = divs['dividend'].sum() if not divs.empty else 0
+        marketCap = marketPrice * shares
+        currentRatio = totalCurrentAssets / totalCurrentLiab
+        debtEquityRatio = totalLiab / (totalAssets - totalLiab)
+        retainedEarningsAssetRatio = retainedEarnings / totalAssets
+        cfoAssetRatio = cfo / totalAssets
+        ebitAssetRatio = ebit / totalAssets
 
-                except Exception as e:
-                    print(comp, "exception issue ", e)
-                else:
+        listingCurr = getListingCurrency(comp)
 
-                    outputString = comp + " " + country.replace(" ", "_") + " " \
-                                   + sector.replace(" ", "_") + " " \
-                                   + listingCurr + bsCurr \
-                                   + " MV:" + str(round(marketCap / 1000000000.0, 1)) + 'B' \
-                                   + " Equity:" + str(
-                        round((totalAssets - totalLiab) / exRate / 1000000000.0, 1)) + 'B' \
-                                   + " CR:" + str(round(currentRatio, 1)) \
-                                   + " D/E:" + str(round(debtEquityRatio, 1)) \
-                                   + " RE/A:" + str(round(retainedEarningsAssetRatio, 1)) \
-                                   + " cfo/A:" + str(round(cfoAssetRatio, 1)) \
-                                   + " ebit/A:" + str(round(ebitAssetRatio, 1)) \
-                                   + " pb:" + str(round(pb, 1)) \
-                                   + " 52w p%: " + str(round(percentile)) \
-                                   + " div10yr: " + str(round(divSum / marketPrice, 2))
+        bsCurr = getBalanceSheetCurrency(comp, listingCurr)
+        exRate = currency_getExchangeRate.getExchangeRate(exchange_rate_dict, listingCurr, bsCurr)
+        pb = marketCap / (equity / exRate)
+        data = si.get_data(comp, start_date=START_DATE, interval=PRICE_INTERVAL)
+        divs = si.get_dividends(comp, start_date=DIVIDEND_START_DATE)
+        percentile = 100.0 * (marketPrice - data['low'].min()) / (data['high'].max() - data['low'].min())
+        divSum = divs['dividend'].sum() if not divs.empty else 0
 
-                    print(outputString)
-                    # fileOutput.write(outputString + '\n')
-                    # fileOutput.flush()
+        outputString = comp + " " + country.replace(" ", "_") + " " \
+                       + sector.replace(" ", "_") + " " \
+                       + listingCurr + bsCurr \
+                       + " MV:" + str(round(marketCap / 1000000000.0, 1)) + 'B' \
+                       + " Equity:" + str(
+            round((totalAssets - totalLiab) / exRate / 1000000000.0, 1)) + 'B' \
+                       + " CR:" + str(round(currentRatio, 1)) \
+                       + " D/E:" + str(round(debtEquityRatio, 1)) \
+                       + " RE/A:" + str(round(retainedEarningsAssetRatio, 1)) \
+                       + " cfo/A:" + str(round(cfoAssetRatio, 1)) \
+                       + " ebit/A:" + str(round(ebitAssetRatio, 1)) \
+                       + " pb:" + str(round(pb, 1)) \
+                       + " 52w p%: " + str(round(percentile)) \
+                       + " div10yr: " + str(round(divSum / marketPrice, 2))
+
+        print(outputString)
+    except Exception as e:
+        raise Exception(comp, "reraising", e)

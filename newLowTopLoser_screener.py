@@ -124,3 +124,5 @@ for comp in lines:
 
     except Exception as e:
         print(comp, "netnet exception", e)
+        raise Exception(comp, "raising exception again", e)
+
