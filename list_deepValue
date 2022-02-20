@@ -17,3 +17,6 @@ ERROR CYD ZeroDivisionError('division by zero')
 ERROR DCFC TypeError("object of type 'NoneType' has no len()")
 ERROR BS IS EMPTY DOUG
 ERROR BS IS EMPTY EXTN
+ERROR BS IS EMPTY GAN
+ERROR BS IS EMPTY GBOX
+ERROR BS IS EMPTY GO

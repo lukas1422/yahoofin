@@ -31,3 +31,5 @@ ERROR 1690.HK TypeError("object of type 'NoneType' has no len()")
 ERROR 1706.HK TypeError("object of type 'NoneType' has no len()")
 1836.HK 九興控股s Hong_Kong Consumer_Cyclical HKDUSD MV:6.8B Eq:7.4B pb:0.9 D/E:0.3 LT_debt_ratio:0.0 insider%:35 p/52Low: 8%
 ERROR 1863.HK TypeError("object of type 'NoneType' has no len()")
+ERROR 2108.HK TypeError("object of type 'NoneType' has no len()")
+2127.HK 匯森家居s China Consumer_Cyclical HKDCNY MV:4.1B Eq:5.2B pb:0.8 D/E:0.3 LT_debt_ratio:0.0 insider%:73 p/52Low: 4%

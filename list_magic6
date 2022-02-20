@@ -39,3 +39,10 @@ ERROR 1475.HK KeyError('totalCashFromOperatingActivities')
 ERROR BS IS EMPTY 1518.HK
 ERROR 1525.HK Exception('1525.HK', <HTTPError 404: 'Not Found'>)
 ERROR 1552.HK TypeError("object of type 'NoneType' has no len()")
+ERROR 1656.HK KeyError('totalCashFromOperatingActivities')
+ERROR 1665.HK Exception('getExchangeRate, no currency found', 'HKD', 'MYR')
+ERROR 1667.HK TypeError("object of type 'NoneType' has no len()")
+ERROR 1690.HK TypeError("object of type 'NoneType' has no len()")
+ERROR 1706.HK TypeError("object of type 'NoneType' has no len()")
+ERROR 1717.HK KeyError('totalCashFromOperatingActivities')
+ERROR BS IS EMPTY 1760.HK

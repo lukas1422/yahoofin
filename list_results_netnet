@@ -77,3 +77,100 @@ ERROR 2845.HK TypeError("object of type 'NoneType' has no len()")
 ERROR BS IS EMPTY 2846.HK
 ERROR 2848.HK TypeError("object of type 'NoneType' has no len()")
 ERROR BS IS EMPTY 2849.HK
+ERROR 2902.HK TypeError("object of type 'NoneType' has no len()")
+ERROR 2903.HK TypeError('string indices must be integers')
+ERROR 2905.HK TypeError("object of type 'NoneType' has no len()")
+ERROR 2906.HK TypeError("object of type 'NoneType' has no len()")
+ERROR 2908.HK TypeError("object of type 'NoneType' has no len()")
+ERROR 2913.HK TypeError("object of type 'NoneType' has no len()")
+ERROR BS IS EMPTY 3001.HK
+ERROR 3003.HK TypeError("object of type 'NoneType' has no len()")
+ERROR BS IS EMPTY 3005.HK
+ERROR 3007.HK TypeError("object of type 'NoneType' has no len()")
+ERROR BS IS EMPTY 3010.HK
+ERROR BS IS EMPTY 3011.HK
+ERROR BS IS EMPTY 3012.HK
+ERROR 3015.HK TypeError("object of type 'NoneType' has no len()")
+ERROR 3020.HK TypeError("object of type 'NoneType' has no len()")
+ERROR 3021.HK TypeError("object of type 'NoneType' has no len()")
+ERROR BS IS EMPTY 3022.HK
+ERROR BS IS EMPTY 3023.HK
+ERROR BS IS EMPTY 3024.HK
+ERROR 3031.HK KeyError('timestamp')
+ERROR BS IS EMPTY 3032.HK
+ERROR BS IS EMPTY 3033.HK
+ERROR 3036.HK TypeError("object of type 'NoneType' has no len()")
+ERROR BS IS EMPTY 3037.HK
+ERROR BS IS EMPTY 3040.HK
+ERROR BS IS EMPTY 3047.HK
+ERROR BS IS EMPTY 3050.HK
+ERROR 3051.HK TypeError("object of type 'NoneType' has no len()")
+ERROR BS IS EMPTY 3053.HK
+ERROR BS IS EMPTY 3058.HK
+ERROR BS IS EMPTY 3067.HK
+ERROR BS IS EMPTY 3069.HK
+ERROR BS IS EMPTY 3070.HK
+ERROR BS IS EMPTY 3071.HK
+ERROR BS IS EMPTY 3072.HK
+ERROR BS IS EMPTY 3073.HK
+ERROR BS IS EMPTY 3074.HK
+ERROR 3076.HK TypeError("object of type 'NoneType' has no len()")
+ERROR 3077.HK TypeError("object of type 'NoneType' has no len()")
+ERROR 3079.HK TypeError("object of type 'NoneType' has no len()")
+ERROR BS IS EMPTY 3080.HK
+ERROR BS IS EMPTY 3081.HK
+ERROR BS IS EMPTY 3086.HK
+ERROR 3087.HK TypeError("object of type 'NoneType' has no len()")
+ERROR BS IS EMPTY 3088.HK
+ERROR BS IS EMPTY 3091.HK
+ERROR BS IS EMPTY 3093.HK
+ERROR 3096.HK TypeError("object of type 'NoneType' has no len()")
+ERROR BS IS EMPTY 3097.HK
+ERROR BS IS EMPTY 3100.HK
+ERROR 3108.HK TypeError("object of type 'NoneType' has no len()")
+ERROR BS IS EMPTY 3109.HK
+ERROR BS IS EMPTY 3110.HK
+ERROR BS IS EMPTY 3111.HK
+ERROR BS IS EMPTY 3115.HK
+ERROR BS IS EMPTY 3117.HK
+ERROR BS IS EMPTY 3118.HK
+ERROR BS IS EMPTY 3119.HK
+ERROR BS IS EMPTY 3121.HK
+ERROR BS IS EMPTY 3122.HK
+ERROR BS IS EMPTY 3124.HK
+ERROR BS IS EMPTY 3125.HK
+ERROR BS IS EMPTY 3127.HK
+ERROR BS IS EMPTY 3128.HK
+ERROR BS IS EMPTY 3130.HK
+ERROR 3132.HK TypeError("object of type 'NoneType' has no len()")
+ERROR BS IS EMPTY 3134.HK
+ERROR BS IS EMPTY 3141.HK
+ERROR BS IS EMPTY 3143.HK
+ERROR BS IS EMPTY 3145.HK
+ERROR BS IS EMPTY 3147.HK
+ERROR BS IS EMPTY 3149.HK
+ERROR BS IS EMPTY 3151.HK
+ERROR 3157.HK TypeError("object of type 'NoneType' has no len()")
+ERROR BS IS EMPTY 3160.HK
+ERROR BS IS EMPTY 3162.HK
+ERROR 3163.HK TypeError("object of type 'NoneType' has no len()")
+ERROR BS IS EMPTY 3165.HK
+ERROR BS IS EMPTY 3166.HK
+ERROR BS IS EMPTY 3167.HK
+ERROR BS IS EMPTY 3173.HK
+ERROR BS IS EMPTY 3174.HK
+ERROR BS IS EMPTY 3175.HK
+ERROR BS IS EMPTY 3176.HK
+ERROR BS IS EMPTY 3181.HK
+ERROR BS IS EMPTY 3182.HK
+ERROR 3185.HK TypeError("object of type 'NoneType' has no len()")
+ERROR 3186.HK TypeError("object of type 'NoneType' has no len()")
+ERROR 3187.HK TypeError("object of type 'NoneType' has no len()")
+ERROR BS IS EMPTY 3188.HK
+ERROR BS IS EMPTY 3191.HK
+ERROR BS IS EMPTY 3193.HK
+ERROR BS IS EMPTY 3194.HK
+ERROR BS IS EMPTY 3198.HK
+ERROR BS IS EMPTY 3199.HK
+ERROR BS IS EMPTY 3606.HK
+ERROR BS IS EMPTY 3669.HK
