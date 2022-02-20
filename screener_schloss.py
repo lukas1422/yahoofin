@@ -99,9 +99,10 @@ for comp in listStocks:
             print(comp, " retained earnings <= 0 ", retainedEarnings)
             continue
 
-        totalAssets = getFromDF(bs.loc["totalAssets"])
-        totalLiab = getFromDF(bs.loc["totalLiab"])
-        currentLiab = getFromDF(bs.loc['totalCurrentLiabilities'])
+        totalAssets = getFromDF(bs.loc["totalAssets"]) if 'totalAssets' in bs.index else 0
+        totalLiab = getFromDF(bs.loc["totalLiab"]) if 'totalLiab' in bs.index else 0
+        currentLiab = getFromDF(bs.loc['totalCurrentLiabilities']) \
+            if 'totalCurrentLiabilities' in bs.index else 0
         debtEquityRatio = totalLiab / (totalAssets - totalLiab)
 
         longTermDebtRatio = (totalLiab - currentLiab) / totalAssets
@@ -174,5 +175,9 @@ for comp in listStocks:
         fileOutput.flush()
 
     except Exception as e:
-        raise Exception(comp, "reraising", e)
+        # raise Exception(comp, "reraising", e)
         # print(comp, "exception", e)
+
+        print(comp, "exception", e)
+        fileOutput.write("ERROR " + comp + " " + repr(e) + '\n')
+        fileOutput.flush()

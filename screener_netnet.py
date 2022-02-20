@@ -51,17 +51,18 @@ elif MARKET == Market.HK:
     stock_df['ticker'] = stock_df['ticker'].map(lambda x: convertHK(x))
     listStocks = stock_df['ticker'].tolist()
     hk_shares = pd.read_csv('list_HK_totalShares', sep="\t", index_col=False, names=['ticker', 'shares'])
-    # listStocks = ['0067.HK']
+    # listStocks = ['0155.HK']
 else:
     raise Exception("market not found")
 
 print(MARKET, len(listStocks), listStocks)
 
 for comp in listStocks:
-    print(increment())
+    print(increment(), comp)
 
     try:
         info = si.get_company_info(comp)
+        # print("info is", info)
         country = info.loc["country"][0]
         sector = info.loc['sector'][0]
 
@@ -171,6 +172,8 @@ for comp in listStocks:
 
 
     except Exception as e:
+        # print(comp, "exception", e)
+        # raise Exception(comp, "raising exception again", e)
         print(comp, "exception", e)
-        raise Exception(comp, "raising exception again", e)
-
+        fileOutput.write("ERROR " + comp + " " + repr(e) + '\n')
+        fileOutput.flush()

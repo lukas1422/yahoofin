@@ -82,7 +82,7 @@ for comp in listStocks:
             print(comp, "current ratio < 1", currentRatio)
             continue
 
-        retainedEarnings = getFromDF(bs.loc["retainedEarnings"])
+        retainedEarnings = getFromDF(bs.loc["retainedEarnings"]) if 'retainedEarnings' in bs.index else 0.0
 
         if retainedEarnings <= 0:
             print(comp, " retained earnings < 0 ", retainedEarnings)
@@ -108,7 +108,7 @@ for comp in listStocks:
             continue
 
         cf = si.get_cash_flow(comp, yearly=yearlyFlag)
-        cfo = getFromDF(cf.loc["totalCashFromOperatingActivities"])
+        cfo = getFromDF(cf.loc["totalCashFromOperatingActivities"]) if 'totalCashFromOperatingActivities' in cf.index else 0.0
 
         if cfo <= 0:
             print(comp, "cfo <= 0 ", cfo)
@@ -179,5 +179,8 @@ for comp in listStocks:
         fileOutput.flush()
 
     except Exception as e:
+        # print(comp, "exception", e)
+        # raise Exception(comp, "raising exceptiona again", e)
         print(comp, "exception", e)
-        raise Exception(comp, "raising exceptiona again", e)
+        fileOutput.write("ERROR " + comp + " " + repr(e) + '\n')
+        fileOutput.flush()

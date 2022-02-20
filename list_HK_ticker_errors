@@ -1,0 +1,2 @@
+ERROR 0005.HK KeyError('totalCashFromOperatingActivities')
+ERROR 0007.HK KeyError('retainedEarnings')

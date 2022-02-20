@@ -12,6 +12,7 @@ COUNT = 0
 MARKET = Market.HK
 yearlyFlag = False
 
+
 def increment():
     global COUNT
     COUNT = COUNT + 1
@@ -112,8 +113,8 @@ for comp in listStocks:
             raise Exception(str(comp + " no shares"))
 
         # equity = getFromDF(bs.loc["totalStockholderEquity"])
-        totalAssets = getFromDF(bs.loc["totalAssets"])
-        totalLiab = getFromDF(bs.loc["totalLiab"])
+        totalAssets = getFromDF(bs.loc["totalAssets"]) if 'totalAssets' in bs.index else 0.0
+        totalLiab = getFromDF(bs.loc["totalLiab"]) if 'totalLiab' in bs.index else 0.0
 
         goodWill = getFromDF(bs.loc['goodWill']) if 'goodWill' in bs.index else 0.0
         intangibles = getFromDF(bs.loc['intangibleAssets']) if 'intangibleAssets' in bs.index else 0.0
@@ -121,15 +122,16 @@ for comp in listStocks:
         # shares = si.get_quote_data(comp)['sharesOutstanding']
 
         incomeStatement = si.get_income_statement(comp, yearly=yearlyFlag)
-        ebit = getFromDF(incomeStatement.loc["ebit"])
-        netIncome = getFromDF(incomeStatement.loc['netIncome'])
+        ebit = getFromDF(incomeStatement.loc["ebit"]) if 'ebit' in incomeStatement.index else 0.0
+        netIncome = getFromDF(incomeStatement.loc['netIncome']) if 'netIncome' in incomeStatement.index else 0.0
 
         listingCurr = getListingCurrency(comp)
         bsCurr = getBalanceSheetCurrency(comp, listingCurr)
         exRate = currency_getExchangeRate.getExchangeRate(exchange_rate_dict, listingCurr, bsCurr)
 
         cf = si.get_cash_flow(comp, yearly=yearlyFlag)
-        cfo = cf.loc["totalCashFromOperatingActivities"][0]
+        cfo = getFromDF(cf.loc["totalCashFromOperatingActivities"]) \
+            if 'totalCashFromOperatingActivities' in cf.index else 0.0
 
         marketCap = marketPrice * shares
         pb = marketCap / (equity / exRate)
@@ -137,7 +139,7 @@ for comp in listStocks:
 
         if MARKET == Market.HK:
             if marketCap < 1000000000:
-                print(comp, "HK market cap less than 1B", marketCap/1000000000)
+                print(comp, "HK market cap less than 1B", marketCap / 1000000000)
                 continue
 
         if pb > 0.6:
@@ -176,5 +178,6 @@ for comp in listStocks:
 
     except Exception as e:
         print(comp, "exception", e)
-        raise Exception(comp, "raising exception again", e)
-
+        fileOutput.write("ERROR " + comp + " " + repr(e) + '\n')
+        fileOutput.flush()
+        # raise Exception(comp, "raising exception again", e)
