@@ -3,7 +3,7 @@ import urllib.error
 from urllib.request import Request, urlopen
 import concurrent.futures
 
-fileOutput = open('test', 'w')
+fileOutput = open('testFile', 'w')
 
 with open("list_usTickerAll", "r") as file:
     lines = file.read().rstrip().splitlines()

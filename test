@@ -1,5 +1,0 @@
-import pandas as pd
-
-file_data = pd.read_csv('list_companyInfo',sep="\t")
-
-print(file

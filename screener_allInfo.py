@@ -39,7 +39,7 @@ for comp in lines:
     except Exception as e:
         print(comp, "exception on info or BS")
     else:
-        if (country.lower()) == " test ":
+        if (country.lower()) == " testFile ":
             print(comp, "NO CHINA")
         else:
             try:
