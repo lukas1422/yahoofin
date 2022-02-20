@@ -50,8 +50,8 @@ elif MARKET == Market.HK:
     stock_df['ticker'] = stock_df['ticker'].astype(str)
     stock_df['ticker'] = stock_df['ticker'].map(lambda x: convertHK(x))
     listStocks = stock_df['ticker'].tolist()
-    hk_shares = pd.read_csv('list_HK_totalShare4s', sep="\t", index_col=False, names=['ticker', 'shares'])
-    listStocks = ['0067.HK']
+    hk_shares = pd.read_csv('list_HK_totalShares', sep="\t", index_col=False, names=['ticker', 'shares'])
+    # listStocks = ['0067.HK']
 else:
     raise Exception("market not found")
 
@@ -76,6 +76,12 @@ for comp in listStocks:
             continue
 
         bs = si.get_balance_sheet(comp, yearly=yearlyFlag)
+
+        if bs.empty:
+            print(comp, "balance sheet is empty")
+            fileOutput.write("ERROR BS IS EMPTY " + comp + '\n')
+            fileOutput.flush()
+            continue
 
         retainedEarnings = getFromDF(bs.loc["retainedEarnings"]) if 'retainedEarnings' in bs.index else 0
 

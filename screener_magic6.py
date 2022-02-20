@@ -90,6 +90,13 @@ for comp in listStocks:
             continue
 
         bs = si.get_balance_sheet(comp, yearly=yearlyFlag)
+
+        if bs.empty:
+            print(comp, "balance sheet is empty")
+            fileOutput.write("ERROR BS IS EMPTY " + comp + '\n')
+            fileOutput.flush()
+            continue
+
         retainedEarnings = getFromDF(bs.loc["retainedEarnings"]) if 'retainedEarnings' in bs.index else 0
 
         # RE>0 ensures that the stock is not a chronic cash burner

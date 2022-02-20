@@ -59,6 +59,7 @@ def scrapeFloatingSharesXueqiu(comp):
                     return float(dic['float_shares'])
     except Exception as e:
         print(comp, e)
+        # raise Exception(comp, "reraising", e)
         return "scrape xueqiu error"
     else:
         return "scrape xueqiu none"

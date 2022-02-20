@@ -18,6 +18,7 @@ def getListingCurrency(ticker):
 
     except Exception as e:
         print("getListingCurrency exception is  ", e)
+        raise Exception(ticker, e)
 
 
 def getBalanceSheetCurrency(ticker, default):

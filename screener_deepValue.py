@@ -37,6 +37,7 @@ if MARKET == Market.US:
                              .contains('financial|healthcare', regex=True, case=False) == False)
                           & (stock_df['industry'].str.contains('reit', regex=True, case=False) == False)
                           & (stock_df['country'].str.lower() != 'china')]['ticker'].tolist()
+    # listStocks = ['AESC']
 # US Version Ends
 
 elif MARKET == Market.HK:
@@ -52,7 +53,7 @@ else:
 print(len(listStocks), listStocks)
 
 for comp in listStocks:
-    print(increment())
+    print(increment(), comp)
     try:
         marketPrice = si.get_live_price(comp)
         if marketPrice <= 1:
@@ -65,8 +66,16 @@ for comp in listStocks:
         #     continue
 
         bs = si.get_balance_sheet(comp, yearly=yearlyFlag)
+
+        if bs.empty:
+            print(comp, "balance sheet is empty")
+            fileOutput.write("ERROR BS IS EMPTY " + comp + '\n')
+            fileOutput.flush()
+            continue
+
         totalCurrentAssets = getFromDF(bs.loc["totalCurrentAssets"]) if 'totalCurrentAssets' in bs.index else 0.0
-        totalCurrentLiab = getFromDF(bs.loc["totalCurrentLiabilities"]) if 'totalCurrentLiabilities' in bs.index else 0.0
+        totalCurrentLiab = getFromDF(
+            bs.loc["totalCurrentLiabilities"]) if 'totalCurrentLiabilities' in bs.index else 0.0
         currentRatio = totalCurrentAssets / totalCurrentLiab
 
         if currentRatio <= 1:
