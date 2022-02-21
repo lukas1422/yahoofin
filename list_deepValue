@@ -1,22 +1,101 @@
+ERROR ADES TypeError('can only concatenate str (not "NoneType") to str')
 ERROR BS IS EMPTY AESC
 ERROR BS IS EMPTY AMBA
 ERROR ARKOW KeyError('sharesOutstanding')
 ERROR BS IS EMPTY ARQQ
 ERROR BS IS EMPTY ASIX
 ERROR ASR Exception('getExchangeRate, no currency found', 'USD', 'MXN')
-ERROR BBL IndexError('list index out of range')
-ERROR BRZE IndexError('list index out of range')
+ERROR BBL ValueError('cannot convert float NaN to integer')
 ERROR CCU Exception('getExchangeRate, no currency found', 'USD', 'CLP')
 ERROR BS IS EMPTY CDE
 ERROR CENN TypeError("object of type 'NoneType' has no len()")
 CEPU Argentina Utilities USDARS MV:0.6B Eq:1.0B P/CFO:5.81 PB:0.5 C/R:1.9 D/E:0.72 RE/A:0.41 cfo/A:0.05 ebit/A:0.02 S/A:0.07 52w_p%:75 divYld: 1
 ERROR BS IS EMPTY CLSK
 ERROR BS IS EMPTY CMPOW
+ERROR CRUS IndexError('list index out of range')
+ERROR CTG IndexError('list index out of range')
 CTRM Cyprus Industrials USDUSD MV:0.2B Eq:0.3B P/CFO:7.33 PB:0.5 C/R:1.85 D/E:0.3 RE/A:0.05 cfo/A:0.05 ebit/A:0.04 S/A:0.1 52w_p%:3 divYld: 0
+ERROR CVLG IndexError('list index out of range')
+ERROR CWCO IndexError('list index out of range')
 ERROR CYD ZeroDivisionError('division by zero')
 ERROR DCFC TypeError("object of type 'NoneType' has no len()")
 ERROR BS IS EMPTY DOUG
+ERROR EPAM IndexError('list index out of range')
 ERROR BS IS EMPTY EXTN
 ERROR BS IS EMPTY GAN
 ERROR BS IS EMPTY GBOX
 ERROR BS IS EMPTY GO
+ERROR GSS IndexError('list index out of range')
+ERROR GWH IndexError('list index out of range')
+ERROR BS IS EMPTY HCDI
+ERROR BS IS EMPTY HCDIP
+ERROR BS IS EMPTY HLGN
+ERROR BS IS EMPTY HLX
+ERROR HOVNP TypeError("object of type 'NoneType' has no len()")
+ERROR BS IS EMPTY III
+ERROR IIIN IndexError('list index out of range')
+ERROR INTG IndexError('list index out of range')
+ERROR BS IS EMPTY IONQ
+ERROR IPW IndexError('list index out of range')
+ERROR BS IS EMPTY IRNT
+ERROR IRS IndexError('list index out of range')
+ERROR ISDR TypeError("'NoneType' object is not subscriptable")
+ERROR BS IS EMPTY ISSC
+ERROR BS IS EMPTY ITI
+ERROR JCI TypeError('string indices must be integers')
+ERROR JCTCF KeyError('incomeStatementHistory')
+ERROR JELD TypeError("'NoneType' object is not subscriptable")
+ERROR JJSF TypeError('string indices must be integers')
+ERROR JKHY TypeError('string indices must be integers')
+ERROR BS IS EMPTY JLL
+ERROR BS IS EMPTY JMIA
+ERROR JNPR TypeError("object of type 'NoneType' has no len()")
+ERROR JOAN TypeError("object of type 'NoneType' has no len()")
+ERROR KARO Exception('getExchangeRate, no currency found', 'USD', 'ZAR')
+ERROR KSCP TypeError("object of type 'NoneType' has no len()")
+ERROR BS IS EMPTY LBRT
+LEN-B United_States Consumer_Cyclical USDUSD MV:2.9B Eq:17.6B P/CFO:4.81 PB:0.2 C/R:16.62 D/E:0.7 RE/A:0.44 cfo/A:0.02 ebit/A:0.05 S/A:0.25 52w_p%:74 divYld: 0
+LND Brazil Consumer_Defensive USDUSD MV:0.6B Eq:2.3B P/CFO:2.75 PB:0.2 C/R:2.72 D/E:0.54 RE/A:0.2 cfo/A:0.06 ebit/A:0.04 S/A:0.11 52w_p%:77 divYld: 2
+ERROR MAXR IndexError('list index out of range')
+ERROR BS IS EMPTY NEXT
+ERROR BS IS EMPTY NIMC
+ERROR NRG IndexError('list index out of range')
+ERROR NVTSW TypeError("object of type 'NoneType' has no len()")
+ERROR BS IS EMPTY ODFL
+ERROR PAC Exception('getExchangeRate, no currency found', 'USD', 'MXN')
+ERROR BS IS EMPTY PLNT
+ERROR BS IS EMPTY PLTR
+ERROR BS IS EMPTY PRIM
+ERROR BS IS EMPTY PWR
+ERROR QRTEP TypeError("object of type 'NoneType' has no len()")
+ERROR ROLLP KeyError('sharesOutstanding')
+ERROR RVLV Exception('RVLV', <HTTPError 502: 'Malformed Server Response Status'>)
+SB Monaco Industrials USDUSD MV:0.5B Eq:0.6B P/CFO:7.7 PB:0.9 C/R:2.11 D/E:0.72 RE/A:0.18 cfo/A:0.06 ebit/A:0.05 S/A:0.09 52w_p%:76 divYld: 5
+ERROR BS IS EMPTY SBET
+ERROR SBSW Exception('getExchangeRate, no currency found', 'USD', 'ZAR')
+SCPL United_States Communication_Services USDUSD MV:0.3B Eq:0.3B P/CFO:5.52 PB:1.0 C/R:6.73 D/E:0.44 RE/A:0.08 cfo/A:0.09 ebit/A:0.06 S/A:0.22 52w_p%:44 divYld: 0
+ERROR SEATW TypeError("object of type 'NoneType' has no len()")
+SENEA United_States Consumer_Defensive USDUSD MV:0.3B Eq:0.6B P/CFO:8.65 PB:0.6 C/R:3.03 D/E:0.69 RE/A:0.63 cfo/A:0.04 ebit/A:0.02 S/A:0.44 52w_p%:67 divYld: 0
+ERROR SGHC TypeError("object of type 'NoneType' has no len()")
+ERROR SGLY TypeError("object of type 'NoneType' has no len()")
+ERROR SIM Exception('getExchangeRate, no currency found', 'USD', 'MXN')
+ERROR BS IS EMPTY SLDPW
+ERROR BS IS EMPTY SOL
+ERROR SP IndexError('list index out of range')
+ERROR BS IS EMPTY SPI
+ERROR BS IS EMPTY SPPP
+ERROR TELL IndexError('list index out of range')
+ERROR TKLF TypeError("object of type 'NoneType' has no len()")
+ERROR TMQ TypeError("object of type 'NoneType' has no len()")
+ERROR TRU TypeError('can only concatenate str (not "NoneType") to str')
+ERROR TVE TypeError("object of type 'NoneType' has no len()")
+ERROR BS IS EMPTY UEC
+ERROR ULTA IndexError('list index out of range')
+ERROR BS IS EMPTY VERB
+ERROR BS IS EMPTY VIEW
+ERROR BS IS EMPTY VORBW
+ERROR VSTA IndexError('list index out of range')
+ERROR WDFC IndexError('list index out of range')
+ERROR WILC Exception('getExchangeRate, no currency found', 'USD', 'ILS')
+ERROR WIT Exception('getExchangeRate, no currency found', 'USD', 'INR')
+ERROR WTRU TypeError("object of type 'NoneType' has no len()")

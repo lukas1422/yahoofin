@@ -80,8 +80,6 @@ for comp in listStocks:
 
         if bs.empty:
             print(comp, "balance sheet is empty")
-            fileOutput.write("ERROR BS IS EMPTY " + comp + '\n')
-            fileOutput.flush()
             continue
 
         retainedEarnings = getFromDF(bs.loc["retainedEarnings"]) if 'retainedEarnings' in bs.index else 0
@@ -120,9 +118,8 @@ for comp in listStocks:
 
         if MARKET == Market.HK:
             if marketCap < 1000000000:
-                print(comp, "HK market cap less than 1B", marketCap/1000000000)
+                print(comp, "HK market cap less than 1B", marketCap / 1000000000)
                 continue
-
 
         listingCurr = getListingCurrency(comp)
         bsCurr = getBalanceSheetCurrency(comp, listingCurr)

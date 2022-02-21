@@ -4,6 +4,7 @@
 # no long term debt
 # price < 1.1 * 52 week low
 # insider  ownership > median
+import math
 
 import yahoo_fin.stock_info as si
 import pandas as pd

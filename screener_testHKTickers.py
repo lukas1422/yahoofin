@@ -67,7 +67,7 @@ for comp in listStocks:
 
         totalAssets = getFromDF(bs.loc["totalAssets"])
         totalLiab = getFromDF(bs.loc["totalLiab"])
-        goodWill = getFromDF(bs.loc['goodWill'])
+        goodWill = getFromDF(bs.loc['goodWill']) if 'goodWill' in bs.index else 0.0
         intangibles = getFromDF(bs.loc['intangibleAssets'])
         equity = totalAssets - totalLiab - goodWill - intangibles
         debtEquityRatio = totalLiab / equity
