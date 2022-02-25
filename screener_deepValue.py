@@ -46,7 +46,7 @@ elif MARKET == Market.HK:
     stock_df['ticker'] = stock_df['ticker'].map(lambda x: convertHK(x))
     hk_shares = pd.read_csv('list_HK_totalShares', sep="\t", index_col=False, names=['ticker', 'shares'])
     listStocks = stock_df['ticker'].tolist()
-    # listStocks = ['1513.HK']
+    listStocks = ['0004.HK']
 else:
     raise Exception("market not found")
 
@@ -59,7 +59,6 @@ for comp in listStocks:
         if marketPrice <= 1:
             print(comp, 'market price < 1: ', marketPrice)
             continue
-
 
         bs = si.get_balance_sheet(comp, yearly=yearlyFlag)
 
@@ -83,6 +82,7 @@ for comp in listStocks:
             print(comp, " retained earnings < 0 ", retainedEarnings)
             continue
 
+        cash = getFromDF(bs, "cash")
         totalAssets = getFromDF(bs, "totalAssets")
         totalLiab = getFromDF(bs, "totalLiab")
         goodWill = getFromDF(bs, 'goodWill')
@@ -128,6 +128,7 @@ for comp in listStocks:
         pb = marketCap / (tangibleEquity / exRate)
         # pe = marketCap / (netIncome / exRate)
         pCfo = marketCap / (cfo / exRate)
+        print("MV, cfo", roundB(marketCap, 2), roundB(cfo, 2))
 
         if pb >= 1 or pb <= 0:
             print(comp, 'pb > 1 or pb <= 0', pb)

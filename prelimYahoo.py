@@ -18,7 +18,7 @@ exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 
 stockName = '0004.HK'
 # stockName = 'VIAC'
-yearlyFlag = True
+yearlyFlag = False
 
 info = si.get_company_info(stockName)
 country = getFromDF(info, "country")
