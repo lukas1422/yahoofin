@@ -3,7 +3,7 @@ from currency_scrapeYahoo import getBalanceSheetCurrency
 from currency_scrapeYahoo import getListingCurrency
 import currency_getExchangeRate
 import scrape_sharesOutstanding
-from helperMethods import getFromDF, getFromDFYearly
+from helperMethods import getFromDF, getFromDFYearly, roundB
 
 START_DATE = '3/1/2020'
 DIVIDEND_START_DATE = '1/1/2010'
@@ -16,16 +16,15 @@ def fo(number):
 
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 
-# stockName = '0001.HK'
-stockName = '0014.HK'
+stockName = '0004.HK'
 # stockName = 'VIAC'
 yearlyFlag = True
 
 info = si.get_company_info(stockName)
-country = info.loc["country"][0]
-sector = info.loc['sector'][0]
-industry = info.loc['industry'][0]
-longName = info.loc['longBusinessSummary'][0]
+country = getFromDF(info, "country")
+sector = getFromDF(info, 'sector')
+industry = getFromDF(info, 'industry')
+longName = getFromDF(info, 'longBusinessSummary')
 
 print(stockName, country, sector, industry)
 print(longName)
@@ -34,17 +33,16 @@ bs = si.get_balance_sheet(stockName, yearly=yearlyFlag)
 # print("bs", bs)
 print("balance sheet date:", bs.columns[0].strftime('%Y/%-m/%-d'))
 # BS
-retainedEarnings = bs.loc["retainedEarnings"][0]
-# equity = bs.loc["totalStockholderEquity"][0]
-totalCurrentAssets = bs.loc["totalCurrentAssets"][0]
-totalCurrentLiab = bs.loc["totalCurrentLiabilities"][0]
-totalAssets = bs.loc["totalAssets"][0]
-totalLiab = bs.loc["totalLiab"][0]
+retainedEarnings = getFromDF(bs, "retainedEarnings")
+totalCurrentAssets = getFromDF(bs, "totalCurrentAssets")
+totalCurrentLiab = getFromDF(bs, "totalCurrentLiabilities")
+totalAssets = getFromDF(bs, "totalAssets")
+totalLiab = getFromDF(bs, "totalLiab")
 equity = totalAssets - totalLiab
-cash = getFromDF(bs.loc['cash']) if 'cash' in bs.index else 0.0
-receivables = getFromDF(bs.loc['netReceivables']) if 'netReceivables' in bs.index else 0.0
-inventory = getFromDF(bs.loc['inventory']) if 'inventory' in bs.index else 0.0
-goodWill = getFromDF(bs.loc['goodWill']) if 'goodWill' in bs.index else 0.0
+cash = getFromDF(bs, 'cash')
+receivables = getFromDF(bs, 'netReceivables')
+inventory = getFromDF(bs, 'inventory')
+goodWill = getFromDF(bs, 'goodWill')
 
 print("goodwill is ", goodWill)
 
@@ -63,7 +61,7 @@ exRate = currency_getExchangeRate.getExchangeRate(exchange_rate_dict, listingCur
 # IS
 revenue = getFromDFYearly(incomeStatement, "totalRevenue", yearlyFlag)
 ebit = getFromDFYearly(incomeStatement, "ebit", yearlyFlag)
-netIncome = getFromDFYearly(incomeStatement,'netIncome', yearlyFlag)
+netIncome = getFromDFYearly(incomeStatement, 'netIncome', yearlyFlag)
 
 roa = netIncome / totalAssets
 
@@ -108,17 +106,17 @@ exRate = 1
 
 print("listing Currency:", listingCurrency, "balance sheet currency", bsCurrency, "ExRate ", exRate)
 # print("shares Yahoo", sharesYahoo / 1000000000.0, "B")
-print("total shares xueqiu", str(round(sharesTotalXueqiu / 1000000000, 2)) + "B")
+print("total shares xueqiu", str(roundB(sharesTotalXueqiu, 2)) + "B")
 # print("floating shares xueqiu", str(floatingSharesXueqiu / 1000000000) + "B")
 print("shares finviz", sharesFinviz)
-print("cash", round(cash / 1000000000, 2), "rec", round(receivables / 1000000000, 2), "inv",
-      round(inventory / 1000000000, 2))
-print("A", round(totalAssets / exRate / 1000000000, 1), "B", "(",
-      round(totalCurrentAssets / exRate / 1000000000.0, 1)
-      , round((totalAssets - totalCurrentAssets) / exRate / 1000000000.0, 1), ")")
-print("L", round(totalLiab / exRate / 1000000000, 1), "B", "(",
-      round(totalCurrentLiab / exRate / 1000000000.0, 1),
-      round((totalLiab - totalCurrentLiab) / exRate / 1000000000.0, 1), ")")
+print("cash", roundB(cash, 2), "rec", roundB(receivables, 2), "inv",
+      roundB(inventory, 2))
+print("A", roundB(totalAssets / exRate, 1), "B", "(",
+      roundB(totalCurrentAssets / exRate, 1)
+      , roundB((totalAssets - totalCurrentAssets) / exRate, 1), ")")
+print("L", roundB(totalLiab / exRate, 1), "B", "(",
+      roundB(totalCurrentLiab / exRate, 1),
+      roundB((totalLiab - totalCurrentLiab) / exRate, 1), ")")
 print("E", round((totalAssets - totalLiab) / exRate / 1000000000.0, 1), "B")
 print("BV per share", round((totalAssets - totalLiab) / exRate / sharesTotalXueqiu, 2))
 print("Market price", round(marketPrice, 2), listingCurrency)

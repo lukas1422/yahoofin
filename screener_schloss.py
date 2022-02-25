@@ -13,7 +13,7 @@ from Market import Market
 from currency_scrapeYahoo import getBalanceSheetCurrency
 from currency_scrapeYahoo import getListingCurrency
 import currency_getExchangeRate
-from helperMethods import getFromDF, convertHK
+from helperMethods import getFromDF, convertHK, roundB
 from helperMethods import getInsiderOwnership
 from datetime import datetime, timedelta
 
@@ -73,8 +73,8 @@ for comp in listStocks:
         #     fileOutput.write("ERROR INFO " + comp + " " + '\n')
         #     fileOutput.flush()
 
-        country = info.loc["country"][0]
-        sector = info.loc['sector'][0]
+        country = getFromDF(info, 'country')
+        sector = getFromDF(info, 'sector')
 
         if 'real estate' in sector.lower() or 'financial' in sector.lower():
             print(comp, " no real estate or financial ")
@@ -99,17 +99,17 @@ for comp in listStocks:
             continue
 
         bs = si.get_balance_sheet(comp, yearly=yearlyFlag)
-        retainedEarnings = getFromDF(bs.loc["retainedEarnings"]) if 'retainedEarnings' in bs.index else 0
+        retainedEarnings = getFromDF(bs, 'retainedEarnings')
 
         # RE>0 ensures that the stock is not a chronic cash burner
         if retainedEarnings <= 0:
             print(comp, " retained earnings <= 0 ", retainedEarnings)
             continue
 
-        totalAssets = getFromDF(bs.loc["totalAssets"]) if 'totalAssets' in bs.index else 0
-        totalLiab = getFromDF(bs.loc["totalLiab"]) if 'totalLiab' in bs.index else 0
-        currentLiab = getFromDF(bs.loc['totalCurrentLiabilities']) \
-            if 'totalCurrentLiabilities' in bs.index else 0
+        totalAssets = getFromDF(bs, "totalAssets")
+        totalLiab = getFromDF(bs, "totalLiab")
+        currentLiab = getFromDF(bs, 'totalCurrentLiabilities')
+
         debtEquityRatio = totalLiab / (totalAssets - totalLiab)
 
         longTermDebtRatio = (totalLiab - currentLiab) / totalAssets
@@ -119,8 +119,8 @@ for comp in listStocks:
             continue
 
         # equity = getFromDF(bs.loc["totalStockholderEquity"])
-        goodWill = getFromDF(bs.loc['goodWill']) if 'goodWill' in bs.index else 0.0
-        intangibles = getFromDF(bs.loc['intangibleAssets']) if 'intangibleAssets' in bs.index else 0.0
+        goodWill = getFromDF(bs, 'goodWill')
+        intangibles = getFromDF(bs, 'intangibleAssets')
         equity = totalAssets - totalLiab - goodWill - intangibles
 
         if equity < 0:
@@ -143,14 +143,13 @@ for comp in listStocks:
 
         if MARKET == Market.HK:
             if marketCap < 1000000000:
-                print(comp, "market cap < 1B TOO SMALL", marketCap)
+                print(comp, "market cap < 1B TOO SMALL", roundB(marketCap, 2))
                 continue
 
         pb = marketCap / (equity / exRate)
 
         if pb < 0 or pb > 1:
-            print(comp, ' pb < 0 or pb > 1. mv equity exrate', pb,
-                  marketCap / 1000000000, equity / 1000000000, exRate)
+            print(comp, ' pb < 0 or pb > 1. mv equity exrate', pb, roundB(marketCap, 2), roundB(equity, 2), exRate)
             continue
 
         data = si.get_data(comp, start_date=START_DATE, interval=PRICE_INTERVAL)
@@ -169,8 +168,8 @@ for comp in listStocks:
                        + country.replace(" ", "_") + " " \
                        + sector.replace(" ", "_") + " " \
                        + listingCurrency + bsCurrency \
-                       + " MV:" + str(round(marketCap / 1000000000.0, 1)) + 'B' \
-                       + " Eq:" + str(round((totalAssets - totalLiab) / exRate / 1000000000.0, 1)) + 'B' \
+                       + " MV:" + str(roundB(marketCap, 1)) + 'B' \
+                       + " Eq:" + str(roundB((totalAssets - totalLiab) / exRate, 1)) + 'B' \
                        + " pb:" + str(round(pb, 1)) \
                        + " D/E:" + str(round(debtEquityRatio, 1)) \
                        + " LT_debt_ratio:" + str(round(longTermDebtRatio, 1)) \
