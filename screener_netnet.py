@@ -63,8 +63,9 @@ for comp in listStocks:
     try:
         info = si.get_company_info(comp)
         # print("info is", info)
-        country = info.loc["country"][0]
+        country = getFromDF(info, 'country')
         sector = info.loc['sector'][0]
+        #print("country:", country, "sector", sector)
 
         if 'real estate' in sector.lower() or 'financial' in sector.lower():
             print(comp, " no real estate or financial ")
@@ -82,29 +83,28 @@ for comp in listStocks:
             print(comp, "balance sheet is empty")
             continue
 
-        retainedEarnings = getFromDF(bs.loc["retainedEarnings"]) if 'retainedEarnings' in bs.index else 0
+        retainedEarnings = getFromDF(bs, "retainedEarnings")
 
         # RE>0 ensures that the stock is not a chronic cash burner
         if retainedEarnings <= 0:
             print(comp, " retained earnings <= 0 ", retainedEarnings)
             continue
 
-        cash = getFromDF(bs.loc['cash']) if 'cash' in bs.index else 0.0
+        cash = getFromDF(bs, 'cash')
         if cash == 0:
             print(comp, 'cash is 0 ')
             continue
 
-        currentAssets = getFromDF(bs.loc["totalCurrentAssets"]) if 'totalCurrentAssets' in bs.index else 0.0
-
-        totalLiab = getFromDF(bs.loc["totalLiab"]) if 'totalLiab' in bs.index else 0.0
+        currentAssets = getFromDF(bs, "totalCurrentAssets")
+        totalLiab = getFromDF(bs, "totalLiab")
 
         if currentAssets < totalLiab:
             print(comp, " current assets < total liab", round(currentAssets / 1000000000, 2),
                   round(totalLiab / 1000000000, 2))
             continue
 
-        receivables = getFromDF(bs.loc['netReceivables']) if 'netReceivables' in bs.index else 0.0
-        inventory = getFromDF(bs.loc['inventory']) if 'inventory' in bs.index else 0.0
+        receivables = getFromDF(bs, 'netReceivables')
+        inventory = getFromDF(bs, 'inventory')
 
         # shares = scrape_sharesOutstanding.scrapeTotalSharesXueqiu(comp)
         if MARKET == Market.US:

@@ -4,13 +4,14 @@ from Market import Market
 from currency_scrapeYahoo import getBalanceSheetCurrency
 from currency_scrapeYahoo import getListingCurrency
 import currency_getExchangeRate
-from helperMethods import getFromDF, convertHK
-
+from helperMethods import getFromDF, convertHK, getFromDFYearly
 
 MARKET = Market.HK
 yearlyFlag = False
 
 COUNT = 0
+
+
 def increment():
     global COUNT
     COUNT = COUNT + 1
@@ -88,30 +89,27 @@ for comp in listStocks:
         totalLiab = getFromDF(bs.loc["totalLiab"])
         goodWill = getFromDF(bs.loc['goodWill']) if 'goodWill' in bs.index else 0.0
         intangibles = getFromDF(bs.loc['intangibleAssets']) if 'intangibleAssets' in bs.index else 0.0
-        equity = totalAssets - totalLiab - goodWill - intangibles
-        debtEquityRatio = totalLiab / equity
+        tangibleEquity = totalAssets - totalLiab - goodWill - intangibles
+        debtEquityRatio = totalLiab / tangibleEquity
 
         if debtEquityRatio > 1:
             print(comp, "de ratio> 1. ", debtEquityRatio)
             continue
 
         incomeStatement = si.get_income_statement(comp, yearly=yearlyFlag)
-        ebit = getFromDF(incomeStatement.loc["ebit"])
-        netIncome = getFromDF(incomeStatement.loc['netIncome'])
+        ebit = getFromDFYearly(incomeStatement, "ebit", yearlyFlag)
+        netIncome = getFromDFYearly(incomeStatement, 'netIncome', yearlyFlag)
 
         if ebit <= 0 or netIncome <= 0:
             print(comp, "ebit or net income < 0 ", ebit, " ", netIncome)
             continue
 
         cf = si.get_cash_flow(comp, yearly=yearlyFlag)
-        cfo = getFromDF(
-            cf.loc["totalCashFromOperatingActivities"]) if 'totalCashFromOperatingActivities' in cf.index else 0.0
+        cfo = getFromDFYearly(cf, "totalCashFromOperatingActivities", yearlyFlag)
 
         if cfo <= 0:
             print(comp, "cfo <= 0 ", cfo)
             continue
-
-        # equity = getFromDF(bs.loc["totalStockholderEquity"])
 
         if MARKET == Market.US:
             shares = si.get_quote_data(comp)['sharesOutstanding']
@@ -128,7 +126,7 @@ for comp in listStocks:
 
         print(bsCurrency, listingCurrency)
         marketCap = marketPrice * shares
-        pb = marketCap / (equity / exRate)
+        pb = marketCap / (tangibleEquity / exRate)
         # pe = marketCap / (netIncome / exRate)
         pCfo = marketCap / (cfo / exRate)
 
@@ -140,7 +138,7 @@ for comp in listStocks:
             print(comp, 'pcfo > 10 or <= 0', pCfo)
             continue
 
-        revenue = getFromDF(incomeStatement.loc["totalRevenue"])
+        revenue = getFromDFYearly(incomeStatement, "totalRevenue", yearlyFlag)
 
         retainedEarningsAssetRatio = retainedEarnings / totalAssets
         cfoAssetRatio = cfo / totalAssets
@@ -151,8 +149,6 @@ for comp in listStocks:
         percentile = 100.0 * (marketPrice - data['low'].min()) / (data['high'].max() - data['low'].min())
         divSum = divs['dividend'].sum() if not divs.empty else 0
 
-        #                       # + stock_df[stock_df['ticker'] == comp][['country', 'sector']] \
-        #     .to_string(index=False, header=False) + " " \
         country = info.loc["country"][0]
         sector = info.loc['sector'][0]
 
@@ -160,15 +156,15 @@ for comp in listStocks:
                        + country.replace(" ", "_") + " " \
                        + sector.replace(" ", "_") + " " + listingCurrency + bsCurrency \
                        + " MV:" + str(round(marketCap / 1000000000.0, 1)) + 'B' \
-                       + " Eq:" + str(round(equity / exRate / 1000000000.0, 1)) + 'B' \
+                       + " Eq:" + str(round(tangibleEquity / exRate / 1000000000.0, 1)) + 'B' \
                        + " P/CFO:" + str(round(pCfo, 2)) \
-                       + " PB:" + str(round(pb, 1)) \
-                       + " C/R:" + str(round(currentRatio, 2)) \
+                       + " P/B:" + str(round(pb, 1)) \
+                       + " CurRatio:" + str(round(currentRatio, 2)) \
                        + " D/E:" + str(round(debtEquityRatio, 2)) \
-                       + " RE/A:" + str(round(retainedEarningsAssetRatio, 2)) \
-                       + " cfo/A:" + str(round(cfoAssetRatio, 2)) \
+                       + " RetEarnings/A:" + str(round(retainedEarningsAssetRatio, 2)) \
                        + " ebit/A:" + str(round(ebitAssetRatio, 2)) \
                        + " S/A:" + str(round(revenue / totalAssets, 2)) \
+                       + " cfo/A:" + str(round(cfoAssetRatio, 2)) \
                        + " 52w_p%:" + str(round(percentile)) \
                        + " divYld: " + str(round(divSum / marketPrice * 10))
 
@@ -177,8 +173,5 @@ for comp in listStocks:
         fileOutput.flush()
 
     except Exception as e:
-        # print(comp, "exception", e)
-        # raise Exception(comp, "raising exceptiona again", e)
         print(comp, "exception", e)
-        # fileOutput.write("ERROR " + comp + " " + repr(e) + '\n')
         fileOutput.flush()

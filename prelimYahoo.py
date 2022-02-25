@@ -3,7 +3,7 @@ from currency_scrapeYahoo import getBalanceSheetCurrency
 from currency_scrapeYahoo import getListingCurrency
 import currency_getExchangeRate
 import scrape_sharesOutstanding
-from helperMethods import getFromDF
+from helperMethods import getFromDF, getFromDFYearly
 
 START_DATE = '3/1/2020'
 DIVIDEND_START_DATE = '1/1/2010'
@@ -17,9 +17,9 @@ def fo(number):
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 
 # stockName = '0001.HK'
-stockName = '1194.HK'
+stockName = '0014.HK'
 # stockName = 'VIAC'
-yearlyFlag = False
+yearlyFlag = True
 
 info = si.get_company_info(stockName)
 country = info.loc["country"][0]
@@ -31,7 +31,7 @@ print(stockName, country, sector, industry)
 print(longName)
 
 bs = si.get_balance_sheet(stockName, yearly=yearlyFlag)
-print("bs", bs)
+# print("bs", bs)
 print("balance sheet date:", bs.columns[0].strftime('%Y/%-m/%-d'))
 # BS
 retainedEarnings = bs.loc["retainedEarnings"][0]
@@ -49,6 +49,8 @@ goodWill = getFromDF(bs.loc['goodWill']) if 'goodWill' in bs.index else 0.0
 print("goodwill is ", goodWill)
 
 cf = si.get_cash_flow(stockName, yearly=yearlyFlag)
+print("cash flow statement : ", cf)
+
 print("cash flow statement date:", cf.columns[0].strftime('%Y/%-m/%-d'))
 
 incomeStatement = si.get_income_statement(stockName, yearly=yearlyFlag)
@@ -59,17 +61,20 @@ bsCurrency = getBalanceSheetCurrency(stockName, listingCurrency)
 exRate = currency_getExchangeRate.getExchangeRate(exchange_rate_dict, listingCurrency, bsCurrency)
 
 # IS
-revenue = incomeStatement.loc["totalRevenue"][0]
-ebit = incomeStatement.loc["ebit"][0]
-netIncome = incomeStatement.loc['netIncome'][0]
+revenue = getFromDFYearly(incomeStatement, "totalRevenue", yearlyFlag)
+ebit = getFromDFYearly(incomeStatement, "ebit", yearlyFlag)
+netIncome = getFromDFYearly(incomeStatement,'netIncome', yearlyFlag)
 
 roa = netIncome / totalAssets
 
 # CF
-cfo = getFromDF(cf.loc["totalCashFromOperatingActivities"]) if 'totalCashFromOperatingActivities' in cf.index else 0.0
-cfi = getFromDF(cf.loc["totalCashflowsFromInvestingActivities"]) if 'totalCashflowsFromInvestingActivities' in cf.index else 0.0
-cff = getFromDF(cf.loc["totalCashFromFinancingActivities"]) if 'totalCashFromFinancingActivities' in cf.index else 0.0
+cfo = getFromDFYearly(cf, "totalCashFromOperatingActivities", yearlyFlag)
+cfi = getFromDFYearly(cf, "totalCashflowsFromInvestingActivities", yearlyFlag)
+cff = getFromDFYearly(cf, "totalCashFromFinancingActivities", yearlyFlag)
+
 cfoA = cfo / totalAssets
+
+# print("cfo is ", round(cfo / 1000000000, 2), "B")
 
 marketPrice = si.get_live_price(stockName)
 # sharesYahoo = si.get_quote_data(stockName)['sharesOutstanding']
@@ -103,7 +108,7 @@ exRate = 1
 
 print("listing Currency:", listingCurrency, "balance sheet currency", bsCurrency, "ExRate ", exRate)
 # print("shares Yahoo", sharesYahoo / 1000000000.0, "B")
-print("total shares xueqiu", str(sharesTotalXueqiu / 1000000000) + "B")
+print("total shares xueqiu", str(round(sharesTotalXueqiu / 1000000000, 2)) + "B")
 # print("floating shares xueqiu", str(floatingSharesXueqiu / 1000000000) + "B")
 print("shares finviz", sharesFinviz)
 print("cash", round(cash / 1000000000, 2), "rec", round(receivables / 1000000000, 2), "inv",
@@ -136,7 +141,7 @@ print("CFF", round(cff / 1000000000 / exRate, 2), "B")
 print("RE", round(retainedEarnings / 1000000000 / exRate, 2), "B")
 print("RE/A", round(retainedEarnings / totalAssets, 2))
 print("S/A", round(revenue / totalAssets, 2))
-print("div annual yield:", round(divSum / marketPrice * 10))
+print("div annual yield:", round(divSum / marketPrice * 10), "%")
 print("divsum marketprice:", round(divSum, 2), round(marketPrice, 2))
 print('roa', roa)
 print('cfoA', cfoA)
@@ -150,7 +155,7 @@ outputString = stockName + " " + country + " " + sector \
                + " cfo/A:" + str(round(cfoAssetRatio, 2)) \
                + " ebit/A:" + str(round(ebitAssetRatio, 2)) \
                + " pb:" + str(round(pb, 2)) \
-               + " 52w p%:" + str(round(percentile)) \
+               + " 52w_p%:" + str(round(percentile)) \
                + " div10yr:" + str(round(divSum / marketPrice, 2))
 
 print(outputString)
