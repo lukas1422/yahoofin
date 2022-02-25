@@ -18,14 +18,20 @@ def getFromDF(df, attribute):
     # return df[0]
 
 
+def roundB(num, decPlace):
+    return round(num / 1000000000, decPlace)
+
+
 def getFromDFYearly(df, attribute, yearly):
     if df.empty:
         return 0
+    if attribute not in df.index:
+        return 0
     if yearly:
-        return df.loc[attribute].dropna()[0] if attribute in df.index else 0.0
+        return df.loc[attribute].dropna()[0]
     else:
-        print("get from df yearly", attribute, df.loc[attribute][:4].sum() if attribute in df.index else 0.0)
-        return df.loc[attribute][:4].sum() if attribute in df.index else 0.0
+        # print("get from df yearly", attribute, df.loc[attribute][:4].sum() if attribute in df.index else 0.0)
+        return df.loc[attribute][:4].sum()
 
 
 def getInsiderOwnership():

@@ -4,7 +4,7 @@ from Market import Market
 from currency_scrapeYahoo import getBalanceSheetCurrency
 from currency_scrapeYahoo import getListingCurrency
 import currency_getExchangeRate
-from helperMethods import getFromDF, convertHK, getFromDFYearly
+from helperMethods import getFromDF, convertHK, getFromDFYearly, roundB
 
 MARKET = Market.HK
 yearlyFlag = False
@@ -60,7 +60,6 @@ for comp in listStocks:
             print(comp, 'market price < 1: ', marketPrice)
             continue
 
-        info = si.get_company_info(comp)
 
         bs = si.get_balance_sheet(comp, yearly=yearlyFlag)
 
@@ -70,25 +69,24 @@ for comp in listStocks:
             # fileOutput.flush()
             continue
 
-        totalCurrentAssets = getFromDF(bs.loc["totalCurrentAssets"]) if 'totalCurrentAssets' in bs.index else 0.0
-        totalCurrentLiab = getFromDF(
-            bs.loc["totalCurrentLiabilities"]) if 'totalCurrentLiabilities' in bs.index else 0.0
+        totalCurrentAssets = getFromDF(bs, "totalCurrentAssets")
+        totalCurrentLiab = getFromDF(bs, "totalCurrentLiabilities")
         currentRatio = totalCurrentAssets / totalCurrentLiab
 
         if currentRatio <= 1:
             print(comp, "current ratio < 1", currentRatio)
             continue
 
-        retainedEarnings = getFromDF(bs.loc["retainedEarnings"]) if 'retainedEarnings' in bs.index else 0.0
+        retainedEarnings = getFromDF(bs, "retainedEarnings")
 
         if retainedEarnings <= 0:
             print(comp, " retained earnings < 0 ", retainedEarnings)
             continue
 
-        totalAssets = getFromDF(bs.loc["totalAssets"])
-        totalLiab = getFromDF(bs.loc["totalLiab"])
-        goodWill = getFromDF(bs.loc['goodWill']) if 'goodWill' in bs.index else 0.0
-        intangibles = getFromDF(bs.loc['intangibleAssets']) if 'intangibleAssets' in bs.index else 0.0
+        totalAssets = getFromDF(bs, "totalAssets")
+        totalLiab = getFromDF(bs, "totalLiab")
+        goodWill = getFromDF(bs, 'goodWill')
+        intangibles = getFromDF(bs, 'intangibleAssets')
         tangibleEquity = totalAssets - totalLiab - goodWill - intangibles
         debtEquityRatio = totalLiab / tangibleEquity
 
@@ -97,6 +95,7 @@ for comp in listStocks:
             continue
 
         incomeStatement = si.get_income_statement(comp, yearly=yearlyFlag)
+
         ebit = getFromDFYearly(incomeStatement, "ebit", yearlyFlag)
         netIncome = getFromDFYearly(incomeStatement, 'netIncome', yearlyFlag)
 
@@ -148,15 +147,15 @@ for comp in listStocks:
         divs = si.get_dividends(comp, start_date=DIVIDEND_START_DATE)
         percentile = 100.0 * (marketPrice - data['low'].min()) / (data['high'].max() - data['low'].min())
         divSum = divs['dividend'].sum() if not divs.empty else 0
-
-        country = info.loc["country"][0]
-        sector = info.loc['sector'][0]
+        info = si.get_company_info(comp)
+        country = getFromDF(info, "country")
+        sector = getFromDF(info, 'sector')
 
         outputString = comp + " " + " " + stock_df[stock_df['ticker'] == comp]['name'] \
                        + country.replace(" ", "_") + " " \
                        + sector.replace(" ", "_") + " " + listingCurrency + bsCurrency \
-                       + " MV:" + str(round(marketCap / 1000000000.0, 1)) + 'B' \
-                       + " Eq:" + str(round(tangibleEquity / exRate / 1000000000.0, 1)) + 'B' \
+                       + " MV:" + str(roundB(marketCap, 1)) + 'B' \
+                       + " Eq:" + str(roundB(tangibleEquity / exRate, 1)) + 'B' \
                        + " P/CFO:" + str(round(pCfo, 2)) \
                        + " P/B:" + str(round(pb, 1)) \
                        + " CurRatio:" + str(round(currentRatio, 2)) \

@@ -9,7 +9,7 @@ from Market import Market
 from currency_scrapeYahoo import getBalanceSheetCurrency
 from currency_scrapeYahoo import getListingCurrency
 import currency_getExchangeRate
-from helperMethods import getFromDF, convertHK
+from helperMethods import getFromDF, convertHK, roundB
 
 COUNT = 0
 
@@ -65,7 +65,7 @@ for comp in listStocks:
         # print("info is", info)
         country = getFromDF(info, 'country')
         sector = info.loc['sector'][0]
-        #print("country:", country, "sector", sector)
+        # print("country:", country, "sector", sector)
 
         if 'real estate' in sector.lower() or 'financial' in sector.lower():
             print(comp, " no real estate or financial ")
@@ -99,8 +99,7 @@ for comp in listStocks:
         totalLiab = getFromDF(bs, "totalLiab")
 
         if currentAssets < totalLiab:
-            print(comp, " current assets < total liab", round(currentAssets / 1000000000, 2),
-                  round(totalLiab / 1000000000, 2))
+            print(comp, " current assets < total liab", roundB(currentAssets, 2), roundB(totalLiab, 2))
             continue
 
         receivables = getFromDF(bs, 'netReceivables')
@@ -128,11 +127,8 @@ for comp in listStocks:
         if (cash + receivables + inventory - totalLiab) / exRate < marketCap:
             print(comp, listingCurr, bsCurr,
                   'cash + rec + inventory - total liab < mv. cash rec inv Liab MV:',
-                  round(cash / 1000000000, 2),
-                  round(receivables / 1000000000, 2),
-                  round(inventory / 1000000000, 2),
-                  round(totalLiab / 1000000000, 2),
-                  round(marketCap / 1000000000, 2))
+                  roundB(cash, 2), roundB(receivables, 2),
+                  roundB(inventory, 2), roundB(totalLiab, 2), roundB(marketCap, 2))
             continue
 
         additionalComment = ""
@@ -154,12 +150,12 @@ for comp in listStocks:
                        + listingCurr + bsCurr + " " \
                        + country.replace(" ", "_") + " " \
                        + sector.replace(" ", "_") + " " \
-                       + " cash:" + str(round(cash / 1000000000, 2)) \
-                       + " rec:" + str(round(receivables / 1000000000, 2)) \
-                       + " inv:" + str(round(inventory / 1000000000, 2)) \
-                       + " CA:" + str(round(currentAssets / 1000000000, 2)) \
-                       + " L:" + str(round(totalLiab / 1000000000, 2)) \
-                       + " mv:" + str(round(marketCap / 1000000000, 2)) \
+                       + " cash:" + str(roundB(cash, 2)) \
+                       + " rec:" + str(roundB(receivables, 2)) \
+                       + " inv:" + str(roundB(inventory, 2)) \
+                       + " CA:" + str(roundB(currentAssets, 2)) \
+                       + " L:" + str(roundB(totalLiab, 2)) \
+                       + " mv:" + str(roundB(marketCap, 2)) \
                        + additionalComment
 
         print(outputString)
