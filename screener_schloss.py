@@ -18,7 +18,7 @@ from helperMethods import getInsiderOwnership
 from datetime import datetime, timedelta
 
 COUNT = 0
-MARKET = Market.HK
+MARKET = Market.US
 yearlyFlag = False
 INSIDER_OWN_MIN = 30
 
@@ -42,14 +42,16 @@ fileOutput = open('list_schlossOutput', 'w')
 ownershipDic = getInsiderOwnership()
 
 if MARKET == Market.US:
-    stock_df = pd.read_csv('list_US_companyInfo', sep="\t", index_col=False,
-                           names=['ticker', 'name', 'sector', 'industry', 'country', 'mv', 'price'])
+    stock_df = pd.read_csv('list_US_companyInfo', sep=" ", index_col=False,
+                           names=['ticker', 'name', 'sector', 'industry', 'country', 'mv', 'price', 'listDate'])
+    print(stock_df)
 
     listStocks = stock_df[(stock_df['price'] > 1)
                           & (stock_df['sector'].str
                              .contains('financial|healthcare', regex=True, case=False) == False)
                           & (stock_df['industry'].str.contains('reit', regex=True, case=False) == False)
                           & (stock_df['country'].str.lower() != 'china')]['ticker'].tolist()
+
 elif MARKET == Market.HK:
     stock_df = pd.read_csv('list_HK_Tickers', dtype=object, sep=" ", index_col=False, names=['ticker', 'name'])
     stock_df['ticker'] = stock_df['ticker'].astype(str)
@@ -67,9 +69,9 @@ for comp in listStocks:
 
     try:
         info = si.get_company_info(comp)
-        if info.empty:
-            fileOutput.write("ERROR INFO " + comp + " " + '\n')
-            fileOutput.flush()
+        # if info.empty:
+        #     fileOutput.write("ERROR INFO " + comp + " " + '\n')
+        #     fileOutput.flush()
 
         country = info.loc["country"][0]
         sector = info.loc['sector'][0]
@@ -184,5 +186,5 @@ for comp in listStocks:
         # print(comp, "exception", e)
 
         print(comp, "exception", e)
-        fileOutput.write("ERROR " + comp + " " + repr(e) + '\n')
-        fileOutput.flush()
+        # fileOutput.write("ERROR " + comp + " " + repr(e) + '\n')
+        # fileOutput.flush()

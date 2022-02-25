@@ -172,5 +172,5 @@ for comp in listStocks:
         # print(comp, "exception", e)
         # raise Exception(comp, "raising exception again", e)
         print(comp, "exception", e)
-        fileOutput.write("ERROR " + comp + " " + repr(e) + '\n')
-        fileOutput.flush()
+        # fileOutput.write("ERROR " + comp + " " + repr(e) + '\n')
+        # fileOutput.flush()

@@ -1,25 +1,23 @@
 import yahoo_fin.stock_info as si
 import pandas as pd
-
 from Market import Market
 from currency_scrapeYahoo import getBalanceSheetCurrency
 from currency_scrapeYahoo import getListingCurrency
 import currency_getExchangeRate
 from helperMethods import getFromDF, convertHK
 
-COUNT = 0
 
-MARKET = Market.US
+MARKET = Market.HK
 yearlyFlag = False
 
-
+COUNT = 0
 def increment():
     global COUNT
     COUNT = COUNT + 1
     return COUNT
 
 
-START_DATE = '3/1/2020'
+PRICE_START_DATE = '3/1/2020'
 DIVIDEND_START_DATE = '1/1/2010'
 PRICE_INTERVAL = '1mo'
 
@@ -37,7 +35,8 @@ if MARKET == Market.US:
                              .contains('financial|healthcare', regex=True, case=False) == False)
                           & (stock_df['industry'].str.contains('reit', regex=True, case=False) == False)
                           & (stock_df['country'].str.lower() != 'china')]['ticker'].tolist()
-    # listStocks = ['AESC']
+    # listStocks = ['CRUS']
+
 # US Version Ends
 
 elif MARKET == Market.HK:
@@ -61,16 +60,13 @@ for comp in listStocks:
             continue
 
         info = si.get_company_info(comp)
-        # if info.loc["country"][0].lower() == "china":
-        #     print(comp, "no china")
-        #     continue
 
         bs = si.get_balance_sheet(comp, yearly=yearlyFlag)
 
         if bs.empty:
             print(comp, "balance sheet is empty")
-            fileOutput.write("ERROR BS IS EMPTY " + comp + '\n')
-            fileOutput.flush()
+            # fileOutput.write("ERROR BS IS EMPTY " + comp + '\n')
+            # fileOutput.flush()
             continue
 
         totalCurrentAssets = getFromDF(bs.loc["totalCurrentAssets"]) if 'totalCurrentAssets' in bs.index else 0.0
@@ -140,7 +136,7 @@ for comp in listStocks:
             print(comp, 'pb > 1 or pb <= 0', pb)
             continue
 
-        if pCfo > 10 or pCfo <= 0:
+        if pCfo > 6 or pCfo <= 0:
             print(comp, 'pcfo > 10 or <= 0', pCfo)
             continue
 
@@ -150,7 +146,7 @@ for comp in listStocks:
         cfoAssetRatio = cfo / totalAssets
         ebitAssetRatio = ebit / totalAssets
 
-        data = si.get_data(comp, start_date=START_DATE, interval=PRICE_INTERVAL)
+        data = si.get_data(comp, start_date=PRICE_START_DATE, interval=PRICE_INTERVAL)
         divs = si.get_dividends(comp, start_date=DIVIDEND_START_DATE)
         percentile = 100.0 * (marketPrice - data['low'].min()) / (data['high'].max() - data['low'].min())
         divSum = divs['dividend'].sum() if not divs.empty else 0
@@ -160,7 +156,8 @@ for comp in listStocks:
         country = info.loc["country"][0]
         sector = info.loc['sector'][0]
 
-        outputString = comp + " " + country.replace(" ", "_") + " " \
+        outputString = comp + " " + " " + stock_df[stock_df['ticker'] == comp]['name'] \
+                       + country.replace(" ", "_") + " " \
                        + sector.replace(" ", "_") + " " + listingCurrency + bsCurrency \
                        + " MV:" + str(round(marketCap / 1000000000.0, 1)) + 'B' \
                        + " Eq:" + str(round(equity / exRate / 1000000000.0, 1)) + 'B' \
@@ -183,5 +180,5 @@ for comp in listStocks:
         # print(comp, "exception", e)
         # raise Exception(comp, "raising exceptiona again", e)
         print(comp, "exception", e)
-        fileOutput.write("ERROR " + comp + " " + repr(e) + '\n')
+        # fileOutput.write("ERROR " + comp + " " + repr(e) + '\n')
         fileOutput.flush()
