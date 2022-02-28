@@ -127,7 +127,7 @@ for comp in listStocks:
                        + " cash:" + str(roundB(cash, 2)) \
                        + " L:" + str(roundB(totalLiab, 2)) \
                        + " mv:" + str(roundB(marketCap, 2)) \
-                       + ' cash/(L+MV):' + str(roundB(cash / (totalLiab + marketCap), 2))
+                       + ' cash/(L+MV):' + str(round(cash / (totalLiab + marketCap), 2))
 
         print(outputString)
 

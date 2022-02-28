@@ -5,7 +5,7 @@ from Market import Market
 from currency_scrapeYahoo import getBalanceSheetCurrency
 from currency_scrapeYahoo import getListingCurrency
 import currency_getExchangeRate
-from helperMethods import getFromDF, convertHK
+from helperMethods import getFromDF, convertHK, getFromDFYearly
 
 COUNT = 0
 
@@ -94,11 +94,11 @@ for comp in listStocks:
 
         if bs.empty:
             print(comp, "balance sheet is empty")
-            fileOutput.write("ERROR BS IS EMPTY " + comp + '\n')
-            fileOutput.flush()
+            # fileOutput.write("ERROR BS IS EMPTY " + comp + '\n')
+            # fileOutput.flush()
             continue
 
-        retainedEarnings = getFromDF(bs.loc["retainedEarnings"]) if 'retainedEarnings' in bs.index else 0
+        retainedEarnings = getFromDF(bs, 'retainedEarnings')
 
         # RE>0 ensures that the stock is not a chronic cash burner
         if retainedEarnings <= 0:
@@ -112,29 +112,29 @@ for comp in listStocks:
         else:
             raise Exception(str(comp + " no shares"))
 
-        # equity = getFromDF(bs.loc["totalStockholderEquity"])
-        totalAssets = getFromDF(bs.loc["totalAssets"]) if 'totalAssets' in bs.index else 0.0
-        totalLiab = getFromDF(bs.loc["totalLiab"]) if 'totalLiab' in bs.index else 0.0
+        totalAssets = getFromDF(bs, "totalAssets")
+        totalLiab = getFromDF(bs, "totalLiab")
 
-        goodWill = getFromDF(bs.loc['goodWill']) if 'goodWill' in bs.index else 0.0
-        intangibles = getFromDF(bs.loc['intangibleAssets']) if 'intangibleAssets' in bs.index else 0.0
-        equity = totalAssets - totalLiab - goodWill - intangibles
+        goodWill = getFromDF(bs, 'goodWill')
+        intangibles = getFromDF(bs, 'intangibleAssets')
+        tangible_equity = totalAssets - totalLiab - goodWill - intangibles
+        equity = totalAssets - totalLiab
         # shares = si.get_quote_data(comp)['sharesOutstanding']
 
         incomeStatement = si.get_income_statement(comp, yearly=yearlyFlag)
-        ebit = getFromDF(incomeStatement.loc["ebit"]) if 'ebit' in incomeStatement.index else 0.0
-        netIncome = getFromDF(incomeStatement.loc['netIncome']) if 'netIncome' in incomeStatement.index else 0.0
+        ebit = getFromDFYearly(incomeStatement, "ebit", yearlyFlag)
+        netIncome = getFromDFYearly(incomeStatement, 'netIncome', yearlyFlag)
 
         listingCurr = getListingCurrency(comp)
         bsCurr = getBalanceSheetCurrency(comp, listingCurr)
         exRate = currency_getExchangeRate.getExchangeRate(exchange_rate_dict, listingCurr, bsCurr)
 
         cf = si.get_cash_flow(comp, yearly=yearlyFlag)
-        cfo = getFromDF(cf.loc["totalCashFromOperatingActivities"]) \
-            if 'totalCashFromOperatingActivities' in cf.index else 0.0
+        cfo = getFromDFYearly(cf, "totalCashFromOperatingActivities", yearlyFlag)
 
         marketCap = marketPrice * shares
-        pb = marketCap / (equity / exRate)
+        pb = marketCap / (tangible_equity / exRate)
+        pNetAssets = marketCap / (equity / exRate)
         pCfo = marketCap / (cfo / exRate)
 
         if MARKET == Market.HK:
@@ -143,7 +143,7 @@ for comp in listStocks:
                 continue
 
         if pb > 0.6:
-            print(comp, ' pb > 0.6 ', pb)
+            print(comp, ' pb > 0.6 ', pb, "pNet assets", pNetAssets)
             continue
 
         if pCfo > 6 or pCfo < 0:
@@ -178,6 +178,6 @@ for comp in listStocks:
 
     except Exception as e:
         print(comp, "exception", e)
-        fileOutput.write("ERROR " + comp + " " + repr(e) + '\n')
-        fileOutput.flush()
+        # fileOutput.write("ERROR " + comp + " " + repr(e) + '\n')
+        # fileOutput.flush()
         # raise Exception(comp, "raising exception again", e)

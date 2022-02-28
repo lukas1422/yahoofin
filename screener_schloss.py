@@ -18,9 +18,9 @@ from helperMethods import getInsiderOwnership
 from datetime import datetime, timedelta
 
 COUNT = 0
-MARKET = Market.US
+MARKET = Market.HK
 yearlyFlag = False
-INSIDER_OWN_MIN = 30
+INSIDER_OWN_MIN = 10
 
 
 def increment():
@@ -108,23 +108,20 @@ for comp in listStocks:
 
         totalAssets = getFromDF(bs, "totalAssets")
         totalLiab = getFromDF(bs, "totalLiab")
+        goodWill = getFromDF(bs, 'goodWill')
+        intangibles = getFromDF(bs, 'intangibleAssets')
+        tangible_equity = totalAssets - totalLiab - goodWill - intangibles
+
         currentLiab = getFromDF(bs, 'totalCurrentLiabilities')
 
-        debtEquityRatio = totalLiab / (totalAssets - totalLiab)
+        debtEquityRatio = totalLiab / tangible_equity
 
-        longTermDebtRatio = (totalLiab - currentLiab) / totalAssets
+        longTermDebtRatio = tangible_equity / totalAssets
 
         if debtEquityRatio > 0.5 or totalAssets < totalLiab:
             print(comp, "DE Ratio > 0.5 OR  A<L. ", debtEquityRatio)
             continue
 
-        # equity = getFromDF(bs.loc["totalStockholderEquity"])
-        goodWill = getFromDF(bs, 'goodWill')
-        intangibles = getFromDF(bs, 'intangibleAssets')
-        equity = totalAssets - totalLiab - goodWill - intangibles
-
-        if equity < 0:
-            print(comp, "equity < 0", equity)
 
         if MARKET == Market.US:
             shares = si.get_quote_data(comp)['sharesOutstanding']
@@ -146,10 +143,11 @@ for comp in listStocks:
                 print(comp, "market cap < 1B TOO SMALL", roundB(marketCap, 2))
                 continue
 
-        pb = marketCap / (equity / exRate)
+        pb = marketCap / (tangible_equity / exRate)
 
         if pb < 0 or pb > 1:
-            print(comp, ' pb < 0 or pb > 1. mv equity exrate', pb, roundB(marketCap, 2), roundB(equity, 2), exRate)
+            print(comp, ' pb < 0 or pb > 1. mv equity exrate', pb, roundB(marketCap, 2),
+                  roundB(tangible_equity, 2), exRate)
             continue
 
         data = si.get_data(comp, start_date=START_DATE, interval=PRICE_INTERVAL)
@@ -181,9 +179,4 @@ for comp in listStocks:
         fileOutput.flush()
 
     except Exception as e:
-        # raise Exception(comp, "reraising", e)
-        # print(comp, "exception", e)
-
         print(comp, "exception", e)
-        # fileOutput.write("ERROR " + comp + " " + repr(e) + '\n')
-        # fileOutput.flush()

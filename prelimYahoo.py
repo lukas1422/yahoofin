@@ -16,7 +16,7 @@ def fo(number):
 
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 
-stockName = '0004.HK'
+stockName = '0363.HK'
 # stockName = 'VIAC'
 yearlyFlag = False
 
