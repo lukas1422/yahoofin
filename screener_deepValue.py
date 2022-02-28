@@ -55,8 +55,20 @@ else:
 print(len(listStocks), listStocks)
 
 for comp in listStocks:
-    print(increment(), comp)
+
     try:
+        companyName = stock_df.loc[stock_df['ticker'] == comp]['name'].item()
+
+        print(increment(), comp, companyName)
+
+        info = si.get_company_info(comp)
+        country = getFromDF(info, "country")
+        sector = getFromDF(info, 'sector')
+
+        if 'real estate' in sector.lower() or 'financial' in sector.lower():
+            print(comp, " no real estate or financial ", sector)
+            continue
+
         marketPrice = si.get_live_price(comp)
         if marketPrice <= 1:
             print(comp, 'market price < 1: ', marketPrice)
@@ -149,11 +161,8 @@ for comp in listStocks:
         divs = si.get_dividends(comp, start_date=DIVIDEND_START_DATE)
         percentile = 100.0 * (marketPrice - data['low'].min()) / (data['high'].max() - data['low'].min())
         divSum = divs['dividend'].sum() if not divs.empty else 0
-        info = si.get_company_info(comp)
-        country = getFromDF(info, "country")
-        sector = getFromDF(info, 'sector')
 
-        outputString = comp + " " + " " + stock_df[stock_df['ticker'] == comp]['name'] \
+        outputString = comp + " " + " " + companyName \
                        + country.replace(" ", "_") + " " \
                        + sector.replace(" ", "_") + " " + listingCurrency + bsCurrency \
                        + " MV:" + str(roundB(marketCap, 1)) + 'B' \
