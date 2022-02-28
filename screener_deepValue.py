@@ -138,6 +138,11 @@ for comp in listStocks:
 
         print(bsCurrency, listingCurrency)
         marketCap = marketPrice * shares
+        if MARKET == Market.HK:
+            if marketCap < 1000000000:
+                print(comp, "market cap < 1B TOO SMALL", roundB(marketCap, 2))
+                continue
+
         pb = marketCap / (tangibleEquity / exRate)
         # pe = marketCap / (netIncome / exRate)
         pCfo = marketCap / (cfo / exRate)
