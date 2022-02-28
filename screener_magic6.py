@@ -105,6 +105,14 @@ for comp in listStocks:
             print(comp, " retained earnings <= 0 ", retainedEarnings)
             continue
 
+        totalCurrentAssets = getFromDF(bs, "totalCurrentAssets")
+        totalCurrentLiab = getFromDF(bs, "totalCurrentLiabilities")
+        currentRatio = totalCurrentAssets / totalCurrentLiab
+
+        if currentRatio < 1:
+            print(comp, ' current ratio < 1 ')
+            continue
+
         if MARKET == Market.US:
             shares = si.get_quote_data(comp)['sharesOutstanding']
         elif MARKET == Market.HK:

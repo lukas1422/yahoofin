@@ -4,7 +4,7 @@ import re
 import json
 import pandas as pd
 
-import Market
+from Market import Market
 from helperMethods import convertHK
 
 
@@ -50,7 +50,7 @@ def scrapeDivXueqiu(comp):
 
 COUNT = 0
 
-MARKET = Market.Market.HK
+MARKET = Market.HK
 
 
 def increment():

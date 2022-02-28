@@ -69,9 +69,6 @@ for comp in listStocks:
 
     try:
         info = si.get_company_info(comp)
-        # if info.empty:
-        #     fileOutput.write("ERROR INFO " + comp + " " + '\n')
-        #     fileOutput.flush()
 
         country = getFromDF(info, 'country')
         sector = getFromDF(info, 'sector')
@@ -108,20 +105,19 @@ for comp in listStocks:
 
         totalAssets = getFromDF(bs, "totalAssets")
         totalLiab = getFromDF(bs, "totalLiab")
+        currentLiab = getFromDF(bs, 'totalCurrentLiabilities')
+
         goodWill = getFromDF(bs, 'goodWill')
         intangibles = getFromDF(bs, 'intangibleAssets')
         tangible_equity = totalAssets - totalLiab - goodWill - intangibles
 
-        currentLiab = getFromDF(bs, 'totalCurrentLiabilities')
-
         debtEquityRatio = totalLiab / tangible_equity
 
-        longTermDebtRatio = tangible_equity / totalAssets
+        longTermDebtRatio = (totalLiab - currentLiab) / totalAssets
 
         if debtEquityRatio > 0.5 or totalAssets < totalLiab:
             print(comp, "DE Ratio > 0.5 OR  A<L. ", debtEquityRatio)
             continue
-
 
         if MARKET == Market.US:
             shares = si.get_quote_data(comp)['sharesOutstanding']
