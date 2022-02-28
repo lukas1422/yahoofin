@@ -162,11 +162,15 @@ for comp in listStocks:
         percentile = 100.0 * (marketPrice - data['low'].min()) / (data['high'].max() - data['low'].min())
         divSum = divs['dividend'].sum() if not divs.empty else 0
 
-        outputString = comp + " " + " " + companyName \
+        if divSum == 0:
+            print(comp, ' never paid a div ')
+            continue
+
+        outputString = comp + " " + " " + companyName + ' ' \
                        + country.replace(" ", "_") + " " \
                        + sector.replace(" ", "_") + " " + listingCurrency + bsCurrency \
                        + " MV:" + str(roundB(marketCap, 1)) + 'B' \
-                       + " Eq:" + str(roundB(tangibleEquity / exRate, 1)) + 'B' \
+                       + " B:" + str(roundB(tangibleEquity / exRate, 1)) + 'B' \
                        + " P/CFO:" + str(round(pCfo, 2)) \
                        + " P/B:" + str(round(pb, 1)) \
                        + " C/R:" + str(round(currentRatio, 2)) \

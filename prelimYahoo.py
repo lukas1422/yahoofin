@@ -16,7 +16,7 @@ def fo(number):
 
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 
-stockName = '0321.HK'
+stockName = '0001.HK'
 # stockName = 'VIAC'
 yearlyFlag = False
 
@@ -38,16 +38,18 @@ totalCurrentAssets = getFromDF(bs, "totalCurrentAssets")
 totalCurrentLiab = getFromDF(bs, "totalCurrentLiabilities")
 totalAssets = getFromDF(bs, "totalAssets")
 totalLiab = getFromDF(bs, "totalLiab")
-equity = totalAssets - totalLiab
+intangibles = getFromDF(bs, 'intangibleAssets')
+goodWill = getFromDF(bs, 'goodWill')
+
+tangible_equity = totalAssets - totalLiab - goodWill - intangibles
 cash = getFromDF(bs, 'cash')
 receivables = getFromDF(bs, 'netReceivables')
 inventory = getFromDF(bs, 'inventory')
-goodWill = getFromDF(bs, 'goodWill')
 
 print("goodwill is ", goodWill)
 
 cf = si.get_cash_flow(stockName, yearly=yearlyFlag)
-print("cash flow statement : ", cf)
+# print("cash flow statement : ", cf)
 
 print("cash flow statement date:", cf.columns[0].strftime('%Y/%-m/%-d'))
 
@@ -82,12 +84,12 @@ sharesFinviz = scrape_sharesOutstanding.scrapeSharesOutstandingFinviz(stockName)
 
 marketCap = marketPrice * sharesTotalXueqiu
 currentRatio = totalCurrentAssets / totalCurrentLiab
-debtEquityRatio = totalLiab / (totalAssets - totalLiab)
+debtEquityRatio = totalLiab / (totalAssets - totalLiab - goodWill - intangibles)
 retainedEarningsAssetRatio = retainedEarnings / totalAssets
 cfoAssetRatio = cfo / totalAssets
 ebitAssetRatio = ebit / totalAssets
 
-pb = marketCap / (equity / exRate)
+pb = marketCap / (tangible_equity / exRate)
 data = si.get_data(stockName, start_date=START_DATE, interval=PRICE_INTERVAL)
 divs = si.get_dividends(stockName, start_date=DIVIDEND_START_DATE)
 
@@ -124,13 +126,14 @@ print("Market Cap", str(round(marketPrice * sharesTotalXueqiu / 1000000000.0, 1)
 # print("Eq USD", round((equity / exRate) / 1000000000.0), "B")
 
 
-print("P/B", round(marketPrice * sharesTotalXueqiu / (equity / exRate), 2))
+print("P/B", round(marketPrice * sharesTotalXueqiu / (tangible_equity / exRate), 2))
 print("P/E", round(marketPrice * sharesTotalXueqiu / (netIncome / exRate), 2))
-print("S/B", round(revenue / equity, 2))
+print("S/B", round(revenue / tangible_equity, 2))
 print("                         ")
 print("********ALTMAN**********")
 print("CR", round(totalCurrentAssets / totalCurrentLiab, 2))
-print("D/E", round(totalLiab / (totalAssets - totalLiab), 2))
+print("tangible ratio", round(tangible_equity / (totalAssets - totalLiab), 2))
+print("D/E", round(totalLiab / tangible_equity, 2))
 print("EBIT", round(ebit / exRate / 1000000000, 2), "B")
 print("netIncome", round(netIncome / exRate / 1000000000, 2), "B")
 print("CFO", round(cfo / exRate / 1000000000, 2), "B")
