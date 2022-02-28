@@ -30,7 +30,7 @@ stock_df = pd.read_csv('list_US_companyInfo', sep="\t", index_col=False,
 
 listStocks = stock_df[(stock_df['price'] > 1)]['ticker'].tolist()
 
-print(listStocks.__len__(), listStocks)
+print(len(listStocks), listStocks)
 
 for comp in listStocks:
     print(increment())
@@ -77,4 +77,3 @@ for comp in listStocks:
     except Exception as e:
         print(comp, "exception", e)
         raise Exception(comp, "raising exception again", e)
-

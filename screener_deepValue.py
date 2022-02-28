@@ -1,3 +1,5 @@
+from datetime import datetime, timedelta
+
 import yahoo_fin.stock_info as si
 import pandas as pd
 from Market import Market
@@ -18,7 +20,7 @@ def increment():
     return COUNT
 
 
-PRICE_START_DATE = '3/1/2020'
+PRICE_START_DATE = (datetime.today() - timedelta(weeks=52 * 2)).strftime('%-m/%-d/%Y')
 DIVIDEND_START_DATE = '1/1/2010'
 PRICE_INTERVAL = '1mo'
 
@@ -46,7 +48,7 @@ elif MARKET == Market.HK:
     stock_df['ticker'] = stock_df['ticker'].map(lambda x: convertHK(x))
     hk_shares = pd.read_csv('list_HK_totalShares', sep="\t", index_col=False, names=['ticker', 'shares'])
     listStocks = stock_df['ticker'].tolist()
-    listStocks = ['0004.HK']
+    # listStocks = ['0004.HK']
 else:
     raise Exception("market not found")
 
@@ -119,7 +121,6 @@ for comp in listStocks:
 
         listingCurrency = getListingCurrency(comp)
         bsCurrency = getBalanceSheetCurrency(comp, listingCurrency)
-
         print("listing currency, bs currency, ", listingCurrency, bsCurrency)
         exRate = currency_getExchangeRate.getExchangeRate(exchange_rate_dict, listingCurrency, bsCurrency)
 
@@ -159,9 +160,9 @@ for comp in listStocks:
                        + " Eq:" + str(roundB(tangibleEquity / exRate, 1)) + 'B' \
                        + " P/CFO:" + str(round(pCfo, 2)) \
                        + " P/B:" + str(round(pb, 1)) \
-                       + " CurRatio:" + str(round(currentRatio, 2)) \
+                       + " C/R:" + str(round(currentRatio, 2)) \
                        + " D/E:" + str(round(debtEquityRatio, 2)) \
-                       + " RetEarnings/A:" + str(round(retainedEarningsAssetRatio, 2)) \
+                       + " RetEarning/A:" + str(round(retainedEarningsAssetRatio, 2)) \
                        + " ebit/A:" + str(round(ebitAssetRatio, 2)) \
                        + " S/A:" + str(round(revenue / totalAssets, 2)) \
                        + " cfo/A:" + str(round(cfoAssetRatio, 2)) \

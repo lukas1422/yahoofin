@@ -4,7 +4,6 @@
 import yahoo_fin.stock_info as si
 import pandas as pd
 
-import scrape_sharesOutstanding
 from Market import Market
 from currency_scrapeYahoo import getBalanceSheetCurrency
 from currency_scrapeYahoo import getListingCurrency
