@@ -168,7 +168,7 @@ for comp in listStocks:
                        + " D/E:" + str(round(debtEquityRatio, 1)) \
                        + " LT_debt_ratio:" + str(round(longTermDebtRatio, 1)) \
                        + " insider%:" + str(round(insiderPerc)) \
-                       + " p/52Low: " + str(round(100 * (marketPrice / low_52wk - 1))) + "%"
+                       + " p/52Low:" + str(round(100 * (marketPrice / low_52wk - 1))) + "%"
 
         print(outputString)
         fileOutput.write(outputString + '\n')
