@@ -21,7 +21,7 @@ def increment():
 
 
 PRICE_START_DATE = (datetime.today() - timedelta(weeks=52 * 2)).strftime('%-m/%-d/%Y')
-DIVIDEND_START_DATE = '1/1/2010'
+DIVIDEND_START_DATE = (datetime.today() - timedelta(weeks=52 * 10)).strftime('%-m/%-d/%Y')
 PRICE_INTERVAL = '1mo'
 
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
@@ -78,8 +78,6 @@ for comp in listStocks:
 
         if bs.empty:
             print(comp, "balance sheet is empty")
-            # fileOutput.write("ERROR BS IS EMPTY " + comp + '\n')
-            # fileOutput.flush()
             continue
 
         totalCurrentAssets = getFromDF(bs, "totalCurrentAssets")
@@ -144,11 +142,10 @@ for comp in listStocks:
                 continue
 
         pb = marketCap / (tangibleEquity / exRate)
-        # pe = marketCap / (netIncome / exRate)
         pCfo = marketCap / (cfo / exRate)
         print("MV, cfo", roundB(marketCap, 2), roundB(cfo, 2))
 
-        if pb >= 1 or pb <= 0:
+        if pb >= 0.6 or pb <= 0:
             print(comp, 'pb > 1 or pb <= 0', pb)
             continue
 
@@ -163,12 +160,19 @@ for comp in listStocks:
         ebitAssetRatio = ebit / totalAssets
 
         data = si.get_data(comp, start_date=PRICE_START_DATE, interval=PRICE_INTERVAL)
-        divs = si.get_dividends(comp, start_date=DIVIDEND_START_DATE)
         percentile = 100.0 * (marketPrice - data['low'].min()) / (data['high'].max() - data['low'].min())
+        low_52wk = data['low'].min()
+
+        if marketPrice > low_52wk * 1.1:
+            print(comp, "exceeding 52wk low * 1.1, P/Low ratio:", marketPrice, low_52wk,
+                  round(marketPrice / low_52wk, 2))
+            continue
+
+        divs = si.get_dividends(comp, start_date=DIVIDEND_START_DATE)
         divSum = divs['dividend'].sum() if not divs.empty else 0
 
-        if divSum == 0:
-            print(comp, ' never paid a div ')
+        if divSum / marketPrice <= 0.6:
+            print(comp, ' div yield < 6% ')
             continue
 
         outputString = comp + " " + " " + companyName + ' ' \
@@ -185,7 +189,7 @@ for comp in listStocks:
                        + " S/A:" + str(round(revenue / totalAssets, 2)) \
                        + " cfo/A:" + str(round(cfoAssetRatio, 2)) \
                        + " 52w_p%:" + str(round(percentile)) \
-                       + " divYld: " + str(round(divSum / marketPrice * 10))
+                       + " divYld: " + str(round(divSum / marketPrice * 10)) + "%"
 
         print(outputString)
         fileOutput.write(outputString + '\n')

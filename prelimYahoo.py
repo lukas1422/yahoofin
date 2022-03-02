@@ -16,7 +16,7 @@ def fo(number):
 
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 
-stockName = '0001.HK'
+stockName = '0019.HK'
 # stockName = 'VIAC'
 yearlyFlag = False
 
@@ -30,9 +30,8 @@ print(stockName, country, sector, industry)
 print(longName)
 
 bs = si.get_balance_sheet(stockName, yearly=yearlyFlag)
-# print("bs", bs)
 print("balance sheet date:", bs.columns[0].strftime('%Y/%-m/%-d'))
-# BS
+
 retainedEarnings = getFromDF(bs, "retainedEarnings")
 totalCurrentAssets = getFromDF(bs, "totalCurrentAssets")
 totalCurrentLiab = getFromDF(bs, "totalCurrentLiabilities")
@@ -41,6 +40,7 @@ totalLiab = getFromDF(bs, "totalLiab")
 intangibles = getFromDF(bs, 'intangibleAssets')
 goodWill = getFromDF(bs, 'goodWill')
 
+netAssets = totalAssets - totalLiab
 tangible_equity = totalAssets - totalLiab - goodWill - intangibles
 cash = getFromDF(bs, 'cash')
 receivables = getFromDF(bs, 'netReceivables')
@@ -48,19 +48,13 @@ inventory = getFromDF(bs, 'inventory')
 
 print("goodwill is ", goodWill)
 
-cf = si.get_cash_flow(stockName, yearly=yearlyFlag)
-# print("cash flow statement : ", cf)
-
-print("cash flow statement date:", cf.columns[0].strftime('%Y/%-m/%-d'))
-
 incomeStatement = si.get_income_statement(stockName, yearly=yearlyFlag)
 print("income statement date:", incomeStatement.columns[0].strftime('%Y/%-m/%-d'))
 
-listingCurrency = getListingCurrency(stockName)
-bsCurrency = getBalanceSheetCurrency(stockName, listingCurrency)
-exRate = currency_getExchangeRate.getExchangeRate(exchange_rate_dict, listingCurrency, bsCurrency)
+listingCurr = getListingCurrency(stockName)
+bsCurrency = getBalanceSheetCurrency(stockName, listingCurr)
+exRate = currency_getExchangeRate.getExchangeRate(exchange_rate_dict, listingCurr, bsCurrency)
 
-# IS
 revenue = getFromDFYearly(incomeStatement, "totalRevenue", yearlyFlag)
 ebit = getFromDFYearly(incomeStatement, "ebit", yearlyFlag)
 netIncome = getFromDFYearly(incomeStatement, 'netIncome', yearlyFlag)
@@ -68,6 +62,8 @@ netIncome = getFromDFYearly(incomeStatement, 'netIncome', yearlyFlag)
 roa = netIncome / totalAssets
 
 # CF
+cf = si.get_cash_flow(stockName, yearly=yearlyFlag)
+print("cash flow statement date:", cf.columns[0].strftime('%Y/%-m/%-d'))
 cfo = getFromDFYearly(cf, "totalCashFromOperatingActivities", yearlyFlag)
 cfi = getFromDFYearly(cf, "totalCashflowsFromInvestingActivities", yearlyFlag)
 cff = getFromDFYearly(cf, "totalCashFromFinancingActivities", yearlyFlag)
@@ -84,32 +80,26 @@ sharesFinviz = scrape_sharesOutstanding.scrapeSharesOutstandingFinviz(stockName)
 
 marketCap = marketPrice * sharesTotalXueqiu
 currentRatio = totalCurrentAssets / totalCurrentLiab
-debtEquityRatio = totalLiab / (totalAssets - totalLiab - goodWill - intangibles)
+debtEquityRatio = totalLiab / tangible_equity
 retainedEarningsAssetRatio = retainedEarnings / totalAssets
 cfoAssetRatio = cfo / totalAssets
 ebitAssetRatio = ebit / totalAssets
 
-pb = marketCap / (tangible_equity / exRate)
+pTangibleEquity = marketCap / (tangible_equity / exRate)
 data = si.get_data(stockName, start_date=START_DATE, interval=PRICE_INTERVAL)
 divs = si.get_dividends(stockName, start_date=DIVIDEND_START_DATE)
 
-# print(data)
 percentile = 100.0 * (marketPrice - data['low'].min()) / (data['high'].max() - data['low'].min())
 
-# if not divs.empty:
 divSum = divs['dividend'].sum() if not divs.empty else 0.0
-# else:
-#     divSum = 0.0
 
 # PRINTING*****
 
 ###exchange rate override?
-exRate = 1
+# exRate = 1
 
-print("listing Currency:", listingCurrency, "balance sheet currency", bsCurrency, "ExRate ", exRate)
-# print("shares Yahoo", sharesYahoo / 1000000000.0, "B")
+print("listing Currency:", listingCurr, "balance sheet currency", bsCurrency, "ExRate ", exRate)
 print("total shares xueqiu", str(roundB(sharesTotalXueqiu, 2)) + "B")
-# print("floating shares xueqiu", str(floatingSharesXueqiu / 1000000000) + "B")
 print("shares finviz", sharesFinviz)
 print("cash", roundB(cash, 2), "rec", roundB(receivables, 2), "inv",
       roundB(inventory, 2))
@@ -120,13 +110,14 @@ print("L", roundB(totalLiab / exRate, 1), "B", "(",
       roundB(totalCurrentLiab / exRate, 1),
       roundB((totalLiab - totalCurrentLiab) / exRate, 1), ")")
 print("E", round((totalAssets - totalLiab) / exRate / 1000000000.0, 1), "B")
-print("BV per share", round((totalAssets - totalLiab) / exRate / sharesTotalXueqiu, 2))
-print("Market price", round(marketPrice, 2), listingCurrency)
+print("BV per share", round(tangible_equity / exRate / sharesTotalXueqiu, 2), listingCurr)
+print("Market price", round(marketPrice, 2), listingCurr)
 print("Market Cap", str(round(marketPrice * sharesTotalXueqiu / 1000000000.0, 1)) + "B")
 # print("Eq USD", round((equity / exRate) / 1000000000.0), "B")
 
 
-print("P/B", round(marketPrice * sharesTotalXueqiu / (tangible_equity / exRate), 2))
+print("P/NetAssets", round(marketPrice * sharesTotalXueqiu / (netAssets / exRate), 2))
+print("P/Tangible Equity", round(marketPrice * sharesTotalXueqiu / (tangible_equity / exRate), 2))
 print("P/E", round(marketPrice * sharesTotalXueqiu / (netIncome / exRate), 2))
 print("S/B", round(revenue / tangible_equity, 2))
 print("                         ")
@@ -155,7 +146,7 @@ outputString = stockName + " " + country + " " + sector \
                + " RE/A:" + str(round(retainedEarningsAssetRatio, 2)) \
                + " cfo/A:" + str(round(cfoAssetRatio, 2)) \
                + " ebit/A:" + str(round(ebitAssetRatio, 2)) \
-               + " pb:" + str(round(pb, 2)) \
+               + " pb:" + str(round(pTangibleEquity, 2)) \
                + " 52w_p%:" + str(round(percentile)) \
                + " div10yr:" + str(round(divSum / marketPrice, 2))
 

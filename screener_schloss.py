@@ -13,7 +13,7 @@ from Market import Market
 from currency_scrapeYahoo import getBalanceSheetCurrency
 from currency_scrapeYahoo import getListingCurrency
 import currency_getExchangeRate
-from helperMethods import getFromDF, convertHK, roundB
+from helperMethods import getFromDF, convertHK, roundB, getFromDFYearly
 from helperMethods import getInsiderOwnership
 from datetime import datetime, timedelta
 
@@ -68,6 +68,13 @@ for comp in listStocks:
     print(increment(), comp)
 
     try:
+        cf = si.get_cash_flow(comp, yearly=yearlyFlag)
+        cfo = getFromDFYearly(cf, "totalCashFromOperatingActivities", yearlyFlag)
+
+        if cfo < 0:
+            print(comp, " cfo < 0 ")
+            continue
+
         info = si.get_company_info(comp)
 
         country = getFromDF(info, 'country')
@@ -141,8 +148,9 @@ for comp in listStocks:
 
         pb = marketCap / (tangible_equity / exRate)
 
-        if pb < 0 or pb > 1:
-            print(comp, ' pb < 0 or pb > 1. mv equity exrate', pb, roundB(marketCap, 2),
+        # requirement on book value
+        if pb < 0 or pb > 0.6:
+            print(comp, ' pb < 0 or pb > 0.6. mv equity exrate', pb, roundB(marketCap, 2),
                   roundB(tangible_equity, 2), exRate)
             continue
 
@@ -150,6 +158,7 @@ for comp in listStocks:
         divs = si.get_dividends(comp, start_date=DIVIDEND_START_DATE)
         low_52wk = data['low'].min()
 
+        # requirement on low price
         if marketPrice > low_52wk * 1.1:
             print(comp, "exceeding 52wk low * 1.1, P/Low ratio:", marketPrice, low_52wk,
                   round(marketPrice / low_52wk, 2))
