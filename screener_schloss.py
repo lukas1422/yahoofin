@@ -150,7 +150,7 @@ for comp in listStocks:
 
         # requirement on book value
         if pb < 0 or pb > 0.6:
-            print(comp, ' pb < 0 or pb > 0.6. mv equity exrate', pb, roundB(marketCap, 2),
+            print(comp, ' pb < 0 or pb > 0.6. PB mv equity exrate', pb, roundB(marketCap, 2),
                   roundB(tangible_equity, 2), exRate)
             continue
 
