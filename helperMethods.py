@@ -34,8 +34,8 @@ def getFromDFYearly(df, attribute, yearly):
     else:
         colsToSum = sum(df.columns > df.columns[0] - timedelta(weeks=51))
         print(df.columns, df.columns[0] - timedelta(weeks=51))
-        print("cols to sum ", colsToSum)
-        return df.loc[attribute][:colsToSum].sum()
+        # print("cols to sum ", colsToSum)
+        return min(df.loc[attribute].dropna()[0] * colsToSum, df.loc[attribute][:colsToSum].sum())
 
 
 def getInsiderOwnership():

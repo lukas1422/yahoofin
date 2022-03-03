@@ -16,7 +16,7 @@ def fo(number):
 
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 
-stockName = 'ADP'
+stockName = '0062.HK'
 yearlyFlag = False
 
 info = si.get_company_info(stockName)
@@ -30,6 +30,7 @@ print(longName)
 
 bs = si.get_balance_sheet(stockName, yearly=yearlyFlag)
 print("balance sheet date:", bs.columns[0].strftime('%Y/%-m/%-d'))
+print("bs cols", bs.columns)
 
 retainedEarnings = getFromDF(bs, "retainedEarnings")
 totalCurrentAssets = getFromDF(bs, "totalCurrentAssets")
@@ -58,11 +59,13 @@ revenue = getFromDFYearly(incomeStatement, "totalRevenue", yearlyFlag)
 ebit = getFromDFYearly(incomeStatement, "ebit", yearlyFlag)
 netIncome = getFromDFYearly(incomeStatement, 'netIncome', yearlyFlag)
 
-roa = netIncome / totalAssets
+# roa = netIncome / totalAssets
 
 # CF
 cf = si.get_cash_flow(stockName, yearly=yearlyFlag)
 print("cash flow statement date:", cf.columns[0].strftime('%Y/%-m/%-d'))
+print("CF cols", cf.columns)
+
 cfo = getFromDFYearly(cf, "totalCashFromOperatingActivities", yearlyFlag)
 cfi = getFromDFYearly(cf, "totalCashflowsFromInvestingActivities", yearlyFlag)
 cff = getFromDFYearly(cf, "totalCashFromFinancingActivities", yearlyFlag)
@@ -140,8 +143,9 @@ print("RE/A", round(retainedEarnings / totalAssets, 2))
 print("S/A", round(revenue / totalAssets, 2))
 print("div annual yield:", round(divSum / marketPrice * 10), "%")
 print("divsum marketprice:", round(divSum, 2), round(marketPrice, 2))
-print('roa', roa)
-print('cfoA', cfoA)
+# print('roa', roa)
+print("P/CFO", round(marketCap / (cfo / exRate), 2))
+print('cfo/A', cfoA)
 
 outputString = stockName + " " + country + " " + sector \
                + " MV:" + str(round(marketCap / 1000000000.0, 1)) + 'B' \
