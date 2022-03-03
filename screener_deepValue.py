@@ -8,7 +8,7 @@ from currency_scrapeYahoo import getListingCurrency
 import currency_getExchangeRate
 from helperMethods import getFromDF, convertHK, getFromDFYearly, roundB
 
-MARKET = Market.HK
+MARKET = Market.US
 yearlyFlag = False
 
 COUNT = 0
@@ -99,8 +99,8 @@ for comp in listStocks:
         totalLiab = getFromDF(bs, "totalLiab")
         goodWill = getFromDF(bs, 'goodWill')
         intangibles = getFromDF(bs, 'intangibleAssets')
-        tangibleEquity = totalAssets - totalLiab - goodWill - intangibles
-        debtEquityRatio = totalLiab / tangibleEquity
+        tangible_Equity = totalAssets - totalLiab - goodWill - intangibles
+        debtEquityRatio = totalLiab / tangible_Equity
 
         if debtEquityRatio > 1:
             print(comp, "de ratio> 1. ", debtEquityRatio)
@@ -140,7 +140,7 @@ for comp in listStocks:
                 print(comp, "market cap < 1B TOO SMALL", roundB(marketCap, 2))
                 continue
 
-        pb = marketCap / (tangibleEquity / exRate)
+        pb = marketCap / (tangible_Equity / exRate)
         pCfo = marketCap / (cfo / exRate)
         print("MV, cfo", roundB(marketCap, 2), roundB(cfo, 2))
 
@@ -178,7 +178,7 @@ for comp in listStocks:
                        + country.replace(" ", "_") + " " \
                        + sector.replace(" ", "_") + " " + listingCurrency + bsCurrency \
                        + " MV:" + str(roundB(marketCap, 1)) + 'B' \
-                       + " B:" + str(roundB(tangibleEquity / exRate, 1)) + 'B' \
+                       + " B:" + str(roundB(tangible_Equity / exRate, 1)) + 'B' \
                        + " P/CFO:" + str(round(pCfo, 2)) \
                        + " P/B:" + str(round(pb, 1)) \
                        + " C/R:" + str(round(currentRatio, 2)) \

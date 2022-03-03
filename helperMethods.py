@@ -1,4 +1,6 @@
 import math
+from datetime import timedelta
+
 import pandas as pd
 
 
@@ -30,8 +32,10 @@ def getFromDFYearly(df, attribute, yearly):
     if yearly:
         return df.loc[attribute].dropna()[0]
     else:
-        # print("get from df yearly", attribute, df.loc[attribute][:4].sum() if attribute in df.index else 0.0)
-        return df.loc[attribute][:4].sum()
+        colsToSum = sum(df.columns > df.columns[0] - timedelta(weeks=51))
+        print(df.columns, df.columns[0] - timedelta(weeks=51))
+        print("cols to sum ", colsToSum)
+        return df.loc[attribute][:colsToSum].sum()
 
 
 def getInsiderOwnership():
