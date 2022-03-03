@@ -16,7 +16,7 @@ def fo(number):
 
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 
-stockName = 'APWC'
+stockName = '3336.HK'
 yearlyFlag = False
 
 info = si.get_company_info(stockName)
@@ -64,7 +64,7 @@ netIncome = getFromDFYearly(incomeStatement, 'netIncome', yearlyFlag)
 # CF
 cf = si.get_cash_flow(stockName, yearly=yearlyFlag)
 print("cash flow statement date:", cf.columns[0].strftime('%Y/%-m/%-d'))
-print("CF cols", cf.columns)
+print("CF cols", cf.loc['totalCashFromOperatingActivities'])
 
 cfo = getFromDFYearly(cf, "totalCashFromOperatingActivities", yearlyFlag)
 cfi = getFromDFYearly(cf, "totalCashflowsFromInvestingActivities", yearlyFlag)
