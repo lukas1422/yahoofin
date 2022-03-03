@@ -6,9 +6,9 @@ from Market import Market
 from currency_scrapeYahoo import getBalanceSheetCurrency
 from currency_scrapeYahoo import getListingCurrency
 import currency_getExchangeRate
-from helperMethods import getFromDF, convertHK, getFromDFYearly, roundB, boolToString
+from helperMethods import getFromDF, getFromDFYearly, roundB, boolToString, getInsiderOwnership
 
-MARKET = Market.HK
+MARKET = Market.US
 yearlyFlag = False
 INSIDER_OWN_MIN = 10
 
@@ -27,19 +27,23 @@ PRICE_INTERVAL = '1mo'
 
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 
-fileOutput = open('list_results_hk', 'w')
+fileOutput = open('list_results_US', 'w')
 
-stock_df = pd.read_csv('list_HK_Tickers', dtype=object, sep=" ", index_col=False, names=['ticker', 'name'])
-stock_df['ticker'] = stock_df['ticker'].astype(str)
-stock_df['ticker'] = stock_df['ticker'].map(lambda x: convertHK(x))
-hk_shares = pd.read_csv('list_HK_totalShares', sep="\t", index_col=False, names=['ticker', 'shares'])
-listStocks = stock_df['ticker'].tolist()
-# listStocks = ['2698.HK']
+ownershipDic = getInsiderOwnership()
 
+stock_df = pd.read_csv('list_US_companyInfo', sep=" ", index_col=False,
+                       names=['ticker', 'name', 'sector', 'industry', 'country', 'mv', 'price', 'listDate'])
+
+listStocks = stock_df[(stock_df['price'] > 1)
+                      & (stock_df['sector'].str
+                         .contains('financial|healthcare', regex=True, case=False) == False)
+                      & (stock_df['industry'].str.contains('reit', regex=True, case=False) == False)
+                      & (stock_df['country'].str.lower() != 'china')]['ticker'].tolist()
+
+# listStocks = ['APWC']
 print(len(listStocks), listStocks)
 
 for comp in listStocks:
-
     try:
         companyName = stock_df.loc[stock_df['ticker'] == comp]['name'].item()
 
@@ -108,7 +112,9 @@ for comp in listStocks:
             print(comp, "cfo <= 0 ", cfo)
             continue
 
-        shares = hk_shares[hk_shares['ticker'] == comp]['shares'].values[0]
+        shares = si.get_quote_data(comp)['sharesOutstanding']
+
+        # shares = hk_shares[hk_shares['ticker'] == comp]['shares'].values[0]
 
         listingCurrency = getListingCurrency(comp)
         bsCurrency = getBalanceSheetCurrency(comp, listingCurrency)
@@ -116,9 +122,6 @@ for comp in listStocks:
         exRate = currency_getExchangeRate.getExchangeRate(exchange_rate_dict, listingCurrency, bsCurrency)
 
         marketCap = marketPrice * shares
-        if marketCap < 1000000000:
-            print(comp, "market cap < 1B TOO SMALL", roundB(marketCap, 2))
-            continue
 
         pb = marketCap / (tangible_Equity / exRate)
         pCfo = marketCap / (cfo / exRate)
@@ -146,8 +149,12 @@ for comp in listStocks:
         #     print(comp, "exceeding 52wk low * 1.1, P/Low ratio:", marketPrice, low_52wk,
         #           round(marketPrice / low_52wk, 2))
         #     continue
-        insiderPerc = float(si.get_holders(comp).get('Major Holders')[0][0].rstrip("%"))
-        print(comp, MARKET, "insider percent", insiderPerc)
+        insiderPerc = ownershipDic[comp]
+        # if insiderPerc < INSIDER_OWN_MIN:
+        #     print(comp, "insider ownership < " + str(INSIDER_OWN_MIN), insiderPerc)
+        #     continue
+        # insiderPerc = float(si.get_holders(comp).get('Major Holders')[0][0].rstrip("%"))
+        print(comp, "insider percent", insiderPerc)
 
         divs = si.get_dividends(comp, start_date=DIVIDEND_START_DATE)
         divSum = divs['dividend'].sum() if not divs.empty else 0
@@ -158,7 +165,7 @@ for comp in listStocks:
         magic6 = pb < 0.6 and pCfo < 6 and divYield > 0.06
 
         if schloss or netnet or magic6:
-            outputString = comp[:4] + " " + " " + companyName[:4] + ' ' \
+            outputString = comp + " " + " " + companyName + ' ' \
                            + country.replace(" ", "_") + " " \
                            + sector.replace(" ", "_") + " " + listingCurrency + bsCurrency \
                            + boolToString(schloss, "schloss") + boolToString(netnet, "netnet") \

@@ -16,7 +16,7 @@ def fo(number):
 
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 
-stockName = '0743.HK'
+stockName = 'APWC'
 yearlyFlag = False
 
 info = si.get_company_info(stockName)
@@ -98,9 +98,6 @@ percentile = 100.0 * (marketPrice - data['low'].min()) / (data['high'].max() - d
 divSum = divs['dividend'].sum() if not divs.empty else 0.0
 
 # PRINTING*****
-
-###exchange rate override?
-# exRate = 1
 
 print("listing Currency:", listingCurr, "balance sheet currency", bsCurrency, "ExRate ", exRate)
 print("total shares xueqiu", str(roundB(sharesTotalXueqiu, 2)) + "B")
