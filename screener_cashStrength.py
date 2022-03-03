@@ -29,7 +29,7 @@ PRICE_INTERVAL = '1mo'
 
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 
-fileOutput = open('list_results_netnet', 'w')
+fileOutput = open('list_netnet', 'w')
 
 # US Version Starts
 if MARKET == Market.US:

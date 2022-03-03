@@ -6,10 +6,11 @@ from Market import Market
 from currency_scrapeYahoo import getBalanceSheetCurrency
 from currency_scrapeYahoo import getListingCurrency
 import currency_getExchangeRate
-from helperMethods import getFromDF, convertHK, getFromDFYearly, roundB
+from helperMethods import getFromDF, convertHK, getFromDFYearly, roundB, boolToString
 
 MARKET = Market.HK
 yearlyFlag = False
+INSIDER_OWN_MIN = 10
 
 COUNT = 0
 
@@ -26,31 +27,14 @@ PRICE_INTERVAL = '1mo'
 
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 
-fileOutput = open('list_deepValue', 'w')
+fileOutput = open('list_results_hk', 'w')
 
-if MARKET == Market.US:
-    # US Version STARTS
-    stock_df = pd.read_csv('list_US_companyInfo', sep=" ", index_col=False,
-                           names=['ticker', 'name', 'sector', 'industry', 'country', 'mv', 'price', 'listDate'])
-
-    listStocks = stock_df[(stock_df['price'] > 1)
-                          & (stock_df['sector'].str
-                             .contains('financial|healthcare', regex=True, case=False) == False)
-                          & (stock_df['industry'].str.contains('reit', regex=True, case=False) == False)
-                          & (stock_df['country'].str.lower() != 'china')]['ticker'].tolist()
-    # listStocks = ['CRUS']
-
-# US Version Ends
-
-elif MARKET == Market.HK:
-    stock_df = pd.read_csv('list_HK_Tickers', dtype=object, sep=" ", index_col=False, names=['ticker', 'name'])
-    stock_df['ticker'] = stock_df['ticker'].astype(str)
-    stock_df['ticker'] = stock_df['ticker'].map(lambda x: convertHK(x))
-    hk_shares = pd.read_csv('list_HK_totalShares', sep="\t", index_col=False, names=['ticker', 'shares'])
-    listStocks = stock_df['ticker'].tolist()
-    # listStocks = ['0004.HK']
-else:
-    raise Exception("market not found")
+stock_df = pd.read_csv('list_HK_Tickers', dtype=object, sep=" ", index_col=False, names=['ticker', 'name'])
+stock_df['ticker'] = stock_df['ticker'].astype(str)
+stock_df['ticker'] = stock_df['ticker'].map(lambda x: convertHK(x))
+hk_shares = pd.read_csv('list_HK_totalShares', sep="\t", index_col=False, names=['ticker', 'shares'])
+listStocks = stock_df['ticker'].tolist()
+listStocks = ['2698.HK']
 
 print(len(listStocks), listStocks)
 
@@ -80,6 +64,12 @@ for comp in listStocks:
             print(comp, "balance sheet is empty")
             continue
 
+        retainedEarnings = getFromDF(bs, "retainedEarnings")
+
+        if retainedEarnings <= 0:
+            print(comp, " retained earnings < 0 ", retainedEarnings)
+            continue
+
         totalCurrentAssets = getFromDF(bs, "totalCurrentAssets")
         totalCurrentLiab = getFromDF(bs, "totalCurrentLiabilities")
         currentRatio = totalCurrentAssets / totalCurrentLiab
@@ -88,13 +78,10 @@ for comp in listStocks:
             print(comp, "current ratio < 1", currentRatio)
             continue
 
-        retainedEarnings = getFromDF(bs, "retainedEarnings")
-
-        if retainedEarnings <= 0:
-            print(comp, " retained earnings < 0 ", retainedEarnings)
-            continue
-
         cash = getFromDF(bs, "cash")
+        receivables = getFromDF(bs, 'netReceivables')
+        inventory = getFromDF(bs, 'inventory')
+
         totalAssets = getFromDF(bs, "totalAssets")
         totalLiab = getFromDF(bs, "totalLiab")
         goodWill = getFromDF(bs, 'goodWill')
@@ -108,9 +95,8 @@ for comp in listStocks:
 
         incomeStatement = si.get_income_statement(comp, yearly=yearlyFlag)
 
-        ebit = getFromDFYearly(incomeStatement, "ebit", yearlyFlag)
-        netIncome = getFromDFYearly(incomeStatement, 'netIncome', yearlyFlag)
-
+        # ebit = getFromDFYearly(incomeStatement, "ebit", yearlyFlag)
+        # netIncome = getFromDFYearly(incomeStatement, 'netIncome', yearlyFlag)
         # if ebit <= 0 or netIncome <= 0:
         #     print(comp, "ebit or net income < 0 ", ebit, " ", netIncome)
         #     continue
@@ -122,12 +108,7 @@ for comp in listStocks:
             print(comp, "cfo <= 0 ", cfo)
             continue
 
-        if MARKET == Market.US:
-            shares = si.get_quote_data(comp)['sharesOutstanding']
-        elif MARKET == Market.HK:
-            shares = hk_shares[hk_shares['ticker'] == comp]['shares'].values[0]
-        else:
-            raise Exception(str(comp + " no shares"))
+        shares = hk_shares[hk_shares['ticker'] == comp]['shares'].values[0]
 
         listingCurrency = getListingCurrency(comp)
         bsCurrency = getBalanceSheetCurrency(comp, listingCurrency)
@@ -135,10 +116,9 @@ for comp in listStocks:
         exRate = currency_getExchangeRate.getExchangeRate(exchange_rate_dict, listingCurrency, bsCurrency)
 
         marketCap = marketPrice * shares
-        if MARKET == Market.HK:
-            if marketCap < 1000000000:
-                print(comp, "market cap < 1B TOO SMALL", roundB(marketCap, 2))
-                continue
+        if marketCap < 1000000000:
+            print(comp, "market cap < 1B TOO SMALL", roundB(marketCap, 2))
+            continue
 
         pb = marketCap / (tangible_Equity / exRate)
         pCfo = marketCap / (cfo / exRate)
@@ -156,7 +136,7 @@ for comp in listStocks:
 
         retainedEarningsAssetRatio = retainedEarnings / totalAssets
         cfoAssetRatio = cfo / totalAssets
-        ebitAssetRatio = ebit / totalAssets
+        # ebitAssetRatio = ebit / totalAssets
 
         data = si.get_data(comp, start_date=PRICE_START_DATE, interval=PRICE_INTERVAL)
         percentile = 100.0 * (marketPrice - data['low'].min()) / (data['high'].max() - data['low'].min())
@@ -166,33 +146,39 @@ for comp in listStocks:
         #     print(comp, "exceeding 52wk low * 1.1, P/Low ratio:", marketPrice, low_52wk,
         #           round(marketPrice / low_52wk, 2))
         #     continue
+        insiderPerc = float(si.get_holders(comp).get('Major Holders')[0][0].rstrip("%"))
+        print(comp, MARKET, "insider percent", insiderPerc)
 
         divs = si.get_dividends(comp, start_date=DIVIDEND_START_DATE)
         divSum = divs['dividend'].sum() if not divs.empty else 0
+        divYield = divSum / marketPrice / 10
 
-        if divSum / marketPrice <= 0.6:
-            print(comp, ' div yield < 6% ')
-            continue
+        schloss = pb < 0.6 and marketPrice < low_52wk * 1.1 and insiderPerc > INSIDER_OWN_MIN
+        netnet = (cash + receivables + inventory - totalLiab) / exRate - marketCap > 0
+        magic6 = pb < 0.6 and pCfo < 6 and divYield > 0.06
 
-        outputString = comp + " " + " " + companyName + ' ' \
-                       + country.replace(" ", "_") + " " \
-                       + sector.replace(" ", "_") + " " + listingCurrency + bsCurrency \
-                       + " MV:" + str(roundB(marketCap, 1)) + 'B' \
-                       + " B:" + str(roundB(tangible_Equity / exRate, 1)) + 'B' \
-                       + " P/CFO:" + str(round(pCfo, 2)) \
-                       + " P/B:" + str(round(pb, 1)) \
-                       + " C/R:" + str(round(currentRatio, 2)) \
-                       + " D/E:" + str(round(debtEquityRatio, 2)) \
-                       + " RetEarning/A:" + str(round(retainedEarningsAssetRatio, 2)) \
-                       + " ebit/A:" + str(round(ebitAssetRatio, 2)) \
-                       + " S/A:" + str(round(revenue / totalAssets, 2)) \
-                       + " cfo/A:" + str(round(cfoAssetRatio, 2)) \
-                       + " 52w_p%:" + str(round(percentile)) \
-                       + " divYld: " + str(round(divSum / marketPrice * 10)) + "%"
+        if schloss or netnet or magic6:
+            outputString = comp[:4] + " " + " " + companyName + ' ' \
+                           + country.replace(" ", "_") + " " \
+                           + sector.replace(" ", "_") + " " + listingCurrency + bsCurrency \
+                           + boolToString(schloss, "schloss") + boolToString(netnet, "netnet") \
+                           + boolToString(magic6, "magic6") \
+                           + " MV:" + str(roundB(marketCap, 1)) + 'B' \
+                           + " B:" + str(roundB(tangible_Equity / exRate, 1)) + 'B' \
+                           + " P/CFO:" + str(round(pCfo, 2)) \
+                           + " P/B:" + str(round(pb, 1)) \
+                           + " C/R:" + str(round(currentRatio, 2)) \
+                           + " D/E:" + str(round(debtEquityRatio, 2)) \
+                           + " RetEarning/A:" + str(round(retainedEarningsAssetRatio, 2)) \
+                           + " S/A:" + str(round(revenue / totalAssets, 2)) \
+                           + " cfo/A:" + str(round(cfoAssetRatio, 2)) \
+                           + " 52w_p%:" + str(round(percentile)) \
+                           + " divYld: " + str(round(divSum / marketPrice * 10)) + "%" \
+                           + " insider%: " + str(round(insiderPerc)) + "%"
 
-        print(outputString)
-        fileOutput.write(outputString + '\n')
-        fileOutput.flush()
+            print(outputString)
+            fileOutput.write(outputString + '\n')
+            fileOutput.flush()
 
     except Exception as e:
         print(comp, "exception", e)

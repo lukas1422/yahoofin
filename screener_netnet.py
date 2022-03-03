@@ -12,7 +12,7 @@ from helperMethods import getFromDF, convertHK, roundB
 
 COUNT = 0
 
-MARKET = Market.US
+MARKET = Market.HK
 yearlyFlag = False
 
 
@@ -28,7 +28,7 @@ PRICE_INTERVAL = '1mo'
 
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 
-fileOutput = open('list_results_netnet', 'w')
+fileOutput = open('list_netnet', 'w')
 
 # US Version Starts
 if MARKET == Market.US:
@@ -61,10 +61,8 @@ for comp in listStocks:
 
     try:
         info = si.get_company_info(comp)
-        # print("info is", info)
         country = getFromDF(info, 'country')
-        sector = info.loc['sector'][0]
-        # print("country:", country, "sector", sector)
+        sector = getFromDF(info, 'sector')
 
         if 'real estate' in sector.lower() or 'financial' in sector.lower():
             print(comp, " no real estate or financial ")
@@ -125,7 +123,7 @@ for comp in listStocks:
 
         if (cash + receivables + inventory - totalLiab) / exRate < marketCap:
             print(comp, listingCurr, bsCurr,
-                  'cash + rec + inventory - total liab < mv. cash rec inv Liab MV:',
+                  'cash + rec + inv - L < mv. cash rec inv Liab MV:',
                   roundB(cash, 2), roundB(receivables, 2),
                   roundB(inventory, 2), roundB(totalLiab, 2), roundB(marketCap, 2))
             continue
@@ -164,8 +162,4 @@ for comp in listStocks:
 
 
     except Exception as e:
-        # print(comp, "exception", e)
-        # raise Exception(comp, "raising exception again", e)
         print(comp, "exception", e)
-        # fileOutput.write("ERROR " + comp + " " + repr(e) + '\n')
-        # fileOutput.flush()

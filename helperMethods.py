@@ -33,7 +33,7 @@ def getFromDFYearly(df, attribute, yearly):
         return df.loc[attribute].dropna()[0]
     else:
         colsToSum = sum(df.columns > df.columns[0] - timedelta(weeks=51))
-        print(df.columns, df.columns[0] - timedelta(weeks=51))
+        # print(df.columns, df.columns[0] - timedelta(weeks=51))
         # print("cols to sum ", colsToSum)
         return min(df.loc[attribute].dropna()[0] * colsToSum, df.loc[attribute][:colsToSum].sum())
 
@@ -53,7 +53,23 @@ def convertHK(ticker):
         return ticker[1:] + '.HK'
     return ticker + '.HK'
 
-# def generateUSList():
+
+def boolToString(bool, string):
+    return " " + string + "!" if bool else ""
+
+# import inspect
+
+# random = True
+# random1 = True
+# print(boolToString(random1, ""))
+
+#
+# def myfunc(model, arg_is_list, num):
+#     print('Your passed args are:')
+#     arg_names = inspect.getfullargspec(myfunc).args
+#     # print(repr(locals()[arg_names[1]]))
+#     for name in arg_names:
+#         print(repr(locals()[name]))
 #
 #
-# def generateHKList():
+# myfunc(model='the model', arg_is_list='arrrggg', num=42)

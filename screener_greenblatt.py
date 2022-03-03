@@ -5,9 +5,10 @@ import pandas as pd
 from currency_scrapeYahoo import getBalanceSheetCurrency
 from currency_scrapeYahoo import getListingCurrency
 import currency_getExchangeRate
-from helperMethods import getFromDF
+from helperMethods import getFromDF, getFromDFYearly
 
 COUNT = 0
+
 
 
 def increment():
@@ -19,6 +20,7 @@ def increment():
 START_DATE = '3/1/2020'
 DIVIDEND_START_DATE = '1/1/2010'
 PRICE_INTERVAL = '1mo'
+yearly=False
 
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 
@@ -41,7 +43,7 @@ for comp in listStocks:
     print(increment())
     try:
         cf = si.get_cash_flow(comp, yearly=False)
-        cfo = getFromDF(cf.loc["totalCashFromOperatingActivities"])
+        cfo = getFromDFYearly(cf, "totalCashFromOperatingActivities", yearly)
         if cfo < 0:
             print(comp, "cfo < 0")
             continue
@@ -85,4 +87,3 @@ for comp in listStocks:
     except Exception as e:
         print(comp, "exception", e)
         raise Exception(comp, "raising exceptiona again", e)
-
