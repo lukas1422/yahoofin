@@ -144,16 +144,7 @@ for comp in listStocks:
         data = si.get_data(comp, start_date=PRICE_START_DATE, interval=PRICE_INTERVAL)
         percentile = 100.0 * (marketPrice - data['low'].min()) / (data['high'].max() - data['low'].min())
         low_52wk = data['low'].min()
-
-        # if marketPrice > low_52wk * 1.1:
-        #     print(comp, "exceeding 52wk low * 1.1, P/Low ratio:", marketPrice, low_52wk,
-        #           round(marketPrice / low_52wk, 2))
-        #     continue
         insiderPerc = ownershipDic[comp]
-        # if insiderPerc < INSIDER_OWN_MIN:
-        #     print(comp, "insider ownership < " + str(INSIDER_OWN_MIN), insiderPerc)
-        #     continue
-        # insiderPerc = float(si.get_holders(comp).get('Major Holders')[0][0].rstrip("%"))
         print(comp, "insider percent", insiderPerc)
 
         divs = si.get_dividends(comp, start_date=DIVIDEND_START_DATE)
