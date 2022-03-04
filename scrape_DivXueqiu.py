@@ -59,7 +59,7 @@ def increment():
     return COUNT
 
 
-if MARKET == Market.Market.US:
+if MARKET == Market.US:
 
     fileOutput = open('list_divYieldXueqiuUS', 'w')
 
@@ -68,7 +68,7 @@ if MARKET == Market.Market.US:
 
     listStocks = stock_df[(stock_df['price'] > 1)]['ticker'].tolist()
 
-elif MARKET == Market.Market.HK:
+elif MARKET == Market.HK:
     fileOutput = open('list_divYieldXueqiuHK', 'w')
     stock_df = pd.read_csv('list_HK_Tickers', dtype=object, sep=" ", index_col=False, names=['ticker', 'name'])
     stock_df['ticker'] = stock_df['ticker'].astype(str)

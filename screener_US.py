@@ -99,12 +99,6 @@ for comp in listStocks:
 
         incomeStatement = si.get_income_statement(comp, yearly=yearlyFlag)
 
-        # ebit = getFromDFYearly(incomeStatement, "ebit", yearlyFlag)
-        # netIncome = getFromDFYearly(incomeStatement, 'netIncome', yearlyFlag)
-        # if ebit <= 0 or netIncome <= 0:
-        #     print(comp, "ebit or net income < 0 ", ebit, " ", netIncome)
-        #     continue
-
         cf = si.get_cash_flow(comp, yearly=yearlyFlag)
         cfo = getFromDFYearly(cf, "totalCashFromOperatingActivities", yearlyFlag)
 
@@ -113,8 +107,6 @@ for comp in listStocks:
             continue
 
         shares = si.get_quote_data(comp)['sharesOutstanding']
-
-        # shares = hk_shares[hk_shares['ticker'] == comp]['shares'].values[0]
 
         listingCurrency = getListingCurrency(comp)
         bsCurrency = getBalanceSheetCurrency(comp, listingCurrency)
