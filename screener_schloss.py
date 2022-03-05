@@ -18,7 +18,7 @@ from helperMethods import getInsiderOwnership
 from datetime import datetime, timedelta
 
 COUNT = 0
-MARKET = Market.HK
+MARKET = Market.US
 yearlyFlag = False
 INSIDER_OWN_MIN = 10
 
@@ -39,11 +39,11 @@ exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 
 fileOutput = open('list_schlossOutput', 'w')
 
-ownershipDic = getInsiderOwnership()
+# ownershipDic = getInsiderOwnership()
 
 if MARKET == Market.US:
-    stock_df = pd.read_csv('list_US_companyInfo', sep=" ", index_col=False,
-                           names=['ticker', 'name', 'sector', 'industry', 'country', 'mv', 'price', 'listDate'])
+    stock_df = pd.read_csv('list_US_companyInfo', sep="\t", index_col=False,
+                           names=['ticker', 'name', 'sector', 'industry', 'country', 'mv', 'price'])
     print(stock_df)
 
     listStocks = stock_df[(stock_df['price'] > 1)
@@ -89,14 +89,14 @@ for comp in listStocks:
             print(comp, 'market price < 1: ', marketPrice)
             continue
 
-        if MARKET == Market.US:
-            insiderPerc = ownershipDic[comp]
-            if insiderPerc < INSIDER_OWN_MIN:
-                print(comp, "insider ownership < " + str(INSIDER_OWN_MIN), insiderPerc)
-                continue
-        else:
-            insiderPerc = float(si.get_holders(comp).get('Major Holders')[0][0].rstrip("%"))
-            print(comp, MARKET, "insider percent", insiderPerc)
+        # if MARKET == Market.US:
+        #     insiderPerc = ownershipDic[comp]
+        #     if insiderPerc < INSIDER_OWN_MIN:
+        #         print(comp, "insider ownership < " + str(INSIDER_OWN_MIN), insiderPerc)
+        #         continue
+        # else:
+        insiderPerc = float(si.get_holders(comp).get('Major Holders')[0][0].rstrip("%"))
+        print(comp, MARKET, "insider percent", insiderPerc)
 
         if insiderPerc < INSIDER_OWN_MIN:
             print(comp, "insider percentage < " + str(INSIDER_OWN_MIN), insiderPerc)

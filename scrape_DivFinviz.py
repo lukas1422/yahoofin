@@ -17,31 +17,31 @@ def scrapeDivFinviz(comp):
 
 
 COUNT = 0
-
-
 def increment():
     global COUNT
     COUNT = COUNT + 1
     return COUNT
 
 
-fileOutput = open('list_divYieldFinvizUS', 'w')
+def scrapeUSDivYldFinviz():
 
-stock_df = pd.read_csv('list_US_companyInfo', sep="\t", index_col=False,
-                       names=['ticker', 'name', 'sector', 'industry', 'country', 'mv', 'price'])
+    fileOutput = open('list_divYieldFinvizUS', 'w')
 
-listStocks = stock_df[(stock_df['price'] > 1)]['ticker'].tolist()
+    stock_df = pd.read_csv('list_US_companyInfo', sep="\t", index_col=False,
+                           names=['ticker', 'name', 'sector', 'industry', 'country', 'mv', 'price'])
 
-for comp in listStocks:
-    print(increment())
-    try:
-        finviz = scrapeDivFinviz(comp)
+    listStocks = stock_df[(stock_df['price'] > 1)]['ticker'].tolist()
 
-        outputString = comp + " " + str(finviz)
+    for comp in listStocks:
+        print(increment())
+        try:
+            finviz = scrapeDivFinviz(comp)
 
-        print(outputString)
-        fileOutput.write(outputString + '\n')
-        fileOutput.flush()
+            outputString = comp + " " + str(finviz)
 
-    except Exception as e:
-        print(comp, "exception", e)
+            print(outputString)
+            fileOutput.write(outputString + '\n')
+            fileOutput.flush()
+
+        except Exception as e:
+            print(comp, "exception", e)

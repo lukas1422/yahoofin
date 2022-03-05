@@ -58,36 +58,37 @@ def increment():
     COUNT = COUNT + 1
     return COUNT
 
+def scrapeDivYieldsXueqiu(MARKET):
 
-if MARKET == Market.US:
+    if MARKET == Market.US:
 
-    fileOutput = open('list_divYieldXueqiuUS', 'w')
+        fileOutput = open('list_divYieldXueqiuUS', 'w')
 
-    stock_df = pd.read_csv('list_US_companyInfo', sep="\t", index_col=False,
-                           names=['ticker', 'name', 'sector', 'industry', 'country', 'mv', 'price'])
+        stock_df = pd.read_csv('list_US_companyInfo', sep="\t", index_col=False,
+                               names=['ticker', 'name', 'sector', 'industry', 'country', 'mv', 'price'])
 
-    listStocks = stock_df[(stock_df['price'] > 1)]['ticker'].tolist()
+        listStocks = stock_df[(stock_df['price'] > 1)]['ticker'].tolist()
 
-elif MARKET == Market.HK:
-    fileOutput = open('list_divYieldXueqiuHK', 'w')
-    stock_df = pd.read_csv('list_HK_Tickers', dtype=object, sep=" ", index_col=False, names=['ticker', 'name'])
-    stock_df['ticker'] = stock_df['ticker'].astype(str)
-    listStocks = stock_df['ticker'].map(lambda x: convertHK(x)).tolist()
+    elif MARKET == Market.HK:
+        fileOutput = open('list_divYieldXueqiuHK', 'w')
+        stock_df = pd.read_csv('list_HK_Tickers', dtype=object, sep=" ", index_col=False, names=['ticker', 'name'])
+        stock_df['ticker'] = stock_df['ticker'].astype(str)
+        listStocks = stock_df['ticker'].map(lambda x: convertHK(x)).tolist()
 
-else:
-    raise Exception("market not found")
+    else:
+        raise Exception("market not found")
 
-print(listStocks)
+    print(listStocks)
 
-for comp in listStocks:
-    print(increment())
-    try:
-        xueqiu = scrapeDivXueqiu(comp)
-        outputString = comp + " " + str(xueqiu)
+    for comp in listStocks:
+        print(increment())
+        try:
+            xueqiu = scrapeDivXueqiu(comp)
+            outputString = comp + " " + str(xueqiu)
 
-        print(outputString)
-        fileOutput.write(outputString + '\n')
-        fileOutput.flush()
+            print(outputString)
+            fileOutput.write(outputString + '\n')
+            fileOutput.flush()
 
-    except Exception as e:
-        print(comp, "exception", e)
+        except Exception as e:
+            print(comp, "exception", e)

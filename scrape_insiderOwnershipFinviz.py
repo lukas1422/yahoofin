@@ -4,7 +4,7 @@ import re
 import pandas as pd
 
 
-def scrapeDivFinviz(comp):
+def scrapeInsideOwnershipFinviz(comp):
     url = 'https://finviz.com/quote.ashx?t=' + comp + '&p=m&tas=0'
     req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
     webpage = urlopen(req).read()
@@ -35,7 +35,7 @@ listStocks = stock_df[(stock_df['price'] > 1)]['ticker'].tolist()
 for comp in listStocks:
     print(increment())
     try:
-        finviz = scrapeDivFinviz(comp)
+        finviz = scrapeInsideOwnershipFinviz(comp)
 
         outputString = comp + " " + str(finviz)
 
