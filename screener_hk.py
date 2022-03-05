@@ -151,10 +151,6 @@ for comp in listStocks:
         low_52wk = data['low'].min()
         avgDollarVol = (data[-10:]['close'] * data[-10:]['volume']).sum() / 10
 
-        # if marketPrice > low_52wk * 1.1:
-        #     print(comp, "exceeding 52wk low * 1.1, P/Low ratio:", marketPrice, low_52wk,
-        #           round(marketPrice / low_52wk, 2))
-        #     continue
         try:
             insiderPerc = float(si.get_holders(comp).get('Major Holders')[0][0].rstrip("%"))
             print(comp, MARKET, "insider percent", insiderPerc)

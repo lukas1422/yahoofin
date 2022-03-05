@@ -1,3 +1,5 @@
+import os
+import sys
 from datetime import datetime, timedelta
 import yahoo_fin.stock_info as si
 import pandas as pd
@@ -53,6 +55,9 @@ for comp in listStocks:
             info = si.get_company_info(comp)
         except Exception as e:
             print(e)
+            exc_type, exc_obj, exc_tb = sys.exc_info()
+            fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+            print(exc_type, fname, exc_tb.tb_lineno)
             info = ""
 
         country = getFromDF(info, "country")
@@ -181,4 +186,7 @@ for comp in listStocks:
 
     except Exception as e:
         print(comp, "exception", e)
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        print(exc_type, fname, exc_tb.tb_lineno)
         fileOutput.flush()

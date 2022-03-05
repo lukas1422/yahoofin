@@ -19,19 +19,20 @@ def fo(number):
 
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 
-stockName = '1178.HK'
+stockName = '0067.HK'
 yearlyFlag = False
 try:
+    data = si.get_data(stockName, start_date=START_DATE, interval=PRICE_INTERVAL)
     try:
         info = si.get_company_info(stockName)
     except Exception as e:
         print(e)
+        print(data[-10:])
         info = ""
         print(stockName, "exception", e)
         exc_type, exc_obj, exc_tb = sys.exc_info()
         fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
         print(exc_type, fname, exc_tb.tb_lineno)
-
 
     country = getFromDF(info, "country")
     sector = getFromDF(info, 'sector')
@@ -79,7 +80,7 @@ try:
     # CF
     cf = si.get_cash_flow(stockName, yearly=yearlyFlag)
     print("cash flow statement date:", cf.columns[0].strftime('%Y/%-m/%-d'))
-    print("CF cols", cf.loc['totalCashFromOperatingActivities'])
+    # print("CF cols", cf.loc['totalCashFromOperatingActivities'])
 
     cfo = getFromDFYearly(cf, "totalCashFromOperatingActivities", yearlyFlag)
     cfi = getFromDFYearly(cf, "totalCashflowsFromInvestingActivities", yearlyFlag)
@@ -105,8 +106,9 @@ try:
     pCFO = marketCap / cfo
     pTangibleEquity = marketCap / (tangible_equity / exRate)
     tangibleRatio = tangible_equity / (totalAssets - totalLiab)
-    data = si.get_data(stockName, start_date=START_DATE, interval=PRICE_INTERVAL)
     divs = si.get_dividends(stockName, start_date=DIVIDEND_START_DATE)
+
+    avgDollarVol = (data[-10:]['close'] * data[-10:]['volume']).sum() / 10
 
     percentile = 100.0 * (marketPrice - data['low'].min()) / (data['high'].max() - data['low'].min())
 
@@ -169,13 +171,14 @@ try:
                    + " pb:" + str(round(pTangibleEquity, 2)) \
                    + " tangibleRatio:" + str(round(tangibleRatio, 2)) \
                    + " 52w_p%:" + str(round(percentile)) \
-                   + " divYld%:" + str(round(divSum / marketPrice * 10, 1)) + "%"
+                   + " divYld%:" + str(round(divSum / marketPrice * 10, 1)) + "%" \
+                   + " dai$Vol:" + str(round(avgDollarVol / 1000000, 2)) + "M"
 
     print(outputString)
 except Exception as e:
     print(e)
+    print(data[-10:])
     print(stockName, "exception", e)
     exc_type, exc_obj, exc_tb = sys.exc_info()
     fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
     print(exc_type, fname, exc_tb.tb_lineno)
-
