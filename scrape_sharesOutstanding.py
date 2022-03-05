@@ -2,18 +2,12 @@ from bs4 import BeautifulSoup
 from urllib.request import Request, urlopen
 import re
 import json
-import pandas as pd
-
-# this method does not return
-from helperMethods import convertHK
-
 
 def scrapeTotalSharesXueqiu(comp):
     if comp.endswith('HK'):
         comp = comp[:-3].zfill(5)
     comp = comp.replace('-', '.')
 
-    # print('scrapeSharesOutstandingXueqiu', comp)
     try:
         url = "https://xueqiu.com/S/" + comp
         req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
@@ -42,7 +36,6 @@ def scrapeFloatingSharesXueqiu(comp):
         comp = comp[:-3].zfill(5)
     comp = comp.replace('-', '.')
 
-    # print('scrapeSharesOutstandingXueqiu', comp)
     try:
         url = "https://xueqiu.com/S/" + comp
         req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
