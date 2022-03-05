@@ -67,26 +67,20 @@ def scrapeSharesXueqiuLoopAgainCorrectErrors():
                            dtype=object, sep=" ", index_col=False, names=['ticker', 'shares'])
     stock_df['ticker'] = stock_df['ticker'].astype(str)
     errorDF = stock_df.loc[stock_df['shares'] == 'error']
-    # listStocks = stock_df['ticker'].tolist()
     errorDic = dict(zip(errorDF.ticker, errorDF.shares))
-    print(errorDic)
+    print(len(errorDic), errorDic)
 
-    # fileOutput = open('list_HK_totalShares_test', 'w')
-
-    for comp, shares in errorDic.items():
-        # print(increment())
+    for comp in errorDic.keys():
         try:
-            xueqiu = scrapeSharesXueqiu(comp)
-            # outputString = comp + " " + str(xueqiu)
-            # print(outputString)
-            print(comp, xueqiu)
-            if xueqiu != 'error':
-                #errorDic[comp] = shares
-                stock_df.loc[stock_df['ticker'] == comp, 'shares'] = shares
+            xueqiuShares = scrapeSharesXueqiu(comp)
+            print(comp, xueqiuShares)
+            if xueqiuShares != 'error':
+                stock_df.loc[stock_df['ticker'] == comp, 'shares'] = xueqiuShares
         except Exception as e:
             print(comp, "exception", e)
 
     stock_df.to_csv('list_hk_totalShares_test2', header=None, index=None, sep=' ')
+
 
 
 scrapeSharesXueqiuLoopAgainCorrectErrors()
