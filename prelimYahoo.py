@@ -19,7 +19,7 @@ def fo(number):
 
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 
-stockName = '0213.HK'
+stockName = '6981.T'
 yearlyFlag = False
 try:
     data = si.get_data(stockName, start_date=START_DATE, interval=PRICE_INTERVAL)
@@ -91,12 +91,22 @@ try:
     # print("cfo is ", round(cfo / 1000000000, 2), "B")
 
     marketPrice = si.get_live_price(stockName)
-    # sharesYahoo = si.get_quote_data(stockName)['sharesOutstanding']
+
     sharesTotalXueqiu = scrape_sharesOutstanding.scrapeTotalSharesXueqiu(stockName)
     floatingSharesXueqiu = scrape_sharesOutstanding.scrapeFloatingSharesXueqiu(stockName)
     sharesFinviz = scrape_sharesOutstanding.scrapeSharesOutstandingFinviz(stockName)
+    sharesYahoo = si.get_quote_data(stockName)['sharesOutstanding']
+    if stockName.lower().endswith('hk'):
+        shares = sharesTotalXueqiu
+        print(" using xueqiu shares ", shares)
+    elif sharesFinviz != 0.0:
+        shares = sharesFinviz
+        print(" using finviz shares ", shares)
+    else:
+        shares = sharesYahoo
+        print(" using yahoo shares ", shares)
 
-    marketCap = marketPrice * sharesTotalXueqiu
+    marketCap = marketPrice * shares
     currentRatio = totalCurrentAssets / totalCurrentLiab
     debtEquityRatio = totalLiab / tangible_equity
     retainedEarningsAssetRatio = retainedEarnings / totalAssets
@@ -117,8 +127,8 @@ try:
     # PRINTING*****
 
     print("listing Currency:", listingCurr, "balance sheet currency", bsCurrency, "ExRate ", exRate)
-    print("total shares xueqiu", str(roundB(sharesTotalXueqiu, 2)) + "B")
-    print("shares finviz", sharesFinviz)
+    # print("total shares xueqiu", str(roundB(sharesTotalXueqiu, 2)) + "B")
+    # print("shares finviz", sharesFinviz)
     print("cash", roundB(cash, 2), "rec", roundB(receivables, 2), "inv",
           roundB(inventory, 2))
     print("A", roundB(totalAssets / exRate, 1), "B", "(",
@@ -128,18 +138,18 @@ try:
           roundB(totalCurrentLiab / exRate, 1),
           roundB((totalLiab - totalCurrentLiab) / exRate, 1), ")")
     print("E", round((totalAssets - totalLiab) / exRate / 1000000000.0, 1), "B")
-    print("Market Cap", str(round(marketPrice * sharesTotalXueqiu / 1000000000.0, 1)) + "B")
+    print("Market Cap", str(round(marketPrice * shares / 1000000000.0, 1)) + "B")
 
     print("PER SHARE:")
     print("Market price", round(marketPrice, 2), listingCurr)
-    print("Tangible Equity per share", round(tangible_equity / exRate / sharesTotalXueqiu, 2), listingCurr)
+    print("Tangible Equity per share", round(tangible_equity / exRate / shares, 2), listingCurr)
 
     # print("Eq USD", round((equity / exRate) / 1000000000.0), "B")
 
-    print("P/NetAssets", round(marketPrice * sharesTotalXueqiu / (netAssets / exRate), 2))
-    print("P/Tangible Equity", round(marketPrice * sharesTotalXueqiu / (tangible_equity / exRate), 2))
-    print("P/E", round(marketPrice * sharesTotalXueqiu / (netIncome / exRate), 2))
-    print("P/CFO", round(marketPrice * sharesTotalXueqiu / (cfo / exRate), 2))
+    print("P/NetAssets", round(marketPrice * shares / (netAssets / exRate), 2))
+    print("P/Tangible Equity", round(marketPrice * shares / (tangible_equity / exRate), 2))
+    print("P/E", round(marketPrice * shares / (netIncome / exRate), 2))
+    print("P/CFO", round(marketPrice * shares / (cfo / exRate), 2))
     print("S/B", round(revenue / tangible_equity, 2))
     print("                         ")
     print("********ALTMAN**********")
@@ -163,12 +173,12 @@ try:
     outputString = stockName + " " + country + " " + sector \
                    + " MV:" + str(round(marketCap / 1000000000.0, 1)) + 'B' \
                    + " NetAssets:" + str(round((totalAssets - totalLiab) / exRate / 1000000000.0, 1)) + 'B' \
+                   + " pb:" + str(round(pTangibleEquity, 2)) \
                    + " CR:" + str(round(currentRatio, 2)) \
                    + " D/E:" + str(round(debtEquityRatio, 2)) \
                    + " RE/A:" + str(round(retainedEarningsAssetRatio, 2)) \
                    + " cfo/A:" + str(round(cfoAssetRatio, 2)) \
                    + " ebit/A:" + str(round(ebitAssetRatio, 2)) \
-                   + " pb:" + str(round(pTangibleEquity, 2)) \
                    + " tangibleRatio:" + str(round(tangibleRatio, 2)) \
                    + " 52w_p%:" + str(round(percentile)) \
                    + " divYld%:" + str(round(divSum / marketPrice * 10, 1)) + "%" \
