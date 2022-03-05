@@ -1,5 +1,4 @@
 from datetime import datetime, timedelta
-
 import yahoo_fin.stock_info as si
 import pandas as pd
 from Market import Market
@@ -23,7 +22,7 @@ def increment():
 
 PRICE_START_DATE = (datetime.today() - timedelta(weeks=52 * 2)).strftime('%-m/%-d/%Y')
 DIVIDEND_START_DATE = (datetime.today() - timedelta(weeks=52 * 10)).strftime('%-m/%-d/%Y')
-PRICE_INTERVAL = '1mo'
+PRICE_INTERVAL = '1d'
 
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 
@@ -31,7 +30,7 @@ fileOutput = open('list_results_US', 'w')
 
 # ownershipDic = getInsiderOwnership()
 
-stock_df = pd.read_csv('list_US_Tickers', sep="\t", index_col=False,
+stock_df = pd.read_csv('list_US_Tickers', sep=" ", index_col=False,
                        names=['ticker', 'name', 'sector', 'industry', 'country', 'mv', 'price'])
 print(stock_df)
 
@@ -50,7 +49,12 @@ for comp in listStocks:
 
         print(increment(), comp, companyName)
 
-        info = si.get_company_info(comp)
+        try:
+            info = si.get_company_info(comp)
+        except Exception as e:
+            print(e)
+            info = ""
+
         country = getFromDF(info, "country")
         sector = getFromDF(info, 'sector')
 
@@ -137,6 +141,8 @@ for comp in listStocks:
         data = si.get_data(comp, start_date=PRICE_START_DATE, interval=PRICE_INTERVAL)
         percentile = 100.0 * (marketPrice - data['low'].min()) / (data['high'].max() - data['low'].min())
         low_52wk = data['low'].min()
+        avgDollarVol = (data[-10:]['close'] * data[-10:]['volume']).sum() / 10
+
         # insiderPerc = ownershipDic[comp]
         insiderPerc = float(si.get_holders(comp).get('Major Holders')[0][0].rstrip("%"))
         print(comp, "insider percent", insiderPerc)
@@ -166,7 +172,8 @@ for comp in listStocks:
                            + " cfo/A:" + str(round(cfoAssetRatio, 2)) \
                            + " 52w_p%:" + str(round(percentile)) \
                            + " divYld:" + str(round(divSum / marketPrice * 10)) + "%" \
-                           + " insider%: " + str(round(insiderPerc)) + "%"
+                           + " insider%: " + str(round(insiderPerc)) + "%" \
+                           + " dai$Vol:" + str(round(avgDollarVol / 1000000, 2)) + "M"
 
             print(outputString)
             fileOutput.write(outputString + '\n')

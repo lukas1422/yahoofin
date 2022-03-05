@@ -49,7 +49,10 @@ for comp in listStocks:
         try:
             info = si.get_company_info(comp)
         except Exception as e:
-            print(e)
+            print(comp, "exception", e)
+            exc_type, exc_obj, exc_tb = sys.exc_info()
+            fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+            print(exc_type, fname, exc_tb.tb_lineno)
             info = ""
 
         country = getFromDF(info, "country")
@@ -152,8 +155,12 @@ for comp in listStocks:
         #     print(comp, "exceeding 52wk low * 1.1, P/Low ratio:", marketPrice, low_52wk,
         #           round(marketPrice / low_52wk, 2))
         #     continue
-        insiderPerc = float(si.get_holders(comp).get('Major Holders')[0][0].rstrip("%"))
-        print(comp, MARKET, "insider percent", insiderPerc)
+        try:
+            insiderPerc = float(si.get_holders(comp).get('Major Holders')[0][0].rstrip("%"))
+            print(comp, MARKET, "insider percent", insiderPerc)
+        except Exception as e:
+            print(e)
+            insiderPerc = 0
 
         divs = si.get_dividends(comp, start_date=DIVIDEND_START_DATE)
         divSum = divs['dividend'].sum() if not divs.empty else 0
