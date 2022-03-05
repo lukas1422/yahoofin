@@ -8,6 +8,7 @@ from scrape_USTickersFinviz import getUSTickers
 ########## Tickers ##########
 # getHKTickers()
 getUSTickers()
+
 #
 # ########## divs ##########
 # scrapeDivYieldsXueqiu(Market.HK)

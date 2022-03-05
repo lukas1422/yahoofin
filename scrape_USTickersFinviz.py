@@ -1,4 +1,4 @@
-fileOutput = open('list_US_companyInfo', 'w')
+fileOutput = open('list_US_Tickers', 'w')
 
 from bs4 import BeautifulSoup
 from urllib.request import Request, urlopen

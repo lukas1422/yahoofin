@@ -7,7 +7,7 @@ from helperMethods import getFromDF, getFromDFYearly, roundB
 
 START_DATE = '3/1/2020'
 DIVIDEND_START_DATE = '1/1/2010'
-PRICE_INTERVAL = '1mo'
+PRICE_INTERVAL = '1d'
 
 
 def fo(number):
@@ -16,18 +16,23 @@ def fo(number):
 
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 
-stockName = '0411.HK'
+stockName = '1178.HK'
 yearlyFlag = False
 
-info = si.get_company_info(stockName)
+try:
+    info = si.get_company_info(stockName)
+except Exception as e:
+    print(e)
+    info = ""
+
 country = getFromDF(info, "country")
 sector = getFromDF(info, 'sector')
 industry = getFromDF(info, 'industry')
 longName = getFromDF(info, 'longBusinessSummary')
 
-insiderPerc = float(si.get_holders(stockName).get('Major Holders')[0][0].rstrip("%"))
+# insiderPerc = float(si.get_holders(stockName).get('Major Holders')[0][0].rstrip("%"))
+# print(stockName, country, sector, industry, insiderPerc)
 
-print(stockName, country, sector, industry, insiderPerc)
 print(longName)
 
 bs = si.get_balance_sheet(stockName, yearly=yearlyFlag)

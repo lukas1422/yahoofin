@@ -78,5 +78,5 @@ def scrapeSharesXueqiuLoopAgainCorrectErrors():
     stock_df.to_csv('list_hk_totalShares_test2', header=None, index=None, sep=' ')
 
 
-scrapeSharesXueqiuAll()
+#scrapeSharesXueqiuAll()
 # scrapeSharesXueqiuLoopAgainCorrectErrors()

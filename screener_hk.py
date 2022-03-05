@@ -23,7 +23,7 @@ def increment():
 
 PRICE_START_DATE = (datetime.today() - timedelta(weeks=52 * 2)).strftime('%-m/%-d/%Y')
 DIVIDEND_START_DATE = (datetime.today() - timedelta(weeks=52 * 10)).strftime('%-m/%-d/%Y')
-PRICE_INTERVAL = '1mo'
+PRICE_INTERVAL = '1d'
 
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 
@@ -33,8 +33,9 @@ stock_df = pd.read_csv('list_HK_Tickers', dtype=object, sep=" ", index_col=False
 stock_df['ticker'] = stock_df['ticker'].astype(str)
 stock_df['ticker'] = stock_df['ticker'].map(lambda x: convertHK(x))
 hk_shares = pd.read_csv('list_HK_totalShares', sep=" ", index_col=False, names=['ticker', 'shares'])
-print("hk shares", hk_shares)
+# print("hk shares", hk_shares)
 listStocks = stock_df['ticker'].tolist()
+# listStocks = ['2698.HK']
 
 print(len(listStocks), listStocks)
 
@@ -45,7 +46,12 @@ for comp in listStocks:
 
         print(increment(), comp, companyName)
 
-        info = si.get_company_info(comp)
+        try:
+            info = si.get_company_info(comp)
+        except Exception as e:
+            print(e)
+            info = ""
+
         country = getFromDF(info, "country")
         sector = getFromDF(info, 'sector')
 
@@ -133,7 +139,6 @@ for comp in listStocks:
             continue
 
         revenue = getFromDFYearly(incomeStatement, "totalRevenue", yearlyFlag)
-
         retainedEarningsAssetRatio = retainedEarnings / totalAssets
         cfoAssetRatio = cfo / totalAssets
         # ebitAssetRatio = ebit / totalAssets
@@ -141,6 +146,7 @@ for comp in listStocks:
         data = si.get_data(comp, start_date=PRICE_START_DATE, interval=PRICE_INTERVAL)
         percentile = 100.0 * (marketPrice - data['low'].min()) / (data['high'].max() - data['low'].min())
         low_52wk = data['low'].min()
+        avgDollarVol = (data[-10:]['close'] * data[-10:]['volume']).sum() / 10
 
         # if marketPrice > low_52wk * 1.1:
         #     print(comp, "exceeding 52wk low * 1.1, P/Low ratio:", marketPrice, low_52wk,
@@ -174,7 +180,8 @@ for comp in listStocks:
                            + " cfo/A:" + str(round(cfoAssetRatio, 2)) \
                            + " 52w_p%:" + str(round(percentile)) \
                            + " divYld:" + str(round(divSum / marketPrice * 10)) + "%" \
-                           + " insider%: " + str(round(insiderPerc)) + "%"
+                           + " insider%:" + str(round(insiderPerc)) + "%" \
+                           + " dai$Vol:" + str(round(avgDollarVol / 1000000, 2)) + "M"
 
             print(outputString)
             fileOutput.write(outputString + '\n')
