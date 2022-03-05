@@ -46,18 +46,14 @@ def scrapeSharesXueqiuAll():
     stock_df['ticker'] = stock_df['ticker'].astype(str)
     listStocks = stock_df['ticker'].map(lambda x: convertHK(x)).tolist()
 
-    print(listStocks)
-
     for comp in listStocks:
         print(increment())
         try:
             xueqiu = scrapeSharesXueqiu(comp)
             outputString = comp + " " + str(xueqiu)
-
             print(outputString)
             fileOutput.write(outputString + '\n')
             fileOutput.flush()
-
         except Exception as e:
             print(comp, "exception", e)
 
@@ -82,7 +78,5 @@ def scrapeSharesXueqiuLoopAgainCorrectErrors():
     stock_df.to_csv('list_hk_totalShares_test2', header=None, index=None, sep=' ')
 
 
-
-scrapeSharesXueqiuLoopAgainCorrectErrors()
-
-# scrapeSharesXueqiuAll()
+scrapeSharesXueqiuAll()
+# scrapeSharesXueqiuLoopAgainCorrectErrors()

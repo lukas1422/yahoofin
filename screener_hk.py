@@ -34,7 +34,6 @@ stock_df['ticker'] = stock_df['ticker'].astype(str)
 stock_df['ticker'] = stock_df['ticker'].map(lambda x: convertHK(x))
 hk_shares = pd.read_csv('list_HK_totalShares', sep="\t", index_col=False, names=['ticker', 'shares'])
 listStocks = stock_df['ticker'].tolist()
-# listStocks = ['2698.HK']
 
 print(len(listStocks), listStocks)
 

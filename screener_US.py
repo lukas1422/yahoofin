@@ -29,10 +29,11 @@ exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 
 fileOutput = open('list_results_US', 'w')
 
-ownershipDic = getInsiderOwnership()
+# ownershipDic = getInsiderOwnership()
 
-stock_df = pd.read_csv('list_US_companyInfo', sep=" ", index_col=False,
-                       names=['ticker', 'name', 'sector', 'industry', 'country', 'mv', 'price', 'listDate'])
+stock_df = pd.read_csv('list_US_Tickers', sep="\t", index_col=False,
+                       names=['ticker', 'name', 'sector', 'industry', 'country', 'mv', 'price'])
+print(stock_df)
 
 listStocks = stock_df[(stock_df['price'] > 1)
                       & (stock_df['sector'].str
@@ -136,7 +137,8 @@ for comp in listStocks:
         data = si.get_data(comp, start_date=PRICE_START_DATE, interval=PRICE_INTERVAL)
         percentile = 100.0 * (marketPrice - data['low'].min()) / (data['high'].max() - data['low'].min())
         low_52wk = data['low'].min()
-        insiderPerc = ownershipDic[comp]
+        # insiderPerc = ownershipDic[comp]
+        insiderPerc = float(si.get_holders(comp).get('Major Holders')[0][0].rstrip("%"))
         print(comp, "insider percent", insiderPerc)
 
         divs = si.get_dividends(comp, start_date=DIVIDEND_START_DATE)
