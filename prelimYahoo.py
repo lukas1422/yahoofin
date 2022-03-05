@@ -16,7 +16,7 @@ def fo(number):
 
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 
-stockName = '3336.HK'
+stockName = '0411.HK'
 yearlyFlag = False
 
 info = si.get_company_info(stockName)
@@ -25,7 +25,9 @@ sector = getFromDF(info, 'sector')
 industry = getFromDF(info, 'industry')
 longName = getFromDF(info, 'longBusinessSummary')
 
-print(stockName, country, sector, industry)
+insiderPerc = float(si.get_holders(stockName).get('Major Holders')[0][0].rstrip("%"))
+
+print(stockName, country, sector, industry, insiderPerc)
 print(longName)
 
 bs = si.get_balance_sheet(stockName, yearly=yearlyFlag)

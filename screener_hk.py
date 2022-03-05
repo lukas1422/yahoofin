@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta
-
+import sys, os
 import yahoo_fin.stock_info as si
 import pandas as pd
 from Market import Market
@@ -32,7 +32,8 @@ fileOutput = open('list_results_hk', 'w')
 stock_df = pd.read_csv('list_HK_Tickers', dtype=object, sep=" ", index_col=False, names=['ticker', 'name'])
 stock_df['ticker'] = stock_df['ticker'].astype(str)
 stock_df['ticker'] = stock_df['ticker'].map(lambda x: convertHK(x))
-hk_shares = pd.read_csv('list_HK_totalShares', sep="\t", index_col=False, names=['ticker', 'shares'])
+hk_shares = pd.read_csv('list_HK_totalShares', sep=" ", index_col=False, names=['ticker', 'shares'])
+print("hk shares", hk_shares)
 listStocks = stock_df['ticker'].tolist()
 
 print(len(listStocks), listStocks)
@@ -181,4 +182,8 @@ for comp in listStocks:
 
     except Exception as e:
         print(comp, "exception", e)
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        print(exc_type, fname, exc_tb.tb_lineno)
+
         fileOutput.flush()

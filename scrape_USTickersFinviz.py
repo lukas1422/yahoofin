@@ -32,11 +32,11 @@ def getUSTickers():
             print(index, ticker, name.replace(" ", "_"), sector.replace(" ", "_")
                   , industry.replace(" ", "_"), country.replace(" ", "_"), cap, pe, price)
 
-            fileOutput.write(ticker + "\t" + name.replace(" ", "_") + "\t"
-                             + sector.replace(" ", "_") + "\t"
-                             + industry.replace(" ", "_") + "\t"
-                             + country.replace(" ", "_") + "\t"
-                             + cap + "\t" + price + '\n')
+            fileOutput.write(ticker + " " + name.replace(" ", "_") + " "
+                             + sector.replace(" ", "_") + " "
+                             + industry.replace(" ", "_") + " "
+                             + country.replace(" ", "_") + " "
+                             + cap + " " + price + '\n')
             fileOutput.flush()
             lastIndex = index
         else:

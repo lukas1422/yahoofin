@@ -6,12 +6,12 @@ from scrape_hkTotalSharesXueqiu import scrapeSharesXueqiuAll
 from scrape_USTickersFinviz import getUSTickers
 
 ########## Tickers ##########
-getHKTickers()
+# getHKTickers()
 getUSTickers()
-
-########## divs ##########
-scrapeDivYieldsXueqiu(Market.HK)
-scrapeDivYieldsXueqiu(Market.US)
-
-########## shares outstanding ##########
-scrapeSharesXueqiuAll()
+#
+# ########## divs ##########
+# scrapeDivYieldsXueqiu(Market.HK)
+# scrapeDivYieldsXueqiu(Market.US)
+#
+# ########## shares outstanding ##########
+# scrapeSharesXueqiuAll()
