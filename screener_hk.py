@@ -35,7 +35,7 @@ stock_df['ticker'] = stock_df['ticker'].map(lambda x: convertHK(x))
 hk_shares = pd.read_csv('list_HK_totalShares', sep=" ", index_col=False, names=['ticker', 'shares'])
 # print("hk shares", hk_shares)
 listStocks = stock_df['ticker'].tolist()
-# listStocks = ['2698.HK']
+listStocks = ['2127.HK']
 
 print(len(listStocks), listStocks)
 
@@ -160,7 +160,9 @@ for comp in listStocks:
 
         divs = si.get_dividends(comp, start_date=DIVIDEND_START_DATE)
         divSum = divs['dividend'].sum() if not divs.empty else 0
-        divYield = divSum / marketPrice / 10
+        startToNow = (datetime.today() - data.index[0]).days / 365.25
+        print(" start to now ", startToNow, 'starting date ', data.index[0])
+        divYield = divSum / marketPrice / startToNow
 
         schloss = pb < 0.6 and marketPrice < low_52wk * 1.1 and insiderPerc > INSIDER_OWN_MIN
         netnet = (cash + receivables + inventory - totalLiab) / exRate - marketCap > 0
@@ -182,7 +184,7 @@ for comp in listStocks:
                            + " S/A:" + str(round(revenue / totalAssets, 2)) \
                            + " cfo/A:" + str(round(cfoAssetRatio, 2)) \
                            + " 52w_p%:" + str(round(percentile)) \
-                           + " divYld:" + str(round(divSum / marketPrice * 10)) + "%" \
+                           + " divYld:" + str(round(divSum / marketPrice * 100 / startToNow)) + "%" \
                            + " insider%:" + str(round(insiderPerc)) + "%" \
                            + " dai$Vol:" + str(round(avgDollarVol / 1000000, 2)) + "M"
 

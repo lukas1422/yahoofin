@@ -1,6 +1,6 @@
 import os
 import sys
-
+from datetime import datetime
 import yahoo_fin.stock_info as si
 from currency_scrapeYahoo import getBalanceSheetCurrency
 from currency_scrapeYahoo import getListingCurrency
@@ -9,7 +9,7 @@ import scrape_sharesOutstanding
 from helperMethods import getFromDF, getFromDFYearly, roundB
 
 START_DATE = '3/1/2020'
-DIVIDEND_START_DATE = '1/1/2010'
+# DIVIDEND_START_DATE = '1/1/2010'
 PRICE_INTERVAL = '1d'
 
 
@@ -120,7 +120,9 @@ try:
     pCFO = marketCap / cfo
     pTangibleEquity = marketCap / (tangible_equity / exRate)
     tangibleRatio = tangible_equity / (totalAssets - totalLiab)
-    divs = si.get_dividends(stockName, start_date=DIVIDEND_START_DATE)
+    divs = si.get_dividends(stockName, start_date=START_DATE)
+    startToNow = (datetime.today() - data.index[0]).days / 365.25
+    print(" start to now ", startToNow, 'starting date ', data.index[0])
 
     avgDollarVol = (data[-10:]['close'] * data[-10:]['volume']).sum() / 10
 
@@ -168,7 +170,7 @@ try:
     print("RE", round(retainedEarnings / 1000000000 / exRate, 2), "B")
     print("RE/A", round(retainedEarnings / totalAssets, 2))
     print("S/A", round(revenue / totalAssets, 2))
-    print("div annual yield:", round(divSum / marketPrice * 10), "%")
+    print("div annual yield:", round(divSum / marketPrice * 100 / startToNow), "%")
     print("divsum marketprice:", round(divSum, 2), round(marketPrice, 2))
     # print('roa', roa)
     print("P/CFO", round(marketCap / (cfo / exRate), 2))
@@ -185,7 +187,7 @@ try:
                    + " ebit/A:" + str(round(ebitAssetRatio, 2)) \
                    + " tangibleRatio:" + str(round(tangibleRatio, 2)) \
                    + " 52w_p%:" + str(round(percentile)) \
-                   + " divYld%:" + str(round(divSum / marketPrice * 10, 1)) + "%" \
+                   + " divYld%:" + str(round(divSum / marketPrice * 100 / startToNow, 1)) + "%" \
                    + " dai$Vol:" + str(round(avgDollarVol / 1000000, 2)) + "M"
 
     print(outputString)
