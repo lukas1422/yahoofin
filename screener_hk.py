@@ -173,7 +173,7 @@ for comp in listStocks:
                            + boolToString(schloss, "schloss") + boolToString(netnet, "netnet") \
                            + boolToString(magic6, "magic6") \
                            + " MV:" + str(roundB(marketCap, 1)) + 'B' \
-                           + " B:" + str(roundB(tangible_Equity / exRate, 1)) + 'B' \
+                           + " BV:" + str(roundB(tangible_Equity / exRate, 1)) + 'B' \
                            + " P/CFO:" + str(round(pCfo, 2)) \
                            + " P/B:" + str(round(pb, 1)) \
                            + " C/R:" + str(round(currentRatio, 2)) \

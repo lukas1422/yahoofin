@@ -19,7 +19,7 @@ def fo(number):
 
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 
-stockName = '3369.HK'
+stockName = 'LEN-B'
 yearlyFlag = False
 try:
     data = si.get_data(stockName, start_date=START_DATE, interval=PRICE_INTERVAL)
@@ -96,15 +96,19 @@ try:
     floatingSharesXueqiu = scrape_sharesOutstanding.scrapeFloatingSharesXueqiu(stockName)
     sharesFinviz = scrape_sharesOutstanding.scrapeSharesOutstandingFinviz(stockName)
     sharesYahoo = si.get_quote_data(stockName)['sharesOutstanding']
+    print('xueqiu total shares', sharesTotalXueqiu)
+    print('xueqiu floating shares', floatingSharesXueqiu)
+    print('finviz shares', sharesFinviz)
+    print("yahoo shares ", sharesYahoo)
     if stockName.lower().endswith('hk'):
         shares = sharesTotalXueqiu
         print(" using xueqiu shares ", shares)
-    elif sharesFinviz != 0.0:
-        shares = sharesFinviz
-        print(" using finviz shares ", shares)
-    else:
+    elif sharesYahoo != 0.0:
         shares = sharesYahoo
         print(" using yahoo shares ", shares)
+    else:
+        shares = sharesFinviz
+        print(" using finviz shares ", shares)
 
     marketCap = marketPrice * shares
     currentRatio = totalCurrentAssets / totalCurrentLiab
