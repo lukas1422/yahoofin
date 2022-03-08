@@ -1,6 +1,6 @@
 import os
 import sys
-from datetime import datetime
+from datetime import datetime, timedelta
 import yahoo_fin.stock_info as si
 from currency_scrapeYahoo import getBalanceSheetCurrency
 from currency_scrapeYahoo import getListingCurrency
@@ -8,9 +8,11 @@ import currency_getExchangeRate
 import scrape_sharesOutstanding
 from helperMethods import getFromDF, getFromDFYearly, roundB
 
-START_DATE = '3/1/2020'
+yearAgo = datetime.today() - timedelta(weeks=53)
+START_DATE = (datetime.today() - timedelta(weeks=52 * 10)).strftime('%-m/%-d/%Y')
+# START_DATE = '3/1/2020'
 # DIVIDEND_START_DATE = '1/1/2010'
-PRICE_INTERVAL = '1d'
+PRICE_INTERVAL = '1wk'
 
 
 def fo(number):
@@ -19,7 +21,7 @@ def fo(number):
 
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 
-stockName = '2127.HK'
+stockName = '0067.HK'
 yearlyFlag = False
 try:
     data = si.get_data(stockName, start_date=START_DATE, interval=PRICE_INTERVAL)
@@ -126,7 +128,9 @@ try:
 
     avgDollarVol = (data[-10:]['close'] * data[-10:]['volume']).sum() / 10
 
-    percentile = 100.0 * (marketPrice - data['low'].min()) / (data['high'].max() - data['low'].min())
+    data52w = data.loc[data.index > yearAgo]
+    percentile = 100.0 * (marketPrice - data52w['low'].min()) \
+                 / (data52w['high'].max() - data52w['low'].min())
 
     divSum = divs['dividend'].sum() if not divs.empty else 0.0
 

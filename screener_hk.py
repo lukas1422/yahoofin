@@ -21,9 +21,10 @@ def increment():
     return COUNT
 
 
-PRICE_START_DATE = (datetime.today() - timedelta(weeks=52 * 2)).strftime('%-m/%-d/%Y')
-DIVIDEND_START_DATE = (datetime.today() - timedelta(weeks=52 * 10)).strftime('%-m/%-d/%Y')
-PRICE_INTERVAL = '1d'
+PRICE_START_DATE = datetime.today() - timedelta(weeks=53)
+# PRICE_START_DATE = (datetime.today() - timedelta(weeks=52 * 2)).strftime('%-m/%-d/%Y')
+START_DATE = (datetime.today() - timedelta(weeks=52 * 10)).strftime('%-m/%-d/%Y')
+PRICE_INTERVAL = '1wk'
 
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 
@@ -35,7 +36,7 @@ stock_df['ticker'] = stock_df['ticker'].map(lambda x: convertHK(x))
 hk_shares = pd.read_csv('list_HK_totalShares', sep=" ", index_col=False, names=['ticker', 'shares'])
 # print("hk shares", hk_shares)
 listStocks = stock_df['ticker'].tolist()
-listStocks = ['2127.HK']
+listStocks = ['0743.HK']
 
 print(len(listStocks), listStocks)
 
@@ -146,10 +147,11 @@ for comp in listStocks:
         cfoAssetRatio = cfo / totalAssets
         # ebitAssetRatio = ebit / totalAssets
 
-        data = si.get_data(comp, start_date=PRICE_START_DATE, interval=PRICE_INTERVAL)
-        percentile = 100.0 * (marketPrice - data['low'].min()) / (data['high'].max() - data['low'].min())
-        low_52wk = data['low'].min()
-        avgDollarVol = (data[-10:]['close'] * data[-10:]['volume']).sum() / 10
+        data = si.get_data(comp, start_date=START_DATE, interval=PRICE_INTERVAL)
+        data52w = data.loc[data.index > PRICE_START_DATE]
+        percentile = 100.0 * (marketPrice - data52w['low'].min()) / (data52w['high'].max() - data52w['low'].min())
+        low_52wk = data52w['low'].min()
+        avgDollarVol = (data52w[-10:]['close'] * data52w[-10:]['volume']).sum() / 10
 
         try:
             insiderPerc = float(si.get_holders(comp).get('Major Holders')[0][0].rstrip("%"))
@@ -158,7 +160,7 @@ for comp in listStocks:
             print(e)
             insiderPerc = 0
 
-        divs = si.get_dividends(comp, start_date=DIVIDEND_START_DATE)
+        divs = si.get_dividends(comp, start_date=START_DATE)
         divSum = divs['dividend'].sum() if not divs.empty else 0
         startToNow = (datetime.today() - data.index[0]).days / 365.25
         print(" start to now ", startToNow, 'starting date ', data.index[0])

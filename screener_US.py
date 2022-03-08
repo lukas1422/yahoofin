@@ -22,9 +22,13 @@ def increment():
     return COUNT
 
 
-PRICE_START_DATE = (datetime.today() - timedelta(weeks=52 * 2)).strftime('%-m/%-d/%Y')
-DIVIDEND_START_DATE = (datetime.today() - timedelta(weeks=52 * 10)).strftime('%-m/%-d/%Y')
-PRICE_INTERVAL = '1d'
+yearAgo = datetime.today() - timedelta(weeks=53)
+START_DATE = (datetime.today() - timedelta(weeks=52 * 10)).strftime('%-m/%-d/%Y')
+
+# PRICE_START_DATE = (datetime.today() - timedelta(weeks=52 * 2)).strftime('%-m/%-d/%Y')
+# PRICE_START_DATE = (datetime.today() - timedelta(weeks=52 * 2)).strftime('%-m/%-d/%Y')
+# DIVIDEND_START_DATE = (datetime.today() - timedelta(weeks=52 * 10)).strftime('%-m/%-d/%Y')
+PRICE_INTERVAL = '1wk'
 
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 
@@ -143,18 +147,22 @@ for comp in listStocks:
         cfoAssetRatio = cfo / totalAssets
         # ebitAssetRatio = ebit / totalAssets
 
-        data = si.get_data(comp, start_date=PRICE_START_DATE, interval=PRICE_INTERVAL)
-        percentile = 100.0 * (marketPrice - data['low'].min()) / (data['high'].max() - data['low'].min())
-        low_52wk = data['low'].min()
+        data = si.get_data(comp, start_date=yearAgo, interval=PRICE_INTERVAL)
+        data52wk = data.loc[data.index > yearAgo]
+        percentile = 100.0 * (marketPrice - data52wk['low'].min()) \
+                     / (data52wk['high'].max() - data52wk['low'].min())
+        low_52wk = data52wk['low'].min()
         avgDollarVol = (data[-10:]['close'] * data[-10:]['volume']).sum() / 10
 
         # insiderPerc = ownershipDic[comp]
         insiderPerc = float(si.get_holders(comp).get('Major Holders')[0][0].rstrip("%"))
         print(comp, "insider percent", insiderPerc)
 
-        divs = si.get_dividends(comp, start_date=DIVIDEND_START_DATE)
+        divs = si.get_dividends(comp, start_date=START_DATE)
         divSum = divs['dividend'].sum() if not divs.empty else 0
-        divYield = divSum / marketPrice / 10
+        startToNow = (datetime.today() - data.index[0]).days / 365.25
+        print(" start to now ", startToNow, 'starting date ', data.index[0])
+        divYield = divSum / marketPrice / startToNow
 
         schloss = pb < 0.6 and marketPrice < low_52wk * 1.1 and insiderPerc > INSIDER_OWN_MIN
         netnet = (cash + receivables + inventory - totalLiab) / exRate - marketCap > 0
@@ -176,7 +184,7 @@ for comp in listStocks:
                            + " S/A:" + str(round(revenue / totalAssets, 2)) \
                            + " cfo/A:" + str(round(cfoAssetRatio, 2)) \
                            + " 52w_p%:" + str(round(percentile)) \
-                           + " divYld:" + str(round(divSum / marketPrice * 10)) + "%" \
+                           + " divYld:" + str(round(divSum / marketPrice * 100 / startToNow)) + "%" \
                            + " insider%: " + str(round(insiderPerc)) + "%" \
                            + " dai$Vol:" + str(round(avgDollarVol / 1000000, 2)) + "M"
 
