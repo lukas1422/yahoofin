@@ -54,6 +54,8 @@ for comp in listStocks:
         companyName = stock_df.loc[stock_df['ticker'] == comp]['name'].item()
 
         print(increment(), comp, companyName)
+        data = si.get_data(comp, start_date=START_DATE, interval=PRICE_INTERVAL)
+        print("start date ", data.index[0].strftime('%-m/%-d/%Y'))
 
         try:
             info = si.get_company_info(comp)
@@ -147,7 +149,7 @@ for comp in listStocks:
         cfoAssetRatio = cfo / totalAssets
         # ebitAssetRatio = ebit / totalAssets
 
-        data = si.get_data(comp, start_date=yearAgo, interval=PRICE_INTERVAL)
+
         data52wk = data.loc[data.index > yearAgo]
         percentile = 100.0 * (marketPrice - data52wk['low'].min()) \
                      / (data52wk['high'].max() - data52wk['low'].min())

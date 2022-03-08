@@ -36,7 +36,7 @@ stock_df['ticker'] = stock_df['ticker'].map(lambda x: convertHK(x))
 hk_shares = pd.read_csv('list_HK_totalShares', sep=" ", index_col=False, names=['ticker', 'shares'])
 # print("hk shares", hk_shares)
 listStocks = stock_df['ticker'].tolist()
-listStocks = ['0743.HK']
+# listStocks = ['0743.HK']
 
 print(len(listStocks), listStocks)
 
@@ -46,6 +46,9 @@ for comp in listStocks:
         companyName = stock_df.loc[stock_df['ticker'] == comp]['name'].item()
 
         print(increment(), comp, companyName)
+
+        data = si.get_data(comp, start_date=START_DATE, interval=PRICE_INTERVAL)
+        print("start date ", data.index[0].strftime('%-m/%-d/%Y'))
 
         try:
             info = si.get_company_info(comp)
@@ -147,11 +150,11 @@ for comp in listStocks:
         cfoAssetRatio = cfo / totalAssets
         # ebitAssetRatio = ebit / totalAssets
 
-        data = si.get_data(comp, start_date=START_DATE, interval=PRICE_INTERVAL)
+        # data = si.get_data(comp, start_date=START_DATE, interval=PRICE_INTERVAL)
         data52w = data.loc[data.index > PRICE_START_DATE]
         percentile = 100.0 * (marketPrice - data52w['low'].min()) / (data52w['high'].max() - data52w['low'].min())
         low_52wk = data52w['low'].min()
-        avgDollarVol = (data52w[-10:]['close'] * data52w[-10:]['volume']).sum() / 10
+        avgDollarVol = (data[-10:]['close'] * data[-10:]['volume']).sum() / 10
 
         try:
             insiderPerc = float(si.get_holders(comp).get('Major Holders')[0][0].rstrip("%"))
