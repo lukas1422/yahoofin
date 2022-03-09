@@ -1,5 +1,7 @@
 # screens for netnets
 # both HK and US
+import os
+import sys
 
 import yahoo_fin.stock_info as si
 import pandas as pd
@@ -12,7 +14,7 @@ from helperMethods import getFromDF, convertHK, roundB
 
 COUNT = 0
 
-MARKET = Market.US
+MARKET = Market.HK
 yearlyFlag = False
 
 
@@ -35,7 +37,7 @@ if MARKET == Market.US:
     stock_df = pd.read_csv('list_US_Tickers', sep=" ", index_col=False,
                            names=['ticker', 'name', 'sector', 'industry', 'country', 'mv', 'price'])
 
-    #stock_df['listingDate'] = pd.to_datetime(stock_df['listingDate'])
+    # stock_df['listingDate'] = pd.to_datetime(stock_df['listingDate'])
 
     listStocks = stock_df[(stock_df['price'] > 1)
                           & (stock_df['sector'].str
@@ -51,7 +53,12 @@ elif MARKET == Market.HK:
     stock_df['ticker'] = stock_df['ticker'].astype(str)
     stock_df['ticker'] = stock_df['ticker'].map(lambda x: convertHK(x))
     listStocks = stock_df['ticker'].tolist()
-    hk_shares = pd.read_csv('list_HK_totalShares', sep="\t", index_col=False, names=['ticker', 'shares'])
+    hk_shares = pd.read_csv('list_HK_totalShares', sep=" ", index_col=False, names=['ticker', 'shares'])
+
+    listStocks = ["2698.HK", "0743.HK", "0321.HK", "0819.HK",
+                  "1361.HK", "0057.HK", "0420.HK", "1085.HK", "1133.HK", "2131.HK",
+                  "3393.HK", "2355.HK", "0517.HK", "3636.HK", "0116.HK", "1099.HK", "2386.HK", "6188.HK"]
+
     # listStocks = ['0155.HK']
 else:
     raise Exception("market not found")
@@ -59,7 +66,8 @@ else:
 print(MARKET, len(listStocks), listStocks)
 
 for comp in listStocks:
-    print(increment(), comp)
+
+    print(increment(), comp, stock_df[stock_df['ticker'] == comp]['name'])
 
     try:
         info = si.get_company_info(comp)
@@ -142,7 +150,7 @@ for comp in listStocks:
                                 + str(round((totalLiab + marketCap * exRate - cash - 0.5 * receivables)
                                             / inventory, 2))
         elif (cash + receivables + inventory - totalLiab) / exRate - marketCap > 0:
-            additionalComment = "鸡肋:CA-L>MV"
+            additionalComment = " 鸡肋:CA-L>MV"
 
         outputString = comp + " " + stock_df[stock_df['ticker'] == comp]['name'] \
             .to_string(index=False, header=False) + " " \
@@ -165,3 +173,6 @@ for comp in listStocks:
 
     except Exception as e:
         print(comp, "exception", e)
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        print(exc_type, fname, exc_tb.tb_lineno)

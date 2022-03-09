@@ -96,10 +96,6 @@ for comp in listStocks:
         currentAssets = getFromDF(bs, "totalCurrentAssets")
         totalLiab = getFromDF(bs, "totalLiab")
 
-        if currentAssets < totalLiab:
-            print(comp, " current assets < total liab", roundB(currentAssets, 2), roundB(totalLiab, 2))
-            continue
-
         # shares = scrape_sharesOutstanding.scrapeTotalSharesXueqiu(comp)
         if MARKET == Market.US:
             shares = si.get_quote_data(comp)['sharesOutstanding']
@@ -110,14 +106,21 @@ for comp in listStocks:
 
         marketCap = marketPrice * shares
 
-        if MARKET == Market.HK:
-            if marketCap < 1000000000:
-                print(comp, "HK market cap less than 1B", marketCap / 1000000000)
-                continue
-
         listingCurr = getListingCurrency(comp)
         bsCurr = getBalanceSheetCurrency(comp, listingCurr)
         exRate = currency_getExchangeRate.getExchangeRate(exchange_rate_dict, listingCurr, bsCurr)
+
+        print("exch rate ", listingCurr, bsCurr, exRate)
+
+        if (currentAssets - totalLiab) / exRate < marketCap:
+            print(comp, " current assets < L + MV", roundB(currentAssets, 2), roundB(totalLiab, 2),
+                  roundB(marketCap, 2))
+            continue
+
+        # if MARKET == Market.HK:
+        #     if marketCap < 1000000000:
+        #         print(comp, "HK market cap less than 1B", marketCap / 1000000000)
+        #         continue
 
         outputString = comp + " " + stock_df[stock_df['ticker'] == comp]['name'] \
             .to_string(index=False, header=False) + " " \
