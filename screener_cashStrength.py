@@ -1,5 +1,7 @@
 # prints cash/(L+MV)
 # both HK and US
+import os
+import sys
 
 import yahoo_fin.stock_info as si
 import pandas as pd
@@ -23,20 +25,18 @@ def increment():
     return COUNT
 
 
-START_DATE = '3/1/2020'
-DIVIDEND_START_DATE = '1/1/2010'
-PRICE_INTERVAL = '1mo'
+# START_DATE = '3/1/2020'
+# DIVIDEND_START_DATE = '1/1/2010'
+# PRICE_INTERVAL = '1mo'
 
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 
-fileOutput = open('list_netnet', 'w')
+fileOutput = open('list_cashStrength', 'w')
 
 # US Version Starts
 if MARKET == Market.US:
-    stock_df = pd.read_csv('list_US_companyInfo', sep=" ", index_col=False,
-                           names=['ticker', 'name', 'sector', 'industry', 'country', 'mv', 'price', 'listingDate'])
-
-    stock_df['listingDate'] = pd.to_datetime(stock_df['listingDate'])
+    stock_df = pd.read_csv('list_US_Tickers', sep=" ", index_col=False,
+                           names=['ticker', 'name', 'sector', 'industry', 'country', 'mv', 'price'])
 
     listStocks = stock_df[(stock_df['price'] > 1)
                           & (stock_df['sector'].str
@@ -50,8 +50,9 @@ elif MARKET == Market.HK:
     stock_df['ticker'] = stock_df['ticker'].astype(str)
     stock_df['ticker'] = stock_df['ticker'].map(lambda x: convertHK(x))
     listStocks = stock_df['ticker'].tolist()
-    hk_shares = pd.read_csv('list_HK_totalShares', sep="\t", index_col=False, names=['ticker', 'shares'])
-    # listStocks = ['0155.HK']
+    hk_shares = pd.read_csv('list_HK_totalShares', sep=" ", index_col=False, names=['ticker', 'shares'])
+    # listStocks = ['0743.HK']
+
 else:
     raise Exception("market not found")
 
@@ -83,7 +84,6 @@ for comp in listStocks:
 
         retainedEarnings = getFromDF(bs, "retainedEarnings")
 
-        # RE>0 ensures that the stock is not a chronic cash burner
         if retainedEarnings <= 0:
             print(comp, " retained earnings <= 0 ", retainedEarnings)
             continue
@@ -136,3 +136,8 @@ for comp in listStocks:
 
     except Exception as e:
         print(comp, "exception", e)
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        print(exc_type, fname, exc_tb.tb_lineno)
+
+        fileOutput.flush()

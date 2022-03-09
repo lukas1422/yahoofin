@@ -23,7 +23,7 @@ def increment():
 
 
 START_DATE = '3/1/2020'
-DIVIDEND_START_DATE = '1/1/2010'
+# DIVIDEND_START_DATE = '1/1/2010'
 PRICE_INTERVAL = '1mo'
 
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()

@@ -149,10 +149,8 @@ for comp in listStocks:
         cfoAssetRatio = cfo / totalAssets
         # ebitAssetRatio = ebit / totalAssets
 
-
         data52wk = data.loc[data.index > yearAgo]
-        percentile = 100.0 * (marketPrice - data52wk['low'].min()) \
-                     / (data52wk['high'].max() - data52wk['low'].min())
+        percentile = 100.0 * (marketPrice - data52wk['low'].min()) / (data52wk['high'].max() - data52wk['low'].min())
         low_52wk = data52wk['low'].min()
         avgDollarVol = (data[-10:]['close'] * data[-10:]['volume']).sum() / 10
 
