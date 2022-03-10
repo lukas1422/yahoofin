@@ -37,9 +37,9 @@ hk_shares = pd.read_csv('list_HK_totalShares', sep=" ", index_col=False, names=[
 # print("hk shares", hk_shares)
 listStocks = stock_df['ticker'].tolist()
 # listStocks = ['0743.HK']
-listStocks= ["2698.HK","0743.HK","0321.HK","0819.HK",
-             "1361.HK","0057.HK","0420.HK","1085.HK","1133.HK","2131.HK",
-             "3393.HK","2355.HK","0517.HK","3636.HK","0116.HK","1099.HK","2386.HK","6188.HK"]
+# listStocks= ["2698.HK","0743.HK","0321.HK","0819.HK",
+#              "1361.HK","0057.HK","0420.HK","1085.HK","1133.HK","2131.HK",
+#              "3393.HK","2355.HK","0517.HK","3636.HK","0116.HK","1099.HK","2386.HK","6188.HK"]
 
 print(len(listStocks), listStocks)
 
