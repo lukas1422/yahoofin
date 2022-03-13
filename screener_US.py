@@ -91,16 +91,17 @@ for comp in listStocks:
             continue
 
         totalCurrentAssets = getFromDF(bs, "totalCurrentAssets")
-        totalCurrentLiab = getFromDF(bs, "totalCurrentLiabilities")
-        currentRatio = totalCurrentAssets / totalCurrentLiab
-
-        if currentRatio <= 1:
-            print(comp, "current ratio < 1", currentRatio)
-            continue
+        currentLiab = getFromDF(bs, "totalCurrentLiabilities")
 
         cash = getFromDF(bs, "cash")
         receivables = getFromDF(bs, 'netReceivables')
         inventory = getFromDF(bs, 'inventory')
+
+        currentRatio = (cash + 0.5 * receivables + 0.2 * inventory) / currentLiab
+
+        if currentRatio <= 1:
+            print(comp, "current ratio < 1", currentRatio)
+            continue
 
         totalAssets = getFromDF(bs, "totalAssets")
         totalLiab = getFromDF(bs, "totalLiab")

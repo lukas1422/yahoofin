@@ -87,16 +87,17 @@ for comp in listStocks:
             continue
 
         totalCurrentAssets = getFromDF(bs, "totalCurrentAssets")
-        totalCurrentLiab = getFromDF(bs, "totalCurrentLiabilities")
-        currentRatio = totalCurrentAssets / totalCurrentLiab
-
-        if currentRatio <= 1:
-            print(comp, "current ratio < 1", currentRatio)
-            continue
+        currentLiab = getFromDF(bs, "totalCurrentLiabilities")
 
         cash = getFromDF(bs, "cash")
         receivables = getFromDF(bs, 'netReceivables')
         inventory = getFromDF(bs, 'inventory')
+
+        currentRatio = (cash + 0.5 * receivables + 0.2 * inventory) / currentLiab
+
+        if currentRatio <= 1:
+            print(comp, "current ratio < 1", currentRatio)
+            continue
 
         totalAssets = getFromDF(bs, "totalAssets")
         totalLiab = getFromDF(bs, "totalLiab")
@@ -110,12 +111,6 @@ for comp in listStocks:
             continue
 
         incomeStatement = si.get_income_statement(comp, yearly=yearlyFlag)
-
-        # ebit = getFromDFYearly(incomeStatement, "ebit", yearlyFlag)
-        # netIncome = getFromDFYearly(incomeStatement, 'netIncome', yearlyFlag)
-        # if ebit <= 0 or netIncome <= 0:
-        #     print(comp, "ebit or net income < 0 ", ebit, " ", netIncome)
-        #     continue
 
         cf = si.get_cash_flow(comp, yearly=yearlyFlag)
         cfo = getFromDFYearly(cf, "totalCashFromOperatingActivities", yearlyFlag)

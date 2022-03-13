@@ -14,7 +14,7 @@ from helperMethods import getFromDF, convertHK, roundB
 
 COUNT = 0
 
-MARKET = Market.HK
+MARKET = Market.US
 yearlyFlag = False
 
 
