@@ -194,6 +194,8 @@ for comp in listStocks:
             print(outputString)
             fileOutput.write(outputString + '\n')
             fileOutput.flush()
+        else:
+            print(" not a schloss, netnet or magic6")
 
     except Exception as e:
         print(comp, "exception", e)
