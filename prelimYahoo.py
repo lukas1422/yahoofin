@@ -21,7 +21,7 @@ def fo(number):
 
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 
-stockName = '2219.HK'
+stockName = '2127.HK'
 yearlyFlag = False
 try:
     data = si.get_data(stockName, start_date=START_DATE, interval=PRICE_INTERVAL)
@@ -63,6 +63,8 @@ try:
     cash = getFromDF(bs, 'cash')
     receivables = getFromDF(bs, 'netReceivables')
     inventory = getFromDF(bs, 'inventory')
+
+    currRatio = (cash + receivables + inventory) / totalCurrentLiab
 
     print("goodwill is ", goodWill)
 
@@ -113,7 +115,7 @@ try:
         print(" using finviz shares ", shares)
 
     marketCap = marketPrice * shares
-    currentRatio = totalCurrentAssets / totalCurrentLiab
+    #currentRatio = totalCurrentAssets / totalCurrentLiab
     debtEquityRatio = totalLiab / tangible_equity
     retainedEarningsAssetRatio = retainedEarnings / totalAssets
     cfoAssetRatio = cfo / totalAssets
@@ -163,7 +165,7 @@ try:
     print("S/B", round(revenue / tangible_equity, 2))
     print("                         ")
     print("********ALTMAN**********")
-    print("CR", round(totalCurrentAssets / totalCurrentLiab, 2))
+    print("CR", round(currRatio, 2))
     print("tangible ratio", round(tangible_equity / (totalAssets - totalLiab), 2))
     print("D/E", round(totalLiab / tangible_equity, 2))
     print("EBIT", round(ebit / exRate / 1000000000, 2), "B")
@@ -184,7 +186,7 @@ try:
                    + " MV:" + str(round(marketCap / 1000000000.0, 1)) + 'B' \
                    + " NetAssets:" + str(round((totalAssets - totalLiab) / exRate / 1000000000.0, 1)) + 'B' \
                    + " pb:" + str(round(pTangibleEquity, 2)) \
-                   + " CR:" + str(round(currentRatio, 2)) \
+                   + " CR:" + str(round(currRatio, 2)) \
                    + " D/E:" + str(round(debtEquityRatio, 2)) \
                    + " RE/A:" + str(round(retainedEarningsAssetRatio, 2)) \
                    + " cfo/A:" + str(round(cfoAssetRatio, 2)) \

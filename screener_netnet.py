@@ -51,6 +51,7 @@ elif MARKET == Market.HK:
     listStocks = stock_df['ticker'].tolist()
     hk_shares = pd.read_csv('list_HK_totalShares', sep=" ", index_col=False, names=['ticker', 'shares'])
 
+    #listStocks = ['2127.HK']
     # listStocks = ["2698.HK", "0743.HK", "0321.HK", "0819.HK",
     #               "1361.HK", "0057.HK", "0420.HK", "1085.HK", "1133.HK", "2131.HK",
     #               "3393.HK", "2355.HK", "0517.HK", "3636.HK", "0116.HK", "1099.HK", "2386.HK", "6188.HK"]
@@ -76,9 +77,9 @@ for comp in listStocks:
 
         marketPrice = si.get_live_price(comp)
 
-        if marketPrice < 1:
-            print(comp, "cent stock", marketPrice)
-            continue
+        # if marketPrice < 1:
+        #     print(comp, "cent stock", marketPrice)
+        #     continue
 
         bs = si.get_balance_sheet(comp, yearly=yearlyFlag)
 
@@ -148,9 +149,9 @@ for comp in listStocks:
         elif (cash + receivables + inventory - totalLiab) / exRate - marketCap > 0:
             additionalComment = " 鸡肋:CA-L>MV"
 
-        outputString = comp + " " + stock_df[stock_df['ticker'] == comp]['name'] \
-            .to_string(index=False, header=False) + " " \
-                       + listingCurr + bsCurr + " " \
+        # .to_string(index=False, header=False)
+        outputString = comp + " " + stock_df[stock_df['ticker'] == comp]['name'].item() + ' ' \
+                       + listingCurr + bsCurr + " " + str(exRate) + " " \
                        + country.replace(" ", "_") + " " \
                        + sector.replace(" ", "_") + " " \
                        + " cash:" + str(roundB(cash, 2)) \
