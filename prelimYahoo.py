@@ -21,12 +21,14 @@ def fo(number):
 
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 
-stockName = '2127.HK'
+stockName = '1358.HK'
 yearlyFlag = False
 try:
     data = si.get_data(stockName, start_date=START_DATE, interval=PRICE_INTERVAL)
     try:
         info = si.get_company_info(stockName)
+        insiderPerc = float(si.get_holders(stockName).get('Major Holders')[0][0].rstrip("%"))
+        print(stockName, "insider percent", insiderPerc)
     except Exception as e:
         print(e)
         print(data[-10:])
@@ -64,12 +66,12 @@ try:
     receivables = getFromDF(bs, 'netReceivables')
     inventory = getFromDF(bs, 'inventory')
 
-    currRatio = (cash + receivables + inventory) / totalCurrentLiab
-
-    print("goodwill is ", goodWill)
+    currRatio = (cash + receivables * 0.5 + inventory * 0.2) / totalCurrentLiab
 
     incomeStatement = si.get_income_statement(stockName, yearly=yearlyFlag)
     print("income statement date:", incomeStatement.columns[0].strftime('%Y/%-m/%-d'))
+
+    print("goodwill is ", goodWill)
 
     listingCurr = getListingCurrency(stockName)
     bsCurrency = getBalanceSheetCurrency(stockName, listingCurr)
@@ -104,7 +106,7 @@ try:
     print('xueqiu floating shares', floatingSharesXueqiu)
     print('finviz shares', sharesFinviz)
     print("yahoo shares ", sharesYahoo)
-    if stockName.lower().endswith('hk'):
+    if stockName.lower().endswith('hk') and sharesTotalXueqiu != 0:
         shares = sharesTotalXueqiu
         print(" using xueqiu shares ", shares)
     elif sharesYahoo != 0.0:
@@ -115,7 +117,7 @@ try:
         print(" using finviz shares ", shares)
 
     marketCap = marketPrice * shares
-    #currentRatio = totalCurrentAssets / totalCurrentLiab
+    # currentRatio = totalCurrentAssets / totalCurrentLiab
     debtEquityRatio = totalLiab / tangible_equity
     retainedEarningsAssetRatio = retainedEarnings / totalAssets
     cfoAssetRatio = cfo / totalAssets
@@ -126,7 +128,7 @@ try:
     tangibleRatio = tangible_equity / (totalAssets - totalLiab)
     divs = si.get_dividends(stockName, start_date=START_DATE)
     startToNow = (datetime.today() - data.index[0]).days / 365.25
-    print(" start to now ", startToNow, 'starting date ', data.index[0])
+    print(" start to now ", startToNow, 'starting date ', data.index[0].strftime('%Y/%-m/%-d'))
 
     avgDollarVol = (data[-10:]['close'] * data[-10:]['volume']).sum() / 10
 
@@ -138,7 +140,7 @@ try:
 
     # PRINTING*****
 
-    print("listing Currency:", listingCurr, "balance sheet currency", bsCurrency, "ExRate ", exRate)
+    print("listing Currency:", listingCurr, "bs currency:", bsCurrency, "ExRate:", exRate)
     # print("total shares xueqiu", str(roundB(sharesTotalXueqiu, 2)) + "B")
     # print("shares finviz", sharesFinviz)
     print("cash", roundB(cash, 2), "rec", roundB(receivables, 2), "inv",

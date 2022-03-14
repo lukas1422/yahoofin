@@ -36,7 +36,7 @@ stock_df['ticker'] = stock_df['ticker'].map(lambda x: convertHK(x))
 hk_shares = pd.read_csv('list_HK_totalShares', sep=" ", index_col=False, names=['ticker', 'shares'])
 # print("hk shares", hk_shares)
 listStocks = stock_df['ticker'].tolist()
-# listStocks = ['0743.HK']
+# listStocks = ['1358.HK']
 # listStocks= ["2698.HK","0743.HK","0321.HK","0819.HK",
 #              "1361.HK","0057.HK","0420.HK","1085.HK","1133.HK","2131.HK",
 #              "3393.HK","2355.HK","0517.HK","3636.HK","0116.HK","1099.HK","2386.HK","6188.HK"]
@@ -70,9 +70,9 @@ for comp in listStocks:
             continue
 
         marketPrice = si.get_live_price(comp)
-        if marketPrice <= 1:
-            print(comp, 'market price < 1: ', marketPrice)
-            continue
+        # if marketPrice <= 1:
+        #     print(comp, 'market price < 1: ', marketPrice)
+        #     continue
 
         bs = si.get_balance_sheet(comp, yearly=yearlyFlag)
 
@@ -86,17 +86,17 @@ for comp in listStocks:
             print(comp, " retained earnings < 0 ", retainedEarnings)
             continue
 
-        totalCurrentAssets = getFromDF(bs, "totalCurrentAssets")
-        currentLiab = getFromDF(bs, "totalCurrentLiabilities")
+        currAssets = getFromDF(bs, "totalCurrentAssets")
+        currLiab = getFromDF(bs, "totalCurrentLiabilities")
 
         cash = getFromDF(bs, "cash")
         receivables = getFromDF(bs, 'netReceivables')
         inventory = getFromDF(bs, 'inventory')
 
-        currentRatio = (cash + 0.5 * receivables + 0.2 * inventory) / currentLiab
+        currRatio = (cash + 0.5 * receivables + 0.2 * inventory) / currLiab
 
-        if currentRatio <= 1:
-            print(comp, "current ratio < 1", currentRatio)
+        if currRatio <= 1:
+            print(comp, "curr ratio < 1", currRatio)
             continue
 
         totalAssets = getFromDF(bs, "totalAssets")
@@ -135,13 +135,13 @@ for comp in listStocks:
         pCfo = marketCap / (cfo / exRate)
         print("MV, cfo", roundB(marketCap, 2), roundB(cfo, 2))
 
-        if pb >= 0.6 or pb <= 0:
-            print(comp, 'pb > 0.6 or pb <= 0', pb)
-            continue
-
-        if pCfo > 6 or pCfo <= 0:
-            print(comp, 'pcfo > 6 or <= 0', pCfo)
-            continue
+        # if pb >= 0.6 or pb <= 0:
+        #     print(comp, 'pb > 0.6 or pb <= 0', pb)
+        #     continue
+        #
+        # if pCfo > 6 or pCfo <= 0:
+        #     print(comp, 'pcfo > 6 or <= 0', pCfo)
+        #     continue
 
         revenue = getFromDFYearly(incomeStatement, "totalRevenue", yearlyFlag)
         retainedEarningsAssetRatio = retainedEarnings / totalAssets
@@ -168,7 +168,7 @@ for comp in listStocks:
         divYield = divSum / marketPrice / startToNow
 
         schloss = pb < 0.6 and marketPrice < low_52wk * 1.1 and insiderPerc > INSIDER_OWN_MIN
-        netnet = (cash + receivables + inventory - totalLiab) / exRate - marketCap > 0
+        netnet = (cash + receivables * 0.5 + inventory * 0.2 - totalLiab) / exRate - marketCap > 0
         magic6 = pb < 0.6 and pCfo < 6 and divYield > 0.06
 
         if schloss or netnet or magic6:
@@ -181,7 +181,7 @@ for comp in listStocks:
                            + " BV:" + str(roundB(tangible_Equity / exRate, 1)) + 'B' \
                            + " P/CFO:" + str(round(pCfo, 2)) \
                            + " P/B:" + str(round(pb, 1)) \
-                           + " C/R:" + str(round(currentRatio, 2)) \
+                           + " C/R:" + str(round(currRatio, 2)) \
                            + " D/E:" + str(round(debtEquityRatio, 2)) \
                            + " RetEarning/A:" + str(round(retainedEarningsAssetRatio, 2)) \
                            + " S/A:" + str(round(revenue / totalAssets, 2)) \
