@@ -21,7 +21,7 @@ def fo(number):
 
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 
-stockName = '1358.HK'
+stockName = '0321.HK'
 yearlyFlag = False
 try:
     data = si.get_data(stockName, start_date=START_DATE, interval=PRICE_INTERVAL)

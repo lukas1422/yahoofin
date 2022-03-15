@@ -166,6 +166,9 @@ for comp in listStocks:
         startToNow = (datetime.today() - data.index[0]).days / 365.25
         print(" start to now ", startToNow, 'starting date ', data.index[0])
         divYield = divSum / marketPrice / startToNow
+        if divSum == 0:
+            print(comp, "div is 0 ")
+            continue
 
         schloss = pb < 0.6 and marketPrice < low_52wk * 1.1 and insiderPerc > INSIDER_OWN_MIN
         netnet = (cash + receivables * 0.5 + inventory * 0.2 - totalLiab) / exRate - marketCap > 0
