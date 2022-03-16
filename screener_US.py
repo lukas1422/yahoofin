@@ -90,14 +90,14 @@ for comp in listStocks:
             print(comp, " retained earnings < 0 ", retainedEarnings)
             continue
 
-        totalCurrentAssets = getFromDF(bs, "totalCurrentAssets")
-        currentLiab = getFromDF(bs, "totalCurrentLiabilities")
+        # totalCurrentAssets = getFromDF(bs, "totalCurrentAssets")
+        currLiab = getFromDF(bs, "totalCurrentLiabilities")
 
         cash = getFromDF(bs, "cash")
         receivables = getFromDF(bs, 'netReceivables')
         inventory = getFromDF(bs, 'inventory')
 
-        currentRatio = (cash + 0.5 * receivables + 0.2 * inventory) / currentLiab
+        currentRatio = (cash + 0.5 * receivables + 0.2 * inventory) / currLiab
 
         if currentRatio <= 1:
             print(comp, "current ratio < 1", currentRatio)
