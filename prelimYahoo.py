@@ -21,7 +21,7 @@ def fo(number):
 
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 
-stockName = '0321.HK'
+stockName = '3339.HK'
 yearlyFlag = False
 try:
     data = si.get_data(stockName, start_date=START_DATE, interval=PRICE_INTERVAL)
@@ -54,7 +54,7 @@ try:
 
     retainedEarnings = getFromDF(bs, "retainedEarnings")
     totalCurrentAssets = getFromDF(bs, "totalCurrentAssets")
-    totalCurrentLiab = getFromDF(bs, "totalCurrentLiabilities")
+    currLiab = getFromDF(bs, "totalCurrentLiabilities")
     totalAssets = getFromDF(bs, "totalAssets")
     totalLiab = getFromDF(bs, "totalLiab")
     intangibles = getFromDF(bs, 'intangibleAssets')
@@ -66,7 +66,8 @@ try:
     receivables = getFromDF(bs, 'netReceivables')
     inventory = getFromDF(bs, 'inventory')
 
-    currRatio = (cash + receivables * 0.5 + inventory * 0.2) / totalCurrentLiab
+    currRatio = (cash + receivables * 0.5 + inventory * 0.2) / currLiab
+    print("current ratio components cash", cash, 'rec', receivables, 'inv', inventory, 'currL', currLiab)
 
     incomeStatement = si.get_income_statement(stockName, yearly=yearlyFlag)
     print("income statement date:", incomeStatement.columns[0].strftime('%Y/%-m/%-d'))
@@ -94,7 +95,7 @@ try:
 
     cfoA = cfo / totalAssets
 
-    # print("cfo is ", round(cfo / 1000000000, 2), "B")
+    print("cfo is ", round(cfo / 1000000000, 2), "B")
 
     marketPrice = si.get_live_price(stockName)
 
@@ -137,20 +138,24 @@ try:
                  / (data52w['high'].max() - data52w['low'].min())
 
     divSum = divs['dividend'].sum() if not divs.empty else 0.0
+    if not divs.empty:
+        print('div history ', divs)
+    else:
+        print('div is empty ')
 
     # PRINTING*****
 
     print("listing Currency:", listingCurr, "bs currency:", bsCurrency, "ExRate:", exRate)
     # print("total shares xueqiu", str(roundB(sharesTotalXueqiu, 2)) + "B")
     # print("shares finviz", sharesFinviz)
-    print("cash", roundB(cash, 2), "rec", roundB(receivables, 2), "inv",
-          roundB(inventory, 2))
+    print("cash", roundB(cash / exRate, 2), "rec", roundB(receivables / exRate, 2), "inv",
+          roundB(inventory / exRate, 2))
     print("A", roundB(totalAssets / exRate, 1), "B", "(",
           roundB(totalCurrentAssets / exRate, 1)
           , roundB((totalAssets - totalCurrentAssets) / exRate, 1), ")")
     print("L", roundB(totalLiab / exRate, 1), "B", "(",
-          roundB(totalCurrentLiab / exRate, 1),
-          roundB((totalLiab - totalCurrentLiab) / exRate, 1), ")")
+          roundB(currLiab / exRate, 1),
+          roundB((totalLiab - currLiab) / exRate, 1), ")")
     print("E", round((totalAssets - totalLiab) / exRate / 1000000000.0, 1), "B")
     print("Market Cap", str(round(marketPrice * shares / 1000000000.0, 1)) + "B")
 

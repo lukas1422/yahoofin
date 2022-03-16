@@ -1,18 +1,14 @@
 0057.HK 震雄集團 HKDHKD 1 Hong_Kong Industrials  cash:0.82 rec:1.36 inv:0.95 CA:3.3 L:1.36 mv:1.32 鸡肋:CA-L>MV
-0116.HK 周生生s HKDHKD 1 Hong_Kong Consumer_Cyclical  cash:1.22 rec:1.12 inv:9.84 CA:12.86 L:4.28 mv:6.71 inventory conversion rate:0.94
-0321.HK 德永佳集團s HKDHKD 1 Hong_Kong Consumer_Cyclical  cash:2.33 rec:1.35 inv:2.71 CA:6.79 L:3.96 mv:2.03 鸡肋:CA-L>MV
-0326.HK 中國星集團 HKDHKD 1 Hong_Kong Communication_Services  cash:0.21 rec:0.45 inv:3.47 CA:4.98 L:2.09 mv:1.96 鸡肋:CA-L>MV
-0393.HK 旭日企業 HKDHKD 1 Hong_Kong Consumer_Cyclical  cash:1.69 rec:0.18 inv:0.07 CA:2.34 L:0.59 mv:1.15 receivable conversion rate:0.29
-0420.HK 福田實業 HKDHKD 1 Hong_Kong Consumer_Cyclical  cash:1.04 rec:1.27 inv:1.53 CA:4.05 L:2.13 mv:1.58 鸡肋:CA-L>MV
-0450.HK 鴻興印刷集團 HKDHKD 1 Hong_Kong Industrials  cash:0.65 rec:0.84 inv:0.83 CA:2.85 L:1.02 mv:1.07 鸡肋:CA-L>MV
-0743.HK 亞洲水泥（中國）s HKDCNY 0.82 China Basic_Materials  cash:6.53 rec:3.76 inv:0.89 CA:11.25 L:4.66 mv:7.38 鸡肋:CA-L>MV
-0769.HK 中國稀土s HKDHKD 1 China Basic_Materials  cash:1.76 rec:0.54 inv:0.34 CA:2.75 L:0.15 mv:1.59 CASH netnet, profit:12856792.17
-0887.HK 英皇鐘錶珠寶 HKDHKD 1 Hong_Kong Consumer_Cyclical  cash:0.87 rec:0.11 inv:2.88 CA:3.88 L:1.27 mv:1.16 inventory conversion rate:0.52
-1358.HK 普華和順 HKDCNY 0.82 China Healthcare  cash:2.41 rec:0.13 inv:0.04 CA:2.58 L:0.13 mv:1.4 CASH netnet, profit:1387634409.86
-1366.HK 江南集團 HKDCNY 0.82 Hong_Kong Industrials  cash:1.02 rec:6.7 inv:4.94 CA:15.13 L:9.93 mv:1.35 鸡肋:CA-L>MV
-1786.HK 鐵建裝備 HKDCNY 0.82 China Industrials  cash:1.38 rec:2.35 inv:2.18 CA:6.06 L:2.46 mv:1.19 receivable conversion rate:0.87
-2127.HK 匯森家居s HKDCNY 0.82 China Consumer_Cyclical  cash:3.06 rec:1.21 inv:0.24 CA:4.51 L:1.22 mv:2.42 receivable conversion rate:0.12
-2131.HK 云想科技 HKDCNY 0.82 China Communication_Services  cash:0.56 rec:1.61 inv:0.0 CA:2.34 L:0.79 mv:1.47 receivable conversion rate:0.9
-2698.HK 魏橋紡織s HKDCNY 0.82 China Consumer_Cyclical  cash:11.89 rec:0.64 inv:2.35 CA:15.03 L:5.61 mv:2.54 CASH netnet, profit:5110384220.14
-2877.HK 神威藥業s HKDCNY 0.82 China Healthcare  cash:4.15 rec:0.77 inv:0.43 CA:5.47 L:1.09 mv:4.89 鸡肋:CA-L>MV
-3389.HK 亨得利 HKDCNY 0.82 Hong_Kong Consumer_Cyclical  cash:1.11 rec:0.44 inv:0.62 CA:2.27 L:0.21 mv:1.21 receivable conversion rate:0.2
+0116.HK 周生生s HKDHKD 1 Hong_Kong Consumer_Cyclical  cash:1.22 rec:1.12 inv:9.84 CA:12.86 L:4.28 mv:6.16 inventory conversion rate:0.88
+0321.HK 德永佳集團s HKDHKD 1 Hong_Kong Consumer_Cyclical  cash:2.33 rec:1.35 inv:2.71 CA:6.79 L:3.96 mv:1.89 鸡肋:CA-L>MV
+0326.HK 中國星集團 HKDHKD 1 Hong_Kong Communication_Services  cash:0.21 rec:0.45 inv:3.47 CA:4.98 L:2.09 mv:1.74 inventory conversion rate:0.98
+0327.HK 百富環球s HKDHKD 1 Hong_Kong Industrials  cash:3.34 rec:1.85 inv:1.68 CA:6.97 L:1.71 mv:5.01 鸡肋:CA-L>MV
+0393.HK 旭日企業 HKDHKD 1 Hong_Kong Consumer_Cyclical  cash:1.69 rec:0.18 inv:0.07 CA:2.34 L:0.59 mv:1.09 CASH netnet, profit:8319152.83
+0420.HK 福田實業 HKDHKD 1 Hong_Kong Consumer_Cyclical  cash:1.04 rec:1.27 inv:1.53 CA:4.05 L:2.13 mv:1.54 鸡肋:CA-L>MV
+0450.HK 鴻興印刷集團 HKDHKD 1 Hong_Kong Industrials  cash:0.65 rec:0.84 inv:0.83 CA:2.85 L:1.02 mv:1.06 鸡肋:CA-L>MV
+0687.HK 泰昇集團 HKDHKD 1 Hong_Kong Industrials  cash:0.76 rec:0.97 inv:0.05 CA:1.82 L:0.67 mv:1.11 鸡肋:CA-L>MV
+0743.HK 亞洲水泥（中國）s HKDCNY 0.82 China Basic_Materials  cash:6.53 rec:3.76 inv:0.89 CA:11.25 L:4.66 mv:7.33 鸡肋:CA-L>MV
+1358.HK 普華和順 HKDCNY 0.82 China Healthcare  cash:2.41 rec:0.13 inv:0.04 CA:2.58 L:0.13 mv:1.38 CASH netnet, profit:1403326855.88
+1366.HK 江南集團 HKDCNY 0.82 Hong_Kong Industrials  cash:1.02 rec:6.7 inv:4.94 CA:15.13 L:9.93 mv:1.22 鸡肋:CA-L>MV
+2698.HK 魏橋紡織s HKDCNY 0.82 China Consumer_Cyclical  cash:11.89 rec:0.64 inv:2.35 CA:15.03 L:5.61 mv:2.5 CASH netnet, profit:5158160019.34
+3389.HK 亨得利 HKDCNY 0.82 Hong_Kong Consumer_Cyclical  cash:1.11 rec:0.44 inv:0.62 CA:2.27 L:0.21 mv:1.18 receivable conversion rate:0.16

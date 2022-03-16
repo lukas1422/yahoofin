@@ -1,3 +1,4 @@
+import math
 import os
 import sys
 
@@ -50,8 +51,9 @@ elif MARKET == Market.HK:
     stock_df['ticker'] = stock_df['ticker'].map(lambda x: convertHK(x))
     listStocks = stock_df['ticker'].tolist()
     hk_shares = pd.read_csv('list_HK_totalShares', sep=" ", index_col=False, names=['ticker', 'shares'])
+    # print(hk_shares)
 
-    #listStocks = ['2127.HK']
+    # listStocks = ['0539.HK']
     # listStocks = ["2698.HK", "0743.HK", "0321.HK", "0819.HK",
     #               "1361.HK", "0057.HK", "0420.HK", "1085.HK", "1133.HK", "2131.HK",
     #               "3393.HK", "2355.HK", "0517.HK", "3636.HK", "0116.HK", "1099.HK", "2386.HK", "6188.HK"]
@@ -76,6 +78,12 @@ for comp in listStocks:
             continue
 
         marketPrice = si.get_live_price(comp)
+        print(comp, 'market price', marketPrice)
+
+        if math.isnan(marketPrice):
+            print(comp, "market price is nan")
+            continue
+
 
         # if marketPrice < 1:
         #     print(comp, "cent stock", marketPrice)
@@ -113,11 +121,13 @@ for comp in listStocks:
         if MARKET == Market.US:
             shares = si.get_quote_data(comp)['sharesOutstanding']
         elif MARKET == Market.HK:
-            shares = hk_shares[hk_shares['ticker'] == comp]['shares'].values[0]
+            shares = hk_shares[hk_shares['ticker'] == comp]['shares'].item()
+            print(hk_shares[hk_shares['ticker'] == comp]['shares'].item())
         else:
             raise Exception("market not found ", MARKET)
 
         marketCap = marketPrice * shares
+        print('shares ', shares, 'market cap', marketCap)
 
         if MARKET == Market.HK:
             if marketCap < 1000000000:

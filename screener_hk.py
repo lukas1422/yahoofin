@@ -119,7 +119,7 @@ for comp in listStocks:
             print(comp, "cfo <= 0 ", cfo)
             continue
 
-        shares = hk_shares[hk_shares['ticker'] == comp]['shares'].values[0]
+        shares = hk_shares[hk_shares['ticker'] == comp]['shares'].item()
 
         listingCurrency = getListingCurrency(comp)
         bsCurrency = getBalanceSheetCurrency(comp, listingCurrency)
