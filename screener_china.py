@@ -8,7 +8,7 @@ from Market import Market
 from currency_scrapeYahoo import getBalanceSheetCurrency
 from currency_scrapeYahoo import getListingCurrency
 import currency_getExchangeRate
-from helperMethods import getFromDF, convertHK, getFromDFYearly, roundB, boolToString, convertChinaForYahoo, \
+from helperMethods import getFromDF, getFromDFYearly, roundB, boolToString, convertChinaForYahoo, \
     convertChinaForXueqiu
 
 MARKET = Market.CHINA
@@ -35,15 +35,12 @@ fileOutput = open('list_results_china', 'w')
 
 stock_df = pd.read_csv('list_chinaTickers2', dtype=object, sep=" ", index_col=False, names=['ticker', 'name'])
 stock_df['ticker'] = stock_df['ticker'].astype(str)
-# print("hk shares", hk_shares)
 stock_df['ticker'] = stock_df['ticker'].map(lambda x: convertChinaForYahoo(x))
 china_shares = pd.read_csv('list_China_totalShares', sep=" ", index_col=False, names=['ticker', 'shares'])
 china_shares['ticker'] = china_shares['ticker'].map(lambda x: convertChinaForYahoo(x))
 
 print(stock_df)
 listStocks = stock_df['ticker'].tolist()
-print(listStocks)
-
 print(len(listStocks), listStocks)
 
 for comp in listStocks:
@@ -125,7 +122,6 @@ for comp in listStocks:
 
         if shares == "error":
             shares = scrape_sharesOutstanding.scrapeTotalSharesXueqiu(convertChinaForXueqiu(comp[:6]))
-
             print(comp, 'share was error', shares)
 
         print(comp, 'shares', shares)
@@ -135,7 +131,7 @@ for comp in listStocks:
         print("listing currency, bs currency, ", listingCurrency, bsCurrency)
         exRate = currency_getExchangeRate.getExchangeRate(exchange_rate_dict, listingCurrency, bsCurrency)
 
-        shares = si.get_quote_data(comp)['sharesOutstanding']
+        #shares = si.get_quote_data(comp)['sharesOutstanding']
 
         marketCap = marketPrice * shares
         if marketCap < 1000000000:
@@ -186,8 +182,7 @@ for comp in listStocks:
         magic6 = pb < 0.6 and pCfo < 6 and divYield > 0.06
 
         if schloss or netnet or magic6:
-            outputString = comp[:4] + " " + ' ' \
-                           + country.replace(" ", "_") + " " \
+            outputString = comp + " " + country.replace(" ", "_") + " " \
                            + sector.replace(" ", "_") + " " + listingCurrency + bsCurrency \
                            + boolToString(schloss, "schloss") + boolToString(netnet, "netnet") \
                            + boolToString(magic6, "magic6") \
