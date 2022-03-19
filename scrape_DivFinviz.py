@@ -11,6 +11,7 @@ def scrapeDivFinviz(comp):
     soup = BeautifulSoup(webpage, "html.parser")
 
     for tb in soup.find_all('table', {"class": "snapshot-table2"}):
+        print("tb is ========== ")
         for td in tb.find_all('td', text=re.compile('.*Dividend %.*')):
             return td.nextSibling.getText()
     return ""

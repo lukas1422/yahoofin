@@ -64,6 +64,12 @@ def convertHK(ticker):
 def boolToString(bool, string):
     return " " + string + "!" if bool else ""
 
+def chinaTickerToYahoo(nameInstring):
+    if nameInstring.startswith('6'):
+        return nameInstring + '.SS'
+    else:
+        return nameInstring + '.SZ'
+
 # import inspect
 
 # random = True
