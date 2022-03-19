@@ -41,7 +41,7 @@ def getFromDFYearly(df, attribute, yearly):
         colsToSum = sum(df.columns > df.columns[0] - timedelta(weeks=51))
         # print(df.columns, df.columns[0] - timedelta(weeks=51))
         # print("cols to sum ", colsToSum)
-        #print("DF: latest*4", df.loc[attribute].dropna()[0] * colsToSum, "sum4", df.loc[attribute][:colsToSum].sum())
+        # print("DF: latest*4", df.loc[attribute].dropna()[0] * colsToSum, "sum4", df.loc[attribute][:colsToSum].sum())
         return min(df.loc[attribute].dropna()[0] * colsToSum, df.loc[attribute][:colsToSum].sum())
 
 
@@ -64,12 +64,19 @@ def convertHK(ticker):
 def boolToString(bool, string):
     return " " + string + "!" if bool else ""
 
-def chinaTickerToYahoo(nameInstring):
+
+def convertChinaForYahoo(nameInstring):
     if nameInstring.startswith('6'):
         return nameInstring + '.SS'
     else:
         return nameInstring + '.SZ'
 
+
+def convertChinaForXueqiu(nameInstring):
+    if nameInstring.startswith('6'):
+        return 'SH' + nameInstring
+    else:
+        return 'SZ' + nameInstring
 # import inspect
 
 # random = True

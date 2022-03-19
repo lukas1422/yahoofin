@@ -3,7 +3,7 @@ from urllib.request import Request, urlopen
 import re
 import json
 import pandas as pd
-from helperMethods import convertHK
+from helperMethods import convertHK, convertChinaForXueqiu
 
 
 def scrapeSharesXueqiu(comp):
@@ -40,7 +40,26 @@ def increment():
     return COUNT
 
 
-def scrapeSharesXueqiuAll():
+def scrapeSharesXueqiuChina():
+    fileOutput = open('list_China_totalShares', 'w')
+    stock_df = pd.read_csv('list_chinaTickers2', dtype=object, sep=" ", index_col=False, names=['ticker', 'name'])
+    stock_df['ticker'] = stock_df['ticker'].astype(str)
+    listStocks = stock_df['ticker'].map(lambda x: convertChinaForXueqiu(x)).tolist()
+    print('china stocks', listStocks)
+
+    for comp in listStocks:
+        print(increment())
+        try:
+            xueqiu = scrapeSharesXueqiu(comp)
+            outputString = comp + " " + str(xueqiu)
+            print(outputString)
+            fileOutput.write(outputString + '\n')
+            fileOutput.flush()
+        except Exception as e:
+            print(comp, "exception", e)
+
+
+def scrapeSharesXueqiuHK():
     fileOutput = open('list_HK_totalShares_test', 'w')
     stock_df = pd.read_csv('list_HK_Tickers', dtype=object, sep=" ", index_col=False, names=['ticker', 'name'])
     stock_df['ticker'] = stock_df['ticker'].astype(str)
@@ -78,5 +97,6 @@ def scrapeSharesXueqiuLoopAgainCorrectErrors():
     stock_df.to_csv('list_hk_totalShares_test2', header=None, index=None, sep=' ')
 
 
-#scrapeSharesXueqiuAll()
+scrapeSharesXueqiuChina()
+#scrapeSharesXueqiuHK()
 # scrapeSharesXueqiuLoopAgainCorrectErrors()
