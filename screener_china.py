@@ -125,7 +125,6 @@ for comp in listStocks:
 
         if shares == "error":
             shares = scrape_sharesOutstanding.scrapeTotalSharesXueqiu(convertChinaForXueqiu(comp[:6]))
-
             print(comp, 'share was error', shares)
 
         print(comp, 'shares', shares)
