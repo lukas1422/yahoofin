@@ -66,6 +66,10 @@ def boolToString(bool, string):
 
 
 def convertChinaForYahoo(nameInstring):
+
+    if nameInstring.startswith('SZ') or nameInstring.startswith('SH'):
+        nameInstring = nameInstring[2:]
+
     if nameInstring.startswith('6'):
         return nameInstring + '.SS'
     else:

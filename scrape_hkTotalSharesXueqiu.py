@@ -78,7 +78,7 @@ def scrapeSharesXueqiuHK():
 
 
 def scrapeSharesXueqiuLoopAgainCorrectErrors():
-    stock_df = pd.read_csv('list_HK_totalShares_test',
+    stock_df = pd.read_csv('list_China_totalShares2',
                            dtype=object, sep=" ", index_col=False, names=['ticker', 'shares'])
     stock_df['ticker'] = stock_df['ticker'].astype(str)
     errorDF = stock_df.loc[stock_df['shares'] == 'error']
@@ -94,9 +94,10 @@ def scrapeSharesXueqiuLoopAgainCorrectErrors():
         except Exception as e:
             print(comp, "exception", e)
 
-    stock_df.to_csv('list_hk_totalShares_test2', header=None, index=None, sep=' ')
+    stock_df.to_csv('list_China_totalShares', header=None, index=None, sep=' ')
 
 
-scrapeSharesXueqiuChina()
+# scrapeSharesXueqiuChina()
+scrapeSharesXueqiuLoopAgainCorrectErrors()
 #scrapeSharesXueqiuHK()
 # scrapeSharesXueqiuLoopAgainCorrectErrors()

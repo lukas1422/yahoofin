@@ -2,11 +2,14 @@ from datetime import datetime, timedelta
 import sys, os
 import yahoo_fin.stock_info as si
 import pandas as pd
+
+import scrape_sharesOutstanding
 from Market import Market
 from currency_scrapeYahoo import getBalanceSheetCurrency
 from currency_scrapeYahoo import getListingCurrency
 import currency_getExchangeRate
-from helperMethods import getFromDF, convertHK, getFromDFYearly, roundB, boolToString, convertChinaForYahoo
+from helperMethods import getFromDF, convertHK, getFromDFYearly, roundB, boolToString, convertChinaForYahoo, \
+    convertChinaForXueqiu
 
 MARKET = Market.CHINA
 yearlyFlag = False
@@ -35,6 +38,7 @@ stock_df['ticker'] = stock_df['ticker'].astype(str)
 # print("hk shares", hk_shares)
 stock_df['ticker'] = stock_df['ticker'].map(lambda x: convertChinaForYahoo(x))
 china_shares = pd.read_csv('list_China_totalShares', sep=" ", index_col=False, names=['ticker', 'shares'])
+china_shares['ticker'] = china_shares['ticker'].map(lambda x: convertChinaForYahoo(x))
 
 print(stock_df)
 listStocks = stock_df['ticker'].tolist()
@@ -43,7 +47,6 @@ print(listStocks)
 print(len(listStocks), listStocks)
 
 for comp in listStocks:
-
     try:
         companyName = stock_df.loc[stock_df['ticker'] == comp]['name'].item()
 
@@ -120,7 +123,11 @@ for comp in listStocks:
 
         shares = china_shares[china_shares['ticker'] == comp]['shares'].item()
 
-        # shares = hk_shares[hk_shares['ticker'] == comp]['shares'].item()
+        if shares == "error":
+            shares = scrape_sharesOutstanding.scrapeTotalSharesXueqiu(convertChinaForXueqiu(comp[:6]))
+            print(comp, 'share was error', shares)
+
+        print(comp, 'shares', shares)
 
         listingCurrency = getListingCurrency(comp)
         bsCurrency = getBalanceSheetCurrency(comp, listingCurrency)
