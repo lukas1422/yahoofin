@@ -53,8 +53,12 @@ def getInsiderOwnership():
 
 
 def convertHK(ticker):
+
+
     if ticker.endswith('HK'):
         return ticker
+
+    ticker = ticker.rjust(5,'0')
 
     if ticker.startswith('0'):
         return ticker[1:] + '.HK'

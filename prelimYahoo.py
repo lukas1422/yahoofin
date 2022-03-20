@@ -8,7 +8,11 @@ import currency_getExchangeRate
 import scrape_sharesOutstanding
 from helperMethods import getFromDF, getFromDFYearly, roundB
 
-yearAgo = datetime.today() - timedelta(weeks=53)
+ONE_YEAR_AGO = datetime.today() - timedelta(weeks=53)
+# PRICE_START_DATE = (datetime.today() - timedelta(weeks=52 * 2)).strftime('%-m/%-d/%Y')
+TEN_YEAR_AGO = (datetime.today() - timedelta(weeks=52 * 10)).strftime('%-m/%-d/%Y')
+
+# yearAgo = datetime.today() - timedelta(weeks=53)
 START_DATE = (datetime.today() - timedelta(weeks=52 * 10)).strftime('%-m/%-d/%Y')
 # START_DATE = '3/1/2020'
 # DIVIDEND_START_DATE = '1/1/2010'
@@ -21,13 +25,15 @@ def fo(number):
 
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 
-# stockName = '1313.HK'
+stockName = '2103.HK'
 # stockName = '600519.SS'
-stockName = '000815.SZ'
+# stockName = '000815.SZ'
 
 yearlyFlag = False
 try:
     data = si.get_data(stockName, start_date=START_DATE, interval=PRICE_INTERVAL)
+    print('last trading day', data[data['volume'] != 0].index[-1])
+
     try:
         info = si.get_company_info(stockName)
         insiderPerc = float(si.get_holders(stockName).get('Major Holders')[0][0].rstrip("%"))
@@ -70,7 +76,8 @@ try:
     inventory = getFromDF(bs, 'inventory')
 
     currRatio = (cash + receivables * 0.5 + inventory * 0.2) / currLiab
-    print("current ratio components cash", cash, 'rec', receivables, 'inv', inventory, 'currL', currLiab)
+    print("current ratio components cash", roundB(cash, 2), 'rec', roundB(receivables, 2), 'inv', roundB(inventory, 2),
+          'currL', roundB(currLiab, 2))
 
     incomeStatement = si.get_income_statement(stockName, yearly=yearlyFlag)
     print("income statement date:", incomeStatement.columns[0].strftime('%Y/%-m/%-d'))
@@ -130,17 +137,31 @@ try:
     pCFO = marketCap / cfo
     pTangibleEquity = marketCap / (tangible_equity / exRate)
     tangibleRatio = tangible_equity / (totalAssets - totalLiab)
-    divs = si.get_dividends(stockName, start_date=START_DATE)
+
+    divs = si.get_dividends(stockName)
+    divsPastYear = divs.loc[divs.index > ONE_YEAR_AGO]
+    divSumPastYear = divsPastYear['dividend'].sum() if not divsPastYear.empty else 0
+    divLastYearYield = divSumPastYear / marketPrice
+
+    div10Yr = divs.loc[divs.index > TEN_YEAR_AGO]
+    div10YrSum = div10Yr['dividend'].sum() if not div10Yr.empty else 0
     startToNow = (datetime.today() - data.index[0]).days / 365.25
-    print(" start to now ", startToNow, 'starting date ', data.index[0].strftime('%Y/%-m/%-d'))
+    div10YearYield = (div10YrSum / startToNow) / marketPrice
+    # startToNow = (datetime.today() - data.index[0]).days / 365.25
+    # print(" start to now ", startToNow, 'starting date ', data.index[0].strftime('%Y/%-m/%-d'))
 
     avgDollarVol = (data[-10:]['close'] * data[-10:]['volume']).sum() / 10
 
-    data52w = data.loc[data.index > yearAgo]
+    data52w = data.loc[data.index > ONE_YEAR_AGO]
+
     percentile = 100.0 * (marketPrice - data52w['low'].min()) \
                  / (data52w['high'].max() - data52w['low'].min())
 
-    divSum = divs['dividend'].sum() if not divs.empty else 0.0
+    divsPastYear = divs.loc[divs.index > ONE_YEAR_AGO]
+    divSumPastYear = divsPastYear['dividend'].sum() if not divsPastYear.empty else 0
+    print('divsum marketPrice', divSumPastYear, marketPrice)
+
+    # divSum = divs['dividend'].sum() if not divs.empty else 0.0
     if not divs.empty:
         print('div history ', divs)
     else:
@@ -186,8 +207,9 @@ try:
     print("RE", round(retainedEarnings / 1000000000 / exRate, 2), "B")
     print("RE/A", round(retainedEarnings / totalAssets, 2))
     print("S/A", round(revenue / totalAssets, 2))
-    print("div annual yield:", round(divSum / marketPrice * 100 / startToNow), "%")
-    print("divsum marketprice:", round(divSum, 2), round(marketPrice, 2))
+    print("div1YrYld:", round(divLastYearYield * 100), "%")
+    print("div10YrYld:", round(div10YearYield * 100), "%")
+    print("divsum marketprice:", round(divSumPastYear, 2), round(marketPrice, 2))
     # print('roa', roa)
     print("P/CFO", round(marketCap / (cfo / exRate), 2))
     print('cfo/A', cfoA)
@@ -203,7 +225,7 @@ try:
                    + " ebit/A:" + str(round(ebitAssetRatio, 2)) \
                    + " tangibleRatio:" + str(round(tangibleRatio, 2)) \
                    + " 52w_p%:" + str(round(percentile)) \
-                   + " divYld%:" + str(round(divSum / marketPrice * 100 / startToNow, 1)) + "%" \
+                   + " divYld%:" + str(round(divSumPastYear / marketPrice * 100 / startToNow, 1)) + "%" \
                    + " dai$Vol:" + str(round(avgDollarVol / 1000000, 2)) + "M"
 
     print(outputString)

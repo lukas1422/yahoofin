@@ -21,9 +21,10 @@ def increment():
     return COUNT
 
 
-PRICE_START_DATE = datetime.today() - timedelta(weeks=53)
+ONE_YEAR_AGO = datetime.today() - timedelta(weeks=53)
 # PRICE_START_DATE = (datetime.today() - timedelta(weeks=52 * 2)).strftime('%-m/%-d/%Y')
-START_DATE = (datetime.today() - timedelta(weeks=52 * 10)).strftime('%-m/%-d/%Y')
+TEN_YEAR_AGO = (datetime.today() - timedelta(weeks=52 * 10)).strftime('%-m/%-d/%Y')
+# DIV_START_DATE =
 PRICE_INTERVAL = '1wk'
 
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
@@ -34,12 +35,11 @@ stock_df = pd.read_csv('list_HK_Tickers', dtype=object, sep=" ", index_col=False
 stock_df['ticker'] = stock_df['ticker'].astype(str)
 stock_df['ticker'] = stock_df['ticker'].map(lambda x: convertHK(x))
 hk_shares = pd.read_csv('list_HK_totalShares', sep=" ", index_col=False, names=['ticker', 'shares'])
-# print("hk shares", hk_shares)
-listStocks = stock_df['ticker'].tolist()
-# listStocks = ['1358.HK']
-# listStocks= ["2698.HK","0743.HK","0321.HK","0819.HK",
-#              "1361.HK","0057.HK","0420.HK","1085.HK","1133.HK","2131.HK",
-#              "3393.HK","2355.HK","0517.HK","3636.HK","0116.HK","1099.HK","2386.HK","6188.HK"]
+
+stock_df_torun = pd.read_csv('list_special', dtype=object, sep=" ", index_col=False, names=['ticker'])
+stock_df_torun['ticker'] = stock_df_torun['ticker'].map(lambda x: convertHK(x))
+listStocks = stock_df_torun['ticker'].tolist()
+# listStocks = ['0321.HK']
 
 print(len(listStocks), listStocks)
 
@@ -50,7 +50,7 @@ for comp in listStocks:
 
         print(increment(), comp, companyName)
 
-        data = si.get_data(comp, start_date=START_DATE, interval=PRICE_INTERVAL)
+        data = si.get_data(comp, start_date=TEN_YEAR_AGO, interval=PRICE_INTERVAL)
         print("start date ", data.index[0].strftime('%-m/%-d/%Y'))
 
         try:
@@ -65,9 +65,9 @@ for comp in listStocks:
         country = getFromDF(info, "country")
         sector = getFromDF(info, 'sector')
 
-        if 'real estate' in sector.lower() or 'financial' in sector.lower():
-            print(comp, " no real estate or financial ", sector)
-            continue
+        # if 'real estate' in sector.lower() or 'financial' in sector.lower():
+        #     print(comp, " no real estate or financial ", sector)
+        #     continue
 
         marketPrice = si.get_live_price(comp)
         # if marketPrice <= 1:
@@ -95,9 +95,9 @@ for comp in listStocks:
 
         currRatio = (cash + 0.5 * receivables + 0.2 * inventory) / currLiab
 
-        if currRatio <= 1:
-            print(comp, "curr ratio < 1", currRatio)
-            continue
+        # if currRatio <= 1:
+        #     print(comp, "curr ratio < 1", currRatio)
+        #     continue
 
         totalAssets = getFromDF(bs, "totalAssets")
         totalLiab = getFromDF(bs, "totalLiab")
@@ -106,9 +106,9 @@ for comp in listStocks:
         tangible_Equity = totalAssets - totalLiab - goodWill - intangibles
         debtEquityRatio = totalLiab / tangible_Equity
 
-        if debtEquityRatio > 1:
-            print(comp, "de ratio> 1. ", debtEquityRatio)
-            continue
+        # if debtEquityRatio > 1:
+        #     print(comp, "de ratio> 1. ", debtEquityRatio)
+        #     continue
 
         incomeStatement = si.get_income_statement(comp, yearly=yearlyFlag)
 
@@ -149,30 +149,39 @@ for comp in listStocks:
         # ebitAssetRatio = ebit / totalAssets
 
         # data = si.get_data(comp, start_date=START_DATE, interval=PRICE_INTERVAL)
-        data52w = data.loc[data.index > PRICE_START_DATE]
+        data52w = data.loc[data.index > ONE_YEAR_AGO]
         percentile = 100.0 * (marketPrice - data52w['low'].min()) / (data52w['high'].max() - data52w['low'].min())
         low_52wk = data52w['low'].min()
         avgDollarVol = (data[-10:]['close'] * data[-10:]['volume']).sum() / 10
 
         try:
             insiderPerc = float(si.get_holders(comp).get('Major Holders')[0][0].rstrip("%"))
-            print(comp, MARKET, "insider percent", insiderPerc)
+            print("insider percent", insiderPerc)
         except Exception as e:
             print(e)
             insiderPerc = 0
 
-        divs = si.get_dividends(comp, start_date=START_DATE)
-        divSum = divs['dividend'].sum() if not divs.empty else 0
+        # divs = si.get_dividends(comp, start_date=START_DATE)
+        divs = si.get_dividends(comp)
+
+        divsPastYear = divs.loc[divs.index > ONE_YEAR_AGO]
+        divSumPastYear = divsPastYear['dividend'].sum() if not divsPastYear.empty else 0
+        divLastYearYield = divSumPastYear / marketPrice
+
+        div10Yr = divs.loc[divs.index > TEN_YEAR_AGO]
+        div10YrSum = div10Yr['dividend'].sum() if not div10Yr.empty else 0
         startToNow = (datetime.today() - data.index[0]).days / 365.25
-        print(" start to now ", startToNow, 'starting date ', data.index[0])
-        divYield = divSum / marketPrice / startToNow
-        if divSum == 0:
+        div10YearYield = (div10YrSum / startToNow) / marketPrice
+
+        if divSumPastYear == 0:
             print(comp, "div is 0 ")
             continue
 
         schloss = pb < 0.6 and marketPrice < low_52wk * 1.1 and insiderPerc > INSIDER_OWN_MIN
+        netnetRatio = (cash + receivables * 0.5 + inventory * 0.2 - totalLiab) / exRate / marketCap
         netnet = (cash + receivables * 0.5 + inventory * 0.2 - totalLiab) / exRate - marketCap > 0
-        magic6 = pb < 0.6 and pCfo < 6 and divYield > 0.06
+        magic6 = pb < 0.6 and pCfo < 6 and div10YearYield >= 0.06
+        print('pb, pcfo, divyield', pb, pCfo, div10YearYield, magic6)
 
         if schloss or netnet or magic6:
             outputString = comp[:4] + " " + " " + companyName[:4] + ' ' \
@@ -189,8 +198,9 @@ for comp in listStocks:
                            + " RetEarning/A:" + str(round(retainedEarningsAssetRatio, 2)) \
                            + " S/A:" + str(round(revenue / totalAssets, 2)) \
                            + " cfo/A:" + str(round(cfoAssetRatio, 2)) \
-                           + " 52w_p%:" + str(round(percentile)) \
-                           + " divYld:" + str(round(divSum / marketPrice * 100 / startToNow)) + "%" \
+                           + " P/52wLow:" + str(round(marketPrice / low_52wk, 2)) \
+                           + " divYld:" + str(round(divLastYearYield * 100)) + "%" \
+                           + " divYld10yr:" + str(round(div10YearYield * 100)) + "%" \
                            + " insider%:" + str(round(insiderPerc)) + "%" \
                            + " dai$Vol:" + str(round(avgDollarVol / 1000000, 2)) + "M"
 
@@ -198,7 +208,21 @@ for comp in listStocks:
             fileOutput.write(outputString + '\n')
             fileOutput.flush()
         else:
-            print(" not a schloss, netnet or magic6")
+            # print(" not a schloss, netnet or magic6")
+            print("None " + companyName + ' nnRatio:' + str(round(netnetRatio, 2)) +
+                  " MV:" + str(roundB(marketCap, 1)) + 'B'
+                  + " BV:" + str(roundB(tangible_Equity / exRate, 1)) + 'B'
+                  + " P/CFO:" + str(round(pCfo, 2))
+                  + " P/B:" + str(round(pb, 1))
+                  + " C/R:" + str(round(currRatio, 2))
+                  + " D/E:" + str(round(debtEquityRatio, 2))
+                  + " RetEarning/A:" + str(round(retainedEarningsAssetRatio, 2))
+                  + " S/A:" + str(round(revenue / totalAssets, 2))
+                  + " cfo/A:" + str(round(cfoAssetRatio, 2))
+                  + " 52w_p%:" + str(round(percentile))
+                  + " divYld:" + str(round(divSumPastYear / marketPrice * 100)) + "%"
+                  + " insider%:" + str(round(insiderPerc)) + "%"
+                  + " dai$Vol:" + str(round(avgDollarVol / 1000000, 2)) + "M")
 
     except Exception as e:
         print(comp, "exception", e)
