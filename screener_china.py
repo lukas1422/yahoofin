@@ -38,9 +38,8 @@ stock_df['ticker'] = stock_df['ticker'].astype(str)
 stock_df['ticker'] = stock_df['ticker'].map(lambda x: convertChinaForYahoo(x))
 china_shares = pd.read_csv('list_China_totalShares', sep=" ", index_col=False, names=['ticker', 'shares'])
 china_shares['ticker'] = china_shares['ticker'].map(lambda x: convertChinaForYahoo(x))
-
-print(stock_df)
 listStocks = stock_df['ticker'].tolist()
+
 print(len(listStocks), listStocks)
 
 for comp in listStocks:
@@ -67,6 +66,7 @@ for comp in listStocks:
         if 'real estate' in sector.lower() or 'financial' in sector.lower():
             print(comp, " no real estate or financial ", sector)
             continue
+        print('country sector', country, sector)
 
         marketPrice = si.get_live_price(comp)
         # if marketPrice <= 1:
@@ -131,7 +131,7 @@ for comp in listStocks:
         print("listing currency, bs currency, ", listingCurrency, bsCurrency)
         exRate = currency_getExchangeRate.getExchangeRate(exchange_rate_dict, listingCurrency, bsCurrency)
 
-        #shares = si.get_quote_data(comp)['sharesOutstanding']
+        # shares = si.get_quote_data(comp)['sharesOutstanding']
 
         marketCap = marketPrice * shares
         if marketCap < 1000000000:

@@ -9,11 +9,11 @@ from Market import Market
 from currency_scrapeYahoo import getBalanceSheetCurrency
 from currency_scrapeYahoo import getListingCurrency
 import currency_getExchangeRate
-from helperMethods import getFromDF, convertHK, roundB
+from helperMethods import getFromDF, convertHK, roundB, convertChinaForYahoo
 
 COUNT = 0
 
-MARKET = Market.HK
+MARKET = Market.CHINA
 yearlyFlag = False
 
 
@@ -57,6 +57,14 @@ elif MARKET == Market.HK:
     #               "1361.HK", "0057.HK", "0420.HK", "1085.HK", "1133.HK", "2131.HK",
     #               "3393.HK", "2355.HK", "0517.HK", "3636.HK", "0116.HK", "1099.HK", "2386.HK", "6188.HK"]
     # listStocks = ['0155.HK']
+elif MARKET == Market.CHINA:
+    stock_df = pd.read_csv('list_chinaTickers2', dtype=object, sep=" ", index_col=False, names=['ticker', 'name'])
+    stock_df['ticker'] = stock_df['ticker'].astype(str)
+    stock_df['ticker'] = stock_df['ticker'].map(lambda x: convertChinaForYahoo(x))
+    china_shares = pd.read_csv('list_China_totalShares', sep=" ", index_col=False, names=['ticker', 'shares'])
+    china_shares['ticker'] = china_shares['ticker'].map(lambda x: convertChinaForYahoo(x))
+    listStocks = stock_df['ticker'].tolist()
+
 else:
     raise Exception("market not found")
 
@@ -121,6 +129,9 @@ for comp in listStocks:
         elif MARKET == Market.HK:
             shares = hk_shares[hk_shares['ticker'] == comp]['shares'].item()
             print(hk_shares[hk_shares['ticker'] == comp]['shares'].item())
+        elif MARKET == Market.CHINA:
+            shares = china_shares[china_shares['ticker'] == comp]['shares'].item()
+            print('china shares', shares)
         else:
             raise Exception("market not found ", MARKET)
 
