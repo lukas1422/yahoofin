@@ -90,7 +90,6 @@ for comp in listStocks:
             print(comp, "market price is nan")
             continue
 
-
         # if marketPrice < 1:
         #     print(comp, "cent stock", marketPrice)
         #     continue
@@ -136,7 +135,7 @@ for comp in listStocks:
             raise Exception("market not found ", MARKET)
 
         marketCap = marketPrice * shares
-        print('shares ', shares, 'market cap', marketCap)
+        print('shares ', shares, 'market cap', roundB(marketCap, 2))
 
         if MARKET == Market.HK:
             if marketCap < 1000000000:

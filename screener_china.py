@@ -39,6 +39,7 @@ stock_df['ticker'] = stock_df['ticker'].map(lambda x: convertChinaForYahoo(x))
 china_shares = pd.read_csv('list_China_totalShares', sep=" ", index_col=False, names=['ticker', 'shares'])
 china_shares['ticker'] = china_shares['ticker'].map(lambda x: convertChinaForYahoo(x))
 listStocks = stock_df['ticker'].tolist()
+# listStocks = ['600519.SS']
 
 print(len(listStocks), listStocks)
 
@@ -47,9 +48,6 @@ for comp in listStocks:
         companyName = stock_df.loc[stock_df['ticker'] == comp]['name'].item()
 
         print(increment(), comp, companyName)
-
-        data = si.get_data(comp, start_date=START_DATE, interval=PRICE_INTERVAL)
-        print("start date ", data.index[0].strftime('%-m/%-d/%Y'))
 
         try:
             info = si.get_company_info(comp)
@@ -68,7 +66,6 @@ for comp in listStocks:
             continue
         print('country sector', country, sector)
 
-        marketPrice = si.get_live_price(comp)
         # if marketPrice <= 1:
         #     print(comp, 'market price < 1: ', marketPrice)
         #     continue
@@ -130,8 +127,11 @@ for comp in listStocks:
         bsCurrency = getBalanceSheetCurrency(comp, listingCurrency)
         print("listing currency, bs currency, ", listingCurrency, bsCurrency)
         exRate = currency_getExchangeRate.getExchangeRate(exchange_rate_dict, listingCurrency, bsCurrency)
+        print('exrate', listingCurrency, bsCurrency, exRate)
 
         # shares = si.get_quote_data(comp)['sharesOutstanding']
+
+        marketPrice = si.get_live_price(comp)
 
         marketCap = marketPrice * shares
         if marketCap < 1000000000:
@@ -155,6 +155,8 @@ for comp in listStocks:
         cfoAssetRatio = cfo / totalAssets
         # ebitAssetRatio = ebit / totalAssets
 
+        data = si.get_data(comp, start_date=START_DATE, interval=PRICE_INTERVAL)
+        print("start date ", data.index[0].strftime('%-m/%-d/%Y'))
         # data = si.get_data(comp, start_date=START_DATE, interval=PRICE_INTERVAL)
         data52w = data.loc[data.index > PRICE_START_DATE]
         percentile = 100.0 * (marketPrice - data52w['low'].min()) / (data52w['high'].max() - data52w['low'].min())
@@ -178,6 +180,7 @@ for comp in listStocks:
             continue
 
         schloss = pb < 0.6 and marketPrice < low_52wk * 1.1 and insiderPerc > INSIDER_OWN_MIN
+        netnetRatio = (cash + receivables * 0.5 + inventory * 0.2 - totalLiab) / exRate / marketCap
         netnet = (cash + receivables * 0.5 + inventory * 0.2 - totalLiab) / exRate - marketCap > 0
         magic6 = pb < 0.6 and pCfo < 6 and divYield > 0.06
 
@@ -204,7 +207,20 @@ for comp in listStocks:
             fileOutput.write(outputString + '\n')
             fileOutput.flush()
         else:
-            print(" not a schloss, netnet or magic6")
+            print("None " + companyName + ' nnRatio:' + str(round(netnetRatio, 2)) +
+                  " MV:" + str(roundB(marketCap, 1)) + 'B'
+                  + " BV:" + str(roundB(tangible_Equity / exRate, 1)) + 'B'
+                  + " P/CFO:" + str(round(pCfo, 2))
+                  + " P/B:" + str(round(pb, 1))
+                  + " C/R:" + str(round(currRatio, 2))
+                  + " D/E:" + str(round(debtEquityRatio, 2))
+                  + " RetEarning/A:" + str(round(retainedEarningsAssetRatio, 2))
+                  + " S/A:" + str(round(revenue / totalAssets, 2))
+                  + " cfo/A:" + str(round(cfoAssetRatio, 2))
+                  + " 52w_p%:" + str(round(percentile))
+                  + " divYld:" + str(round(divSum / marketPrice * 100 / startToNow)) + "%"
+                  + " insider%:" + str(round(insiderPerc)) + "%"
+                  + " dai$Vol:" + str(round(avgDollarVol / 1000000, 2)) + "M")
 
     except Exception as e:
         print(comp, "exception", e)
