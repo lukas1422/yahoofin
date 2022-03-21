@@ -67,9 +67,9 @@ for comp in listStocks:
         country = getFromDF(info, "country")
         sector = getFromDF(info, 'sector')
 
-        # if 'real estate' in sector.lower() or 'financial' in sector.lower():
-        #     print(comp, " no real estate or financial ", sector)
-        #     continue
+        if 'real estate' in sector.lower() or 'financial' in sector.lower():
+            print(comp, " no real estate or financial ", sector)
+            continue
 
         marketPrice = si.get_live_price(comp)
         # if marketPrice <= 1:
@@ -97,9 +97,9 @@ for comp in listStocks:
 
         currRatio = (cash + 0.5 * receivables + 0.2 * inventory) / currLiab
 
-        # if currRatio <= 1:
-        #     print(comp, "curr ratio < 1", currRatio)
-        #     continue
+        if currRatio <= 1:
+            print(comp, "curr ratio < 1", currRatio)
+            continue
 
         totalAssets = getFromDF(bs, "totalAssets")
         totalLiab = getFromDF(bs, "totalLiab")
@@ -108,9 +108,9 @@ for comp in listStocks:
         tangible_Equity = totalAssets - totalLiab - goodWill - intangibles
         debtEquityRatio = totalLiab / tangible_Equity
 
-        # if debtEquityRatio > 1:
-        #     print(comp, "de ratio> 1. ", debtEquityRatio)
-        #     continue
+        if debtEquityRatio > 1:
+            print(comp, "de ratio> 1. ", debtEquityRatio)
+            continue
 
         incomeStatement = si.get_income_statement(comp, yearly=yearlyFlag)
 

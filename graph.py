@@ -1,37 +1,36 @@
+comp = '0743.HK'
+
+
 from bokeh.layouts import column, gridplot
 from bokeh.models import ColumnDataSource
 from bokeh.plotting import figure, show
-from bokeh.models.tools import HoverTool
-
 import yahoo_fin.stock_info as si
 import currency_getExchangeRate
 from currency_scrapeYahoo import getListingCurrency, getBalanceSheetCurrency
 
 HALF_YEAR_WIDE = 15552000000
-ANNUALLY = False
+ANNUALLY = True
 
 
 def getBarWidth(annually):
-    if annually:
-        return 15552000000
-    else:
-        return 15552000000 / 4
+    return 15552000000 if annually else 15552000000 / 4
 
 
 def indicatorFunction(annually):
-    if annually:
-        return 1
-    else:
-        return 4
+    return 1 if annually else 4
 
 
-comp = '2698.HK'
-
-exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
-listingCurrency = getListingCurrency(comp)
-bsCurrency = getBalanceSheetCurrency(comp, listingCurrency)
-print("listing currency, bs currency, ", listingCurrency, bsCurrency)
-exRate = currency_getExchangeRate.getExchangeRate(exchange_rate_dict, listingCurrency, bsCurrency)
+try:
+    exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
+    listingCurrency = getListingCurrency(comp)
+    bsCurrency = getBalanceSheetCurrency(comp, listingCurrency)
+    print("listing currency, bs currency, ", listingCurrency, bsCurrency)
+    exRate = currency_getExchangeRate.getExchangeRate(exchange_rate_dict, listingCurrency, bsCurrency)
+except Exception as e:
+    print(e)
+    listingCurrency = 'HKD'
+    bsCurrency = 'HKD'
+    exRate = 1
 
 print('exrate', listingCurrency, bsCurrency, exRate)
 
@@ -41,20 +40,25 @@ data = si.get_data(comp)
 bs = si.get_balance_sheet(comp, yearly=ANNUALLY)
 bsT = bs.T
 bsT['REAssetsRatio'] = bsT['retainedEarnings'] / bsT['totalAssets']
-bsT['currentRatio'] = (bsT['cash'] + 0.5 * bsT['netReceivables'] + 0.2 * bsT['inventory']) \
-                      / bsT['totalCurrentLiabilities']
+bsT['currentRatio'] = (bsT['cash'] + 0.5 * bsT['netReceivables'] +
+                       0.2 * (bsT['inventory'] if 'inventory' in bsT else 0)) / bsT['totalCurrentLiabilities']
 bsT['netBook'] = (bsT['totalAssets'] - bsT['totalLiab']
                   - (bsT['goodWill'] if 'goodWill' in bsT.columns else 0)
                   - (bsT['intangibleAssets'] if 'intangibleAssets' in bsT.columns else 0))
 bsT['DERatio'] = bsT['totalLiab'] / bsT['netBook']
 bsT['priceOnOrAfter'] = bsT.index.map(lambda d: data[data.index >= d].iloc[0]['adjclose'])
-shares = si.get_quote_data('0743.HK')['sharesOutstanding']
+shares = si.get_quote_data(comp)['sharesOutstanding']
 bsT['marketCap'] = bsT['priceOnOrAfter'] * shares * exRate
+print('price, shares, exrate', bsT['priceOnOrAfter'], shares, exRate)
+
 bsT['PB'] = bsT['marketCap'] / bsT['netBook']
+
+print('pb', bsT['marketCap'], bsT['netBook'])
 
 income = si.get_income_statement(comp, yearly=ANNUALLY)
 incomeT = income.T
 bsT['revenue'] = bsT.index.map(lambda d: incomeT[incomeT.index == d]['totalRevenue'] * indicatorFunction(ANNUALLY))
+# print('revenue', bsT['revenue'])
 bsT['SalesAssetsRatio'] = bsT['revenue'] / bsT['totalAssets']
 
 cf = si.get_cash_flow(comp, yearly=ANNUALLY)
@@ -64,12 +68,12 @@ bsT['CFO'] = bsT.index.map(
     lambda d: cfT[cfT.index == d]['totalCashFromOperatingActivities'] * indicatorFunction(ANNUALLY))
 bsT['PCFO'] = bsT['marketCap'] / bsT['CFO']
 
-bsT['netnetRatio'] = ((bsT['cash'] + bsT['netReceivables'] * 0.5 + bsT['inventory'] * 0.2) - bsT['totalLiab']) \
+bsT['netnetRatio'] = ((bsT['cash'] + bsT['netReceivables'] * 0.5 +
+                       (bsT['inventory'] if 'inventory' in bsT else 0) * 0.2) - bsT['totalLiab']) \
                      / exRate / bsT['marketCap']
-source = ColumnDataSource(bsT)
-print(source.data)
 
-############ test
+source = ColumnDataSource(bsT)
+
 # cash
 p = figure(title='cash', x_axis_type="datetime")
 p.vbar(x='endDate', top='cash', source=source, width=getBarWidth(ANNUALLY))
@@ -117,9 +121,6 @@ p7 = figure(title='netnet Ratio', x_axis_type="datetime")
 p7.vbar(x='endDate', top='netnetRatio', source=source, width=getBarWidth(ANNUALLY))
 p7.title.text_font_size = '18pt'
 p7.title.align = 'center'
-
-# show(column(p, p1, p2, p3))
-
 
 grid = gridplot([[p1, p2], [p3, p4], [p5, p6], [p7, None]], width=500, height=500)
 
