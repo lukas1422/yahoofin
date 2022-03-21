@@ -37,13 +37,16 @@ shares = si.get_quote_data('0743.HK')['sharesOutstanding']
 bsT['marketCap'] = bsT['priceOnOrAfter'] * shares * exRate
 bsT['PB'] = bsT['marketCap'] / bsT['netBook']
 
-incomeSt = si.get_income_statement(comp)
+income = si.get_income_statement(comp)
+incomeT = income.T
+bsT['revenue'] = bsT.index.map(lambda d: incomeT[incomeT.index == d]['totalRevenue'])
+bsT['SalesAssetsRatio'] = bsT['revenue'] / bsT['totalAssets']
+
 cf = si.get_cash_flow(comp)
 cfT = cf.T
 cfo = cf.loc["totalCashFromOperatingActivities"]
 bsT['CFO'] = bsT.index.map(lambda d: cfT[cfT.index == d]['totalCashFromOperatingActivities'])
 bsT['PCFO'] = bsT['marketCap'] / bsT['CFO']
-
 
 source = ColumnDataSource(bsT)
 print(source.data)
@@ -62,36 +65,37 @@ p1.title.text_font_size = '18pt'
 p1.title.align = 'center'
 
 # retained earnings/Asset
-p2 = figure(title='RE/A', x_axis_type="datetime")
+p2 = figure(title='RetEarnings/A', x_axis_type="datetime")
 p2.vbar(x='endDate', top='REAssetsRatio', source=source, width=HALF_YEAR_WIDE)
 p2.title.text_font_size = '18pt'
 p2.title.align = 'center'
 
 # Debt/Equity
-p3 = figure(title='DE Ratio', x_axis_type="datetime")
+p3 = figure(title='D/E Ratio', x_axis_type="datetime")
 p3.vbar(x='endDate', top='DERatio', source=source, width=HALF_YEAR_WIDE)
 p3.title.text_font_size = '18pt'
 p3.title.align = 'center'
 
 # P/B
-p4 = figure(title='PB Ratio', x_axis_type="datetime")
+p4 = figure(title='P/B Ratio', x_axis_type="datetime")
 p4.vbar(x='endDate', top='PB', source=source, width=HALF_YEAR_WIDE)
 p4.title.text_font_size = '18pt'
 p4.title.align = 'center'
 
 # P/CFO
-p5 = figure(title='PCFO Ratio', x_axis_type="datetime")
+p5 = figure(title='P/CFO Ratio', x_axis_type="datetime")
 p5.vbar(x='endDate', top='PCFO', source=source, width=HALF_YEAR_WIDE)
 p5.title.text_font_size = '18pt'
 p5.title.align = 'center'
 
 # Sales/Assets
-
-
-
+p6 = figure(title='Sales/Assets Ratio', x_axis_type="datetime")
+p6.vbar(x='endDate', top='SalesAssetsRatio', source=source, width=HALF_YEAR_WIDE)
+p6.title.text_font_size = '18pt'
+p6.title.align = 'center'
 
 # show(column(p, p1, p2, p3))
 
-grid = gridplot([[p1, p2], [p3, p4], [p5, None]], width=500, height=500)
+grid = gridplot([[p1, p2], [p3, p4], [p5, p6]], width=500, height=500)
 
 show(grid)
