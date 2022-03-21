@@ -35,10 +35,11 @@ stock_df = pd.read_csv('list_HK_Tickers', dtype=object, sep=" ", index_col=False
 stock_df['ticker'] = stock_df['ticker'].astype(str)
 stock_df['ticker'] = stock_df['ticker'].map(lambda x: convertHK(x))
 hk_shares = pd.read_csv('list_HK_totalShares', sep=" ", index_col=False, names=['ticker', 'shares'])
+listStocks = stock_df['ticker'].tolist()
 
-stock_df_torun = pd.read_csv('list_special', dtype=object, sep=" ", index_col=False, names=['ticker'])
-stock_df_torun['ticker'] = stock_df_torun['ticker'].map(lambda x: convertHK(x))
-listStocks = stock_df_torun['ticker'].tolist()
+
+# stock_df_torun = pd.read_csv('list_special', dtype=object, sep=" ", index_col=False, names=['ticker'])
+# stock_df_torun['ticker'] = stock_df_torun['ticker'].map(lambda x: convertHK(x))
 # listStocks = ['0321.HK']
 
 print(len(listStocks), listStocks)
@@ -52,6 +53,7 @@ for comp in listStocks:
 
         data = si.get_data(comp, start_date=TEN_YEAR_AGO, interval=PRICE_INTERVAL)
         print("start date ", data.index[0].strftime('%-m/%-d/%Y'))
+        print('last active day', data[data['volume'] != 0].index[-1].strftime('%-m/%-d/%Y'))
 
         try:
             info = si.get_company_info(comp)

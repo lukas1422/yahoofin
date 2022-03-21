@@ -1,9 +1,7 @@
 from bs4 import BeautifulSoup
 from urllib.request import Request, urlopen
-import re
-import pandas as pd
 
-fileOutput = open('list_chinaTickers2', 'w')
+fileOutput = open('list_chinaTickers', 'w')
 
 # url = 'https://app.finance.ifeng.com/list/stock.php?t=hs&f=chg_pct&o=desc&p=93'
 # req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})

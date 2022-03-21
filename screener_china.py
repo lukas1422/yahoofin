@@ -33,7 +33,7 @@ exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 
 fileOutput = open('list_results_china', 'w')
 
-stock_df = pd.read_csv('list_chinaTickers2', dtype=object, sep=" ", index_col=False, names=['ticker', 'name'])
+stock_df = pd.read_csv('list_chinaTickers', dtype=object, sep=" ", index_col=False, names=['ticker', 'name'])
 stock_df['ticker'] = stock_df['ticker'].astype(str)
 stock_df['ticker'] = stock_df['ticker'].map(lambda x: convertChinaForYahoo(x))
 china_shares = pd.read_csv('list_China_totalShares', sep=" ", index_col=False, names=['ticker', 'shares'])

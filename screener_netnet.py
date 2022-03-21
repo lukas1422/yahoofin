@@ -58,7 +58,7 @@ elif MARKET == Market.HK:
     #               "3393.HK", "2355.HK", "0517.HK", "3636.HK", "0116.HK", "1099.HK", "2386.HK", "6188.HK"]
     # listStocks = ['0155.HK']
 elif MARKET == Market.CHINA:
-    stock_df = pd.read_csv('list_chinaTickers2', dtype=object, sep=" ", index_col=False, names=['ticker', 'name'])
+    stock_df = pd.read_csv('list_chinaTickers', dtype=object, sep=" ", index_col=False, names=['ticker', 'name'])
     stock_df['ticker'] = stock_df['ticker'].astype(str)
     stock_df['ticker'] = stock_df['ticker'].map(lambda x: convertChinaForYahoo(x))
     china_shares = pd.read_csv('list_China_totalShares', sep=" ", index_col=False, names=['ticker', 'shares'])
@@ -73,6 +73,10 @@ print(MARKET, len(listStocks), listStocks)
 for comp in listStocks:
 
     print(increment(), comp, stock_df[stock_df['ticker'] == comp]['name'].item())
+
+    # data = si.get_data(comp, start_date=TEN_YEAR_AGO, interval=PRICE_INTERVAL)
+    # print("start date ", data.index[0].strftime('%-m/%-d/%Y'))
+    # print('last active day', data[data['volume'] != 0].index[-1].strftime('%-m/%-d/%Y'))
 
     try:
         info = si.get_company_info(comp)
