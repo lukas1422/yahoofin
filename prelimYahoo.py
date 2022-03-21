@@ -1,3 +1,6 @@
+stockName = 'BABA'
+yearlyFlag = False
+
 import os
 import sys
 from datetime import datetime, timedelta
@@ -25,11 +28,10 @@ def fo(number):
 
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 
-stockName = '0064.HK'
 # stockName = '600519.SS'
 # stockName = '000815.SZ'
 
-yearlyFlag = False
+
 try:
     data = si.get_data(stockName, start_date=START_DATE, interval=PRICE_INTERVAL)
     print('last trading day', data[data['volume'] != 0].index[-1])
