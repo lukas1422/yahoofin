@@ -36,7 +36,7 @@ stock_df['ticker'] = stock_df['ticker'].astype(str)
 stock_df['ticker'] = stock_df['ticker'].map(lambda x: convertHK(x))
 hk_shares = pd.read_csv('list_HK_totalShares', sep=" ", index_col=False, names=['ticker', 'shares'])
 listStocks = stock_df['ticker'].tolist()
-listStocks = ['0743.HK']
+# listStocks = ['2698.HK']
 
 # stock_df_torun = pd.read_csv('list_special', dtype=object, sep=" ", index_col=False, names=['ticker'])
 # stock_df_torun['ticker'] = stock_df_torun['ticker'].map(lambda x: convertHK(x))
@@ -163,7 +163,6 @@ for comp in listStocks:
             print(e)
             insiderPerc = 0
 
-        # divs = si.get_dividends(comp, start_date=START_DATE)
         divs = si.get_dividends(comp)
 
         divsPastYear = divs.loc[divs.index > ONE_YEAR_AGO]
@@ -184,6 +183,8 @@ for comp in listStocks:
         netnet = (cash + receivables * 0.5 + inventory * 0.2 - totalLiab) / exRate - marketCap > 0
         magic6 = pb < 0.6 and pCfo < 6 and div10YearYield >= 0.06
         print('pb, pcfo, divyield', pb, pCfo, div10YearYield, magic6)
+        print('netnet ratio',
+              round((cash + receivables * 0.5 + inventory * 0.2 - totalLiab) / exRate / marketCap, 2))
 
         if schloss or netnet or magic6:
             outputString = comp[:4] + " " + " " + companyName[:4] + ' ' \
