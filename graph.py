@@ -1,4 +1,6 @@
-comp = 'PDD'
+from helperMethods import fill0Get, indicatorFunction, getBarWidth
+
+comp = '0743.HK'
 ANNUALLY = False
 
 from bokeh.layouts import gridplot
@@ -12,10 +14,6 @@ import pandas as pd
 pd.set_option('display.expand_frame_repr', False)
 
 HALF_YEAR_WIDE = 15552000000
-
-
-
-
 
 try:
     exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
