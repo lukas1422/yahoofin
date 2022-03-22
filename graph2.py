@@ -1,7 +1,7 @@
 # myapp.py
 from bokeh.io import curdoc
 from bokeh.layouts import column, row
-from bokeh.models import TextInput, Button
+from bokeh.models import TextInput, Button, RadioGroup
 
 from helperMethods import fill0Get, getBarWidth, indicatorFunction
 
@@ -44,15 +44,14 @@ exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 global_source = ColumnDataSource(pd.DataFrame())
 
 
-def callback2():
+def resetCallback():
     print('resetting')
     global_source.data = ColumnDataSource.from_df(pd.DataFrame())
     updateGraphs()
     print(' cleared source ')
 
 
-def callback():
-
+def buttonCallback():
     global TICKER
     print(" button pressed ")
     print(' new ticker is ', TICKER)
@@ -177,10 +176,19 @@ text_input.on_change("value", my_text_input_handler)
 
 # add a button widget and configure with the call back
 button = Button(label="Get Data")
-button.on_click(callback)
+button.on_click(buttonCallback)
 
 button2 = Button(label='Reset')
-button2.on_click(callback2)
+button2.on_click(resetCallback)
+
+
+def my_radio_handler(new):
+    global ANNUALLY
+    ANNUALLY = True if new == 0 else False
+    print('ANNUAL IS', ANNUALLY)
+
+rg = RadioGroup(labels=['Annual', 'Quarterly'], active=0)
+rg.on_click(my_radio_handler)
 
 # put the button and plot in a layout and add to the document
-curdoc().add_root(column(row(button, button2), text_input, grid))
+curdoc().add_root(column(row(button, button2), rg, text_input, grid))
