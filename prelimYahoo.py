@@ -1,4 +1,4 @@
-stockName = 'PVH'
+stockName = 'DAC'
 yearlyFlag = False
 
 import os
