@@ -1,4 +1,5 @@
 # myapp.py
+from math import pi
 from bokeh.io import curdoc
 from bokeh.layouts import column, row
 from bokeh.models import TextInput, Button, RadioGroup
@@ -29,6 +30,10 @@ def my_text_input_handler(attr, old, new):
 
 
 # def initialize():
+priceChart = figure(title='prices chart', width=1000, x_axis_type="datetime")
+priceChart.xaxis.major_label_orientation = pi / 4
+priceChart.grid.grid_line_alpha = 0.3
+
 p = figure(title='cash', x_axis_type="datetime")
 p1 = figure(title='currentRatio', x_axis_type="datetime")
 p2 = figure(title='RetEarnings/A', x_axis_type="datetime")
@@ -42,11 +47,13 @@ grid = gridplot([[p, None], [p1, p2], [p3, p4], [p5, p6], [p7, p8]], width=500, 
 
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 global_source = ColumnDataSource(pd.DataFrame())
+stockData = ColumnDataSource(pd.DataFrame())
 
 
 def resetCallback():
     print('resetting')
     global_source.data = ColumnDataSource.from_df(pd.DataFrame())
+    stockData.data = ColumnDataSource.from_df(pd.DataFrame())
     updateGraphs()
     print(' cleared source ')
 
@@ -55,9 +62,12 @@ def buttonCallback():
     global TICKER
     print(" button pressed ")
     print(' new ticker is ', TICKER)
+    print('annual is ', ANNUALLY)
 
     print('clearing graphs')
     global_source.data = ColumnDataSource.from_df(pd.DataFrame())
+    stockData.data = ColumnDataSource.from_df(pd.DataFrame())
+
     updateGraphs()
     print('clearing graphs done')
 
@@ -73,7 +83,9 @@ def buttonCallback():
     print('ticker exrate', TICKER, listingCurrency, bsCurrency, exRate)
     price = si.get_live_price(TICKER)
     print(' ticker price ', TICKER, price)
-    data = si.get_data(TICKER)
+    priceData = si.get_data(TICKER)
+    priceData.index.name = 'date'
+    # updatePriceGraph(priceData[-300:])
 
     bs = si.get_balance_sheet(TICKER, yearly=ANNUALLY)
     bsT = bs.T
@@ -83,7 +95,7 @@ def buttonCallback():
     bsT['netBook'] = bsT['totalAssets'] - bsT['totalLiab'] - fill0Get(bsT, 'goodWill') \
                      - fill0Get(bsT, 'intangibleAssets')
     bsT['DERatio'] = bsT['totalLiab'] / bsT['netBook']
-    bsT['priceOnOrAfter'] = bsT.index.map(lambda d: data[data.index >= d].iloc[0]['adjclose'])
+    bsT['priceOnOrAfter'] = bsT.index.map(lambda d: priceData[priceData.index >= d].iloc[0]['adjclose'])
     shares = si.get_quote_data(TICKER)['sharesOutstanding']
     bsT['marketCap'] = bsT['priceOnOrAfter'] * shares * exRate
     bsT['PB'] = bsT['marketCap'] / bsT['netBook']
@@ -102,12 +114,20 @@ def buttonCallback():
     bsT['CFOAssetRatio'] = bsT['CFO'] / bsT['totalAssets']
     print('ticker', 'new source complete:index cols', bsT.index, bsT.columns)
     global_source.data = ColumnDataSource.from_df(bsT)
+    stockData.data = ColumnDataSource.from_df(priceData[-100:])
+
     print("=============graph now===============")
     updateGraphs()
     print("=============graph finished===============")
 
 
 def updateGraphs():
+    print('update price graph')
+    priceChart.line(x='date', y='close', source=stockData)
+    priceChart.add_tools(HoverTool(tooltips=[('date', '@date{%Y-%m-%d}'), ('close', '@close')],
+                                   formatters={'@date': 'datetime'}, mode='vline'))
+
+    p.title.text = 'cash ' + TICKER
     p.vbar(x='endDate', top='cash', source=global_source, width=getBarWidth(ANNUALLY))
     p.add_tools(HoverTool(tooltips=[('date', '@endDate{%Y-%m-%d}'), ("cash", "@cash")],
                           formatters={'@endDate': 'datetime'}, mode='vline'))
@@ -187,8 +207,9 @@ def my_radio_handler(new):
     ANNUALLY = True if new == 0 else False
     print('ANNUAL IS', ANNUALLY)
 
-rg = RadioGroup(labels=['Annual', 'Quarterly'], active=0)
+
+rg = RadioGroup(labels=['Annual', 'Quarterly'], active=1)
 rg.on_click(my_radio_handler)
 
 # put the button and plot in a layout and add to the document
-curdoc().add_root(column(row(button, button2), rg, text_input, grid))
+curdoc().add_root(column(row(button, button2), rg, text_input, priceChart, grid))
