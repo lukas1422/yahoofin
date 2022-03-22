@@ -40,14 +40,14 @@ if MARKET == Market.US:
     finvizDiv = pd.read_csv('list_divYieldFinvizUS', sep=' ', index_col=False, names=['ticker', 'divi'])
     finvizDiv['divi'] = finvizDiv['divi'].replace('-', '0')
     finvizDiv['divi'] = finvizDiv['divi'].str.rstrip("%").astype(float)
-    finvizDic = pd.Series(finvizDiv.divi.values, index=finvizDiv.ticker).to_dict()
+    finvizDic = pd.Series(finvizDiv.divi.values, index=finvizDiv.TICKER).to_dict()
 
     xueqiuDiv = pd.read_csv('list_divYieldXueqiuUS', sep=' ', index_col=False, names=['ticker', 'divi'])
     xueqiuDiv['divi'] = xueqiuDiv['divi'].replace('-', '0')
     xueqiuDiv['divi'] = xueqiuDiv['divi'].replace('none', '0')
     xueqiuDiv['divi'] = xueqiuDiv['divi'].replace('error', '0')
     xueqiuDiv['divi'] = xueqiuDiv['divi'].astype(float)
-    xueqiuDic = pd.Series(xueqiuDiv.divi.values, index=xueqiuDiv.ticker).to_dict()
+    xueqiuDic = pd.Series(xueqiuDiv.divi.values, index=xueqiuDiv.TICKER).to_dict()
 
 elif MARKET == Market.HK:
     stock_df = pd.read_csv('list_HK_Tickers', dtype=object, sep=" ", index_col=False, names=['ticker', 'name'])
@@ -64,7 +64,7 @@ elif MARKET == Market.HK:
     xueqiuDiv['divi'] = xueqiuDiv['divi'].replace('none', '0')
     xueqiuDiv['divi'] = xueqiuDiv['divi'].replace('error', '0')
     xueqiuDiv['divi'] = xueqiuDiv['divi'].astype(float)
-    xueqiuDic = pd.Series(xueqiuDiv.divi.values, index=xueqiuDiv.ticker).to_dict()
+    xueqiuDic = pd.Series(xueqiuDiv.divi.values, index=xueqiuDiv.TICKER).to_dict()
 
 else:
     raise Exception(" market not found")

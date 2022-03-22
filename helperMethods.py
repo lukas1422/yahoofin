@@ -49,7 +49,7 @@ def getInsiderOwnership():
     ownership = pd.read_csv('list_insiderOwnership_finviz', sep=' ', index_col=False, names=['ticker', 'perc'])
     ownership['perc'] = ownership['perc'].replace('-', '0')
     ownership['perc'] = ownership['perc'].str.rstrip("%").astype(float)
-    return pd.Series(ownership.perc.values, index=ownership.ticker).to_dict()
+    return pd.Series(ownership.perc.values, index=ownership.TICKER).to_dict()
 
 
 def convertHK(ticker):

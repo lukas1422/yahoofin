@@ -24,10 +24,10 @@ for i in range(1, PAGES):
     for tr in soup.find_all('tr'):
         tdList = tr.findAll('td')
         if len(tdList) > 1:
-            ticker = tdList[0].getText()
+            TICKER = tdList[0].getText()
             name = tdList[1].getText()
-            print(ticker, name)
-            fileOutput.write(ticker + " " + name.replace(' ','') + '\n')
+            print(TICKER, name)
+            fileOutput.write(TICKER + " " + name.replace(' ', '') + '\n')
             fileOutput.flush()
     #
     # for tr in soup.find_all('tr'):

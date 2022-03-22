@@ -82,7 +82,7 @@ def scrapeSharesXueqiuLoopAgainCorrectErrors():
                            dtype=object, sep=" ", index_col=False, names=['ticker', 'shares'])
     stock_df['ticker'] = stock_df['ticker'].astype(str)
     errorDF = stock_df.loc[stock_df['shares'] == 'error']
-    errorDic = dict(zip(errorDF.ticker, errorDF.shares))
+    errorDic = dict(zip(errorDF.TICKER, errorDF.shares))
     print(len(errorDic), errorDic)
 
     for comp in errorDic.keys():

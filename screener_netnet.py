@@ -13,7 +13,7 @@ from helperMethods import getFromDF, convertHK, roundB, convertChinaForYahoo
 
 COUNT = 0
 
-MARKET = Market.CHINA
+MARKET = Market.HK
 yearlyFlag = False
 
 
