@@ -1,4 +1,3 @@
-# myapp.py
 from math import pi
 from bokeh.io import curdoc
 from bokeh.layouts import column, row
@@ -29,7 +28,6 @@ def my_text_input_handler(attr, old, new):
     print('new ticker is ', TICKER)
 
 
-# def initialize():
 priceChart = figure(title='prices chart', width=1000, x_axis_type="datetime")
 priceChart.xaxis.major_label_orientation = pi / 4
 priceChart.grid.grid_line_alpha = 0.3
@@ -43,6 +41,10 @@ p5 = figure(title='P/CFO Ratio', x_axis_type="datetime")
 p6 = figure(title='Sales/Assets Ratio', x_axis_type="datetime")
 p7 = figure(title='netnet Ratio', x_axis_type="datetime")
 p8 = figure(title='CFO/A Ratio', x_axis_type="datetime")
+for figu in [priceChart, p, p1, p2, p3, p4, p5, p6, p7, p8]:
+    figu.title.text_font_size = '18pt'
+    figu.title.align = 'center'
+
 grid = gridplot([[p, None], [p1, p2], [p3, p4], [p5, p6], [p7, p8]], width=500, height=500)
 
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
@@ -60,7 +62,6 @@ def resetCallback():
 
 def buttonCallback():
     global TICKER
-    print(" button pressed ")
     print(' new ticker is ', TICKER)
     print('annual is ', ANNUALLY)
 
@@ -112,9 +113,9 @@ def buttonCallback():
                            fill0Get(bsT, 'inventory') * 0.2) - bsT['totalLiab']) \
                          / exRate / bsT['marketCap']
     bsT['CFOAssetRatio'] = bsT['CFO'] / bsT['totalAssets']
-    print('ticker', 'new source complete:index cols', bsT.index, bsT.columns)
+    # print('ticker', 'new source complete:index cols', bsT.index, bsT.columns)
     global_source.data = ColumnDataSource.from_df(bsT)
-    stockData.data = ColumnDataSource.from_df(priceData[-100:])
+    stockData.data = ColumnDataSource.from_df(priceData[-200:])
 
     print("=============graph now===============")
     updateGraphs()
@@ -131,64 +132,45 @@ def updateGraphs():
     p.vbar(x='endDate', top='cash', source=global_source, width=getBarWidth(ANNUALLY))
     p.add_tools(HoverTool(tooltips=[('date', '@endDate{%Y-%m-%d}'), ("cash", "@cash")],
                           formatters={'@endDate': 'datetime'}, mode='vline'))
-    p.title.text_font_size = '18pt'
-    p.title.align = 'center'
 
     # current ratio
     p1.add_tools(HoverTool(tooltips=[('date', '@endDate{%Y-%m-%d}'), ("cr", "@currentRatio")],
                            formatters={'@endDate': 'datetime'}, mode='vline'))
     p1.vbar(x='endDate', top='currentRatio', source=global_source, width=getBarWidth(ANNUALLY))
-    p1.title.text_font_size = '18pt'
-    p1.title.align = 'center'
 
     # retained earnings/Asset
     p2.vbar(x='endDate', top='REAssetsRatio', source=global_source, width=getBarWidth(ANNUALLY))
     p2.add_tools(HoverTool(tooltips=[('date', '@endDate{%Y-%m-%d}'), ("Re/A", "@REAssetsRatio")],
                            formatters={'@endDate': 'datetime'}, mode='vline'))
-    p2.title.text_font_size = '18pt'
-    p2.title.align = 'center'
 
     # Debt/Equity
     p3.vbar(x='endDate', top='DERatio', source=global_source, width=getBarWidth(ANNUALLY))
     p3.add_tools(HoverTool(tooltips=[('date', '@endDate{%Y-%m-%d}'), ("DERatio", "@DERatio")],
                            formatters={'@endDate': 'datetime'}, mode='vline'))
-    p3.title.text_font_size = '18pt'
-    p3.title.align = 'center'
 
     # P/B
     p4.vbar(x='endDate', top='PB', source=global_source, width=getBarWidth(ANNUALLY))
     p4.add_tools(HoverTool(tooltips=[('date', '@endDate{%Y-%m-%d}'), ("PB", "@PB")],
                            formatters={'@endDate': 'datetime'}, mode='vline'))
-    p4.title.text_font_size = '18pt'
-    p4.title.align = 'center'
-
     # P/CFO
     p5.vbar(x='endDate', top='PCFO', source=global_source, width=getBarWidth(ANNUALLY))
     p5.add_tools(HoverTool(tooltips=[('date', '@endDate{%Y-%m-%d}'), ("PCFO", "@PCFO")],
                            formatters={'@endDate': 'datetime'}, mode='vline'))
-    p5.title.text_font_size = '18pt'
-    p5.title.align = 'center'
 
     # Sales/Assets
     p6.vbar(x='endDate', top='SalesAssetsRatio', source=global_source, width=getBarWidth(ANNUALLY))
     p6.add_tools(HoverTool(tooltips=[('date', '@endDate{%Y-%m-%d}'), ("S/A Ratio", "@SalesAssetsRatio")],
                            formatters={'@endDate': 'datetime'}, mode='vline'))
-    p6.title.text_font_size = '18pt'
-    p6.title.align = 'center'
 
     # netnet ratio
     p7.vbar(x='endDate', top='netnetRatio', source=global_source, width=getBarWidth(ANNUALLY))
     p7.add_tools(HoverTool(tooltips=[('date', '@endDate{%Y-%m-%d}'), ("netnet", "@netnetRatio")],
                            formatters={'@endDate': 'datetime'}, mode='vline'))
-    p7.title.text_font_size = '18pt'
-    p7.title.align = 'center'
 
     # CFO/A ratio
     p8.vbar(x='endDate', top='CFOAssetRatio', source=global_source, width=getBarWidth(ANNUALLY))
     p8.add_tools(HoverTool(tooltips=[('date', '@endDate{%Y-%m-%d}'), ("CFO/A", "@CFOAssetRatio")],
                            formatters={'@endDate': 'datetime'}, mode='vline'))
-    p8.title.text_font_size = '18pt'
-    p8.title.align = 'center'
 
 
 text_input = TextInput(value="0001.HK", title="Label:")
