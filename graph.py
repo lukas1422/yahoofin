@@ -14,16 +14,7 @@ pd.set_option('display.expand_frame_repr', False)
 HALF_YEAR_WIDE = 15552000000
 
 
-def getBarWidth(annually):
-    return 15552000000 if annually else 15552000000 / 4
 
-
-def indicatorFunction(annually):
-    return 1 if annually else 4
-
-
-def fill0Get(df, item):
-    return df[item].fillna(0) if item in df.columns else 0
 
 
 try:

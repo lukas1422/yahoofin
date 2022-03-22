@@ -85,6 +85,18 @@ def convertChinaForXueqiu(nameInstring):
         return 'SH' + nameInstring
     else:
         return 'SZ' + nameInstring
+
+
+def getBarWidth(annually):
+    return 15552000000 if annually else 15552000000 / 4
+
+
+def indicatorFunction(annually):
+    return 1 if annually else 4
+
+
+def fill0Get(df, item):
+    return df[item].fillna(0) if item in df.columns else 0
 # import inspect
 
 # random = True
