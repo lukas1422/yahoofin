@@ -26,6 +26,8 @@ def my_text_input_handler(attr, old, new):
     global TICKER
     TICKER = new
     print('new ticker is ', TICKER)
+    resetCallback()
+    buttonCallback()
 
 
 infoParagraph = Paragraph(width=1000, height=500, text='Blank')
@@ -139,6 +141,7 @@ def buttonCallback():
     bsT['CFOAssetRatio'] = bsT['CFO'] / bsT['totalAssets']
     global_source.data = ColumnDataSource.from_df(bsT)
     stockData.data = ColumnDataSource.from_df(priceData)
+    # print(' stock data. data', type(stockData.data['close']), stockData.data['close'][-1])
 
     # print('divpricedata.data length', len(divPriceData.data['year']))
 
@@ -160,7 +163,8 @@ def getWidthDivGraph():
 
 def updateGraphs():
     print('update price graph')
-    priceChart.title.text = ' prices ' + TICKER
+    lastPrice = round(stockData.data['close'][-1], 2) if 'close' in stockData.data else ''
+    priceChart.title.text = ' prices ' + TICKER + '____' + str(lastPrice)
     priceChart.line(x='date', y='close', source=stockData, color='#D06C8A')
     priceChart.add_tools(HoverTool(tooltips=[('date', '@date{%Y-%m-%d}'), ('close', '@close')],
                                    formatters={'@date': 'datetime'}, mode='vline'))
