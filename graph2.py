@@ -31,8 +31,10 @@ def my_text_input_handler(attr, old, new):
 priceChart = figure(title='prices chart', width=1000, x_axis_type="datetime")
 priceChart.xaxis.major_label_orientation = pi / 4
 priceChart.grid.grid_line_alpha = 0.3
+# priceChart.background_fill_color = "#f5f5f5"
+pDiv = figure(title="divYld", width=1000)
 
-p = figure(title='cash', x_axis_type="datetime")
+pCash = figure(title='cash', x_axis_type="datetime")
 p1 = figure(title='currentRatio', x_axis_type="datetime")
 p2 = figure(title='RetEarnings/A', x_axis_type="datetime")
 p3 = figure(title='D/E Ratio', x_axis_type="datetime")
@@ -41,21 +43,23 @@ p5 = figure(title='P/CFO Ratio', x_axis_type="datetime")
 p6 = figure(title='Sales/Assets Ratio', x_axis_type="datetime")
 p7 = figure(title='netnet Ratio', x_axis_type="datetime")
 p8 = figure(title='CFO/A Ratio', x_axis_type="datetime")
-for figu in [priceChart, p, p1, p2, p3, p4, p5, p6, p7, p8]:
+for figu in [priceChart, pCash, pDiv, p1, p2, p3, p4, p5, p6, p7, p8]:
     figu.title.text_font_size = '18pt'
     figu.title.align = 'center'
 
-grid = gridplot([[p, None], [p1, p2], [p3, p4], [p5, p6], [p7, p8]], width=500, height=500)
+grid = gridplot([[pCash, None], [p1, p2], [p3, p4], [p5, p6], [p7, p8]], width=500, height=500)
 
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 global_source = ColumnDataSource(pd.DataFrame())
 stockData = ColumnDataSource(pd.DataFrame())
+divPriceData = ColumnDataSource(pd.DataFrame())
 
 
 def resetCallback():
     print('resetting')
     global_source.data = ColumnDataSource.from_df(pd.DataFrame())
     stockData.data = ColumnDataSource.from_df(pd.DataFrame())
+    divPriceData.data = ColumnDataSource.from_df(pd.DataFrame())
     updateGraphs()
     print(' cleared source ')
 
@@ -68,6 +72,7 @@ def buttonCallback():
     print('clearing graphs')
     global_source.data = ColumnDataSource.from_df(pd.DataFrame())
     stockData.data = ColumnDataSource.from_df(pd.DataFrame())
+    divPriceData.data = ColumnDataSource.from_df(pd.DataFrame())
 
     updateGraphs()
     print('clearing graphs done')
@@ -86,6 +91,14 @@ def buttonCallback():
     print(' ticker price ', TICKER, price)
     priceData = si.get_data(TICKER)
     priceData.index.name = 'date'
+    divData = si.get_dividends(TICKER)
+    divData.groupby(by=lambda a: a.year)['dividend'].sum()
+    divPrice = pd.merge(divData.groupby(by=lambda d: d.year)['dividend'].sum(),
+                        priceData.groupby(by=lambda d: d.year)['close'].mean(),
+                        left_index=True, right_index=True)
+    divPrice.index.name = 'year'
+    divPrice['yield'] = divPrice['dividend'] / divPrice['close']
+    # print('div price ', divPrice)
     # updatePriceGraph(priceData[-300:])
 
     bs = si.get_balance_sheet(TICKER, yearly=ANNUALLY)
@@ -110,28 +123,41 @@ def buttonCallback():
         lambda d: cfT[cfT.index == d]['totalCashFromOperatingActivities'] * indicatorFunction(ANNUALLY))
     bsT['PCFO'] = bsT['marketCap'] / bsT['CFO']
     bsT['netnetRatio'] = ((bsT['cash'] + fill0Get(bsT, 'netReceivables') * 0.5 +
-                           fill0Get(bsT, 'inventory') * 0.2) - bsT['totalLiab']) \
-                         / exRate / bsT['marketCap']
+                           fill0Get(bsT, 'inventory') * 0.2) - bsT['totalLiab']) / exRate / bsT['marketCap']
     bsT['CFOAssetRatio'] = bsT['CFO'] / bsT['totalAssets']
-    # print('ticker', 'new source complete:index cols', bsT.index, bsT.columns)
     global_source.data = ColumnDataSource.from_df(bsT)
-    stockData.data = ColumnDataSource.from_df(priceData[-200:])
+    stockData.data = ColumnDataSource.from_df(priceData)
+    divPriceData.data = ColumnDataSource.from_df(divPrice)
+
+    print('divpricedata.data length', len(divPriceData.data['year']))
 
     print("=============graph now===============")
     updateGraphs()
     print("=============graph finished===============")
 
 
+def getWidthDivGraph():
+    if 'year' not in divPriceData.data:
+        print('getwidthdiv year not in data yet')
+        return 0
+
+    print("get width div graph", 20 / len(divPriceData.data['year']))
+    return 20 / len(divPriceData.data['year'])
+
+
 def updateGraphs():
     print('update price graph')
-    priceChart.line(x='date', y='close', source=stockData)
+    priceChart.line(x='date', y='close', source=stockData, color='#D06C8A')
     priceChart.add_tools(HoverTool(tooltips=[('date', '@date{%Y-%m-%d}'), ('close', '@close')],
                                    formatters={'@date': 'datetime'}, mode='vline'))
 
-    p.title.text = 'cash ' + TICKER
-    p.vbar(x='endDate', top='cash', source=global_source, width=getBarWidth(ANNUALLY))
-    p.add_tools(HoverTool(tooltips=[('date', '@endDate{%Y-%m-%d}'), ("cash", "@cash")],
-                          formatters={'@endDate': 'datetime'}, mode='vline'))
+    pDiv.vbar(x='year', top='yield', source=divPriceData, width=getWidthDivGraph())
+    pDiv.add_tools(HoverTool(tooltips=[('year', '@year'), ("yield", "@yield")], mode='vline'))
+
+    pCash.title.text = 'cash ' + TICKER
+    pCash.vbar(x='endDate', top='cash', source=global_source, width=getBarWidth(ANNUALLY))
+    pCash.add_tools(HoverTool(tooltips=[('date', '@endDate{%Y-%m-%d}'), ("cash", "@cash")],
+                              formatters={'@endDate': 'datetime'}, mode='vline'))
 
     # current ratio
     p1.add_tools(HoverTool(tooltips=[('date', '@endDate{%Y-%m-%d}'), ("cr", "@currentRatio")],
@@ -176,7 +202,6 @@ def updateGraphs():
 text_input = TextInput(value="0001.HK", title="Label:")
 text_input.on_change("value", my_text_input_handler)
 
-# add a button widget and configure with the call back
 button = Button(label="Get Data")
 button.on_click(buttonCallback)
 
@@ -193,5 +218,4 @@ def my_radio_handler(new):
 rg = RadioGroup(labels=['Annual', 'Quarterly'], active=1)
 rg.on_click(my_radio_handler)
 
-# put the button and plot in a layout and add to the document
-curdoc().add_root(column(row(button, button2), rg, text_input, priceChart, grid))
+curdoc().add_root(column(row(button, button2), rg, text_input, priceChart, pDiv, grid))
