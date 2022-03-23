@@ -1,7 +1,7 @@
 from math import pi
 from bokeh.io import curdoc
 from bokeh.layouts import column, row
-from bokeh.models import TextInput, Button, RadioGroup
+from bokeh.models import TextInput, Button, RadioGroup, Paragraph
 
 from helperMethods import fill0Get, getBarWidth, indicatorFunction
 
@@ -28,6 +28,7 @@ def my_text_input_handler(attr, old, new):
     print('new ticker is ', TICKER)
 
 
+infoParagraph = Paragraph(width=1000, height=500, text='Blank')
 priceChart = figure(title='prices chart', width=1000, x_axis_type="datetime")
 priceChart.xaxis.major_label_orientation = pi / 4
 priceChart.grid.grid_line_alpha = 0.3
@@ -43,6 +44,7 @@ p5 = figure(title='P/CFO Ratio', x_axis_type="datetime")
 p6 = figure(title='Sales/Assets Ratio', x_axis_type="datetime")
 p7 = figure(title='netnet Ratio', x_axis_type="datetime")
 p8 = figure(title='CFO/A Ratio', x_axis_type="datetime")
+
 for figu in [priceChart, pCash, pDiv, p1, p2, p3, p4, p5, p6, p7, p8]:
     figu.title.text_font_size = '18pt'
     figu.title.align = 'center'
@@ -60,6 +62,7 @@ def resetCallback():
     global_source.data = ColumnDataSource.from_df(pd.DataFrame())
     stockData.data = ColumnDataSource.from_df(pd.DataFrame())
     divPriceData.data = ColumnDataSource.from_df(pd.DataFrame())
+    infoParagraph.text = ""
     updateGraphs()
     print(' cleared source ')
 
@@ -73,7 +76,7 @@ def buttonCallback():
     global_source.data = ColumnDataSource.from_df(pd.DataFrame())
     stockData.data = ColumnDataSource.from_df(pd.DataFrame())
     divPriceData.data = ColumnDataSource.from_df(pd.DataFrame())
-
+    infoParagraph.text = ''
     updateGraphs()
     print('clearing graphs done')
 
@@ -85,6 +88,12 @@ def buttonCallback():
 
     except Exception as e:
         print(e)
+    info = si.get_company_info(TICKER)
+    infoText = info.loc['country'].item() + "______________" + info.loc['industry'].item() + \
+               '______________' + info.loc['sector'].item() + "______________" + info.loc['longBusinessSummary'].item()
+
+    print('info text is ', infoText)
+    infoParagraph.text = str(infoText)
 
     print('ticker exrate', TICKER, listingCurrency, bsCurrency, exRate)
     price = si.get_live_price(TICKER)
@@ -92,14 +101,17 @@ def buttonCallback():
     priceData = si.get_data(TICKER)
     priceData.index.name = 'date'
     divData = si.get_dividends(TICKER)
-    divData.groupby(by=lambda a: a.year)['dividend'].sum()
-    divPrice = pd.merge(divData.groupby(by=lambda d: d.year)['dividend'].sum(),
-                        priceData.groupby(by=lambda d: d.year)['close'].mean(),
-                        left_index=True, right_index=True)
-    divPrice.index.name = 'year'
-    divPrice['yield'] = divPrice['dividend'] / divPrice['close']
-    # print('div price ', divPrice)
-    # updatePriceGraph(priceData[-300:])
+    if not divData.empty:
+        divData.groupby(by=lambda a: a.year)['dividend'].sum()
+        divPrice = pd.merge(divData.groupby(by=lambda d: d.year)['dividend'].sum(),
+                            priceData.groupby(by=lambda d: d.year)['close'].mean(),
+                            left_index=True, right_index=True)
+        divPrice.index.name = 'year'
+        divPrice['yield'] = divPrice['dividend'] / divPrice['close'] * 100
+        divPriceData.data = ColumnDataSource.from_df(divPrice)
+
+        # print('div price ', divPrice)
+        # updatePriceGraph(priceData[-300:])
 
     bs = si.get_balance_sheet(TICKER, yearly=ANNUALLY)
     bsT = bs.T
@@ -127,9 +139,8 @@ def buttonCallback():
     bsT['CFOAssetRatio'] = bsT['CFO'] / bsT['totalAssets']
     global_source.data = ColumnDataSource.from_df(bsT)
     stockData.data = ColumnDataSource.from_df(priceData)
-    divPriceData.data = ColumnDataSource.from_df(divPrice)
 
-    print('divpricedata.data length', len(divPriceData.data['year']))
+    # print('divpricedata.data length', len(divPriceData.data['year']))
 
     print("=============graph now===============")
     updateGraphs()
@@ -141,12 +152,15 @@ def getWidthDivGraph():
         print('getwidthdiv year not in data yet')
         return 0
 
-    print("get width div graph", 20 / len(divPriceData.data['year']))
-    return 20 / len(divPriceData.data['year'])
+    return 0.8
+
+    # print("get width div graph", 20 / len(divPriceData.data['year']))
+    # return 20 / len(divPriceData.data['year'])
 
 
 def updateGraphs():
     print('update price graph')
+    priceChart.title.text = ' prices ' + TICKER
     priceChart.line(x='date', y='close', source=stockData, color='#D06C8A')
     priceChart.add_tools(HoverTool(tooltips=[('date', '@date{%Y-%m-%d}'), ('close', '@close')],
                                    formatters={'@date': 'datetime'}, mode='vline'))
@@ -154,7 +168,7 @@ def updateGraphs():
     pDiv.vbar(x='year', top='yield', source=divPriceData, width=getWidthDivGraph())
     pDiv.add_tools(HoverTool(tooltips=[('year', '@year'), ("yield", "@yield")], mode='vline'))
 
-    pCash.title.text = 'cash ' + TICKER
+    pCash.title.text = 'cash '
     pCash.vbar(x='endDate', top='cash', source=global_source, width=getBarWidth(ANNUALLY))
     pCash.add_tools(HoverTool(tooltips=[('date', '@endDate{%Y-%m-%d}'), ("cash", "@cash")],
                               formatters={'@endDate': 'datetime'}, mode='vline'))
@@ -218,4 +232,4 @@ def my_radio_handler(new):
 rg = RadioGroup(labels=['Annual', 'Quarterly'], active=1)
 rg.on_click(my_radio_handler)
 
-curdoc().add_root(column(row(button, button2), rg, text_input, priceChart, pDiv, grid))
+curdoc().add_root(column(row(button, button2), rg, text_input, priceChart, pDiv, grid, infoParagraph))
