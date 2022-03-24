@@ -121,6 +121,9 @@ def buttonCallback():
     bs = si.get_balance_sheet(TICKER, yearly=ANNUALLY)
     bsT = bs.T
     bsT['REAssetsRatio'] = bsT['retainedEarnings'] / bsT['totalAssets']
+    print('retained earnings', bsT['retainedEarnings'])
+    print('bst re a assets ratio', bsT['REAssetsRatio'] )
+
     bsT['currentRatio'] = (bsT['cash'] + 0.5 * fill0Get(bsT, 'netReceivables') +
                            0.2 * fill0Get(bsT, 'inventory')) / bsT['totalCurrentLiabilities']
     bsT['netBook'] = bsT['totalAssets'] - bsT['totalLiab'] - fill0Get(bsT, 'goodWill') \
@@ -141,12 +144,14 @@ def buttonCallback():
     bsT['PB'] = bsT['marketCap'] / bsT['netBook']
     income = si.get_income_statement(TICKER, yearly=ANNUALLY)
     incomeT = income.T
-    bsT['revenue'] = bsT.index.map(lambda d: incomeT[incomeT.index == d]['totalRevenue'] * indicatorFunction(ANNUALLY))
+    bsT['revenue'] = bsT.index.map(
+        lambda d: incomeT[incomeT.index == d]['totalRevenue'].item() * indicatorFunction(ANNUALLY))
     bsT['SalesAssetsRatio'] = bsT['revenue'] / bsT['totalAssets']
     cf = si.get_cash_flow(TICKER, yearly=ANNUALLY)
     cfT = cf.T
+    # print('cft', cfT)
     bsT['CFO'] = bsT.index.map(
-        lambda d: cfT[cfT.index == d]['totalCashFromOperatingActivities'] * indicatorFunction(ANNUALLY))
+        lambda d: cfT[cfT.index == d]['totalCashFromOperatingActivities'].item() * indicatorFunction(ANNUALLY))
     bsT['PCFO'] = bsT['marketCap'] / bsT['CFO']
     bsT['netnetRatio'] = ((bsT['cash'] + fill0Get(bsT, 'netReceivables') * 0.5 +
                            fill0Get(bsT, 'inventory') * 0.2) - bsT['totalLiab']) / exRate / bsT['marketCap']
@@ -154,22 +159,24 @@ def buttonCallback():
     global_source.data = ColumnDataSource.from_df(bsT)
     stockData.data = ColumnDataSource.from_df(priceData)
     # print(' stock data. data', type(stockData.data['close']), stockData.data['close'][-1])
-    print('pcfo', bsT['PCFO'][0].item())
-    print('PB', bsT['PB'][0])
+    print('price', bsT['marketCap'])
+    # print('cfo', bsT['CFO'])
+    # print('pcfo', bsT['PCFO'])
+    # print('PB', bsT['PB'][0])
 
     # print('divpricedata.data length', len(divPriceData.data['year']))
 
     print("=============graph now===============")
     updateGraphs()
     text_input.title = 'MV:' + str(roundB(bsT['marketCap'][0], 1)) + 'B' \
-                       + "  NetB:" + str(roundB(bsT['netBook'][0], 1)) + 'B' \
-                       + '  PB:' + str(round(bsT['PB'][0], 1)) \
-                       + '  CR:' + str(round(bsT['currentRatio'][0], 1)) \
-                       + '  DE:' + str(round(bsT['DERatio'][0], 1)) \
-                       + '  RE/A:' + str(round(bsT['REAssetsRatio'][0], 1)) \
-                       + '  P/CFO:' + str(round(bsT['PCFO'][0].item(), 1)) \
-                       + '  DivYld' + str(round(divPrice['yield'].mean(), 1)) \
-                       + '  lastDivYld' + str(round(divPrice['yield'].iloc[-1], 1))
+                       + "____NetB:" + str(roundB(bsT['netBook'][0], 1)) + 'B' \
+                       + '____PB:' + str(round(bsT['PB'][0], 1)) \
+                       + '____CR:' + str(round(bsT['currentRatio'][0], 1)) \
+                       + '____DE:' + str(round(bsT['DERatio'][0], 1)) \
+                       + '____RE/A:' + str(round(bsT['REAssetsRatio'][0], 1)) \
+                       + '____P/CFO:' + str(round(bsT['PCFO'][0], 1)) \
+                       + '____DivYld:' + str(round(divPrice['yield'].mean(), 1)) \
+                       + '____lastDivYld:' + str(round(divPrice['yield'].iloc[-1], 1))
 
     print("=============graph finished===============")
 
