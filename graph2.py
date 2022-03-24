@@ -38,6 +38,7 @@ priceChart.grid.grid_line_alpha = 0.3
 pDiv = figure(title="divYld", width=1000)
 
 pCash = figure(title='cash', x_axis_type="datetime")
+pBook = figure(title='book', x_axis_type="datetime")
 p1 = figure(title='currentRatio', x_axis_type="datetime")
 p2 = figure(title='RetEarnings/A', x_axis_type="datetime")
 p3 = figure(title='D/E Ratio', x_axis_type="datetime")
@@ -47,11 +48,11 @@ p6 = figure(title='Sales/Assets Ratio', x_axis_type="datetime")
 p7 = figure(title='netnet Ratio', x_axis_type="datetime")
 p8 = figure(title='CFO/A Ratio', x_axis_type="datetime")
 
-for figu in [priceChart, pCash, pDiv, p1, p2, p3, p4, p5, p6, p7, p8]:
+for figu in [priceChart, pCash, pBook, pDiv, p1, p2, p3, p4, p5, p6, p7, p8]:
     figu.title.text_font_size = '18pt'
     figu.title.align = 'center'
 
-grid = gridplot([[pCash, None], [p1, p2], [p3, p4], [p5, p6], [p7, p8]], width=500, height=500)
+grid = gridplot([[pCash, pBook], [p1, p2], [p3, p4], [p5, p6], [p7, p8]], width=500, height=500)
 
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 global_source = ColumnDataSource(pd.DataFrame())
@@ -122,22 +123,16 @@ def buttonCallback():
     bsT = bs.T
     bsT['REAssetsRatio'] = bsT['retainedEarnings'] / bsT['totalAssets']
     print('retained earnings', bsT['retainedEarnings'])
-    print('bst re a assets ratio', bsT['REAssetsRatio'] )
+    print('bst re a assets ratio', bsT['REAssetsRatio'])
 
     bsT['currentRatio'] = (bsT['cash'] + 0.5 * fill0Get(bsT, 'netReceivables') +
                            0.2 * fill0Get(bsT, 'inventory')) / bsT['totalCurrentLiabilities']
     bsT['netBook'] = bsT['totalAssets'] - bsT['totalLiab'] - fill0Get(bsT, 'goodWill') \
                      - fill0Get(bsT, 'intangibleAssets')
-    print('fill0get intangibles', fill0Get(bsT, 'intangibleAssets'))
-    print('net book', bsT['netBook'])
 
     bsT['DERatio'] = bsT['totalLiab'] / bsT['netBook']
     bsT['priceOnOrAfter'] = bsT.index.map(lambda d: priceData[priceData.index >= d].iloc[0]['adjclose'])
-    # print('LAST PRICE BEFORE,', bsT['priceOnOrAfter'])
-    # print('priceMap', priceData)
-    # bsT['priceOnOrAfter'][0] = priceData['adjclose'][-1]
     bsT['priceOnOrAfter'][0] = latestPrice
-    # print('LAST PRICE AFTER,', bsT['priceOnOrAfter'])
 
     shares = si.get_quote_data(TICKER)['sharesOutstanding']
     bsT['marketCap'] = bsT['priceOnOrAfter'] * shares * exRate
@@ -149,7 +144,6 @@ def buttonCallback():
     bsT['SalesAssetsRatio'] = bsT['revenue'] / bsT['totalAssets']
     cf = si.get_cash_flow(TICKER, yearly=ANNUALLY)
     cfT = cf.T
-    # print('cft', cfT)
     bsT['CFO'] = bsT.index.map(
         lambda d: cfT[cfT.index == d]['totalCashFromOperatingActivities'].item() * indicatorFunction(ANNUALLY))
     bsT['PCFO'] = bsT['marketCap'] / bsT['CFO']
@@ -175,8 +169,9 @@ def buttonCallback():
                        + '____DE:' + str(round(bsT['DERatio'][0], 1)) \
                        + '____RE/A:' + str(round(bsT['REAssetsRatio'][0], 1)) \
                        + '____P/CFO:' + str(round(bsT['PCFO'][0], 1)) \
-                       + '____DivYld:' + str(round(divPrice['yield'].mean(), 1)) \
-                       + '____lastDivYld:' + str(round(divPrice['yield'].iloc[-1], 1))
+                       + '____DivYld:' + (str(round(divPrice['yield'].mean(), 1)) if 'yield' in divPrice else '') + '%' \
+                       + '____lastDivYld:' \
+                       + (str(round(divPrice['yield'].iloc[-1], 1)) if 'yield' in divPrice else '') + '%'
 
     print("=============graph finished===============")
 
@@ -206,6 +201,12 @@ def updateGraphs():
     pCash.title.text = 'cash '
     pCash.vbar(x='endDate', top='cash', source=global_source, width=getBarWidth(ANNUALLY))
     pCash.add_tools(HoverTool(tooltips=[('date', '@endDate{%Y-%m-%d}'), ("cash", "@cash")],
+                              formatters={'@endDate': 'datetime'}, mode='vline'))
+
+    # book
+    pBook.title.text = 'Book '
+    pBook.vbar(x='endDate', top='netBook', source=global_source, width=getBarWidth(ANNUALLY))
+    pBook.add_tools(HoverTool(tooltips=[('date', '@endDate{%Y-%m-%d}'), ("book", "@netBook")],
                               formatters={'@endDate': 'datetime'}, mode='vline'))
 
     # current ratio
