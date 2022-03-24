@@ -4,16 +4,30 @@ from datetime import timedelta
 import pandas as pd
 
 
+def is_float(element):
+    try:
+        float(element)
+        return True
+    except ValueError:
+        return False
+
 def getFromDF(df, attribute):
     # print(df, attribute)
     if isinstance(df, str):
         return ''
-
     if df.empty:
         return 0
     if attribute not in df.index:
         return 0
-    return df.loc[attribute].dropna()[0]
+
+    if not is_float(df.loc[attribute][0]):
+        return df.loc[attribute][0]
+    elif math.isnan(df.loc[attribute][0]):
+        return 0
+
+    return df.loc[attribute][0]
+    # return df.loc[attribute].dropna[0]
+
     # elif math.isnan(df[0]):
     #     if math.isnan(df[1]):
     #         return 0
@@ -53,12 +67,10 @@ def getInsiderOwnership():
 
 
 def convertHK(ticker):
-
-
     if ticker.endswith('HK'):
         return ticker
 
-    ticker = ticker.rjust(5,'0')
+    ticker = ticker.rjust(5, '0')
 
     if ticker.startswith('0'):
         return ticker[1:] + '.HK'
@@ -70,7 +82,6 @@ def boolToString(bool, string):
 
 
 def convertChinaForYahoo(nameInstring):
-
     if nameInstring.startswith('SZ') or nameInstring.startswith('SH'):
         nameInstring = nameInstring[2:]
 
@@ -97,6 +108,8 @@ def indicatorFunction(annually):
 
 def fill0Get(df, item):
     return df[item].fillna(0) if item in df.columns else 0
+
+
 # import inspect
 
 # random = True
@@ -113,3 +126,5 @@ def fill0Get(df, item):
 #
 #
 # myfunc(model='the model', arg_is_list='arrrggg', num=42)
+def fo(number):
+    return str(f"{number:,}")

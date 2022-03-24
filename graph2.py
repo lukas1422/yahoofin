@@ -1,9 +1,9 @@
 from math import pi
 from bokeh.io import curdoc
 from bokeh.layouts import column, row
-from bokeh.models import TextInput, Button, RadioGroup, Paragraph
+from bokeh.models import TextInput, Button, RadioGroup, Paragraph, Label
 
-from helperMethods import fill0Get, getBarWidth, indicatorFunction
+from helperMethods import fill0Get, getBarWidth, indicatorFunction, roundB
 
 ANNUALLY = False
 
@@ -99,10 +99,11 @@ def buttonCallback():
 
     print('ticker exrate', TICKER, listingCurrency, bsCurrency, exRate)
     price = si.get_live_price(TICKER)
-    print(' ticker price ', TICKER, price)
+    # print(' ticker price ', TICKER, price)
     priceData = si.get_data(TICKER)
     priceData.index.name = 'date'
     divData = si.get_dividends(TICKER)
+    divPrice = pd.DataFrame()
     if not divData.empty:
         divData.groupby(by=lambda a: a.year)['dividend'].sum()
         divPrice = pd.merge(divData.groupby(by=lambda d: d.year)['dividend'].sum(),
@@ -110,11 +111,13 @@ def buttonCallback():
                             left_index=True, right_index=True)
         divPrice.index.name = 'year'
         divPrice['yield'] = divPrice['dividend'] / divPrice['close'] * 100
+
         divPriceData.data = ColumnDataSource.from_df(divPrice)
 
         # print('div price ', divPrice)
         # updatePriceGraph(priceData[-300:])
 
+    latestPrice = si.get_live_price(TICKER)
     bs = si.get_balance_sheet(TICKER, yearly=ANNUALLY)
     bsT = bs.T
     bsT['REAssetsRatio'] = bsT['retainedEarnings'] / bsT['totalAssets']
@@ -122,8 +125,17 @@ def buttonCallback():
                            0.2 * fill0Get(bsT, 'inventory')) / bsT['totalCurrentLiabilities']
     bsT['netBook'] = bsT['totalAssets'] - bsT['totalLiab'] - fill0Get(bsT, 'goodWill') \
                      - fill0Get(bsT, 'intangibleAssets')
+    print('fill0get intangibles', fill0Get(bsT, 'intangibleAssets'))
+    print('net book', bsT['netBook'])
+
     bsT['DERatio'] = bsT['totalLiab'] / bsT['netBook']
     bsT['priceOnOrAfter'] = bsT.index.map(lambda d: priceData[priceData.index >= d].iloc[0]['adjclose'])
+    # print('LAST PRICE BEFORE,', bsT['priceOnOrAfter'])
+    # print('priceMap', priceData)
+    # bsT['priceOnOrAfter'][0] = priceData['adjclose'][-1]
+    bsT['priceOnOrAfter'][0] = latestPrice
+    # print('LAST PRICE AFTER,', bsT['priceOnOrAfter'])
+
     shares = si.get_quote_data(TICKER)['sharesOutstanding']
     bsT['marketCap'] = bsT['priceOnOrAfter'] * shares * exRate
     bsT['PB'] = bsT['marketCap'] / bsT['netBook']
@@ -142,11 +154,23 @@ def buttonCallback():
     global_source.data = ColumnDataSource.from_df(bsT)
     stockData.data = ColumnDataSource.from_df(priceData)
     # print(' stock data. data', type(stockData.data['close']), stockData.data['close'][-1])
+    print('pcfo', bsT['PCFO'][0].item())
+    print('PB', bsT['PB'][0])
 
     # print('divpricedata.data length', len(divPriceData.data['year']))
 
     print("=============graph now===============")
     updateGraphs()
+    text_input.title = 'MV:' + str(roundB(bsT['marketCap'][0], 1)) + 'B' \
+                       + "  NetB:" + str(roundB(bsT['netBook'][0], 1)) + 'B' \
+                       + '  PB:' + str(round(bsT['PB'][0], 1)) \
+                       + '  CR:' + str(round(bsT['currentRatio'][0], 1)) \
+                       + '  DE:' + str(round(bsT['DERatio'][0], 1)) \
+                       + '  RE/A:' + str(round(bsT['REAssetsRatio'][0], 1)) \
+                       + '  P/CFO:' + str(round(bsT['PCFO'][0].item(), 1)) \
+                       + '  DivYld' + str(round(divPrice['yield'].mean(), 1)) \
+                       + '  lastDivYld' + str(round(divPrice['yield'].iloc[-1], 1))
+
     print("=============graph finished===============")
 
 
@@ -225,6 +249,9 @@ button.on_click(buttonCallback)
 
 button2 = Button(label='Reset')
 button2.on_click(resetCallback)
+
+
+# prelimLabel = Label(width=500, text='abc')
 
 
 def my_radio_handler(new):

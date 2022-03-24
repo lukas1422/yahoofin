@@ -1,6 +1,6 @@
 from helperMethods import fill0Get, indicatorFunction, getBarWidth
 
-comp = '1358.HK'
+comp = '2127.HK'
 ANNUALLY = False
 
 from bokeh.layouts import gridplot
