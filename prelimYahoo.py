@@ -1,5 +1,5 @@
-stockName = '0533.HK'
-yearlyFlag = True
+stockName = '3333.HK'
+yearlyFlag = False
 
 import os
 import sys
@@ -128,7 +128,6 @@ def getResults(stockName):
             print(" using finviz shares ", shares)
 
         marketCap = marketPrice * shares
-        # currentRatio = totalCurrentAssets / totalCurrentLiab
         debtEquityRatio = totalLiab / tangible_equity
         retainedEarningsAssetRatio = retainedEarnings / totalAssets
         cfoAssetRatio = cfo / totalAssets
@@ -215,10 +214,11 @@ def getResults(stockName):
         # print('roa', roa)
         print("P/CFO", round(marketCap / (cfo / exRate), 2))
         print('cfo/A', cfoA)
+        print('price shares marketcap', marketPrice, shares, marketCap)
 
         outputString = stockName + " " + country + " " + sector \
-                       + " MV:" + str(round(marketCap / 1000000000.0, 1)) + 'B' \
-                       + " NetAssets:" + str(round((totalAssets - totalLiab) / exRate / 1000000000.0, 1)) + 'B' \
+                       + " MV:" + str(roundB(marketCap, 1)) + 'B' \
+                       + " Tangible_equity:" + str(roundB((tangible_equity) / exRate, 1)) + 'B' \
                        + " pb:" + str(round(pTangibleEquity, 2)) \
                        + " CR:" + str(round(currRatio, 2)) \
                        + " D/E:" + str(round(debtEquityRatio, 2)) \

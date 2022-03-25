@@ -21,6 +21,18 @@ HALF_YEAR_WIDE = 15552000000
 
 TICKER = '0001.HK'
 
+global_source = ColumnDataSource(pd.DataFrame())
+stockData = ColumnDataSource(pd.DataFrame())
+divPriceData = ColumnDataSource(pd.DataFrame())
+
+
+def getWidthDivGraph():
+    if 'year' not in divPriceData.data:
+        # print('getwidthdiv year not in data yet')
+        return 0
+
+    return 0.8
+
 
 def my_text_input_handler(attr, old, new):
     global TICKER
@@ -31,14 +43,26 @@ def my_text_input_handler(attr, old, new):
 
 
 infoParagraph = Paragraph(width=1000, height=500, text='Blank')
+
+#price chart
 priceChart = figure(title='prices chart', width=1000, x_axis_type="datetime")
 priceChart.xaxis.major_label_orientation = pi / 4
 priceChart.grid.grid_line_alpha = 0.3
+priceChart.add_tools(HoverTool(tooltips=[('date', '@date{%Y-%m-%d}'), ('close', '@close')],
+                               formatters={'@date': 'datetime'}, mode='vline'))
+
 # priceChart.background_fill_color = "#f5f5f5"
 pDiv = figure(title="divYld", width=1000)
+pDiv.add_tools(HoverTool(tooltips=[('year', '@year'), ("yield", "@yield")], mode='vline'))
 
 pCash = figure(title='cash', x_axis_type="datetime")
+pCash.title.text = 'cash '
+pCash.add_tools(HoverTool(tooltips=[('date', '@endDate{%Y-%m-%d}'), ("cash", "@cash")],
+                          formatters={'@endDate': 'datetime'}, mode='vline'))
+
 pBook = figure(title='book', x_axis_type="datetime")
+pBook.title.text = 'Book'
+
 p1 = figure(title='currentRatio', x_axis_type="datetime")
 p2 = figure(title='RetEarnings/A', x_axis_type="datetime")
 p3 = figure(title='D/E Ratio', x_axis_type="datetime")
@@ -55,10 +79,10 @@ for figu in [priceChart, pCash, pBook, pDiv, p1, p2, p3, p4, p5, p6, p7, p8]:
 grid = gridplot([[pCash, pBook], [p1, p2], [p3, p4], [p5, p6], [p7, p8]], width=500, height=500)
 
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
-global_source = ColumnDataSource(pd.DataFrame())
-stockData = ColumnDataSource(pd.DataFrame())
-divPriceData = ColumnDataSource(pd.DataFrame())
 
+# global_source = ColumnDataSource(pd.DataFrame())
+# stockData = ColumnDataSource(pd.DataFrame())
+# divPriceData = ColumnDataSource(pd.DataFrame())
 
 def resetCallback():
     print('resetting')
@@ -99,8 +123,6 @@ def buttonCallback():
     infoParagraph.text = str(infoText)
 
     print('ticker exrate', TICKER, listingCurrency, bsCurrency, exRate)
-    price = si.get_live_price(TICKER)
-    # print(' ticker price ', TICKER, price)
     priceData = si.get_data(TICKER)
     priceData.index.name = 'date'
     divData = si.get_dividends(TICKER)
@@ -112,31 +134,23 @@ def buttonCallback():
                             left_index=True, right_index=True)
         divPrice.index.name = 'year'
         divPrice['yield'] = divPrice['dividend'] / divPrice['close'] * 100
-
         divPriceData.data = ColumnDataSource.from_df(divPrice)
-
-        # print('div price ', divPrice)
-        # updatePriceGraph(priceData[-300:])
 
     latestPrice = si.get_live_price(TICKER)
     bs = si.get_balance_sheet(TICKER, yearly=ANNUALLY)
     bsT = bs.T
     bsT['REAssetsRatio'] = bsT['retainedEarnings'] / bsT['totalAssets']
-    print('retained earnings', bsT['retainedEarnings'])
-    print('bst re a assets ratio', bsT['REAssetsRatio'])
-
     bsT['currentRatio'] = (bsT['cash'] + 0.5 * fill0Get(bsT, 'netReceivables') +
                            0.2 * fill0Get(bsT, 'inventory')) / bsT['totalCurrentLiabilities']
     bsT['netBook'] = bsT['totalAssets'] - bsT['totalLiab'] - fill0Get(bsT, 'goodWill') \
                      - fill0Get(bsT, 'intangibleAssets')
-
     bsT['DERatio'] = bsT['totalLiab'] / bsT['netBook']
     bsT['priceOnOrAfter'] = bsT.index.map(lambda d: priceData[priceData.index >= d].iloc[0]['adjclose'])
     bsT['priceOnOrAfter'][0] = latestPrice
 
     shares = si.get_quote_data(TICKER)['sharesOutstanding']
-    bsT['marketCap'] = bsT['priceOnOrAfter'] * shares * exRate
-    bsT['PB'] = bsT['marketCap'] / bsT['netBook']
+    bsT['marketCap'] = bsT['priceOnOrAfter'] * shares
+    bsT['PB'] = bsT['marketCap'] * exRate / bsT['netBook']
     income = si.get_income_statement(TICKER, yearly=ANNUALLY)
     incomeT = income.T
     bsT['revenue'] = bsT.index.map(
@@ -146,25 +160,18 @@ def buttonCallback():
     cfT = cf.T
     bsT['CFO'] = bsT.index.map(
         lambda d: cfT[cfT.index == d]['totalCashFromOperatingActivities'].item() * indicatorFunction(ANNUALLY))
-    bsT['PCFO'] = bsT['marketCap'] / bsT['CFO']
+    bsT['PCFO'] = bsT['marketCap'] * exRate / bsT['CFO']
     bsT['netnetRatio'] = ((bsT['cash'] + fill0Get(bsT, 'netReceivables') * 0.5 +
                            fill0Get(bsT, 'inventory') * 0.2) - bsT['totalLiab']) / exRate / bsT['marketCap']
     bsT['CFOAssetRatio'] = bsT['CFO'] / bsT['totalAssets']
     global_source.data = ColumnDataSource.from_df(bsT)
     stockData.data = ColumnDataSource.from_df(priceData)
-    # print(' stock data. data', type(stockData.data['close']), stockData.data['close'][-1])
-    print('price', bsT['marketCap'])
-    # print('cfo', bsT['CFO'])
-    # print('pcfo', bsT['PCFO'])
-    # print('PB', bsT['PB'][0])
-
-    # print('divpricedata.data length', len(divPriceData.data['year']))
 
     print("=============graph now===============")
     updateGraphs()
-    text_input.title = 'MV:' + str(roundB(bsT['marketCap'][0], 1)) + 'B' \
-                       + "____NetB:" + str(roundB(bsT['netBook'][0], 1)) + 'B' \
-                       + '____PB:' + str(round(bsT['PB'][0], 1)) \
+    text_input.title = listingCurrency + bsCurrency + '______MV:' + str(roundB(bsT['marketCap'][0], 1)) + 'B' \
+                       + "____NetB:" + str(roundB(bsT['netBook'][0] / exRate, 1)) + 'B' \
+                       + '____PB:' + str(round(bsT['PB'][0], 2)) \
                        + '____CR:' + str(round(bsT['currentRatio'][0], 1)) \
                        + '____DE:' + str(round(bsT['DERatio'][0], 1)) \
                        + '____RE/A:' + str(round(bsT['REAssetsRatio'][0], 1)) \
@@ -175,14 +182,6 @@ def buttonCallback():
 
     print("=============graph finished===============")
 
-
-def getWidthDivGraph():
-    if 'year' not in divPriceData.data:
-        print('getwidthdiv year not in data yet')
-        return 0
-
-    return 0.8
-
     # print("get width div graph", 20 / len(divPriceData.data['year']))
     # return 20 / len(divPriceData.data['year'])
 
@@ -192,19 +191,13 @@ def updateGraphs():
     lastPrice = round(stockData.data['close'][-1], 2) if 'close' in stockData.data else ''
     priceChart.title.text = ' prices ' + TICKER + '____' + str(lastPrice)
     priceChart.line(x='date', y='close', source=stockData, color='#D06C8A')
-    priceChart.add_tools(HoverTool(tooltips=[('date', '@date{%Y-%m-%d}'), ('close', '@close')],
-                                   formatters={'@date': 'datetime'}, mode='vline'))
 
     pDiv.vbar(x='year', top='yield', source=divPriceData, width=getWidthDivGraph())
-    pDiv.add_tools(HoverTool(tooltips=[('year', '@year'), ("yield", "@yield")], mode='vline'))
 
-    pCash.title.text = 'cash '
+    #cash
     pCash.vbar(x='endDate', top='cash', source=global_source, width=getBarWidth(ANNUALLY))
-    pCash.add_tools(HoverTool(tooltips=[('date', '@endDate{%Y-%m-%d}'), ("cash", "@cash")],
-                              formatters={'@endDate': 'datetime'}, mode='vline'))
 
     # book
-    pBook.title.text = 'Book '
     pBook.vbar(x='endDate', top='netBook', source=global_source, width=getBarWidth(ANNUALLY))
     pBook.add_tools(HoverTool(tooltips=[('date', '@endDate{%Y-%m-%d}'), ("book", "@netBook")],
                               formatters={'@endDate': 'datetime'}, mode='vline'))
