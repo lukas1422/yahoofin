@@ -1,4 +1,4 @@
-stockName = 'BMW.DE'
+stockName = '1982.HK'
 yearlyFlag = False
 
 import os
@@ -25,7 +25,7 @@ def getResults(stockName):
     exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
     try:
         data = si.get_data(stockName, interval=PRICE_INTERVAL)
-        print('last trading day', data[data['volume'] != 0].index[-1])
+        print('last trading day', data[data['volume'] != 0].index[-1].strftime('%Y/%-m/%-d'))
 
         try:
             info = si.get_company_info(stockName)
@@ -129,7 +129,7 @@ def getResults(stockName):
 
         divSumAll = divs['dividend'].sum() if not divs.empty else 0
         startToNow = (datetime.today() - data.index[0]).days / 365.25
-        print("Years Since Listing:", startToNow, 'starting date ', data.index[0].strftime('%Y/%-m/%-d'))
+        print("Years Since Listing:", round(startToNow), 'starting date ', data.index[0].strftime('%Y/%-m/%-d'))
         divAllTimeYld = divSumAll / startToNow / marketPrice
 
         avgDollarVol = (data[-10:]['close'] * data[-10:]['volume']).sum() / 10
@@ -195,7 +195,8 @@ def getResults(stockName):
         print("P/CFO", round(marketCap / (cfo / exRate), 1))
         print('cfo/A', cfoA)
 
-        outputString = stockName + " " + country + " " + sector \
+        outputString = stockName + " " + country.replace(' ', '') + " " + sector.replace(' ','') \
+                       + " dai$Vol:" + str(round(avgDollarVol / 1000000, 1)) + "M" \
                        + " MV:" + str(roundB(marketCap, 1)) + 'B' \
                        + " Tangible_equity:" + str(roundB((tangible_equity) / exRate, 1)) + 'B' \
                        + " pb:" + str(round(pTangibleEquity, 1)) \
@@ -207,8 +208,7 @@ def getResults(stockName):
                        + " tangibleRatio:" + str(round(tangibleRatio, 1)) \
                        + " 52w_p%:" + str(round(percentile)) \
                        + " divYld_all:" + str(round(divAllTimeYld * 100)) + "%" \
-                       + " divYld_last_yr:" + str(round(divLastYearYield * 100)) + "%" \
-                       + " dai$Vol:" + str(round(avgDollarVol / 1000000, 1)) + "M"
+                       + " divYld_last_yr:" + str(round(divLastYearYield * 100)) + "%"
 
         print(outputString)
         return outputString

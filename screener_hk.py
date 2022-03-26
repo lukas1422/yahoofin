@@ -96,7 +96,7 @@ for comp in listStocks:
         receivables = getFromDF(bs, 'netReceivables')
         inventory = getFromDF(bs, 'inventory')
 
-        currRatio = (cash + 0.5 * receivables + 0.2 * inventory) / currLiab
+        currRatio = (cash + 0.8 * receivables + 0.5 * inventory) / currLiab
 
         if currRatio <= 1:
             print(comp, "curr ratio < 1", currRatio)
