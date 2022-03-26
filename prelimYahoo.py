@@ -1,4 +1,4 @@
-stockName = '2131.HK'
+stockName = '3369.HK'
 yearlyFlag = False
 
 import os
@@ -66,7 +66,8 @@ def getResults(stockName):
         intangibles = getFromDF(bs, 'intangibleAssets')
         goodWill = getFromDF(bs, 'goodWill')
 
-        print('goodwill', goodWill, 'intangibles', intangibles)
+        print('goodwill', goodWill, round(goodWill / totalAssets * 100), "%", 'intangibles', intangibles,
+              round(intangibles / totalAssets * 100), "%")
 
         netAssets = totalAssets - totalLiab
         tangible_equity = totalAssets - totalLiab - goodWill - intangibles
@@ -96,7 +97,6 @@ def getResults(stockName):
         # CF
         cf = si.get_cash_flow(stockName, yearly=yearlyFlag)
         print("cash flow statement date:", cf.columns[0].strftime('%Y/%-m/%-d'))
-        # print("CF cols", cf.loc['totalCashFromOperatingActivities'])
 
         cfo = getFromDFYearly(cf, "totalCashFromOperatingActivities", yearlyFlag)
         cfi = getFromDFYearly(cf, "totalCashflowsFromInvestingActivities", yearlyFlag)
@@ -137,6 +137,7 @@ def getResults(stockName):
         tangibleRatio = tangible_equity / (totalAssets - totalLiab)
 
         divs = si.get_dividends(stockName)
+        print('div', divs)
         divsPastYear = divs.loc[divs.index > ONE_YEAR_AGO]
         divSumPastYear = divsPastYear['dividend'].sum() if not divsPastYear.empty else 0
         divLastYearYield = divSumPastYear / marketPrice

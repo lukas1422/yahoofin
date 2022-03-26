@@ -4,6 +4,7 @@ from bokeh.layouts import column, row
 from bokeh.models import TextInput, Button, RadioGroup, Paragraph, Label
 
 from helperMethods import fill0Get, getBarWidth, indicatorFunction, roundB
+from scrape_sharesOutstanding import scrapeTotalSharesXueqiu
 
 ANNUALLY = False
 
@@ -38,13 +39,13 @@ def my_text_input_handler(attr, old, new):
     global TICKER
     TICKER = new
     print('new ticker is ', TICKER)
-    resetCallback()
-    buttonCallback()
+    # resetCallback()
+    # buttonCallback()
 
 
 infoParagraph = Paragraph(width=1000, height=500, text='Blank')
 
-#price chart
+# price chart
 priceChart = figure(title='prices chart', width=1000, x_axis_type="datetime")
 priceChart.xaxis.major_label_orientation = pi / 4
 priceChart.grid.grid_line_alpha = 0.3
@@ -79,6 +80,7 @@ for figu in [priceChart, pCash, pBook, pDiv, p1, p2, p3, p4, p5, p6, p7, p8]:
 grid = gridplot([[pCash, pBook], [p1, p2], [p3, p4], [p5, p6], [p7, p8]], width=500, height=500)
 
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
+
 
 # global_source = ColumnDataSource(pd.DataFrame())
 # stockData = ColumnDataSource(pd.DataFrame())
@@ -149,6 +151,12 @@ def buttonCallback():
     bsT['priceOnOrAfter'][0] = latestPrice
 
     shares = si.get_quote_data(TICKER)['sharesOutstanding']
+
+    if TICKER.upper().endswith("HK") and bsCurrency == 'CNY':
+        shares = scrapeTotalSharesXueqiu(TICKER)
+        print('using xueqiu total shares for china', TICKER, shares)
+
+
     bsT['marketCap'] = bsT['priceOnOrAfter'] * shares
     bsT['PB'] = bsT['marketCap'] * exRate / bsT['netBook']
     income = si.get_income_statement(TICKER, yearly=ANNUALLY)
@@ -169,7 +177,11 @@ def buttonCallback():
 
     print("=============graph now===============")
     updateGraphs()
-    text_input.title = listingCurrency + bsCurrency + '______MV:' + str(roundB(bsT['marketCap'][0], 1)) + 'B' \
+    compName1 = info.loc['longBusinessSummary'].item().split(' ')[0] if 'longBusinessSummary' in info.index else ""
+    compName2 = info.loc['longBusinessSummary'].item().split(' ')[1] if 'longBusinessSummary' in info.index else ""
+    # print(' comp name ', compName1, compName2, 'summary', info.loc['longBusinessSummary'].item().split(' '))
+    text_input.title = compName1 + ' ' + compName2 + ' ' + \
+                       listingCurrency + bsCurrency + '______MV:' + str(roundB(bsT['marketCap'][0], 1)) + 'B' \
                        + "____NetB:" + str(roundB(bsT['netBook'][0] / exRate, 1)) + 'B' \
                        + '____PB:' + str(round(bsT['PB'][0], 2)) \
                        + '____CR:' + str(round(bsT['currentRatio'][0], 1)) \
@@ -194,7 +206,7 @@ def updateGraphs():
 
     pDiv.vbar(x='year', top='yield', source=divPriceData, width=getWidthDivGraph())
 
-    #cash
+    # cash
     pCash.vbar(x='endDate', top='cash', source=global_source, width=getBarWidth(ANNUALLY))
 
     # book
