@@ -92,6 +92,7 @@ def resetCallback():
     stockData.data = ColumnDataSource.from_df(pd.DataFrame())
     divPriceData.data = ColumnDataSource.from_df(pd.DataFrame())
     infoParagraph.text = ""
+    text_input.title = ''
     updateGraphs()
     print(' cleared source ')
 
@@ -101,13 +102,13 @@ def buttonCallback():
     print(' new ticker is ', TICKER)
     print('annual is ', ANNUALLY)
 
-    print('clearing graphs')
-    global_source.data = ColumnDataSource.from_df(pd.DataFrame())
-    stockData.data = ColumnDataSource.from_df(pd.DataFrame())
-    divPriceData.data = ColumnDataSource.from_df(pd.DataFrame())
-    infoParagraph.text = ''
-    updateGraphs()
-    print('clearing graphs done')
+    # print('clearing graphs')
+    # global_source.data = ColumnDataSource.from_df(pd.DataFrame())
+    # stockData.data = ColumnDataSource.from_df(pd.DataFrame())
+    # divPriceData.data = ColumnDataSource.from_df(pd.DataFrame())
+    # infoParagraph.text = ''
+    # updateGraphs()
+    # print('clearing graphs done')
 
     try:
         listingCurrency = getListingCurrency(TICKER)
@@ -156,7 +157,6 @@ def buttonCallback():
         shares = scrapeTotalSharesXueqiu(TICKER)
         print('using xueqiu total shares for china', TICKER, shares)
 
-
     bsT['marketCap'] = bsT['priceOnOrAfter'] * shares
     bsT['PB'] = bsT['marketCap'] * exRate / bsT['netBook']
     income = si.get_income_statement(TICKER, yearly=ANNUALLY)
@@ -170,7 +170,7 @@ def buttonCallback():
         lambda d: cfT[cfT.index == d]['totalCashFromOperatingActivities'].item() * indicatorFunction(ANNUALLY))
     bsT['PCFO'] = bsT['marketCap'] * exRate / bsT['CFO']
     bsT['netnetRatio'] = ((bsT['cash'] + fill0Get(bsT, 'netReceivables') * 0.5 +
-                           fill0Get(bsT, 'inventory') * 0.2) - bsT['totalLiab']) / exRate / bsT['marketCap']
+                           fill0Get(bsT, 'inventory') * 0.2) / (bsT['totalLiab'] + exRate * bsT['marketCap']))
     bsT['CFOAssetRatio'] = bsT['CFO'] / bsT['totalAssets']
     global_source.data = ColumnDataSource.from_df(bsT)
     stockData.data = ColumnDataSource.from_df(priceData)

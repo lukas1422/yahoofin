@@ -22,11 +22,10 @@ def getFromDF(df, attribute):
 
     if not is_float(df.loc[attribute][0]):
         return df.loc[attribute][0]
-    elif math.isnan(df.loc[attribute][0]):
-        return 0
-
-    return df.loc[attribute][0]
-    # return df.loc[attribute].dropna[0]
+    # elif math.isnan(df.loc[attribute][0]):
+    #     return 0
+    # return df.loc[attribute][0]
+    return df.loc[attribute].dropna()[0]
 
     # elif math.isnan(df[0]):
     #     if math.isnan(df[1]):

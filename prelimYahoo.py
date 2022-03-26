@@ -1,4 +1,4 @@
-stockName = '3369.HK'
+stockName = '0148.HK'
 yearlyFlag = False
 
 import os
@@ -146,8 +146,11 @@ def getResults(stockName):
         div10YrSum = div10Yr['dividend'].sum() if not div10Yr.empty else 0
         startToNow = (datetime.today() - data.index[0]).days / 365.25
         div10YearYield = (div10YrSum / startToNow) / marketPrice
-        # startToNow = (datetime.today() - data.index[0]).days / 365.25
-        # print(" start to now ", startToNow, 'starting date ', data.index[0].strftime('%Y/%-m/%-d'))
+
+        divSumAll = divs['dividend'].sum() if not divs.empty else 0
+        startToNow = (datetime.today() - data.index[0]).days / 365.25
+        print(" start to now ", startToNow, 'starting date ', data.index[0].strftime('%Y/%-m/%-d'))
+        divAllTimeYld = divSumAll / startToNow / marketPrice
 
         avgDollarVol = (data[-10:]['close'] * data[-10:]['volume']).sum() / 10
 
@@ -156,9 +159,9 @@ def getResults(stockName):
         percentile = 100.0 * (marketPrice - data52w['low'].min()) \
                      / (data52w['high'].max() - data52w['low'].min())
 
-        divsPastYear = divs.loc[divs.index > ONE_YEAR_AGO]
-        divSumPastYear = divsPastYear['dividend'].sum() if not divsPastYear.empty else 0
-        print('divsum marketPrice', divSumPastYear, marketPrice)
+        # divsPastYear = divs.loc[divs.index > ONE_YEAR_AGO]
+        # divSumPastYear = divsPastYear['dividend'].sum() if not divsPastYear.empty else 0
+        # print('divsum marketPrice', divSumPastYear, marketPrice)
 
         # divSum = divs['dividend'].sum() if not divs.empty else 0.0
         if not divs.empty:
@@ -179,10 +182,10 @@ def getResults(stockName):
         print("L", roundB(totalLiab / exRate, 1), "B", "(",
               roundB(currLiab / exRate, 1),
               roundB((totalLiab - currLiab) / exRate, 1), ")")
-        print("E", round((totalAssets - totalLiab) / exRate / 1000000000.0, 1), "B")
-        print("Tangible Equity", round(tangible_equity, 2), bsCurrency,
-              round(tangible_equity / exRate, 2), listingCurr)
-        print("Market Cap", str(round(marketPrice * shares / 1000000000.0, 1)) + "B", listingCurr)
+        print("E", roundB((totalAssets - totalLiab) / exRate, 1), "B")
+        print("Tangible Equity", roundB(tangible_equity, 2), bsCurrency,
+              roundB(tangible_equity / exRate, 2), listingCurr)
+        print("Market Cap", str(roundB(marketPrice * shares, 1)) + "B", listingCurr)
 
         print("PER SHARE:")
         print("Market price", round(marketPrice, 2), listingCurr)
@@ -227,7 +230,8 @@ def getResults(stockName):
                        + " ebit/A:" + str(round(ebitAssetRatio, 2)) \
                        + " tangibleRatio:" + str(round(tangibleRatio, 2)) \
                        + " 52w_p%:" + str(round(percentile)) \
-                       + " divYld%:" + str(round(divSumPastYear / marketPrice * 100 / startToNow, 1)) + "%" \
+                       + " divYld_all:" + str(round(divAllTimeYld * 100, 1)) + "%" \
+                       + " divYld_last_yr:" + str(round(divLastYearYield * 100, 1)) + "%" \
                        + " dai$Vol:" + str(round(avgDollarVol / 1000000, 2)) + "M"
 
         print(outputString)
