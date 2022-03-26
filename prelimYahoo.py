@@ -1,4 +1,4 @@
-stockName = '3333.HK'
+stockName = '2131.HK'
 yearlyFlag = False
 
 import os
@@ -74,19 +74,18 @@ def getResults(stockName):
         receivables = getFromDF(bs, 'netReceivables')
         inventory = getFromDF(bs, 'inventory')
 
+        listingCurr = getListingCurrency(stockName)
+        bsCurrency = getBalanceSheetCurrency(stockName, listingCurr)
+        exRate = currency_getExchangeRate.getExchangeRate(exchange_rate_dict, listingCurr, bsCurrency)
+
         currRatio = (cash + receivables * 0.5 + inventory * 0.2) / currLiab
-        print("current ratio components cash", roundB(cash, 2), 'rec', roundB(receivables, 2), 'inv',
-              roundB(inventory, 2),
-              'currL', roundB(currLiab, 2))
+        print("current ratio components cash", bsCurrency, roundB(cash, 2), 'rec', roundB(receivables, 2), 'inv',
+              roundB(inventory, 2), 'currL', roundB(currLiab, 2))
 
         incomeStatement = si.get_income_statement(stockName, yearly=yearlyFlag)
         print("income statement date:", incomeStatement.columns[0].strftime('%Y/%-m/%-d'))
 
         print("goodwill is ", goodWill)
-
-        listingCurr = getListingCurrency(stockName)
-        bsCurrency = getBalanceSheetCurrency(stockName, listingCurr)
-        exRate = currency_getExchangeRate.getExchangeRate(exchange_rate_dict, listingCurr, bsCurrency)
 
         revenue = getFromDFYearly(incomeStatement, "totalRevenue", yearlyFlag)
         ebit = getFromDFYearly(incomeStatement, "ebit", yearlyFlag)
