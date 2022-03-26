@@ -1,4 +1,4 @@
-stockName = '2689.HK'
+stockName = '3339.HK'
 yearlyFlag = False
 
 import os
@@ -82,14 +82,10 @@ def getResults(stockName):
         incomeStatement = si.get_income_statement(stockName, yearly=yearlyFlag)
         print("income statement date:", incomeStatement.columns[0].strftime('%Y/%-m/%-d'))
 
-        print("goodwill is ", goodWill)
-
         revenue = getFromDFYearly(incomeStatement, "totalRevenue", yearlyFlag)
         ebit = getFromDFYearly(incomeStatement, "ebit", yearlyFlag)
         netIncome = getFromDFYearly(incomeStatement, 'netIncome', yearlyFlag)
 
-        # roa = netIncome / totalAssets
-        # CF
         cf = si.get_cash_flow(stockName, yearly=yearlyFlag)
         print("cash flow statement date:", cf.columns[0].strftime('%Y/%-m/%-d'))
 
@@ -108,9 +104,9 @@ def getResults(stockName):
         sharesFinviz = scrape_sharesOutstanding.scrapeSharesOutstandingFinviz(stockName)
         sharesYahoo = si.get_quote_data(stockName)['sharesOutstanding']
         print('xueqiu total shares', sharesTotalXueqiu)
-        print('xueqiu floating shares', floatingSharesXueqiu)
-        print('finviz shares', sharesFinviz)
-        print("yahoo shares ", sharesYahoo)
+        print('xueqiu floating shares', roundB(floatingSharesXueqiu, 1))
+        print('finviz shares', roundB(sharesFinviz, 1))
+        print("yahoo shares ", roundB(sharesYahoo, 1))
         if stockName.lower().endswith('hk') and sharesTotalXueqiu != 0:
             shares = sharesTotalXueqiu
             print(" using xueqiu shares ", shares)
@@ -172,11 +168,9 @@ def getResults(stockName):
               roundB(tangible_equity / exRate, 2), listingCurr)
         print("Market Cap", str(roundB(marketPrice * shares, 1)) + "B", listingCurr)
 
-        print("PER SHARE:")
+        #print("PER SHARE:")
         print("Market price", round(marketPrice, 2), listingCurr)
         print("Tangible Equity per share", round(tangible_equity / exRate / shares, 2), listingCurr)
-
-        # print("Eq USD", round((equity / exRate) / 1000000000.0), "B")
 
         print("P/NetAssets", round(marketPrice * shares / (netAssets / exRate), 2))
         print("P/Tangible Equity", round(marketPrice * shares / (tangible_equity / exRate), 2))
@@ -185,38 +179,37 @@ def getResults(stockName):
         print("S/B", round(revenue / tangible_equity, 2))
         print("                         ")
         print("********ALTMAN**********")
-        print("CR", round(currRatio, 2))
-        print("tangible ratio", round(tangible_equity / (totalAssets - totalLiab), 2))
-        print("D/E", round(totalLiab / tangible_equity, 2))
-        print("EBIT", round(ebit / exRate / 1000000000, 2), "B")
-        print("netIncome", round(netIncome / exRate / 1000000000, 2), "B")
-        print("CFO", round(cfo / exRate / 1000000000, 2), "B")
-        print("CFI", round(cfi / exRate / 1000000000, 2), "B")
-        print("CFF", round(cff / 1000000000 / exRate, 2), "B")
-        print("RE", round(retainedEarnings / 1000000000 / exRate, 2), "B")
-        print("RE/A", round(retainedEarnings / totalAssets, 2))
-        print("S/A", round(revenue / totalAssets, 2))
+        print("CR", round(currRatio, 1))
+        print("tangible ratio", round(tangible_equity / (totalAssets - totalLiab), 1))
+        print("D/E", round(totalLiab / tangible_equity, 1))
+        print("EBIT", roundB(ebit / exRate, 1), "B")
+        print("netIncome", roundB(netIncome / exRate, 1), "B")
+        print("CFO", roundB(cfo / exRate, 1), "B")
+        print("CFI", roundB(cfi / exRate, 1), "B")
+        print("CFF", roundB(cff / exRate, 1), "B")
+        print("RE", roundB(retainedEarnings / exRate, 1), "B")
+        print("RE/A", round(retainedEarnings / totalAssets, 1))
+        print("S/A", round(revenue / totalAssets, 1))
         print("div1YrYld:", round(divLastYearYield * 100), "%")
         print("divAllYld:", round(divAllTimeYld * 100), "%")
-        print("divsum marketprice:", round(divSumPastYear, 2), round(marketPrice, 2))
-        print("P/CFO", round(marketCap / (cfo / exRate), 2))
+        print("divsum marketprice:", round(divSumPastYear, 1), round(marketPrice, 2))
+        print("P/CFO", round(marketCap / (cfo / exRate), 1))
         print('cfo/A', cfoA)
-        # print('price shares marketcap', marketPrice, shares, marketCap)
 
         outputString = stockName + " " + country + " " + sector \
                        + " MV:" + str(roundB(marketCap, 1)) + 'B' \
                        + " Tangible_equity:" + str(roundB((tangible_equity) / exRate, 1)) + 'B' \
-                       + " pb:" + str(round(pTangibleEquity, 2)) \
-                       + " CR:" + str(round(currRatio, 2)) \
-                       + " D/E:" + str(round(debtEquityRatio, 2)) \
-                       + " RE/A:" + str(round(retainedEarningsAssetRatio, 2)) \
-                       + " cfo/A:" + str(round(cfoAssetRatio, 2)) \
-                       + " ebit/A:" + str(round(ebitAssetRatio, 2)) \
-                       + " tangibleRatio:" + str(round(tangibleRatio, 2)) \
+                       + " pb:" + str(round(pTangibleEquity, 1)) \
+                       + " CR:" + str(round(currRatio, 1)) \
+                       + " D/E:" + str(round(debtEquityRatio, 1)) \
+                       + " RE/A:" + str(round(retainedEarningsAssetRatio, 1)) \
+                       + " cfo/A:" + str(round(cfoAssetRatio, 1)) \
+                       + " ebit/A:" + str(round(ebitAssetRatio, 1)) \
+                       + " tangibleRatio:" + str(round(tangibleRatio, 1)) \
                        + " 52w_p%:" + str(round(percentile)) \
-                       + " divYld_all:" + str(round(divAllTimeYld * 100, 1)) + "%" \
-                       + " divYld_last_yr:" + str(round(divLastYearYield * 100, 1)) + "%" \
-                       + " dai$Vol:" + str(round(avgDollarVol / 1000000, 2)) + "M"
+                       + " divYld_all:" + str(round(divAllTimeYld * 100)) + "%" \
+                       + " divYld_last_yr:" + str(round(divLastYearYield * 100)) + "%" \
+                       + " dai$Vol:" + str(round(avgDollarVol / 1000000, 1)) + "M"
 
         print(outputString)
         return outputString
