@@ -1,4 +1,4 @@
-stockName = '3339.HK'
+stockName = 'BMW.DE'
 yearlyFlag = False
 
 import os
@@ -76,8 +76,6 @@ def getResults(stockName):
         exRate = currency_getExchangeRate.getExchangeRate(exchange_rate_dict, listingCurr, bsCurrency)
 
         currRatio = (cash + receivables * 0.5 + inventory * 0.2) / currLiab
-        print("current ratio components cash", bsCurrency, roundB(cash, 2), 'rec', roundB(receivables, 2), 'inv',
-              roundB(inventory, 2), 'currL', roundB(currLiab, 2))
 
         incomeStatement = si.get_income_statement(stockName, yearly=yearlyFlag)
         print("income statement date:", incomeStatement.columns[0].strftime('%Y/%-m/%-d'))
@@ -95,27 +93,23 @@ def getResults(stockName):
 
         cfoA = cfo / totalAssets
 
-        print("cfo is ", round(cfo / 1000000000, 2), "B")
-
         marketPrice = si.get_live_price(stockName)
+        shares = si.get_quote_data(stockName)['sharesOutstanding']
+        print("yahoo shares ", roundB(shares, 1), "B")
 
-        sharesTotalXueqiu = scrape_sharesOutstanding.scrapeTotalSharesXueqiu(stockName)
-        floatingSharesXueqiu = scrape_sharesOutstanding.scrapeFloatingSharesXueqiu(stockName)
-        sharesFinviz = scrape_sharesOutstanding.scrapeSharesOutstandingFinviz(stockName)
-        sharesYahoo = si.get_quote_data(stockName)['sharesOutstanding']
-        print('xueqiu total shares', sharesTotalXueqiu)
-        print('xueqiu floating shares', roundB(floatingSharesXueqiu, 1))
-        print('finviz shares', roundB(sharesFinviz, 1))
-        print("yahoo shares ", roundB(sharesYahoo, 1))
-        if stockName.lower().endswith('hk') and sharesTotalXueqiu != 0:
-            shares = sharesTotalXueqiu
-            print(" using xueqiu shares ", shares)
-        elif sharesYahoo != 0.0:
-            shares = sharesYahoo
-            print(" using yahoo shares ", shares)
-        else:
-            shares = sharesFinviz
-            print(" using finviz shares ", shares)
+        if bsCurrency == 'CNY':
+            sharesTotalXueqiu = scrape_sharesOutstanding.scrapeTotalSharesXueqiu(stockName)
+            floatingSharesXueqiu = scrape_sharesOutstanding.scrapeFloatingSharesXueqiu(stockName)
+            sharesFinviz = scrape_sharesOutstanding.scrapeSharesOutstandingFinviz(stockName)
+            print('xueqiu total shares', sharesTotalXueqiu)
+            print('xueqiu floating shares', roundB(floatingSharesXueqiu, 1))
+            print('finviz shares', roundB(sharesFinviz, 1))
+            if stockName.lower().endswith('hk') and sharesTotalXueqiu != 0:
+                shares = sharesTotalXueqiu
+                print(" using xueqiu shares ", shares)
+            else:
+                shares = sharesFinviz
+                print(" using finviz shares ", shares)
 
         marketCap = marketPrice * shares
         debtEquityRatio = totalLiab / tangible_equity
@@ -135,7 +129,7 @@ def getResults(stockName):
 
         divSumAll = divs['dividend'].sum() if not divs.empty else 0
         startToNow = (datetime.today() - data.index[0]).days / 365.25
-        print(" start to now ", startToNow, 'starting date ', data.index[0].strftime('%Y/%-m/%-d'))
+        print("Years Since Listing:", startToNow, 'starting date ', data.index[0].strftime('%Y/%-m/%-d'))
         divAllTimeYld = divSumAll / startToNow / marketPrice
 
         avgDollarVol = (data[-10:]['close'] * data[-10:]['volume']).sum() / 10
@@ -153,10 +147,15 @@ def getResults(stockName):
         # PRINTING*****
 
         print("listing Currency:", listingCurr, "bs currency:", bsCurrency, "ExRate:", exRate)
-        # print("total shares xueqiu", str(roundB(sharesTotalXueqiu, 2)) + "B")
-        # print("shares finviz", sharesFinviz)
-        print("cash", roundB(cash / exRate, 2), "rec", roundB(receivables / exRate, 2), "inv",
-              roundB(inventory / exRate, 2))
+
+        print("********* FINANCIALS *********")
+
+        print("current ratio components cash", bsCurrency, roundB(cash, 1), 'rec', roundB(receivables, 1), 'inv',
+              roundB(inventory, 1), 'currL', roundB(currLiab, 1))
+
+        print("cash", listingCurr, roundB(cash / exRate, 1), "rec", roundB(receivables / exRate, 1), "inv",
+              roundB(inventory / exRate, 1))
+
         print("A", roundB(totalAssets / exRate, 1), "B", "(",
               roundB(totalCurrentAssets / exRate, 1)
               , roundB((totalAssets - totalCurrentAssets) / exRate, 1), ")")
@@ -164,19 +163,19 @@ def getResults(stockName):
               roundB(currLiab / exRate, 1),
               roundB((totalLiab - currLiab) / exRate, 1), ")")
         print("E", roundB((totalAssets - totalLiab) / exRate, 1), "B")
-        print("Tangible Equity", roundB(tangible_equity, 2), bsCurrency,
-              roundB(tangible_equity / exRate, 2), listingCurr)
-        print("Market Cap", str(roundB(marketPrice * shares, 1)) + "B", listingCurr)
+        print("Tangible Equity", roundB(tangible_equity, 1), bsCurrency,
+              roundB(tangible_equity / exRate, 1), listingCurr)
+        print("Market Cap", str(roundB(marketPrice * shares, 0)) + "B", listingCurr)
 
-        #print("PER SHARE:")
-        print("Market price", round(marketPrice, 2), listingCurr)
-        print("Tangible Equity per share", round(tangible_equity / exRate / shares, 2), listingCurr)
+        # print("PER SHARE:")
+        print("Market price", round(marketPrice, 1), listingCurr)
+        print("Tangible Equity per share", round(tangible_equity / exRate / shares, 1), listingCurr)
 
-        print("P/NetAssets", round(marketPrice * shares / (netAssets / exRate), 2))
-        print("P/Tangible Equity", round(marketPrice * shares / (tangible_equity / exRate), 2))
-        print("P/E", round(marketPrice * shares / (netIncome / exRate), 2))
-        print("P/CFO", round(marketPrice * shares / (cfo / exRate), 2))
-        print("S/B", round(revenue / tangible_equity, 2))
+        print("P/NetAssets", round(marketPrice * shares / (netAssets / exRate), 1))
+        print("P/Tangible Equity", round(marketPrice * shares / (tangible_equity / exRate), 1))
+        print("P/E", round(marketPrice * shares / (netIncome / exRate), 1))
+        print("P/CFO", round(marketPrice * shares / (cfo / exRate), 1))
+        print("S/B", round(revenue / tangible_equity, 1))
         print("                         ")
         print("********ALTMAN**********")
         print("CR", round(currRatio, 1))
