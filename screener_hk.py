@@ -45,7 +45,7 @@ listStocks = stock_df_torun['ticker'].tolist()
 print(len(listStocks), listStocks)
 
 for comp in listStocks:
-
+    print("_____________________________")
     try:
         companyName = stock_df.loc[stock_df['ticker'] == comp]['name'].item()
 

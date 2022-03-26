@@ -63,6 +63,8 @@ pCash.add_tools(HoverTool(tooltips=[('date', '@endDate{%Y-%m-%d}'), ("cash", "@c
 
 pBook = figure(title='book', x_axis_type="datetime")
 pBook.title.text = 'Book'
+pBook.add_tools(HoverTool(tooltips=[('date', '@endDate{%Y-%m-%d}'), ("book", "@netBook")],
+                          formatters={'@endDate': 'datetime'}, mode='vline'))
 
 p1 = figure(title='currentRatio', x_axis_type="datetime")
 p2 = figure(title='RetEarnings/A', x_axis_type="datetime")
@@ -72,6 +74,22 @@ p5 = figure(title='P/CFO Ratio', x_axis_type="datetime")
 p6 = figure(title='Sales/Assets Ratio', x_axis_type="datetime")
 p7 = figure(title='netnet Ratio', x_axis_type="datetime")
 p8 = figure(title='CFO/A Ratio', x_axis_type="datetime")
+p1.add_tools(HoverTool(tooltips=[('date', '@endDate{%Y-%m-%d}'), ("cr", "@currentRatio")],
+                       formatters={'@endDate': 'datetime'}, mode='vline'))
+p2.add_tools(HoverTool(tooltips=[('date', '@endDate{%Y-%m-%d}'), ("Re/A", "@REAssetsRatio")],
+                       formatters={'@endDate': 'datetime'}, mode='vline'))
+p3.add_tools(HoverTool(tooltips=[('date', '@endDate{%Y-%m-%d}'), ("DERatio", "@DERatio")],
+                       formatters={'@endDate': 'datetime'}, mode='vline'))
+p4.add_tools(HoverTool(tooltips=[('date', '@endDate{%Y-%m-%d}'), ("PB", "@PB")],
+                       formatters={'@endDate': 'datetime'}, mode='vline'))
+p5.add_tools(HoverTool(tooltips=[('date', '@endDate{%Y-%m-%d}'), ("PCFO", "@PCFO")],
+                       formatters={'@endDate': 'datetime'}, mode='vline'))
+p6.add_tools(HoverTool(tooltips=[('date', '@endDate{%Y-%m-%d}'), ("S/A Ratio", "@SalesAssetsRatio")],
+                       formatters={'@endDate': 'datetime'}, mode='vline'))
+p7.add_tools(HoverTool(tooltips=[('date', '@endDate{%Y-%m-%d}'), ("netnet", "@netnetRatio")],
+                       formatters={'@endDate': 'datetime'}, mode='vline'))
+p8.add_tools(HoverTool(tooltips=[('date', '@endDate{%Y-%m-%d}'), ("CFO/A", "@CFOAssetRatio")],
+                       formatters={'@endDate': 'datetime'}, mode='vline'))
 
 for figu in [priceChart, pCash, pBook, pDiv, p1, p2, p3, p4, p5, p6, p7, p8]:
     figu.title.text_font_size = '18pt'
@@ -102,14 +120,6 @@ def buttonCallback():
     print(' new ticker is ', TICKER)
     print('annual is ', ANNUALLY)
 
-    # print('clearing graphs')
-    # global_source.data = ColumnDataSource.from_df(pd.DataFrame())
-    # stockData.data = ColumnDataSource.from_df(pd.DataFrame())
-    # divPriceData.data = ColumnDataSource.from_df(pd.DataFrame())
-    # infoParagraph.text = ''
-    # updateGraphs()
-    # print('clearing graphs done')
-
     try:
         listingCurrency = getListingCurrency(TICKER)
         bsCurrency = getBalanceSheetCurrency(TICKER, listingCurrency)
@@ -118,6 +128,7 @@ def buttonCallback():
 
     except Exception as e:
         print(e)
+
     info = si.get_company_info(TICKER)
     infoText = info.loc['country'].item() + "______________" + info.loc['industry'].item() + \
                '______________' + info.loc['sector'].item() + "______________" + info.loc['longBusinessSummary'].item()
@@ -125,7 +136,7 @@ def buttonCallback():
     print('info text is ', infoText)
     infoParagraph.text = str(infoText)
 
-    print('ticker exrate', TICKER, listingCurrency, bsCurrency, exRate)
+    # print('ticker exrate', TICKER, listingCurrency, bsCurrency, exRate)
     priceData = si.get_data(TICKER)
     priceData.index.name = 'date'
     divData = si.get_dividends(TICKER)
@@ -211,47 +222,33 @@ def updateGraphs():
 
     # book
     pBook.vbar(x='endDate', top='netBook', source=global_source, width=getBarWidth(ANNUALLY))
-    pBook.add_tools(HoverTool(tooltips=[('date', '@endDate{%Y-%m-%d}'), ("book", "@netBook")],
-                              formatters={'@endDate': 'datetime'}, mode='vline'))
+
 
     # current ratio
-    p1.add_tools(HoverTool(tooltips=[('date', '@endDate{%Y-%m-%d}'), ("cr", "@currentRatio")],
-                           formatters={'@endDate': 'datetime'}, mode='vline'))
     p1.vbar(x='endDate', top='currentRatio', source=global_source, width=getBarWidth(ANNUALLY))
 
     # retained earnings/Asset
     p2.vbar(x='endDate', top='REAssetsRatio', source=global_source, width=getBarWidth(ANNUALLY))
-    p2.add_tools(HoverTool(tooltips=[('date', '@endDate{%Y-%m-%d}'), ("Re/A", "@REAssetsRatio")],
-                           formatters={'@endDate': 'datetime'}, mode='vline'))
 
     # Debt/Equity
     p3.vbar(x='endDate', top='DERatio', source=global_source, width=getBarWidth(ANNUALLY))
-    p3.add_tools(HoverTool(tooltips=[('date', '@endDate{%Y-%m-%d}'), ("DERatio", "@DERatio")],
-                           formatters={'@endDate': 'datetime'}, mode='vline'))
 
     # P/B
     p4.vbar(x='endDate', top='PB', source=global_source, width=getBarWidth(ANNUALLY))
-    p4.add_tools(HoverTool(tooltips=[('date', '@endDate{%Y-%m-%d}'), ("PB", "@PB")],
-                           formatters={'@endDate': 'datetime'}, mode='vline'))
     # P/CFO
     p5.vbar(x='endDate', top='PCFO', source=global_source, width=getBarWidth(ANNUALLY))
-    p5.add_tools(HoverTool(tooltips=[('date', '@endDate{%Y-%m-%d}'), ("PCFO", "@PCFO")],
-                           formatters={'@endDate': 'datetime'}, mode='vline'))
 
     # Sales/Assets
     p6.vbar(x='endDate', top='SalesAssetsRatio', source=global_source, width=getBarWidth(ANNUALLY))
-    p6.add_tools(HoverTool(tooltips=[('date', '@endDate{%Y-%m-%d}'), ("S/A Ratio", "@SalesAssetsRatio")],
-                           formatters={'@endDate': 'datetime'}, mode='vline'))
 
     # netnet ratio
     p7.vbar(x='endDate', top='netnetRatio', source=global_source, width=getBarWidth(ANNUALLY))
-    p7.add_tools(HoverTool(tooltips=[('date', '@endDate{%Y-%m-%d}'), ("netnet", "@netnetRatio")],
-                           formatters={'@endDate': 'datetime'}, mode='vline'))
+
 
     # CFO/A ratio
     p8.vbar(x='endDate', top='CFOAssetRatio', source=global_source, width=getBarWidth(ANNUALLY))
-    p8.add_tools(HoverTool(tooltips=[('date', '@endDate{%Y-%m-%d}'), ("CFO/A", "@CFOAssetRatio")],
-                           formatters={'@endDate': 'datetime'}, mode='vline'))
+
+
 
 
 text_input = TextInput(value="0001.HK", title="Label:")

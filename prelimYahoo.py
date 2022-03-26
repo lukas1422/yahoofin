@@ -1,4 +1,4 @@
-stockName = '0035.HK'
+stockName = '2689.HK'
 yearlyFlag = False
 
 import os
@@ -149,10 +149,10 @@ def getResults(stockName):
         percentile = 100.0 * (marketPrice - data52w['low'].min()) \
                      / (data52w['high'].max() - data52w['low'].min())
 
-        if not divs.empty:
-            print('div history ', divs)
-        else:
-            print('div is empty ')
+        # if not divs.empty:
+        #     print('div history ', divs)
+        # else:
+        #     print('div is empty ')
 
         # PRINTING*****
 
