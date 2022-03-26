@@ -1,4 +1,4 @@
-stockName = '0148.HK'
+stockName = '0035.HK'
 yearlyFlag = False
 
 import os
@@ -12,13 +12,9 @@ import scrape_sharesOutstanding
 from helperMethods import getFromDF, getFromDFYearly, roundB
 
 ONE_YEAR_AGO = datetime.today() - timedelta(weeks=53)
-# PRICE_START_DATE = (datetime.today() - timedelta(weeks=52 * 2)).strftime('%-m/%-d/%Y')
-TEN_YEAR_AGO = (datetime.today() - timedelta(weeks=52 * 10)).strftime('%-m/%-d/%Y')
 
 # yearAgo = datetime.today() - timedelta(weeks=53)
 START_DATE = (datetime.today() - timedelta(weeks=52 * 10)).strftime('%-m/%-d/%Y')
-# START_DATE = '3/1/2020'
-# DIVIDEND_START_DATE = '1/1/2010'
 PRICE_INTERVAL = '1wk'
 
 
@@ -28,7 +24,7 @@ PRICE_INTERVAL = '1wk'
 def getResults(stockName):
     exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
     try:
-        data = si.get_data(stockName, start_date=START_DATE, interval=PRICE_INTERVAL)
+        data = si.get_data(stockName, interval=PRICE_INTERVAL)
         print('last trading day', data[data['volume'] != 0].index[-1])
 
         try:
@@ -93,7 +89,6 @@ def getResults(stockName):
         netIncome = getFromDFYearly(incomeStatement, 'netIncome', yearlyFlag)
 
         # roa = netIncome / totalAssets
-
         # CF
         cf = si.get_cash_flow(stockName, yearly=yearlyFlag)
         print("cash flow statement date:", cf.columns[0].strftime('%Y/%-m/%-d'))
@@ -137,15 +132,10 @@ def getResults(stockName):
         tangibleRatio = tangible_equity / (totalAssets - totalLiab)
 
         divs = si.get_dividends(stockName)
-        print('div', divs)
+        # print('div', divs)
         divsPastYear = divs.loc[divs.index > ONE_YEAR_AGO]
         divSumPastYear = divsPastYear['dividend'].sum() if not divsPastYear.empty else 0
         divLastYearYield = divSumPastYear / marketPrice
-
-        div10Yr = divs.loc[divs.index > TEN_YEAR_AGO]
-        div10YrSum = div10Yr['dividend'].sum() if not div10Yr.empty else 0
-        startToNow = (datetime.today() - data.index[0]).days / 365.25
-        div10YearYield = (div10YrSum / startToNow) / marketPrice
 
         divSumAll = divs['dividend'].sum() if not divs.empty else 0
         startToNow = (datetime.today() - data.index[0]).days / 365.25
@@ -159,11 +149,6 @@ def getResults(stockName):
         percentile = 100.0 * (marketPrice - data52w['low'].min()) \
                      / (data52w['high'].max() - data52w['low'].min())
 
-        # divsPastYear = divs.loc[divs.index > ONE_YEAR_AGO]
-        # divSumPastYear = divsPastYear['dividend'].sum() if not divsPastYear.empty else 0
-        # print('divsum marketPrice', divSumPastYear, marketPrice)
-
-        # divSum = divs['dividend'].sum() if not divs.empty else 0.0
         if not divs.empty:
             print('div history ', divs)
         else:
@@ -212,12 +197,11 @@ def getResults(stockName):
         print("RE/A", round(retainedEarnings / totalAssets, 2))
         print("S/A", round(revenue / totalAssets, 2))
         print("div1YrYld:", round(divLastYearYield * 100), "%")
-        print("div10YrYld:", round(div10YearYield * 100), "%")
+        print("divAllYld:", round(divAllTimeYld * 100), "%")
         print("divsum marketprice:", round(divSumPastYear, 2), round(marketPrice, 2))
-        # print('roa', roa)
         print("P/CFO", round(marketCap / (cfo / exRate), 2))
         print('cfo/A', cfoA)
-        print('price shares marketcap', marketPrice, shares, marketCap)
+        # print('price shares marketcap', marketPrice, shares, marketCap)
 
         outputString = stockName + " " + country + " " + sector \
                        + " MV:" + str(roundB(marketCap, 1)) + 'B' \

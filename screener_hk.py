@@ -23,7 +23,7 @@ def increment():
 
 ONE_YEAR_AGO = datetime.today() - timedelta(weeks=53)
 # PRICE_START_DATE = (datetime.today() - timedelta(weeks=52 * 2)).strftime('%-m/%-d/%Y')
-TEN_YEAR_AGO = (datetime.today() - timedelta(weeks=52 * 10)).strftime('%-m/%-d/%Y')
+# TEN_YEAR_AGO = (datetime.today() - timedelta(weeks=52 * 10)).strftime('%-m/%-d/%Y')
 # DIV_START_DATE =
 PRICE_INTERVAL = '1wk'
 
@@ -38,9 +38,9 @@ hk_shares = pd.read_csv('list_HK_totalShares', sep=" ", index_col=False, names=[
 listStocks = stock_df['ticker'].tolist()
 # listStocks = ['2698.HK']
 
-# stock_df_torun = pd.read_csv('list_special', dtype=object, sep=" ", index_col=False, names=['ticker'])
-# stock_df_torun['ticker'] = stock_df_torun['ticker'].map(lambda x: convertHK(x))
-# listStocks = ['0321.HK']
+stock_df_torun = pd.read_csv('list_special', dtype=object, sep=" ", index_col=False, names=['ticker'])
+stock_df_torun['ticker'] = stock_df_torun['ticker'].map(lambda x: convertHK(x))
+listStocks = stock_df_torun['ticker'].tolist()
 
 print(len(listStocks), listStocks)
 
@@ -51,7 +51,7 @@ for comp in listStocks:
 
         print(increment(), comp, companyName)
 
-        data = si.get_data(comp, start_date=TEN_YEAR_AGO, interval=PRICE_INTERVAL)
+        data = si.get_data(comp, interval=PRICE_INTERVAL)
         print("start date ", data.index[0].strftime('%-m/%-d/%Y'))
         print('last active day', data[data['volume'] != 0].index[-1].strftime('%-m/%-d/%Y'))
 
@@ -66,10 +66,11 @@ for comp in listStocks:
 
         country = getFromDF(info, "country")
         sector = getFromDF(info, 'sector')
+        print('country sector', country, sector)
 
-        if 'real estate' in sector.lower() or 'financial' in sector.lower():
-            print(comp, " no real estate or financial ", sector)
-            continue
+        # if 'real estate' in sector.lower() or 'financial' in sector.lower():
+        #     print(comp, " no real estate or financial ", sector)
+        #     continue
 
         marketPrice = si.get_live_price(comp)
         # if marketPrice <= 1:
@@ -169,10 +170,10 @@ for comp in listStocks:
         divSumPastYear = divsPastYear['dividend'].sum() if not divsPastYear.empty else 0
         divLastYearYield = divSumPastYear / marketPrice
 
-        div10Yr = divs.loc[divs.index > TEN_YEAR_AGO]
-        div10YrSum = div10Yr['dividend'].sum() if not div10Yr.empty else 0
+        # div10Yr = divs.loc[divs.index > TEN_YEAR_AGO]
+        divSum = divs['dividend'].sum() if not divs.empty else 0
         startToNow = (datetime.today() - data.index[0]).days / 365.25
-        div10YearYield = (div10YrSum / startToNow) / marketPrice
+        divYieldAll = (divSum / startToNow) / marketPrice
 
         if divSumPastYear == 0:
             print(comp, "div is 0 ")
@@ -181,8 +182,8 @@ for comp in listStocks:
         schloss = pb < 0.6 and marketPrice < low_52wk * 1.1 and insiderPerc > INSIDER_OWN_MIN
         netnetRatio = (cash + receivables * 0.5 + inventory * 0.2 - totalLiab) / exRate / marketCap
         netnet = (cash + receivables * 0.5 + inventory * 0.2 - totalLiab) / exRate - marketCap > 0
-        magic6 = pb < 0.6 and pCfo < 6 and div10YearYield >= 0.06
-        print('pb, pcfo, divyield', pb, pCfo, div10YearYield, magic6)
+        magic6 = pb < 0.6 and pCfo < 6 and divYieldAll >= 0.06
+        print('pb, pcfo, divyield', pb, pCfo, divYieldAll, magic6)
         print('netnet ratio',
               round((cash + receivables * 0.5 + inventory * 0.2 - totalLiab) / exRate / marketCap, 2))
 
@@ -202,8 +203,8 @@ for comp in listStocks:
                            + " S/A:" + str(round(revenue / totalAssets, 2)) \
                            + " cfo/A:" + str(round(cfoAssetRatio, 2)) \
                            + " P/52wLow:" + str(round(marketPrice / low_52wk, 2)) \
-                           + " divYld:" + str(round(divLastYearYield * 100)) + "%" \
-                           + " divYld10yr:" + str(round(div10YearYield * 100)) + "%" \
+                           + " divYldLastYr:" + str(round(divLastYearYield * 100)) + "%" \
+                           + " divYldAll:" + str(round(divYieldAll * 100)) + "%" \
                            + " insider%:" + str(round(insiderPerc)) + "%" \
                            + " dai$Vol:" + str(round(avgDollarVol / 1000000, 2)) + "M"
 
@@ -223,7 +224,8 @@ for comp in listStocks:
                   + " S/A:" + str(round(revenue / totalAssets, 2))
                   + " cfo/A:" + str(round(cfoAssetRatio, 2))
                   + " 52w_p%:" + str(round(percentile))
-                  + " divYld:" + str(round(divSumPastYear / marketPrice * 100)) + "%"
+                  + " divYld:" + str(round(divLastYearYield * 100)) + "%"
+                  + " divAll:" + str(round(divYieldAll* 100)) + "%"
                   + " insider%:" + str(round(insiderPerc)) + "%"
                   + " dai$Vol:" + str(round(avgDollarVol / 1000000, 2)) + "M")
 
