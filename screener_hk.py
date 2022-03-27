@@ -141,9 +141,9 @@ for comp in listStocks:
         #     print(comp, 'pb > 0.6 or pb <= 0', pb)
         #     continue
         #
-        # if pCfo > 6 or pCfo <= 0:
-        #     print(comp, 'pcfo > 6 or <= 0', pCfo)
-        #     continue
+        if pCfo > 10 or pCfo <= 0:
+            print(comp, 'pcfo > 10 or <= 0', pCfo)
+            continue
 
         revenue = getFromDFYearly(incomeStatement, "totalRevenue", yearlyFlag)
         retainedEarningsAssetRatio = retainedEarnings / totalAssets
