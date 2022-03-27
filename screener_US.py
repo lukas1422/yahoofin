@@ -112,7 +112,7 @@ for comp in listStocks:
         tangible_Equity = totalAssets - totalLiab - goodWill - intangibles
         debtEquityRatio = totalLiab / tangible_Equity
 
-        if debtEquityRatio > 1:
+        if debtEquityRatio > 1 or tangible_Equity < 0:
             print(comp, "de ratio> 1. ", debtEquityRatio)
             continue
 
@@ -121,7 +121,7 @@ for comp in listStocks:
         cf = si.get_cash_flow(comp, yearly=yearlyFlag)
         cfo = getFromDFYearly(cf, "totalCashFromOperatingActivities", yearlyFlag)
 
-        if cfo <= 0 :
+        if cfo <= 0:
             print(comp, "cfo <= 0 ", cfo)
             continue
 
@@ -163,6 +163,7 @@ for comp in listStocks:
         print(comp, "insider percent", insiderPerc)
 
         divs = si.get_dividends(comp)
+
         divSum = divs['dividend'].sum() if not divs.empty else 0
         startToNow = (datetime.today() - data.index[0]).days / 365.25
         print(" start to now ", startToNow, 'starting date ', data.index[0])
@@ -179,7 +180,7 @@ for comp in listStocks:
 
         if schloss or netnet or magic6 or pureHighYield:
             outputString = comp + " " + " " + companyName + ' ' \
-                           + " dai$Vol:" + str(round(avgDollarVol / 1000000)) + "M" \
+                           + " dai$Vol:" + str(round(avgDollarVol / 1000000)) + "M " \
                            + country.replace(" ", "_") + " " \
                            + sector.replace(" ", "_") + " " + listingCurrency + bsCurrency \
                            + boolToString(schloss, "schloss") + boolToString(netnet, "netnet") \
@@ -194,7 +195,8 @@ for comp in listStocks:
                            + " S/A:" + str(round(revenue / totalAssets, 2)) \
                            + " cfo/A:" + str(round(cfoAssetRatio, 2)) \
                            + " 52w_p%:" + str(round(percentile)) \
-                           + " divYld:" + str(round(divSum / marketPrice * 100 / startToNow)) + "%" \
+                           + " divYldAll:" + str(round(divYield * 100)) + "%" \
+                           + " divYldLastYear:" + str(round(divLastYearYield * 100)) + "%" \
                            + " insider%: " + str(round(insiderPerc)) + "%"
 
             print(outputString)

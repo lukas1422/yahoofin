@@ -120,7 +120,6 @@ def resetCallback():
     divPriceData.data = ColumnDataSource.from_df(pd.DataFrame())
     infoParagraph.text = ""
     text_input.title = ''
-    # updateGraphs()
     gPrice.title.text = ''
     print(' cleared source ')
 
@@ -190,8 +189,8 @@ def buttonCallback():
     bsT['CFO'] = bsT.index.map(
         lambda d: cfT[cfT.index == d]['totalCashFromOperatingActivities'].item() * indicatorFunction(ANNUALLY))
     bsT['PCFO'] = bsT['marketCap'] * exRate / bsT['CFO']
-    bsT['netnetRatio'] = ((bsT['cash'] + fill0Get(bsT, 'netReceivables') * 0.5 +
-                           fill0Get(bsT, 'inventory') * 0.2) / (bsT['totalLiab'] + exRate * bsT['marketCap']))
+    bsT['netnetRatio'] = ((bsT['cash'] + fill0Get(bsT, 'netReceivables') * 0.8 +
+                           fill0Get(bsT, 'inventory') * 0.5) / (bsT['totalLiab'] + exRate * bsT['marketCap']))
     bsT['CFOAssetRatio'] = bsT['CFO'] / bsT['totalAssets']
     global_source.data = ColumnDataSource.from_df(bsT)
     stockData.data = ColumnDataSource.from_df(priceData)

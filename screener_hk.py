@@ -71,7 +71,6 @@ for comp in listStocks:
         #     print(comp, " no real estate or financial ", sector)
         #     continue
 
-        marketPrice = si.get_live_price(comp)
         # if marketPrice <= 1:
         #     print(comp, 'market price < 1: ', marketPrice)
         #     continue
@@ -108,7 +107,7 @@ for comp in listStocks:
         tangible_Equity = totalAssets - totalLiab - goodWill - intangibles
         debtEquityRatio = totalLiab / tangible_Equity
 
-        if debtEquityRatio > 1:
+        if debtEquityRatio > 1 or tangible_Equity < 0:
             print(comp, "de ratio> 1. ", debtEquityRatio)
             continue
 
@@ -128,6 +127,7 @@ for comp in listStocks:
         print("listing currency, bs currency, ", listingCurrency, bsCurrency)
         exRate = currency_getExchangeRate.getExchangeRate(exchange_rate_dict, listingCurrency, bsCurrency)
 
+        marketPrice = si.get_live_price(comp)
         marketCap = marketPrice * shares
         if marketCap < 1000000000:
             print(comp, "market cap < 1B TOO SMALL", roundB(marketCap, 2))
@@ -163,7 +163,6 @@ for comp in listStocks:
 
         divs = si.get_dividends(comp)
 
-
         divSum = divs['dividend'].sum() if not divs.empty else 0
         startToNow = (datetime.today() - data.index[0]).days / 365.25
         divYieldAll = (divSum / startToNow) / marketPrice
@@ -171,7 +170,6 @@ for comp in listStocks:
         divsPastYear = divs.loc[divs.index > ONE_YEAR_AGO]
         divSumPastYear = divsPastYear['dividend'].sum() if not divsPastYear.empty else 0
         divLastYearYield = divSumPastYear / marketPrice
-
 
         if divSumPastYear == 0:
             print(comp, "div is 0 ")
@@ -189,6 +187,7 @@ for comp in listStocks:
 
         if schloss or netnet or magic6 or pureHighYield:
             outputString = comp[:4] + " " + " " + companyName[:4] + ' ' \
+                           + " dai$Vol:" + str(round(avgDollarVol / 1000000, 1)) + "M" \
                            + country.replace(" ", "_") + " " \
                            + sector.replace(" ", "_") + " " + listingCurrency + bsCurrency \
                            + boolToString(schloss, "schloss") + boolToString(netnet, "netnet") \
@@ -205,8 +204,7 @@ for comp in listStocks:
                            + " P/52wLow:" + str(round(marketPrice / low_52wk, 2)) \
                            + " divYldLastYr:" + str(round(divLastYearYield * 100)) + "%" \
                            + " divYldAll:" + str(round(divYieldAll * 100)) + "%" \
-                           + " insider%:" + str(round(insiderPerc)) + "%" \
-                           + " dai$Vol:" + str(round(avgDollarVol / 1000000, 2)) + "M"
+                           + " insider%:" + str(round(insiderPerc)) + "%"
 
             print(outputString)
             fileOutput.write(outputString + '\n')

@@ -1,4 +1,4 @@
-stockName = '9434.T'
+stockName = 'BCC'
 yearlyFlag = False
 
 import os
@@ -129,11 +129,13 @@ def getResults(stockName):
         divsPastYear = divs.loc[divs.index > ONE_YEAR_AGO]
         divSumPastYear = divsPastYear['dividend'].sum() if not divsPastYear.empty else 0
         divLastYearYield = divSumPastYear / marketPrice
+        print('div past year yield', divLastYearYield)
 
         divSumAll = divs['dividend'].sum() if not divs.empty else 0
         startToNow = (datetime.today() - data.index[0]).days / 365.25
         print("Years Since Listing:", round(startToNow), 'starting date ', data.index[0].strftime('%Y/%-m/%-d'))
         divAllTimeYld = divSumAll / startToNow / marketPrice
+        print('div all time yld ', divAllTimeYld)
 
         data52w = data.loc[data.index > ONE_YEAR_AGO]
 
