@@ -41,11 +41,13 @@ stock_df = pd.read_csv('list_US_Tickers', sep=" ", index_col=False,
                        names=['ticker', 'name', 'sector', 'industry', 'country', 'mv', 'price'])
 print(stock_df)
 
-listStocks = stock_df[(stock_df['price'] > 1)
-                      & (stock_df['sector'].str
-                         .contains('financial|healthcare', regex=True, case=False) == False)
-                      & (stock_df['industry'].str.contains('reit', regex=True, case=False) == False)
-                      & (stock_df['country'].str.lower() != 'china')]['ticker'].tolist()
+# listStocks = stock_df[(stock_df['price'] > 1)
+#                       & (stock_df['sector'].str
+#                          .contains('financial|healthcare', regex=True, case=False) == False)
+#                       & (stock_df['industry'].str.contains('reit', regex=True, case=False) == False)
+#                       & (stock_df['country'].str.lower() != 'china')]['ticker'].tolist()
+
+listStocks = stock_df['ticker'].tolist()
 
 # listStocks = ['APWC']
 print(len(listStocks), listStocks)
@@ -70,9 +72,9 @@ for comp in listStocks:
         country = getFromDF(info, "country")
         sector = getFromDF(info, 'sector')
 
-        if 'real estate' in sector.lower() or 'financial' in sector.lower():
-            print(comp, " no real estate or financial ", sector)
-            continue
+        # if 'real estate' in sector.lower() or 'financial' in sector.lower():
+        #     print(comp, " no real estate or financial ", sector)
+        #     continue
 
         # if marketPrice <= 1:
         #     print(comp, 'market price < 1: ', marketPrice)
@@ -97,7 +99,7 @@ for comp in listStocks:
         receivables = getFromDF(bs, 'netReceivables')
         inventory = getFromDF(bs, 'inventory')
 
-        currentRatio = (cash + 0.5 * receivables + 0.2 * inventory) / currLiab
+        currentRatio = (cash + 0.8 * receivables + 0.5 * inventory) / currLiab
 
         if currentRatio <= 1:
             print(comp, "current ratio < 1", currentRatio)
