@@ -163,23 +163,26 @@ for comp in listStocks:
 
         divs = si.get_dividends(comp)
 
-        divsPastYear = divs.loc[divs.index > ONE_YEAR_AGO]
-        divSumPastYear = divsPastYear['dividend'].sum() if not divsPastYear.empty else 0
-        divLastYearYield = divSumPastYear / marketPrice
 
         divSum = divs['dividend'].sum() if not divs.empty else 0
         startToNow = (datetime.today() - data.index[0]).days / 365.25
         divYieldAll = (divSum / startToNow) / marketPrice
 
+        divsPastYear = divs.loc[divs.index > ONE_YEAR_AGO]
+        divSumPastYear = divsPastYear['dividend'].sum() if not divsPastYear.empty else 0
+        divLastYearYield = divSumPastYear / marketPrice
+
+
         if divSumPastYear == 0:
             print(comp, "div is 0 ")
             continue
 
-        schloss = pb < 0.6 and marketPrice < low_52wk * 1.1 and insiderPerc > INSIDER_OWN_MIN
+        schloss = pb < 1 and marketPrice < low_52wk * 1.1 and insiderPerc > INSIDER_OWN_MIN
         netnetRatio = (cash + receivables * 0.5 + inventory * 0.2 - totalLiab) / exRate / marketCap
         netnet = (cash + receivables * 0.5 + inventory * 0.2 - totalLiab) / exRate - marketCap > 0
         magic6 = pCfo < 6 and (divYieldAll >= 0.06 or divLastYearYield >= 0.06)
         pureHighYield = (divYieldAll >= 0.06 or divLastYearYield >= 0.06)
+
         print('pb, pcfo, divyield', pb, pCfo, divYieldAll, magic6)
         print('netnet ratio',
               round((cash + receivables * 0.5 + inventory * 0.2 - totalLiab) / exRate / marketCap, 2))

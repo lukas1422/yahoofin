@@ -12,6 +12,7 @@ from helperMethods import getFromDF, getFromDFYearly, roundB, boolToString, getI
 MARKET = Market.US
 yearlyFlag = False
 INSIDER_OWN_MIN = 10
+ONE_YEAR_AGO = datetime.today() - timedelta(weeks=53)
 
 COUNT = 0
 
@@ -54,7 +55,7 @@ for comp in listStocks:
         companyName = stock_df.loc[stock_df['ticker'] == comp]['name'].item()
 
         print(increment(), comp, companyName)
-        data = si.get_data(comp, start_date=START_DATE, interval=PRICE_INTERVAL)
+        data = si.get_data(comp, interval=PRICE_INTERVAL)
         print("start date ", data.index[0].strftime('%-m/%-d/%Y'))
 
         try:
@@ -73,10 +74,9 @@ for comp in listStocks:
             print(comp, " no real estate or financial ", sector)
             continue
 
-        marketPrice = si.get_live_price(comp)
-        if marketPrice <= 1:
-            print(comp, 'market price < 1: ', marketPrice)
-            continue
+        # if marketPrice <= 1:
+        #     print(comp, 'market price < 1: ', marketPrice)
+        #     continue
 
         bs = si.get_balance_sheet(comp, yearly=yearlyFlag)
 
@@ -130,19 +130,20 @@ for comp in listStocks:
         print("listing currency, bs currency, ", listingCurrency, bsCurrency)
         exRate = currency_getExchangeRate.getExchangeRate(exchange_rate_dict, listingCurrency, bsCurrency)
 
+        marketPrice = si.get_live_price(comp)
         marketCap = marketPrice * shares
 
         pb = marketCap / (tangible_Equity / exRate)
         pCfo = marketCap / (cfo / exRate)
         print("MV, cfo", roundB(marketCap, 2), roundB(cfo, 2))
 
-        if pb >= 0.6 or pb <= 0:
-            print(comp, 'pb > 0.6 or pb <= 0', pb)
-            continue
-
-        if pCfo > 6 or pCfo <= 0:
-            print(comp, 'pcfo > 6 or <= 0', pCfo)
-            continue
+        # if pb >= 0.6 or pb <= 0:
+        #     print(comp, 'pb > 0.6 or pb <= 0', pb)
+        #     continue
+        #
+        # if pCfo > 6 or pCfo <= 0:
+        #     print(comp, 'pcfo > 6 or <= 0', pCfo)
+        #     continue
 
         revenue = getFromDFYearly(incomeStatement, "totalRevenue", yearlyFlag)
 
@@ -159,22 +160,28 @@ for comp in listStocks:
         insiderPerc = float(si.get_holders(comp).get('Major Holders')[0][0].rstrip("%"))
         print(comp, "insider percent", insiderPerc)
 
-        divs = si.get_dividends(comp, start_date=START_DATE)
+        divs = si.get_dividends(comp)
         divSum = divs['dividend'].sum() if not divs.empty else 0
         startToNow = (datetime.today() - data.index[0]).days / 365.25
         print(" start to now ", startToNow, 'starting date ', data.index[0])
         divYield = divSum / marketPrice / startToNow
 
-        schloss = pb < 0.6 and marketPrice < low_52wk * 1.1 and insiderPerc > INSIDER_OWN_MIN
-        netnet = (cash + receivables + inventory - totalLiab) / exRate - marketCap > 0
-        magic6 = pb < 0.6 and pCfo < 6 and divYield > 0.06
+        divsPastYear = divs.loc[divs.index > ONE_YEAR_AGO]
+        divSumPastYear = divsPastYear['dividend'].sum() if not divsPastYear.empty else 0
+        divLastYearYield = divSumPastYear / marketPrice
 
-        if schloss or netnet or magic6:
+        schloss = pb < 1 and marketPrice < low_52wk * 1.1 and insiderPerc > INSIDER_OWN_MIN
+        netnet = (cash + receivables + inventory - totalLiab) / exRate - marketCap > 0
+        magic6 = pCfo < 6 and (divYield >= 0.06 or divLastYearYield >= 0.06)
+        pureHighYield = (divYield >= 0.06 or divLastYearYield >= 0.06)
+
+        if schloss or netnet or magic6 or pureHighYield:
             outputString = comp + " " + " " + companyName + ' ' \
+                           + " dai$Vol:" + str(round(avgDollarVol / 1000000)) + "M" \
                            + country.replace(" ", "_") + " " \
                            + sector.replace(" ", "_") + " " + listingCurrency + bsCurrency \
                            + boolToString(schloss, "schloss") + boolToString(netnet, "netnet") \
-                           + boolToString(magic6, "magic6") \
+                           + boolToString(magic6, "magic6") + boolToString(pureHighYield, 'highYield') \
                            + " MV:" + str(roundB(marketCap, 1)) + 'B' \
                            + " B:" + str(roundB(tangible_Equity / exRate, 1)) + 'B' \
                            + " P/CFO:" + str(round(pCfo, 2)) \
@@ -186,8 +193,7 @@ for comp in listStocks:
                            + " cfo/A:" + str(round(cfoAssetRatio, 2)) \
                            + " 52w_p%:" + str(round(percentile)) \
                            + " divYld:" + str(round(divSum / marketPrice * 100 / startToNow)) + "%" \
-                           + " insider%: " + str(round(insiderPerc)) + "%" \
-                           + " dai$Vol:" + str(round(avgDollarVol / 1000000, 2)) + "M"
+                           + " insider%: " + str(round(insiderPerc)) + "%"
 
             print(outputString)
             fileOutput.write(outputString + '\n')
