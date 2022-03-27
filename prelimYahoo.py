@@ -1,4 +1,4 @@
-stockName = '1982.HK'
+stockName = '9434.T'
 yearlyFlag = False
 
 import os
@@ -26,6 +26,9 @@ def getResults(stockName):
     try:
         data = si.get_data(stockName, interval=PRICE_INTERVAL)
         print('last trading day', data[data['volume'] != 0].index[-1].strftime('%Y/%-m/%-d'))
+
+        avgVolListingCurrency = (data[-10:]['close'] * data[-10:]['volume']).sum() / 10
+        print(' avg vol ', str(round(avgVolListingCurrency / 1000000, 1)) + "M")
 
         try:
             info = si.get_company_info(stockName)
@@ -132,8 +135,6 @@ def getResults(stockName):
         print("Years Since Listing:", round(startToNow), 'starting date ', data.index[0].strftime('%Y/%-m/%-d'))
         divAllTimeYld = divSumAll / startToNow / marketPrice
 
-        avgDollarVol = (data[-10:]['close'] * data[-10:]['volume']).sum() / 10
-
         data52w = data.loc[data.index > ONE_YEAR_AGO]
 
         percentile = 100.0 * (marketPrice - data52w['low'].min()) \
@@ -163,8 +164,8 @@ def getResults(stockName):
               roundB(currLiab / exRate, 1),
               roundB((totalLiab - currLiab) / exRate, 1), ")")
         print("E", roundB((totalAssets - totalLiab) / exRate, 1), "B")
-        print("Tangible Equity", roundB(tangible_equity, 1), bsCurrency,
-              roundB(tangible_equity / exRate, 1), listingCurr)
+        print("Tangible Equity", roundB(tangible_equity, 1), "B", bsCurrency,
+              roundB(tangible_equity / exRate, 1), 'B', listingCurr)
         print("Market Cap", str(roundB(marketPrice * shares, 0)) + "B", listingCurr)
 
         # print("PER SHARE:")
@@ -195,8 +196,8 @@ def getResults(stockName):
         print("P/CFO", round(marketCap / (cfo / exRate), 1))
         print('cfo/A', cfoA)
 
-        outputString = stockName + " " + country.replace(' ', '') + " " + sector.replace(' ','') \
-                       + " dai$Vol:" + str(round(avgDollarVol / 1000000, 1)) + "M" \
+        outputString = stockName + " " + country.replace(' ', '') + " " + sector.replace(' ', '') \
+                       + " dai$Vol:" + str(round(avgVolListingCurrency / 1000000)) + "M" \
                        + " MV:" + str(roundB(marketCap, 1)) + 'B' \
                        + " Tangible_equity:" + str(roundB((tangible_equity) / exRate, 1)) + 'B' \
                        + " pb:" + str(round(pTangibleEquity, 1)) \

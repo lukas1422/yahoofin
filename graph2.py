@@ -69,9 +69,9 @@ gBook.add_tools(HoverTool(tooltips=[('date', '@endDate{%Y-%m-%d}'), ("book", "@n
 g1 = figure(title='currentRatio', x_axis_type="datetime")
 g2 = figure(title='RetEarnings/A', x_axis_type="datetime")
 g3 = figure(title='D/E Ratio', x_axis_type="datetime")
-g4 = figure(title='P/B Ratio', x_axis_type="datetime")
+g4 = figure(title='MV/B Ratio', x_axis_type="datetime")
 gCFO = figure(title='CFO', x_axis_type="datetime")
-gCFORatio = figure(title='P/CFO', x_axis_type="datetime")
+gCFORatio = figure(title='MV/CFO', x_axis_type="datetime")
 # pCFO.extra_y_ranges = {"PCFORange": Range1d(start=-10, end=10)}
 # pCFO.extra_y_ranges = {"PCFORange": DataRange1d()}
 # pCFO.add_layout(LinearAxis(y_range_name="PCFORange", axis_label="PCFORange"), 'right')
@@ -120,7 +120,8 @@ def resetCallback():
     divPriceData.data = ColumnDataSource.from_df(pd.DataFrame())
     infoParagraph.text = ""
     text_input.title = ''
-    updateGraphs()
+    # updateGraphs()
+    gPrice.title.text = ''
     print(' cleared source ')
 
 
@@ -200,8 +201,9 @@ def buttonCallback():
     compName1 = info.loc['longBusinessSummary'].item().split(' ')[0] if 'longBusinessSummary' in info.index else ""
     compName2 = info.loc['longBusinessSummary'].item().split(' ')[1] if 'longBusinessSummary' in info.index else ""
     # print(' comp name ', compName1, compName2, 'summary', info.loc['longBusinessSummary'].item().split(' '))
-    text_input.title = compName1 + ' ' + compName2 + ' ' + \
-                       listingCurrency + bsCurrency + '______MV:' + str(roundB(bsT['marketCap'][0], 1)) + 'B' \
+    text_input.title = compName1 + ' ' + compName2 + ' ' \
+                       + 'shares:' + str(roundB(shares, 0)) + 'B' \
+                       + listingCurrency + bsCurrency + '______MV:' + str(roundB(bsT['marketCap'][0], 1)) + 'B' \
                        + "____NetB:" + str(roundB(bsT['netBook'][0] / exRate, 1)) + 'B' \
                        + '____PB:' + str(round(bsT['PB'][0], 2)) \
                        + '____CR:' + str(round(bsT['currentRatio'][0], 1)) \
@@ -223,7 +225,6 @@ def updateGraphs():
     lastPrice = round(stockData.data['close'][-1], 2) if 'close' in stockData.data else ''
     gPrice.title.text = ' prices ' + TICKER + '____' + str(lastPrice)
     gPrice.line(x='date', y='close', source=stockData, color='#D06C8A')
-
     gDiv.vbar(x='year', top='yield', source=divPriceData, width=getWidthDivGraph())
 
     # cash

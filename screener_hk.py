@@ -37,10 +37,9 @@ stock_df['ticker'] = stock_df['ticker'].map(lambda x: convertHK(x))
 hk_shares = pd.read_csv('list_HK_totalShares', sep=" ", index_col=False, names=['ticker', 'shares'])
 listStocks = stock_df['ticker'].tolist()
 # listStocks = ['2698.HK']
-
-stock_df_torun = pd.read_csv('list_special', dtype=object, sep=" ", index_col=False, names=['ticker'])
-stock_df_torun['ticker'] = stock_df_torun['ticker'].map(lambda x: convertHK(x))
-listStocks = stock_df_torun['ticker'].tolist()
+# stock_df_torun = pd.read_csv('list_special', dtype=object, sep=" ", index_col=False, names=['ticker'])
+# stock_df_torun['ticker'] = stock_df_torun['ticker'].map(lambda x: convertHK(x))
+# listStocks = stock_df_torun['ticker'].tolist()
 
 print(len(listStocks), listStocks)
 
