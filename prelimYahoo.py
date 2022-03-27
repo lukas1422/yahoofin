@@ -207,8 +207,8 @@ def getResults(stockName):
                        + " ebit/A:" + str(round(ebitAssetRatio, 1)) \
                        + " tangibleRatio:" + str(round(tangibleRatio, 1)) \
                        + " 52w_p%:" + str(round(percentile)) \
-                       + " divYld_all:" + str(round(divAllTimeYld * 100)) + "%" \
-                       + " divYld_last_yr:" + str(round(divLastYearYield * 100)) + "%"
+                       + " divYldAll:" + str(round(divAllTimeYld * 100)) + "%" \
+                       + " divYldLastYr:" + str(round(divLastYearYield * 100)) + "%"
 
         print(outputString)
         return outputString
