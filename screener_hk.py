@@ -148,9 +148,7 @@ for comp in listStocks:
         revenue = getFromDFYearly(incomeStatement, "totalRevenue", yearlyFlag)
         retainedEarningsAssetRatio = retainedEarnings / totalAssets
         cfoAssetRatio = cfo / totalAssets
-        # ebitAssetRatio = ebit / totalAssets
 
-        # data = si.get_data(comp, start_date=START_DATE, interval=PRICE_INTERVAL)
         data52w = data.loc[data.index > ONE_YEAR_AGO]
         percentile = 100.0 * (marketPrice - data52w['low'].min()) / (data52w['high'].max() - data52w['low'].min())
         low_52wk = data52w['low'].min()
@@ -169,7 +167,6 @@ for comp in listStocks:
         divSumPastYear = divsPastYear['dividend'].sum() if not divsPastYear.empty else 0
         divLastYearYield = divSumPastYear / marketPrice
 
-        # div10Yr = divs.loc[divs.index > TEN_YEAR_AGO]
         divSum = divs['dividend'].sum() if not divs.empty else 0
         startToNow = (datetime.today() - data.index[0]).days / 365.25
         divYieldAll = (divSum / startToNow) / marketPrice
@@ -181,17 +178,18 @@ for comp in listStocks:
         schloss = pb < 0.6 and marketPrice < low_52wk * 1.1 and insiderPerc > INSIDER_OWN_MIN
         netnetRatio = (cash + receivables * 0.5 + inventory * 0.2 - totalLiab) / exRate / marketCap
         netnet = (cash + receivables * 0.5 + inventory * 0.2 - totalLiab) / exRate - marketCap > 0
-        magic6 = pb < 0.6 and pCfo < 6 and divYieldAll >= 0.06
+        magic6 = pCfo < 6 and (divYieldAll >= 0.06 or divLastYearYield >= 0.06)
+        pureHighYield = (divYieldAll >= 0.06 or divLastYearYield >= 0.06)
         print('pb, pcfo, divyield', pb, pCfo, divYieldAll, magic6)
         print('netnet ratio',
               round((cash + receivables * 0.5 + inventory * 0.2 - totalLiab) / exRate / marketCap, 2))
 
-        if schloss or netnet or magic6:
+        if schloss or netnet or magic6 or pureHighYield:
             outputString = comp[:4] + " " + " " + companyName[:4] + ' ' \
                            + country.replace(" ", "_") + " " \
                            + sector.replace(" ", "_") + " " + listingCurrency + bsCurrency \
                            + boolToString(schloss, "schloss") + boolToString(netnet, "netnet") \
-                           + boolToString(magic6, "magic6") \
+                           + boolToString(magic6, "magic6") + boolToString(pureHighYield, 'pureHighYield') \
                            + " MV:" + str(roundB(marketCap, 1)) + 'B' \
                            + " BV:" + str(roundB(tangible_Equity / exRate, 1)) + 'B' \
                            + " P/CFO:" + str(round(pCfo, 2)) \
@@ -224,7 +222,7 @@ for comp in listStocks:
                   + " cfo/A:" + str(round(cfoAssetRatio, 2))
                   + " 52w_p%:" + str(round(percentile))
                   + " divYld:" + str(round(divLastYearYield * 100)) + "%"
-                  + " divAll:" + str(round(divYieldAll* 100)) + "%"
+                  + " divAll:" + str(round(divYieldAll * 100)) + "%"
                   + " insider%:" + str(round(insiderPerc)) + "%"
                   + " dai$Vol:" + str(round(avgDollarVol / 1000000, 2)) + "M")
 
