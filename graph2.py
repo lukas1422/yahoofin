@@ -64,7 +64,6 @@ gBook.title.text = 'Book'
 gBook.add_tools(HoverTool(tooltips=[('dateStr', '@dateStr'), ("book", "@netBook")], mode='vline'))
 
 gCurrentRatio = figure(title='currentRatio', x_range=FactorRange(factors=list()))
-# gCurrentRatio = figure(title='currentRatio', x_axis_type="datetime")
 gRetainedEarnings = figure(title='RetEarnings/A', x_range=FactorRange(factors=list()))
 gDE = figure(title='D/E Ratio', x_range=FactorRange(factors=list()))
 gPB = figure(title='MV/B Ratio', x_range=FactorRange(factors=list()))

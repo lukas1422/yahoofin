@@ -108,7 +108,7 @@ for comp in listStocks:
         debtEquityRatio = totalLiab / tangible_Equity
 
         if debtEquityRatio > 1 or tangible_Equity < 0:
-            print(comp, "de ratio> 1. ", debtEquityRatio)
+            print(comp, "de ratio> 1 or tangible equity < 0 ", debtEquityRatio)
             continue
 
         incomeStatement = si.get_income_statement(comp, yearly=yearlyFlag)
