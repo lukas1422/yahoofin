@@ -139,13 +139,9 @@ def getResults(stockName):
 
         data52w = data.loc[data.index > ONE_YEAR_AGO]
 
-        percentile = 100.0 * (marketPrice - data52w['low'].min()) \
-                     / (data52w['high'].max() - data52w['low'].min())
+        percentile = 100.0 * (marketPrice - data52w['low'].min()) / (data52w['high'].max() - data52w['low'].min())
 
-        # if not divs.empty:
-        #     print('div history ', divs)
-        # else:
-        #     print('div is empty ')
+        print('div history ', divs) if not divs.empty else print('div is empty ')
 
         # PRINTING*****
 

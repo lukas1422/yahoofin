@@ -7,6 +7,7 @@ from helperMethods import fill0Get, getBarWidth, indicatorFunction, roundB
 from scrape_sharesOutstanding import scrapeTotalSharesXueqiu
 
 ANNUALLY = False
+FIRST_TIME_GRAPHING = True
 
 from bokeh.layouts import gridplot
 from bokeh.models import ColumnDataSource, HoverTool
@@ -66,7 +67,8 @@ gBook.title.text = 'Book'
 gBook.add_tools(HoverTool(tooltips=[('date', '@endDate{%Y-%m-%d}'), ("book", "@netBook")],
                           formatters={'@endDate': 'datetime'}, mode='vline'))
 
-g1 = figure(title='currentRatio', x_axis_type="datetime")
+gCurrentRatio = figure(title='currentRatio')
+# gCurrentRatio = figure(title='currentRatio', x_axis_type="datetime")
 g2 = figure(title='RetEarnings/A', x_axis_type="datetime")
 g3 = figure(title='D/E Ratio', x_axis_type="datetime")
 g4 = figure(title='MV/B Ratio', x_axis_type="datetime")
@@ -80,8 +82,9 @@ g6 = figure(title='Sales/Assets Ratio', x_axis_type="datetime")
 g7 = figure(title='netnet Ratio', x_axis_type="datetime")
 g8 = figure(title='CFO/A Ratio', x_axis_type="datetime")
 
-g1.add_tools(HoverTool(tooltips=[('date', '@endDate{%Y-%m-%d}'), ("cr", "@currentRatio")],
-                       formatters={'@endDate': 'datetime'}, mode='vline'))
+gCurrentRatio.add_tools(HoverTool(tooltips=[('date', '@dateStr{%Y-%m-%d}'), ("cr", "@currentRatio")],
+                                  formatters={'@dateStr': 'datetime'}, mode='vline'))
+
 g2.add_tools(HoverTool(tooltips=[('date', '@endDate{%Y-%m-%d}'), ("Re/A", "@REAssetsRatio")],
                        formatters={'@endDate': 'datetime'}, mode='vline'))
 g3.add_tools(HoverTool(tooltips=[('date', '@endDate{%Y-%m-%d}'), ("DERatio", "@DERatio")],
@@ -99,11 +102,11 @@ g7.add_tools(HoverTool(tooltips=[('date', '@endDate{%Y-%m-%d}'), ("netnet", "@ne
 g8.add_tools(HoverTool(tooltips=[('date', '@endDate{%Y-%m-%d}'), ("CFO/A", "@CFOAssetRatio")],
                        formatters={'@endDate': 'datetime'}, mode='vline'))
 
-for figu in [gPrice, gCash, gBook, gDiv, g1, g2, g3, g4, gCFO, gCFORatio, g6, g7, g8]:
+for figu in [gPrice, gCash, gBook, gDiv, gCurrentRatio, g2, g3, g4, gCFO, gCFORatio, g6, g7, g8]:
     figu.title.text_font_size = '18pt'
     figu.title.align = 'center'
 
-grid = gridplot([[gCash, gBook], [g1, g2], [g3, g4], [gCFO, gCFORatio], [g6, g7], [g8, None]]
+grid = gridplot([[gCash, gBook], [gCurrentRatio, g2], [g3, g4], [gCFO, gCFORatio], [g6, g7], [g8, None]]
                 , width=500, height=500)
 
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
@@ -125,7 +128,7 @@ def resetCallback():
 
 
 def buttonCallback():
-    global TICKER
+    # global TICKER
     print(' new ticker is ', TICKER)
     print('annual is ', ANNUALLY)
 
@@ -192,11 +195,21 @@ def buttonCallback():
     bsT['netnetRatio'] = ((bsT['cash'] + fill0Get(bsT, 'netReceivables') * 0.8 +
                            fill0Get(bsT, 'inventory') * 0.5) / (bsT['totalLiab'] + exRate * bsT['marketCap']))
     bsT['CFOAssetRatio'] = bsT['CFO'] / bsT['totalAssets']
+
+    # bsT.index = bsT.index.apply(lambda x: x.strftime('%Y-%m-%d'))
+    bsT['dateStr'] = pd.to_datetime(bsT.index)
+    bsT['dateStr'].transform(lambda x: x.strftime('%Y-%m-%d'))
+
     global_source.data = ColumnDataSource.from_df(bsT)
     stockData.data = ColumnDataSource.from_df(priceData)
 
     print("=============graph now===============")
-    updateGraphs()
+
+    if FIRST_TIME_GRAPHING:
+        updateGraphs()
+    else:
+        print(' already graphed ')
+
     compName1 = info.loc['longBusinessSummary'].item().split(' ')[0] if 'longBusinessSummary' in info.index else ""
     compName2 = info.loc['longBusinessSummary'].item().split(' ')[1] if 'longBusinessSummary' in info.index else ""
     # print(' comp name ', compName1, compName2, 'summary', info.loc['longBusinessSummary'].item().split(' '))
@@ -220,6 +233,9 @@ def buttonCallback():
 
 
 def updateGraphs():
+    global FIRST_TIME_GRAPHING
+
+    print(' updating graphs. FIrst time graphing', FIRST_TIME_GRAPHING)
     print('update price graph')
     lastPrice = round(stockData.data['close'][-1], 2) if 'close' in stockData.data else ''
     gPrice.title.text = ' prices ' + TICKER + '____' + str(lastPrice)
@@ -233,7 +249,7 @@ def updateGraphs():
     gBook.vbar(x='endDate', top='netBook', source=global_source, width=getBarWidth(ANNUALLY))
 
     # current ratio
-    g1.vbar(x='endDate', top='currentRatio', source=global_source, width=getBarWidth(ANNUALLY))
+    gCurrentRatio.vbar(x='dateStr', top='currentRatio', source=global_source)
 
     # retained earnings/Asset
     g2.vbar(x='endDate', top='REAssetsRatio', source=global_source, width=getBarWidth(ANNUALLY))
@@ -254,13 +270,15 @@ def updateGraphs():
     # pCFO.line(x='endDate', y='PCFO', source=global_source, y_range_name='PCFORange')
 
     # Sales/Assets
-    g6.vbar(x='endDate', top='SalesAssetsRatio', source=global_source, width=getBarWidth(ANNUALLY))
+    # g6.vbar(x='endDate', top='SalesAssetsRatio', source=global_source, width=getBarWidth(ANNUALLY))
+    g6.vbar(x='endDate', top='SalesAssetsRatio', source=global_source)
 
     # netnet ratio
     g7.vbar(x='endDate', top='netnetRatio', source=global_source, width=getBarWidth(ANNUALLY))
 
     # CFO/A ratio
     g8.vbar(x='endDate', top='CFOAssetRatio', source=global_source, width=getBarWidth(ANNUALLY))
+    FIRST_TIME_GRAPHING = False
 
 
 text_input = TextInput(value="0001.HK", title="Label:")
@@ -280,6 +298,7 @@ def my_radio_handler(new):
     global ANNUALLY
     ANNUALLY = True if new == 0 else False
     print('ANNUAL IS', ANNUALLY)
+    resetCallback()
 
 
 rg = RadioGroup(labels=['Annual', 'Quarterly'], active=1)
