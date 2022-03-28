@@ -1,7 +1,7 @@
 from math import pi
 from bokeh.io import curdoc
 from bokeh.layouts import column, row
-from bokeh.models import TextInput, Button, RadioGroup, Paragraph, Label, Range1d, LinearAxis, DataRange1d, FactorRange
+from bokeh.models import TextInput, Button, RadioGroup, Paragraph, Label, Range1d, LinearAxis, DataRange1d
 
 from helperMethods import fill0Get, getBarWidth, indicatorFunction, roundB
 from scrape_sharesOutstanding import scrapeTotalSharesXueqiu
@@ -40,6 +40,8 @@ def my_text_input_handler(attr, old, new):
     global TICKER
     TICKER = new
     print('new ticker is ', TICKER)
+    # resetCallback()
+    # buttonCallback()
 
 
 infoParagraph = Paragraph(width=1000, height=500, text='Blank')
@@ -55,44 +57,56 @@ gPrice.add_tools(HoverTool(tooltips=[('date', '@date{%Y-%m-%d}'), ('close', '@cl
 gDiv = figure(title="divYld", width=1000)
 gDiv.add_tools(HoverTool(tooltips=[('year', '@year'), ("yield", "@yield")], mode='vline'))
 
-gCash = figure(title='cash', x_range=FactorRange(factors=list()))
+gCash = figure(title='cash', x_axis_type="datetime")
 gCash.title.text = 'cash '
-gCash.add_tools(HoverTool(tooltips=[('dateStr', '@dateStr'), ("cash", "@cash")], mode='vline'))
+gCash.add_tools(HoverTool(tooltips=[('date', '@endDate{%Y-%m-%d}'), ("cash", "@cash")],
+                          formatters={'@endDate': 'datetime'}, mode='vline'))
 
-gBook = figure(title='book', x_range=FactorRange(factors=list()))
+gBook = figure(title='book', x_axis_type="datetime")
 gBook.title.text = 'Book'
-gBook.add_tools(HoverTool(tooltips=[('dateStr', '@dateStr'), ("book", "@netBook")], mode='vline'))
+gBook.add_tools(HoverTool(tooltips=[('date', '@endDate{%Y-%m-%d}'), ("book", "@netBook")],
+                          formatters={'@endDate': 'datetime'}, mode='vline'))
 
-gCurrentRatio = figure(title='currentRatio', x_range=FactorRange(factors=list()))
+gCurrentRatio = figure(title='currentRatio')
 # gCurrentRatio = figure(title='currentRatio', x_axis_type="datetime")
-gRetainedEarnings = figure(title='RetEarnings/A', x_range=FactorRange(factors=list()))
-gDE = figure(title='D/E Ratio', x_range=FactorRange(factors=list()))
-gPB = figure(title='MV/B Ratio', x_range=FactorRange(factors=list()))
-gCFO = figure(title='CFO', x_range=FactorRange(factors=list()))
-gCFORatio = figure(title='MV/CFO', x_range=FactorRange(factors=list()))
-gSA = figure(title='Sales/Assets Ratio', x_range=FactorRange(factors=list()))
-gNetnet = figure(title='netnet Ratio', x_range=FactorRange(factors=list()))
-gCFOA = figure(title='CFO/A Ratio', x_range=FactorRange(factors=list()))
+g2 = figure(title='RetEarnings/A', x_axis_type="datetime")
+g3 = figure(title='D/E Ratio', x_axis_type="datetime")
+g4 = figure(title='MV/B Ratio', x_axis_type="datetime")
+gCFO = figure(title='CFO', x_axis_type="datetime")
+gCFORatio = figure(title='MV/CFO', x_axis_type="datetime")
+# pCFO.extra_y_ranges = {"PCFORange": Range1d(start=-10, end=10)}
+# pCFO.extra_y_ranges = {"PCFORange": DataRange1d()}
+# pCFO.add_layout(LinearAxis(y_range_name="PCFORange", axis_label="PCFORange"), 'right')
 
-gCurrentRatio.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("cr", "@currentRatio")], mode='vline'))
-gRetainedEarnings.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("Re/A", "@REAssetsRatio")], mode='vline'))
+g6 = figure(title='Sales/Assets Ratio', x_axis_type="datetime")
+g7 = figure(title='netnet Ratio', x_axis_type="datetime")
+g8 = figure(title='CFO/A Ratio', x_axis_type="datetime")
 
-gDE.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("DERatio", "@DERatio")], mode='vline'))
-gPB.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("PB", "@PB")], mode='vline'))
-gCFO.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("CFO", "@CFO")], mode='vline'))
-gCFORatio.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("PCFO", "@PCFO")], mode='vline'))
-gSA.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("S/A Ratio", "@SalesAssetsRatio")], mode='vline'))
-gNetnet.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("netnet", "@netnetRatio")], mode='vline'))
-gCFOA.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("CFO/A", "@CFOAssetRatio")], mode='vline'))
+gCurrentRatio.add_tools(HoverTool(tooltips=[('date', '@dateStr{%Y-%m-%d}'), ("cr", "@currentRatio")],
+                                  formatters={'@dateStr': 'datetime'}, mode='vline'))
+g2.add_tools(HoverTool(tooltips=[('date', '@endDate{%Y-%m-%d}'), ("Re/A", "@REAssetsRatio")],
+                       formatters={'@endDate': 'datetime'}, mode='vline'))
+g3.add_tools(HoverTool(tooltips=[('date', '@endDate{%Y-%m-%d}'), ("DERatio", "@DERatio")],
+                       formatters={'@endDate': 'datetime'}, mode='vline'))
+g4.add_tools(HoverTool(tooltips=[('date', '@endDate{%Y-%m-%d}'), ("PB", "@PB")],
+                       formatters={'@endDate': 'datetime'}, mode='vline'))
+gCFO.add_tools(HoverTool(tooltips=[('date', '@endDate{%Y-%m-%d}'), ("CFO", "@CFO")],
+                         formatters={'@endDate': 'datetime'}, mode='vline'))
+gCFORatio.add_tools(HoverTool(tooltips=[('date', '@endDate{%Y-%m-%d}'), ("PCFO", "@PCFO")],
+                              formatters={'@endDate': 'datetime'}, mode='vline'))
+g6.add_tools(HoverTool(tooltips=[('date', '@endDate{%Y-%m-%d}'), ("S/A Ratio", "@SalesAssetsRatio")],
+                       formatters={'@endDate': 'datetime'}, mode='vline'))
+g7.add_tools(HoverTool(tooltips=[('date', '@endDate{%Y-%m-%d}'), ("netnet", "@netnetRatio")],
+                       formatters={'@endDate': 'datetime'}, mode='vline'))
+g8.add_tools(HoverTool(tooltips=[('date', '@endDate{%Y-%m-%d}'), ("CFO/A", "@CFOAssetRatio")],
+                       formatters={'@endDate': 'datetime'}, mode='vline'))
 
-for figu in [gPrice, gCash, gBook, gDiv, gCurrentRatio, gRetainedEarnings, gDE, gPB, gCFO, gCFORatio, gSA, gNetnet,
-             gCFOA]:
+for figu in [gPrice, gCash, gBook, gDiv, gCurrentRatio, g2, g3, g4, gCFO, gCFORatio, g6, g7, g8]:
     figu.title.text_font_size = '18pt'
     figu.title.align = 'center'
 
-grid = gridplot(
-    [[gCash, gBook], [gCurrentRatio, gRetainedEarnings], [gDE, gPB], [gCFO, gCFORatio], [gSA, gNetnet], [gCFOA, None]]
-    , width=500, height=500)
+grid = gridplot([[gCash, gBook], [gCurrentRatio, g2], [g3, g4], [gCFO, gCFORatio], [g6, g7], [g8, None]]
+                , width=500, height=500)
 
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 
@@ -113,6 +127,7 @@ def resetCallback():
 
 
 def buttonCallback():
+    # global TICKER
     print(' new ticker is ', TICKER)
     print('annual is ', ANNUALLY)
 
@@ -182,14 +197,17 @@ def buttonCallback():
 
     # bsT.index = bsT.index.apply(lambda x: x.strftime('%Y-%m-%d'))
     bsT['dateStr'] = pd.to_datetime(bsT.index)
-    bsT['dateStr'] = bsT['dateStr'].transform(lambda x: x.strftime('%Y-%m-%d'))
+    bsT['dateStr'].transform(lambda x: x.strftime('%Y-%m-%d'))
 
     global_source.data = ColumnDataSource.from_df(bsT)
     stockData.data = ColumnDataSource.from_df(priceData)
 
     print("=============graph now===============")
 
-    updateGraphs()
+    if FIRST_TIME_GRAPHING:
+        updateGraphs()
+    else:
+        print(' already graphed ')
 
     compName1 = info.loc['longBusinessSummary'].item().split(' ')[0] if 'longBusinessSummary' in info.index else ""
     compName2 = info.loc['longBusinessSummary'].item().split(' ')[1] if 'longBusinessSummary' in info.index else ""
@@ -209,6 +227,9 @@ def buttonCallback():
 
     print("=============graph finished===============")
 
+    # print("get width div graph", 20 / len(divPriceData.data['year']))
+    # return 20 / len(divPriceData.data['year'])
+
 
 def updateGraphs():
     global FIRST_TIME_GRAPHING
@@ -217,47 +238,46 @@ def updateGraphs():
     print('update price graph')
     lastPrice = round(stockData.data['close'][-1], 2) if 'close' in stockData.data else ''
     gPrice.title.text = ' prices ' + TICKER + '____' + str(lastPrice)
+    gPrice.line(x='date', y='close', source=stockData, color='#D06C8A')
+    gDiv.vbar(x='year', top='yield', source=divPriceData, width=getWidthDivGraph())
 
-    for figu in [gCash, gBook, gCurrentRatio, gRetainedEarnings, gDE, gPB, gCFO, gCFORatio, gSA, gNetnet, gCFOA]:
-        figu.x_range.factors = list(global_source.data['dateStr'][::-1])
+    # cash
+    gCash.vbar(x='endDate', top='cash', source=global_source, width=getBarWidth(ANNUALLY))
 
-    if FIRST_TIME_GRAPHING:
-        gPrice.line(x='date', y='close', source=stockData, color='#D06C8A')
-        gDiv.vbar(x='year', top='yield', source=divPriceData, width=getWidthDivGraph())
+    # book
+    gBook.vbar(x='endDate', top='netBook', source=global_source, width=getBarWidth(ANNUALLY))
 
-        # cash
-        gCash.vbar(x='dateStr', top='cash', source=global_source, width=0.5)
+    # current ratio
+    gCurrentRatio.vbar(x='dateStr', top='currentRatio', source=global_source)
 
-        # book
-        gBook.vbar(x='dateStr', top='netBook', source=global_source, width=0.5)
+    # retained earnings/Asset
+    g2.vbar(x='endDate', top='REAssetsRatio', source=global_source, width=getBarWidth(ANNUALLY))
 
-        # current ratio
-        gCurrentRatio.vbar(x='dateStr', top='currentRatio', source=global_source, width=0.5)
+    # Debt/Equity
+    g3.vbar(x='endDate', top='DERatio', source=global_source, width=getBarWidth(ANNUALLY))
 
-        # retained earnings/Asset
-        gRetainedEarnings.vbar(x='dateStr', top='REAssetsRatio', source=global_source, width=0.5)
+    # P/B
+    g4.vbar(x='endDate', top='PB', source=global_source, width=getBarWidth(ANNUALLY))
 
-        # Debt/Equity
-        gDE.vbar(x='dateStr', top='DERatio', source=global_source, width=0.5)
+    # CFO
+    gCFO.vbar(x='endDate', top='CFO', source=global_source, width=getBarWidth(ANNUALLY))
 
-        # P/B
-        gPB.vbar(x='dateStr', top='PB', source=global_source, width=0.5)
+    # P/CFO
+    gCFORatio.vbar(x='endDate', top='PCFO', source=global_source, width=getBarWidth(ANNUALLY))
+    # pCFO.varea_stack(stackers='CFO', x='endDate', source=global_source)
+    # pCFO.vbar(x='endDate', top='CFO', source=global_source, width=getBarWidth(ANNUALLY))
+    # pCFO.line(x='endDate', y='PCFO', source=global_source, y_range_name='PCFORange')
 
-        # CFO
-        gCFO.vbar(x='dateStr', top='CFO', source=global_source, width=0.5)
+    # Sales/Assets
+    # g6.vbar(x='endDate', top='SalesAssetsRatio', source=global_source, width=getBarWidth(ANNUALLY))
+    g6.vbar(x='endDate', top='SalesAssetsRatio', source=global_source)
 
-        # P/CFO
-        gCFORatio.vbar(x='dateStr', top='PCFO', source=global_source, width=0.5)
+    # netnet ratio
+    g7.vbar(x='endDate', top='netnetRatio', source=global_source, width=getBarWidth(ANNUALLY))
 
-        # Sales/Assets
-        gSA.vbar(x='dateStr', top='SalesAssetsRatio', source=global_source, width=0.5)
-
-        # netnet ratio
-        gNetnet.vbar(x='dateStr', top='netnetRatio', source=global_source, width=0.5)
-
-        # CFO/A ratio
-        gCFOA.vbar(x='dateStr', top='CFOAssetRatio', source=global_source, width=0.5)
-        FIRST_TIME_GRAPHING = False
+    # CFO/A ratio
+    g8.vbar(x='endDate', top='CFOAssetRatio', source=global_source, width=getBarWidth(ANNUALLY))
+    FIRST_TIME_GRAPHING = False
 
 
 text_input = TextInput(value="0001.HK", title="Label:")

@@ -45,6 +45,7 @@ def resetCallback():
 
 
 def buttonCallback():
+    global FIRST_TIME_GRAPHING
     print('new ticker is ', TICKER)
     print('annual is ', ANNUALLY)
 
@@ -61,16 +62,22 @@ def buttonCallback():
 
     # print('global source data', global_source.data)
 
-    print(' global source data datestr', global_source.data['dateStr'][::-1])
+    # print(' global source data datestr', global_source.data['dateStr'][::-1])
+    # print('list of potential factors', list(global_source.data['dateStr'][::-1]))
 
-    gCash.vbar(x='dateStr', top='cash', source=global_source, width=0.5)
-    print('list of potential factors', list(global_source.data['dateStr'][::-1]))
     gCash.x_range.factors = list(global_source.data['dateStr'][::-1])
 
     if FIRST_TIME_GRAPHING:
-        updateGraphs()
+        gCash.vbar(x='dateStr', top='cash', source=global_source, width=0.5)
+        FIRST_TIME_GRAPHING = False
     else:
-        print(' already graphed ')
+        print('already graphed')
+
+
+    # if FIRST_TIME_GRAPHING:
+    #     updateGraphs()
+    # else:
+    #     print(' already graphed ')
 
     print("=============graph finished===============")
 
