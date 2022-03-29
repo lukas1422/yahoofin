@@ -24,8 +24,7 @@ def increment():
 
 
 yearAgo = datetime.today() - timedelta(weeks=53)
-START_DATE = (datetime.today() - timedelta(weeks=52 * 10)).strftime('%-m/%-d/%Y')
-
+# START_DATE = (datetime.today() - timedelta(weeks=52 * 10)).strftime('%-m/%-d/%Y')
 # PRICE_START_DATE = (datetime.today() - timedelta(weeks=52 * 2)).strftime('%-m/%-d/%Y')
 # PRICE_START_DATE = (datetime.today() - timedelta(weeks=52 * 2)).strftime('%-m/%-d/%Y')
 # DIVIDEND_START_DATE = (datetime.today() - timedelta(weeks=52 * 10)).strftime('%-m/%-d/%Y')
@@ -92,28 +91,31 @@ for comp in listStocks:
             print(comp, " retained earnings < 0 ", retainedEarnings)
             continue
 
-        # totalCurrentAssets = getFromDF(bs, "totalCurrentAssets")
-        currLiab = getFromDF(bs, "totalCurrentLiabilities")
+        currL = getFromDF(bs, "totalCurrentLiabilities")
 
         cash = getFromDF(bs, "cash")
         receivables = getFromDF(bs, 'netReceivables')
         inventory = getFromDF(bs, 'inventory')
 
-        currentRatio = (cash + 0.8 * receivables + 0.5 * inventory) / currLiab
+        currRatio = (cash + 0.8 * receivables + 0.5 * inventory) / currL
 
-        if currentRatio <= 1:
-            print(comp, "current ratio < 1", currentRatio)
+        if currRatio <= 1:
+            print(comp, "current ratio < 1", currRatio)
             continue
 
         totalAssets = getFromDF(bs, "totalAssets")
-        totalLiab = getFromDF(bs, "totalLiab")
+        totalL = getFromDF(bs, "totalLiab")
         goodWill = getFromDF(bs, 'goodWill')
         intangibles = getFromDF(bs, 'intangibleAssets')
-        tangible_Equity = totalAssets - totalLiab - goodWill - intangibles
-        debtEquityRatio = totalLiab / tangible_Equity
+        tangible_Equity = totalAssets - totalL - goodWill - intangibles
 
-        if debtEquityRatio > 1 or tangible_Equity < 0:
-            print(comp, "de ratio> 1. or tangible equity < 0 ", debtEquityRatio)
+        if tangible_Equity < 0:
+            print(comp, "de ratio> 1. or tangible equity < 0 ", tangible_Equity)
+            continue
+
+        debtEquityRatio = totalL / tangible_Equity
+        if debtEquityRatio > 1:
+            print(comp, "de ratio > 1 ", debtEquityRatio)
             continue
 
         incomeStatement = si.get_income_statement(comp, yearly=yearlyFlag)
@@ -129,7 +131,7 @@ for comp in listStocks:
 
         listingCurrency = getListingCurrency(comp)
         bsCurrency = getBalanceSheetCurrency(comp, listingCurrency)
-        print("listing currency, bs currency, ", listingCurrency, bsCurrency)
+        # print("listing currency, bs currency, ", listingCurrency, bsCurrency)
         exRate = currency_getExchangeRate.getExchangeRate(exchange_rate_dict, listingCurrency, bsCurrency)
 
         marketPrice = si.get_live_price(comp)
@@ -143,8 +145,8 @@ for comp in listStocks:
         #     print(comp, 'pb > 0.6 or pb <= 0', pb)
         #     continue
         #
-        if pCfo > 10 or pCfo <= 0:
-            print(comp, 'pcfo > 10 or <= 0', pCfo)
+        if pCfo > 10:
+            print(comp, 'pcfo > 10', pCfo)
             continue
 
         revenue = getFromDFYearly(incomeStatement, "totalRevenue", yearlyFlag)
@@ -174,7 +176,7 @@ for comp in listStocks:
         divLastYearYield = divSumPastYear / marketPrice
 
         schloss = pb < 1 and marketPrice < low_52wk * 1.1 and insiderPerc > INSIDER_OWN_MIN
-        netnet = (cash + receivables + inventory - totalLiab) / exRate - marketCap > 0
+        netnet = (cash + receivables * 0.8 + inventory * 0.5 - totalL) / exRate - marketCap > 0
         magic6 = pCfo < 6 and (divYield >= 0.06 or divLastYearYield >= 0.06)
         pureHighYield = (divYield >= 0.06 or divLastYearYield >= 0.06)
 
@@ -189,7 +191,7 @@ for comp in listStocks:
                            + " B:" + str(roundB(tangible_Equity / exRate, 1)) + 'B' \
                            + " P/CFO:" + str(round(pCfo, 2)) \
                            + " P/B:" + str(round(pb, 1)) \
-                           + " C/R:" + str(round(currentRatio, 2)) \
+                           + " C/R:" + str(round(currRatio, 2)) \
                            + " D/E:" + str(round(debtEquityRatio, 2)) \
                            + " RetEarning/A:" + str(round(retainedEarningsAssetRatio, 2)) \
                            + " S/A:" + str(round(revenue / totalAssets, 2)) \

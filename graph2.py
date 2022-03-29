@@ -38,7 +38,7 @@ def getWidthDivGraph():
 
 def my_text_input_handler(attr, old, new):
     global TICKER
-    TICKER = new
+    TICKER = new.upper()
     print('new ticker is ', TICKER)
 
 
@@ -96,10 +96,6 @@ grid = gridplot(
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 
 
-# global_source = ColumnDataSource(pd.DataFrame())
-# stockData = ColumnDataSource(pd.DataFrame())
-# divPriceData = ColumnDataSource(pd.DataFrame())
-
 def resetCallback():
     print('resetting')
     global_source.data = ColumnDataSource.from_df(pd.DataFrame())
@@ -131,7 +127,6 @@ def buttonCallback():
     print('info text is ', infoText)
     infoParagraph.text = str(infoText)
 
-    # print('ticker exrate', TICKER, listingCurrency, bsCurrency, exRate)
     priceData = si.get_data(TICKER)
     priceData.index.name = 'date'
     divData = si.get_dividends(TICKER)
@@ -179,7 +174,6 @@ def buttonCallback():
                            fill0Get(bsT, 'inventory') * 0.5) / (bsT['totalLiab'] + exRate * bsT['marketCap']))
     bsT['CFOAssetRatio'] = bsT['CFO'] / bsT['totalAssets']
 
-    # bsT.index = bsT.index.apply(lambda x: x.strftime('%Y-%m-%d'))
     bsT['dateStr'] = pd.to_datetime(bsT.index)
     bsT['dateStr'] = bsT['dateStr'].transform(lambda x: x.strftime('%Y-%m-%d'))
 
