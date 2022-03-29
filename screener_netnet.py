@@ -23,8 +23,6 @@ def increment():
     return COUNT
 
 
-# PRICE_INTERVAL = '1mo'
-
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 
 fileOutput = open('list_netnet', 'w')
@@ -36,12 +34,12 @@ if MARKET == Market.US:
 
     # stock_df['listingDate'] = pd.to_datetime(stock_df['listingDate'])
 
-    listStocks = stock_df[(stock_df['price'] > 1)
-                          & (stock_df['sector'].str
-                             .contains('financial|healthcare', regex=True, case=False) == False)
-                          # & (stock_df['listingDate'] < pd.to_datetime('2020-1-1'))
-                          & (stock_df['industry'].str.contains('reit', regex=True, case=False) == False)
-                          & (stock_df['country'].str.lower() != 'china')]['ticker'].tolist()
+    listStocks = stock_df['ticker'].tolist()
+    # listStocks = stock_df[(stock_df['price'] > 1)
+    #                       & (stock_df['sector'].str.contains('financial|healthcare', regex=True, case=False) == False)
+    #                       # & (stock_df['listingDate'] < pd.to_datetime('2020-1-1'))
+    #                       & (stock_df['industry'].str.contains('reit', regex=True, case=False) == False)
+    #                       & (stock_df['country'].str.lower() != 'china')]['ticker'].tolist()
 
     # listStocks=['APWC']
 
@@ -83,9 +81,9 @@ for comp in listStocks:
         country = getFromDF(info, 'country')
         sector = getFromDF(info, 'sector')
 
-        if 'real estate' in sector.lower() or 'financial' in sector.lower():
-            print(comp, " no real estate or financial ")
-            continue
+        # if 'real estate' in sector.lower() or 'financial' in sector.lower():
+        #     print(comp, " no real estate or financial ")
+        #     continue
 
         marketPrice = si.get_live_price(comp)
         print(comp, 'market price', marketPrice)
@@ -116,11 +114,11 @@ for comp in listStocks:
             print(comp, 'cash is 0 ')
             continue
 
-        currentAssets = getFromDF(bs, "totalCurrentAssets")
-        totalLiab = getFromDF(bs, "totalLiab")
+        currA = getFromDF(bs, "totalCurrentAssets")
+        totalL = getFromDF(bs, "totalLiab")
 
-        if currentAssets < totalLiab:
-            print(comp, " current assets < total liab", roundB(currentAssets, 2), roundB(totalLiab, 2))
+        if currA < totalL:
+            print(comp, " current assets < total liab", roundB(currA, 2), roundB(totalL, 2))
             continue
 
         receivables = getFromDF(bs, 'netReceivables')
@@ -150,26 +148,26 @@ for comp in listStocks:
         bsCurr = getBalanceSheetCurrency(comp, listingCurr)
         exRate = currency_getExchangeRate.getExchangeRate(exchange_rate_dict, listingCurr, bsCurr)
 
-        if (cash + receivables + inventory - totalLiab) / exRate < marketCap:
+        if (cash + receivables + inventory - totalL) / exRate < marketCap:
             print(comp, listingCurr, bsCurr,
                   'cash + rec + inv - L < mv. cash rec inv Liab MV:',
                   roundB(cash, 2), roundB(receivables, 2),
-                  roundB(inventory, 2), roundB(totalLiab, 2), roundB(marketCap, 2))
+                  roundB(inventory, 2), roundB(totalL, 2), roundB(marketCap, 2))
             continue
 
         additionalComment = ""
-        if (cash - totalLiab) / exRate - marketCap > 0:
-            profit = (cash - totalLiab) / exRate - marketCap
+        if (cash - totalL) / exRate - marketCap > 0:
+            profit = (cash - totalL) / exRate - marketCap
             additionalComment = " CASH netnet, profit:" + str(round(profit, 2))
-        elif (cash + receivables - totalLiab) / exRate - marketCap > 0:
+        elif (cash + receivables - totalL) / exRate - marketCap > 0:
             additionalComment = " receivable conversion rate:" \
-                                + str(round((totalLiab + marketCap * exRate - cash) / receivables, 2))
-        elif (cash + 0.5 * receivables + inventory - totalLiab) / exRate - marketCap > 0:
+                                + str(round((totalL + marketCap * exRate - cash) / receivables, 2))
+        elif (cash + 0.8 * receivables + inventory - totalL) / exRate - marketCap > 0:
             additionalComment = " inventory conversion rate:" \
-                                + str(round((totalLiab + marketCap * exRate - cash - 0.5 * receivables)
+                                + str(round((totalL + marketCap * exRate - cash - 0.8 * receivables)
                                             / inventory, 2))
-        elif (cash + receivables + inventory - totalLiab) / exRate - marketCap > 0:
-            additionalComment = " 鸡肋:CA-L>MV"
+        elif (cash + receivables + inventory - totalL) / exRate - marketCap > 0:
+            additionalComment = " 鸡肋:cash+rec+inv-L>MV"
 
         # .to_string(index=False, header=False)
         outputString = comp + " " + stock_df[stock_df['ticker'] == comp]['name'].item() + ' ' \
@@ -179,8 +177,8 @@ for comp in listStocks:
                        + " cash:" + str(roundB(cash, 2)) \
                        + " rec:" + str(roundB(receivables, 2)) \
                        + " inv:" + str(roundB(inventory, 2)) \
-                       + " CA:" + str(roundB(currentAssets, 2)) \
-                       + " L:" + str(roundB(totalLiab, 2)) \
+                       + " CA:" + str(roundB(currA, 2)) \
+                       + " L:" + str(roundB(totalL, 2)) \
                        + " mv:" + str(roundB(marketCap, 2)) \
                        + additionalComment
 
