@@ -9,7 +9,7 @@ from Market import Market
 from currency_scrapeYahoo import getBalanceSheetCurrency
 from currency_scrapeYahoo import getListingCurrency
 import currency_getExchangeRate
-from helperMethods import getFromDF, convertHK, roundB, convertChinaForYahoo
+from helperMethods import getFromDF, convertHK, roundB, convertChinaForYahoo, getFromDFYearly
 
 COUNT = 0
 
@@ -54,7 +54,7 @@ elif MARKET == Market.HK:
     # listStocks = ["2698.HK", "0743.HK", "0321.HK", "0819.HK",
     #               "1361.HK", "0057.HK", "0420.HK", "1085.HK", "1133.HK", "2131.HK",
     #               "3393.HK", "2355.HK", "0517.HK", "3636.HK", "0116.HK", "1099.HK", "2386.HK", "6188.HK"]
-    # listStocks = ['0155.HK']
+    # listStocks = ['2698.HK']
 elif MARKET == Market.CHINA:
     stock_df = pd.read_csv('list_chinaTickers', dtype=object, sep=" ", index_col=False, names=['ticker', 'name'])
     stock_df['ticker'] = stock_df['ticker'].astype(str)
@@ -92,10 +92,6 @@ for comp in listStocks:
             print(comp, "market price is nan")
             continue
 
-        # if marketPrice < 1:
-        #     print(comp, "cent stock", marketPrice)
-        #     continue
-
         bs = si.get_balance_sheet(comp, yearly=yearlyFlag)
 
         if bs.empty:
@@ -104,7 +100,6 @@ for comp in listStocks:
 
         retainedEarnings = getFromDF(bs, "retainedEarnings")
 
-        # RE>0 ensures that the stock is not a chronic cash burner
         if retainedEarnings <= 0:
             print(comp, " retained earnings <= 0 ", retainedEarnings)
             continue
@@ -119,6 +114,13 @@ for comp in listStocks:
 
         if currA < totalL:
             print(comp, " current assets < total liab", roundB(currA, 2), roundB(totalL, 2))
+            continue
+
+        cf = si.get_cash_flow(comp, yearly=yearlyFlag)
+        cfo = getFromDFYearly(cf, "totalCashFromOperatingActivities", yearlyFlag)
+
+        if cfo <= 0:
+            print(comp, "cfo <= 0 ", cfo)
             continue
 
         receivables = getFromDF(bs, 'netReceivables')
@@ -139,14 +141,22 @@ for comp in listStocks:
         marketCap = marketPrice * shares
         print('shares ', shares, 'market cap', roundB(marketCap, 2))
 
+        listingCurr = getListingCurrency(comp)
+        bsCurr = getBalanceSheetCurrency(comp, listingCurr)
+        exRate = currency_getExchangeRate.getExchangeRate(exchange_rate_dict, listingCurr, bsCurr)
+
+        pCfo = marketCap / (cfo / exRate)
+        print("MV, cfo", roundB(marketCap, 2), roundB(cfo, 2))
+
+        if pCfo > 10:
+            print(comp, ' pcfo > 10')
+            continue
+
         if MARKET == Market.HK:
             if marketCap < 1000000000:
                 print(comp, "HK market cap less than 1B", marketCap / 1000000000)
                 continue
 
-        listingCurr = getListingCurrency(comp)
-        bsCurr = getBalanceSheetCurrency(comp, listingCurr)
-        exRate = currency_getExchangeRate.getExchangeRate(exchange_rate_dict, listingCurr, bsCurr)
 
         if (cash + receivables + inventory - totalL) / exRate < marketCap:
             print(comp, listingCurr, bsCurr,

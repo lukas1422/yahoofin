@@ -1,4 +1,4 @@
-stockName = 'BCC'
+stockName = '0050.HK'
 yearlyFlag = False
 
 import os
@@ -14,7 +14,7 @@ from helperMethods import getFromDF, getFromDFYearly, roundB
 ONE_YEAR_AGO = datetime.today() - timedelta(weeks=53)
 
 # yearAgo = datetime.today() - timedelta(weeks=53)
-START_DATE = (datetime.today() - timedelta(weeks=52 * 10)).strftime('%-m/%-d/%Y')
+# START_DATE = (datetime.today() - timedelta(weeks=52 * 10)).strftime('%-m/%-d/%Y')
 PRICE_INTERVAL = '1wk'
 
 
@@ -58,7 +58,7 @@ def getResults(stockName):
         print("bs cols", bs.columns)
 
         retainedEarnings = getFromDF(bs, "retainedEarnings")
-        totalCurrentAssets = getFromDF(bs, "totalCurrentAssets")
+        total_CA = getFromDF(bs, "totalCurrentAssets")
         currLiab = getFromDF(bs, "totalCurrentLiabilities")
         totalAssets = getFromDF(bs, "totalAssets")
         totalLiab = getFromDF(bs, "totalLiab")
@@ -78,7 +78,7 @@ def getResults(stockName):
         bsCurrency = getBalanceSheetCurrency(stockName, listingCurr)
         exRate = currency_getExchangeRate.getExchangeRate(exchange_rate_dict, listingCurr, bsCurrency)
 
-        currRatio = (cash + receivables * 0.5 + inventory * 0.2) / currLiab
+        currRatio = (cash + receivables * 0.8 + inventory * 0.5) / currLiab
 
         incomeStatement = si.get_income_statement(stockName, yearly=yearlyFlag)
         print("income statement date:", incomeStatement.columns[0].strftime('%Y/%-m/%-d'))
@@ -138,13 +138,10 @@ def getResults(stockName):
         print('div all time yld ', divAllTimeYld)
 
         data52w = data.loc[data.index > ONE_YEAR_AGO]
-
         percentile = 100.0 * (marketPrice - data52w['low'].min()) / (data52w['high'].max() - data52w['low'].min())
-
         print('div history ', divs) if not divs.empty else print('div is empty ')
 
         # PRINTING*****
-
         print("listing Currency:", listingCurr, "bs currency:", bsCurrency, "ExRate:", exRate)
 
         print("********* FINANCIALS *********")
@@ -156,8 +153,8 @@ def getResults(stockName):
               roundB(inventory / exRate, 1))
 
         print("A", roundB(totalAssets / exRate, 1), "B", "(",
-              roundB(totalCurrentAssets / exRate, 1)
-              , roundB((totalAssets - totalCurrentAssets) / exRate, 1), ")")
+              roundB(total_CA / exRate, 1)
+              , roundB((totalAssets - total_CA) / exRate, 1), ")")
         print("L", roundB(totalLiab / exRate, 1), "B", "(",
               roundB(currLiab / exRate, 1),
               roundB((totalLiab - currLiab) / exRate, 1), ")")
@@ -191,13 +188,13 @@ def getResults(stockName):
         print("div1YrYld:", round(divLastYearYield * 100), "%")
         print("divAllYld:", round(divAllTimeYld * 100), "%")
         print("divsum marketprice:", round(divSumPastYear, 1), round(marketPrice, 2))
-        print("P/CFO", round(marketCap / (cfo / exRate), 1))
         print('cfo/A', cfoA)
 
         outputString = stockName + " " + country.replace(' ', '') + " " + sector.replace(' ', '') \
                        + " dai$Vol:" + str(round(avgVolListingCurrency / 1000000)) + "M" \
                        + " MV:" + str(roundB(marketCap, 1)) + 'B' \
                        + " Tangible_equity:" + str(roundB((tangible_equity) / exRate, 1)) + 'B' \
+                       + " P/CFO:" + str(round(marketCap / (cfo / exRate), 1)) \
                        + " pb:" + str(round(pTangibleEquity, 1)) \
                        + " CR:" + str(round(currRatio, 1)) \
                        + " D/E:" + str(round(debtEquityRatio, 1)) \
@@ -213,7 +210,7 @@ def getResults(stockName):
         return outputString
     except Exception as e:
         print(e)
-        print(data[-10:])
+        # print(data[-10:])
         print(stockName, "exception", e)
         exc_type, exc_obj, exc_tb = sys.exc_info()
         fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]

@@ -189,7 +189,7 @@ for comp in listStocks:
 
         if schloss or netnet or magic6 or pureHighYield:
             outputString = comp[:4] + " " + " " + companyName[:4] + ' ' \
-                           + " dai$Vol:" + str(round(avgDollarVol / 1000000, 1)) + "M" \
+                           + " dai$Vol:" + str(round(avgDollarVol / 1000000, 1)) + "M " \
                            + country.replace(" ", "_") + " " \
                            + sector.replace(" ", "_") + " " + listingCurrency + bsCurrency \
                            + boolToString(schloss, "schloss") + boolToString(netnet, "netnet") \

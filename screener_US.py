@@ -74,7 +74,6 @@ for comp in listStocks:
         # if 'real estate' in sector.lower() or 'financial' in sector.lower():
         #     print(comp, " no real estate or financial ", sector)
         #     continue
-
         # if marketPrice <= 1:
         #     print(comp, 'market price < 1: ', marketPrice)
         #     continue
