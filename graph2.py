@@ -55,19 +55,19 @@ gPrice.add_tools(HoverTool(tooltips=[('date', '@date{%Y-%m-%d}'), ('close', '@cl
 gDiv = figure(title="divYld", width=1000)
 gDiv.add_tools(HoverTool(tooltips=[('year', '@year'), ("yield", "@yield")], mode='vline'))
 
-gCash = figure(title='cash', x_range=FactorRange(factors=list()))
-gCash.title.text = 'cash '
-gCash.add_tools(HoverTool(tooltips=[('dateStr', '@dateStr'), ("cash", "@cash")], mode='vline'))
+gCash = figure(title='cash(B)', x_range=FactorRange(factors=list()))
+gCash.title.text = 'cash(B) '
+gCash.add_tools(HoverTool(tooltips=[('dateStr', '@dateStr'), ("cash", "@cashB")], mode='vline'))
 
-gBook = figure(title='book', x_range=FactorRange(factors=list()))
-gBook.title.text = 'Book'
-gBook.add_tools(HoverTool(tooltips=[('dateStr', '@dateStr'), ("book", "@netBook")], mode='vline'))
+gBook = figure(title='book(B)', x_range=FactorRange(factors=list()))
+gBook.title.text = 'Book(B)'
+gBook.add_tools(HoverTool(tooltips=[('dateStr', '@dateStr'), ("bookB", "@netBookB")], mode='vline'))
 
 gCurrentRatio = figure(title='currentRatio', x_range=FactorRange(factors=list()))
 gRetainedEarnings = figure(title='RetEarnings/A', x_range=FactorRange(factors=list()))
 gDE = figure(title='D/E Ratio', x_range=FactorRange(factors=list()))
 gPB = figure(title='MV/B Ratio', x_range=FactorRange(factors=list()))
-gCFO = figure(title='CFO', x_range=FactorRange(factors=list()))
+gCFO = figure(title='CFO(B)', x_range=FactorRange(factors=list()))
 gCFORatio = figure(title='MV/CFO', x_range=FactorRange(factors=list()))
 gSA = figure(title='Sales/Assets Ratio', x_range=FactorRange(factors=list()))
 gNetnet = figure(title='netnet Ratio', x_range=FactorRange(factors=list()))
@@ -78,7 +78,7 @@ gRetainedEarnings.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("Re/A", "
 
 gDE.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("DERatio", "@DERatio")], mode='vline'))
 gPB.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("PB", "@PB")], mode='vline'))
-gCFO.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("CFO", "@CFO")], mode='vline'))
+gCFO.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("CFOB", "@CFOB")], mode='vline'))
 gCFORatio.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("PCFO", "@PCFO")], mode='vline'))
 gSA.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("S/A Ratio", "@SalesAssetsRatio")], mode='vline'))
 gNetnet.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("netnet", "@netnetRatio")], mode='vline'))
@@ -169,6 +169,7 @@ def buttonCallback():
     cfT = cf.T
     bsT['CFO'] = bsT.index.map(
         lambda d: cfT[cfT.index == d]['totalCashFromOperatingActivities'].item() * indicatorFunction(ANNUALLY))
+    bsT['CFOB'] = bsT['CFO']/1000000000
     bsT['PCFO'] = bsT['marketCap'] * exRate / bsT['CFO']
     bsT['netnetRatio'] = ((bsT['cash'] + fill0Get(bsT, 'netReceivables') * 0.8 +
                            fill0Get(bsT, 'inventory') * 0.5) / (bsT['totalLiab'] + exRate * bsT['marketCap']))
@@ -176,6 +177,8 @@ def buttonCallback():
 
     bsT['dateStr'] = pd.to_datetime(bsT.index)
     bsT['dateStr'] = bsT['dateStr'].transform(lambda x: x.strftime('%Y-%m-%d'))
+    bsT['cashB'] = bsT['cash']/1000000000
+    bsT['netBookB'] = bsT['netBook']/1000000000
 
     global_source.data = ColumnDataSource.from_df(bsT)
     stockData.data = ColumnDataSource.from_df(priceData)
@@ -219,10 +222,10 @@ def updateGraphs():
         gDiv.vbar(x='year', top='yield', source=divPriceData, width=getWidthDivGraph())
 
         # cash
-        gCash.vbar(x='dateStr', top='cash', source=global_source, width=0.5)
+        gCash.vbar(x='dateStr', top='cashB', source=global_source, width=0.5)
 
         # book
-        gBook.vbar(x='dateStr', top='netBook', source=global_source, width=0.5)
+        gBook.vbar(x='dateStr', top='netBookB', source=global_source, width=0.5)
 
         # current ratio
         gCurrentRatio.vbar(x='dateStr', top='currentRatio', source=global_source, width=0.5)
@@ -237,7 +240,7 @@ def updateGraphs():
         gPB.vbar(x='dateStr', top='PB', source=global_source, width=0.5)
 
         # CFO
-        gCFO.vbar(x='dateStr', top='CFO', source=global_source, width=0.5)
+        gCFO.vbar(x='dateStr', top='CFOB', source=global_source, width=0.5)
 
         # P/CFO
         gCFORatio.vbar(x='dateStr', top='PCFO', source=global_source, width=0.5)
