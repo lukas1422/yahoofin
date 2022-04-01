@@ -40,8 +40,8 @@ stock_df = pd.read_csv('list_US_Tickers', sep=" ", index_col=False,
                        names=['ticker', 'name', 'sector', 'industry', 'country', 'mv', 'price'])
 print(stock_df)
 
-listStocks = stock_df[stock_df['sector'].str
-                         .contains('financial', regex=True, case=False) == False
+listStocks = stock_df[~stock_df['sector'].str
+    .contains('financial', regex=True, case=False)
                       & (stock_df['industry'].str.contains('reit', regex=True, case=False) == False)
                       & (stock_df['country'].str.lower() != 'china')]['ticker'].tolist()
 
