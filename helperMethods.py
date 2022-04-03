@@ -43,7 +43,6 @@ def roundB(num, decPlace):
 def getFromDFYearly(df, attribute, yearly):
     if not isinstance(df, pd.DataFrame):
         return ""
-
     if df.empty:
         return 0
     if attribute not in df.index:

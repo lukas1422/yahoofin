@@ -169,7 +169,8 @@ def buttonCallback():
     cfT = cf.T
     bsT['CFO'] = bsT.index.map(
         lambda d: cfT[cfT.index == d]['totalCashFromOperatingActivities'].item() * indicatorFunction(ANNUALLY))
-    bsT['CFOB'] = bsT['CFO']/1000000000
+
+    bsT['CFOB'] = bsT['CFO'] / 1000000000
     bsT['PCFO'] = bsT['marketCap'] * exRate / bsT['CFO']
     bsT['netnetRatio'] = ((bsT['cash'] + fill0Get(bsT, 'netReceivables') * 0.8 +
                            fill0Get(bsT, 'inventory') * 0.5) / (bsT['totalLiab'] + exRate * bsT['marketCap']))
@@ -177,8 +178,8 @@ def buttonCallback():
 
     bsT['dateStr'] = pd.to_datetime(bsT.index)
     bsT['dateStr'] = bsT['dateStr'].transform(lambda x: x.strftime('%Y-%m-%d'))
-    bsT['cashB'] = bsT['cash']/1000000000
-    bsT['netBookB'] = bsT['netBook']/1000000000
+    bsT['cashB'] = bsT['cash'] / 1000000000
+    bsT['netBookB'] = bsT['netBook'] / 1000000000
 
     global_source.data = ColumnDataSource.from_df(bsT)
     stockData.data = ColumnDataSource.from_df(priceData)
@@ -191,7 +192,7 @@ def buttonCallback():
     compName2 = info.loc['longBusinessSummary'].item().split(' ')[1] if 'longBusinessSummary' in info.index else ""
     # print(' comp name ', compName1, compName2, 'summary', info.loc['longBusinessSummary'].item().split(' '))
     text_input.title = compName1 + ' ' + compName2 + ' ' \
-                       + 'shares:' + str(roundB(shares, 0)) + 'B' \
+                       + 'shares:' + str(roundB(shares, 2)) + 'B' \
                        + listingCurrency + bsCurrency + '______MV:' + str(roundB(bsT['marketCap'][0], 1)) + 'B' \
                        + "____NetB:" + str(roundB(bsT['netBook'][0] / exRate, 1)) + 'B' \
                        + '____PB:' + str(round(bsT['PB'][0], 2)) \
@@ -219,7 +220,7 @@ def updateGraphs():
 
     if FIRST_TIME_GRAPHING:
         gPrice.line(x='date', y='close', source=stockData, color='#D06C8A')
-        gDiv.vbar(x='year', top='yield', source=divPriceData, width=getWidthDivGraph())
+        gDiv.vbar(x='year', top='yield', source=divPriceData, width=0.8)
 
         # cash
         gCash.vbar(x='dateStr', top='cashB', source=global_source, width=0.5)

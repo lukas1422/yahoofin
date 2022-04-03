@@ -64,9 +64,9 @@ for comp in listStocks:
         sector = getFromDF(info, 'sector')
         # print('country sector', country, sector)
 
-        if 'real estate' in sector.lower() or 'financial' in sector.lower():
-            print(comp, " no real estate or financial ", sector)
-            continue
+        # if 'real estate' in sector.lower() or 'financial' in sector.lower():
+        #     print(comp, " no real estate or financial ", sector)
+        #     continue
 
         # if marketPrice <= 1:
         #     print(comp, 'market price < 1: ', marketPrice)
@@ -139,12 +139,8 @@ for comp in listStocks:
         pCfo = marketCap / (cfo / exRate)
         print("MV, cfo", roundB(marketCap, 2), roundB(cfo, 2))
 
-        # if pb >= 0.6 or pb <= 0:
-        #     print(comp, 'pb > 0.6 or pb <= 0', pb)
-        #     continue
-        #
-        if pCfo > 10:
-            print(comp, 'pcfo > 10', pCfo)
+        if pCfo > 6:
+            print(comp, 'p/cfo > 6', pCfo)
             continue
 
         revenue = getFromDFYearly(incomeStatement, "totalRevenue", yearlyFlag)
@@ -178,8 +174,8 @@ for comp in listStocks:
             continue
 
         schloss = pb < 1 and marketPrice < low_52wk * 1.1 and insiderPerc > INSIDER_OWN_MIN
-        netnetRatio = (cash + receivables * 0.8 + inventory * 0.5 - totalLiab) / exRate / marketCap
-        netnet = (cash + receivables * 0.8 + inventory * 0.5 - totalLiab) / exRate - marketCap > 0
+        netnetRatio = (cash + receivables * 0.8 + inventory * 0.5) / (totalLiab + exRate * marketCap)
+        netnet = (cash + receivables * 0.8 + inventory * 0.5 - totalLiab) / exRate > marketCap
         magic6 = pCfo < 6 and (divYieldAll >= 0.06 or divLastYearYield >= 0.06)
         pureHighYield = (divYieldAll >= 0.06 or divLastYearYield >= 0.06)
 

@@ -1,4 +1,4 @@
-stockName = '0050.HK'
+stockName = 'MSB'
 yearlyFlag = False
 
 import os
