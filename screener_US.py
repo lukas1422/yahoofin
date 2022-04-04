@@ -1,4 +1,5 @@
 import os
+import statistics
 import sys
 from datetime import datetime, timedelta
 import yahoo_fin.stock_info as si
@@ -161,7 +162,8 @@ for comp in listStocks:
         data52wk = data.loc[data.index > yearAgo]
         percentile = 100.0 * (marketPrice - data52wk['low'].min()) / (data52wk['high'].max() - data52wk['low'].min())
         low_52wk = data52wk['low'].min()
-        avgDollarVol = (data[-10:]['close'] * data[-10:]['volume']).sum() / 10
+        # avgDollarVol = (data[-10:]['close'] * data[-10:]['volume']).sum() / 10
+        medianDollarVol = statistics.median(data[-10:]['close'] * data[-10:]['volume']) / 5
 
         # insiderPerc = ownershipDic[comp]
         insiderPerc = float(si.get_holders(comp).get('Major Holders')[0][0].rstrip("%"))
@@ -185,7 +187,7 @@ for comp in listStocks:
 
         if schloss or netnet or magic6 or pureHighYield:
             outputString = comp + " " + " " + companyName + ' ' \
-                           + " dai$Vol:" + str(round(avgDollarVol / 1000000)) + "M " \
+                           + " dai$Vol:" + str(round(medianDollarVol / 1000000)) + "M " \
                            + country.replace(" ", "_") + " " \
                            + sector.replace(" ", "_") + " " + listingCurrency + bsCurrency \
                            + boolToString(schloss, "schloss") + boolToString(netnet, "netnet") \

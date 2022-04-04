@@ -11,7 +11,7 @@ FIRST_TIME_GRAPHING = True
 
 from bokeh.layouts import gridplot
 from bokeh.models import ColumnDataSource, HoverTool
-from bokeh.plotting import figure, show
+from bokeh.plotting import figure
 import yahoo_fin.stock_info as si
 import currency_getExchangeRate
 from currency_scrapeYahoo import getListingCurrency, getBalanceSheetCurrency
@@ -192,7 +192,7 @@ def buttonCallback():
     compName2 = info.loc['longBusinessSummary'].item().split(' ')[1] if 'longBusinessSummary' in info.index else ""
     # print(' comp name ', compName1, compName2, 'summary', info.loc['longBusinessSummary'].item().split(' '))
     text_input.title = compName1 + ' ' + compName2 + ' ' \
-                       + 'shares:' + str(roundB(shares, 2)) + 'B' \
+                       + 'shares:' + str(roundB(shares, 2)) + 'B ' \
                        + listingCurrency + bsCurrency + '______MV:' + str(roundB(bsT['marketCap'][0], 1)) + 'B' \
                        + "____NetB:" + str(roundB(bsT['netBook'][0] / exRate, 1)) + 'B' \
                        + '____PB:' + str(round(bsT['PB'][0], 2)) \

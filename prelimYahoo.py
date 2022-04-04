@@ -1,6 +1,7 @@
-stockName = 'MSB'
+stockName = '0887.HK'
 yearlyFlag = False
 
+import statistics
 import os
 import sys
 from datetime import datetime, timedelta
@@ -28,6 +29,11 @@ def getResults(stockName):
         print('last trading day', data[data['volume'] != 0].index[-1].strftime('%Y/%-m/%-d'))
 
         avgVolListingCurrency = (data[-10:]['close'] * data[-10:]['volume']).sum() / 10
+        medianVol = statistics.median(data[-10:]['close'] * data[-10:]['volume'])
+        print('data', data[-10:])
+
+        print('mean median', avgVolListingCurrency, medianVol)
+
         print(' avg vol ', str(round(avgVolListingCurrency / 1000000, 1)) + "M")
 
         try:
