@@ -151,7 +151,6 @@ for comp in listStocks:
         data52w = data.loc[data.index > ONE_YEAR_AGO]
         percentile = 100.0 * (marketPrice - data52w['low'].min()) / (data52w['high'].max() - data52w['low'].min())
         low_52wk = data52w['low'].min()
-        # avgDollarVol = (data[-10:]['close'] * data[-10:]['volume']).sum() / 10
         medianDollarVol = statistics.median(data[-10:]['close'] * data[-10:]['volume']) / 5
 
         try:

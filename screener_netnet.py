@@ -1,5 +1,6 @@
 import math
 import os
+import statistics
 import sys
 
 import yahoo_fin.stock_info as si
@@ -54,7 +55,8 @@ elif MARKET == Market.HK:
     # listStocks = ["2698.HK", "0743.HK", "0321.HK", "0819.HK",
     #               "1361.HK", "0057.HK", "0420.HK", "1085.HK", "1133.HK", "2131.HK",
     #               "3393.HK", "2355.HK", "0517.HK", "3636.HK", "0116.HK", "1099.HK", "2386.HK", "6188.HK"]
-    # listStocks = ['2698.HK']
+    # listStocks = ['0321.HK']
+
 elif MARKET == Market.CHINA:
     stock_df = pd.read_csv('list_chinaTickers', dtype=object, sep=" ", index_col=False, names=['ticker', 'name'])
     stock_df['ticker'] = stock_df['ticker'].astype(str)
@@ -157,13 +159,15 @@ for comp in listStocks:
                 print(comp, "HK market cap less than 1B", marketCap / 1000000000)
                 continue
 
-
         if (cash + receivables + inventory - totalL) / exRate < marketCap:
             print(comp, listingCurr, bsCurr,
                   'cash + rec + inv - L < mv. cash rec inv Liab MV:',
                   roundB(cash, 2), roundB(receivables, 2),
                   roundB(inventory, 2), roundB(totalL, 2), roundB(marketCap, 2))
             continue
+
+        data = si.get_data(comp, interval='1wk')
+        medianDollarVol = statistics.median(data[-10:]['close'] * data[-10:]['volume']) / 5
 
         additionalComment = ""
         if (cash - totalL) / exRate - marketCap > 0:
@@ -180,7 +184,8 @@ for comp in listStocks:
             additionalComment = " 鸡肋:cash+rec+inv-L>MV"
 
         # .to_string(index=False, header=False)
-        outputString = comp + " " + stock_df[stock_df['ticker'] == comp]['name'].item() + ' ' \
+        outputString = comp + " " + stock_df[stock_df['ticker'] == comp]['name'].item() \
+                       + " day$Vol:" + str(round(medianDollarVol / 1000000, 1)) + "M " \
                        + listingCurr + bsCurr + " " + str(exRate) + " " \
                        + country.replace(" ", "_") + " " \
                        + sector.replace(" ", "_") + " " \
