@@ -10,7 +10,7 @@ import currency_getExchangeRate
 from helperMethods import getFromDF, convertHK, getFromDFYearly, roundB, boolToString
 
 MARKET = Market.HK
-yearlyFlag = False
+yearlyFlag = True
 INSIDER_OWN_MIN = 10
 
 COUNT = 0
@@ -34,7 +34,7 @@ stock_df['ticker'] = stock_df['ticker'].astype(str)
 stock_df['ticker'] = stock_df['ticker'].map(lambda x: convertHK(x))
 hk_shares = pd.read_csv('list_HK_totalShares', sep=" ", index_col=False, names=['ticker', 'shares'])
 listStocks = stock_df['ticker'].tolist()
-# listStocks = ['2698.HK']
+listStocks = ['0743.HK']
 # stock_df_torun = pd.read_csv('list_special', dtype=object, sep=" ", index_col=False, names=['ticker'])
 # stock_df_torun['ticker'] = stock_df_torun['ticker'].map(lambda x: convertHK(x))
 # listStocks = stock_df_torun['ticker'].tolist()
@@ -118,6 +118,8 @@ for comp in listStocks:
 
         cf = si.get_cash_flow(comp, yearly=yearlyFlag)
         cfo = getFromDFYearly(cf, "totalCashFromOperatingActivities", yearlyFlag)
+        dep = getFromDFYearly(cf, "depreciation", yearlyFlag)
+        capex = getFromDFYearly(cf, "capitalExpenditures", yearlyFlag)
 
         if cfo <= 0:
             print(comp, "cfo <= 0 ", cfo)
@@ -137,11 +139,11 @@ for comp in listStocks:
             continue
 
         pb = marketCap / (tangible_Equity / exRate)
-        pCfo = marketCap / (cfo / exRate)
+        pFcf = marketCap / ((cfo - dep) / exRate)
         print("MV, cfo", roundB(marketCap, 2), roundB(cfo, 2))
 
-        if pCfo > 6:
-            print(comp, 'p/cfo > 6', pCfo)
+        if pFcf > 6:
+            print(comp, 'p/fcf > 6', pFcf)
             continue
 
         revenue = getFromDFYearly(incomeStatement, "totalRevenue", yearlyFlag)
@@ -177,10 +179,10 @@ for comp in listStocks:
         schloss = pb < 1 and marketPrice < low_52wk * 1.1 and insiderPerc > INSIDER_OWN_MIN
         netnetRatio = (cash + receivables * 0.8 + inventory * 0.5) / (totalLiab + exRate * marketCap)
         netnet = (cash + receivables * 0.8 + inventory * 0.5 - totalLiab) / exRate > marketCap
-        magic6 = pCfo < 6 and (divYieldAll >= 0.06 or divLastYearYield >= 0.06)
+        magic6 = pFcf < 6 and (divYieldAll >= 0.06 or divLastYearYield >= 0.06)
         pureHighYield = (divYieldAll >= 0.06 or divLastYearYield >= 0.06)
 
-        print('pb, pcfo, divyield', pb, pCfo, divYieldAll, magic6)
+        print('pb, pcfo, divyield', pb, pFcf, divYieldAll, magic6)
         print('netnet ratio',
               round((cash + receivables * 0.8 + inventory * 0.5 - totalLiab) / exRate / marketCap, 2))
 
@@ -193,7 +195,9 @@ for comp in listStocks:
                            + boolToString(magic6, "magic6") + boolToString(pureHighYield, 'pureHighYield') \
                            + " MV:" + str(roundB(marketCap, 1)) + 'B' \
                            + " BV:" + str(roundB(tangible_Equity / exRate, 1)) + 'B' \
-                           + " P/CFO:" + str(round(pCfo, 2)) \
+                           + " P/FCF:" + str(round(pFcf, 2)) \
+                           + " DEP/CFO:" + str(round(dep / cfo, 2)) \
+                           + " CAPEX/CFO:" + str(round(capex / cfo, 2)) \
                            + " P/B:" + str(round(pb, 1)) \
                            + " C/R:" + str(round(currRatio, 2)) \
                            + " D/E:" + str(round(debtEquityRatio, 2)) \

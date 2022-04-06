@@ -11,6 +11,7 @@ def is_float(element):
     except ValueError:
         return False
 
+
 def getFromDF(df, attribute):
     # print(df, attribute)
     if isinstance(df, str):
@@ -54,7 +55,8 @@ def getFromDFYearly(df, attribute, yearly):
         # print(df.columns, df.columns[0] - timedelta(weeks=51))
         # print("cols to sum ", colsToSum)
         # print("DF: latest*4", df.loc[attribute].dropna()[0] * colsToSum, "sum4", df.loc[attribute][:colsToSum].sum())
-        return min(df.loc[attribute].dropna()[0] * colsToSum, df.loc[attribute][:colsToSum].sum())
+        # return min(df.loc[attribute].dropna()[0] * colsToSum, df.loc[attribute][:colsToSum].sum())
+        return df.loc[attribute][:colsToSum].sum()
 
 
 def getInsiderOwnership():

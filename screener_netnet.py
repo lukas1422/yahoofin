@@ -74,7 +74,8 @@ print(datetime.now(), MARKET, len(listStocks), listStocks)
 
 for comp in listStocks:
 
-    print(increment(), comp, stock_df[stock_df['ticker'] == comp]['name'].item())
+    print(increment())
+    print(comp, stock_df[stock_df['ticker'] == comp]['name'].item())
 
     # data = si.get_data(comp, start_date=TEN_YEAR_AGO, interval=PRICE_INTERVAL)
     # print("start date ", data.index[0].strftime('%-m/%-d/%Y'))
