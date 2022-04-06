@@ -188,7 +188,7 @@ for comp in listStocks:
 
         if schloss or netnet or magic6:
             outputString = comp + " " + country.replace(" ", "_") + " " \
-                           + " dai$Vol:" + str(round(medianDollarVol / 1000000, 2)) + "M" \
+                           + " dai$Vol:" + str(round(medianDollarVol / 1000000, 2)) + "M " \
                            + sector.replace(" ", "_") + " " + listingCurrency + bsCurrency \
                            + boolToString(schloss, "schloss") + boolToString(netnet, "netnet") \
                            + boolToString(magic6, "magic6") \

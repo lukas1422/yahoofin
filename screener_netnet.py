@@ -14,7 +14,7 @@ from helperMethods import getFromDF, convertHK, roundB, convertChinaForYahoo, ge
 
 COUNT = 0
 
-MARKET = Market.HK
+MARKET = Market.CHINA
 yearlyFlag = False
 
 
