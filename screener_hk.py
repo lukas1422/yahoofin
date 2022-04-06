@@ -117,8 +117,8 @@ for comp in listStocks:
         dep = getFromDFYearly(cf, "depreciation", yearlyFlag)
         capex = getFromDFYearly(cf, "capitalExpenditures", yearlyFlag)
 
-        if cfo <= 0:
-            print(comp, "cfo <= 0 ", cfo)
+        if cfo <= 0 or cfo < dep:
+            print(comp, "cfo <= 0 or cfo < dep ", cfo, dep)
             continue
 
         shares = hk_shares[hk_shares['ticker'] == comp]['shares'].item()
