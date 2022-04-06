@@ -123,6 +123,8 @@ for comp in listStocks:
 
         cf = si.get_cash_flow(comp, yearly=yearlyFlag)
         cfo = getFromDFYearly(cf, "totalCashFromOperatingActivities", yearlyFlag)
+        dep = getFromDFYearly(cf, "depreciation", yearlyFlag)
+        capex = getFromDFYearly(cf, "capitalExpenditures", yearlyFlag)
 
         if cfo <= 0:
             print(comp, "cfo <= 0 ", cfo)
@@ -139,15 +141,15 @@ for comp in listStocks:
         marketCap = marketPrice * shares
 
         pb = marketCap / (tangible_Equity / exRate)
-        pCfo = marketCap / (cfo / exRate)
+        pFCF = marketCap / ((cfo - dep) / exRate)
         print("MV, cfo", roundB(marketCap, 2), roundB(cfo, 2))
 
         # if pb >= 0.6 or pb <= 0:
         #     print(comp, 'pb > 0.6 or pb <= 0', pb)
         #     continue
         #
-        if pCfo > 10:
-            print(comp, 'pcfo > 10', pCfo)
+        if pFCF > 10:
+            print(comp, 'pFCF > 10', pFCF)
             continue
 
         revenue = getFromDFYearly(incomeStatement, "totalRevenue", yearlyFlag)
@@ -179,7 +181,7 @@ for comp in listStocks:
 
         schloss = pb < 1 and marketPrice < low_52wk * 1.1 and insiderPerc > INSIDER_OWN_MIN
         netnet = (cash + receivables * 0.8 + inventory * 0.5 - totalL) / exRate - marketCap > 0
-        magic6 = pCfo < 6 and (divYield >= 0.06 or divLastYearYield >= 0.06)
+        magic6 = pFCF < 6 and (divYield >= 0.06 or divLastYearYield >= 0.06)
         pureHighYield = (divYield >= 0.06 or divLastYearYield >= 0.06)
 
         if schloss or netnet or magic6 or pureHighYield:
@@ -191,7 +193,9 @@ for comp in listStocks:
                            + boolToString(magic6, "magic6") + boolToString(pureHighYield, 'highYield') \
                            + " MV:" + str(roundB(marketCap, 1)) + 'B' \
                            + " B:" + str(roundB(tangible_Equity / exRate, 1)) + 'B' \
-                           + " P/CFO:" + str(round(pCfo, 2)) \
+                           + " P/FCF:" + str(round(pFCF, 2)) \
+                           + " DEP/CFO:" + str(round(dep / cfo, 2)) \
+                           + " CAPEX/CFO:" + str(round(capex / cfo, 2)) \
                            + " P/B:" + str(round(pb, 1)) \
                            + " C/R:" + str(round(currRatio, 2)) \
                            + " D/E:" + str(round(debtEquityRatio, 2)) \
