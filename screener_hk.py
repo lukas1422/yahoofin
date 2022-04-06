@@ -48,10 +48,6 @@ for comp in listStocks:
 
         print(increment(), comp, companyName)
 
-        data = si.get_data(comp, interval=PRICE_INTERVAL)
-        print("date start date ", data.index[0].strftime('%-m/%-d/%Y'))
-        print('last active day', data[data['volume'] != 0].index[-1].strftime('%-m/%-d/%Y'))
-
         try:
             info = si.get_company_info(comp)
         except Exception as e:
@@ -149,6 +145,10 @@ for comp in listStocks:
         revenue = getFromDFYearly(incomeStatement, "totalRevenue", yearlyFlag)
         retainedEarningsAssetRatio = retainedEarnings / totalAssets
         cfoAssetRatio = cfo / totalAssets
+
+        data = si.get_data(comp, interval=PRICE_INTERVAL)
+        print("date start date ", data.index[0].strftime('%-m/%-d/%Y'))
+        print('last active day', data[data['volume'] != 0].index[-1].strftime('%-m/%-d/%Y'))
 
         data52w = data.loc[data.index > ONE_YEAR_AGO]
         percentile = 100.0 * (marketPrice - data52w['low'].min()) / (data52w['high'].max() - data52w['low'].min())
