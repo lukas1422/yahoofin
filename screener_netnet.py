@@ -3,6 +3,8 @@ import os
 import statistics
 import sys
 
+from datetime import datetime
+
 import yahoo_fin.stock_info as si
 import pandas as pd
 
@@ -14,7 +16,7 @@ from helperMethods import getFromDF, convertHK, roundB, convertChinaForYahoo, ge
 
 COUNT = 0
 
-MARKET = Market.CHINA
+MARKET = Market.US
 yearlyFlag = False
 
 
@@ -68,7 +70,7 @@ elif MARKET == Market.CHINA:
 else:
     raise Exception("market not found")
 
-print(MARKET, len(listStocks), listStocks)
+print(datetime.now(), MARKET, len(listStocks), listStocks)
 
 for comp in listStocks:
 
