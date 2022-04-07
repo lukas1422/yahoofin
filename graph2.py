@@ -67,31 +67,37 @@ gCurrentRatio = figure(title='currentRatio', x_range=FactorRange(factors=list())
 gRetainedEarnings = figure(title='RetEarnings/A', x_range=FactorRange(factors=list()))
 gDE = figure(title='D/E Ratio', x_range=FactorRange(factors=list()))
 gPB = figure(title='MV/B Ratio', x_range=FactorRange(factors=list()))
-gCFO = figure(title='CFO(B)', x_range=FactorRange(factors=list()))
-gCFORatio = figure(title='MV/CFO', x_range=FactorRange(factors=list()))
+gFCF = figure(title='FCF(B)', x_range=FactorRange(factors=list()))
+gPFCF = figure(title='MV/FCF', x_range=FactorRange(factors=list()))
+gDepCFO = figure(title='Dep/CFO', x_range=FactorRange(factors=list()))
+gCapexCFO = figure(title='Capex/CFO', x_range=FactorRange(factors=list()))
+
 gSA = figure(title='Sales/Assets Ratio', x_range=FactorRange(factors=list()))
 gNetnet = figure(title='netnet Ratio', x_range=FactorRange(factors=list()))
-gCFOA = figure(title='CFO/A Ratio', x_range=FactorRange(factors=list()))
+gFCFA = figure(title='FCF/A Ratio', x_range=FactorRange(factors=list()))
 
 gCurrentRatio.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("cr", "@currentRatio")], mode='vline'))
 gRetainedEarnings.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("Re/A", "@REAssetsRatio")], mode='vline'))
 
 gDE.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("DERatio", "@DERatio")], mode='vline'))
 gPB.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("PB", "@PB")], mode='vline'))
-gCFO.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("CFOB", "@CFOB")], mode='vline'))
-gCFORatio.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("PCFO", "@PCFO")], mode='vline'))
+gFCF.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("FCFB", "@FCFB")], mode='vline'))
+gPFCF.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("PFCF", "@PFCF")], mode='vline'))
+gDepCFO.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("DepCFO", "@DepCFO")], mode='vline'))
+gCapexCFO.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("CapexCFO", "@CapexCFO")], mode='vline'))
+
 gSA.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("S/A Ratio", "@SalesAssetsRatio")], mode='vline'))
 gNetnet.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("netnet", "@netnetRatio")], mode='vline'))
-gCFOA.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("CFO/A", "@CFOAssetRatio")], mode='vline'))
+gFCFA.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("FCF/A", "@FCFAssetRatio")], mode='vline'))
 
-for figu in [gPrice, gCash, gBook, gDiv, gCurrentRatio, gRetainedEarnings, gDE, gPB, gCFO, gCFORatio, gSA, gNetnet,
-             gCFOA]:
+for figu in [gPrice, gCash, gBook, gDiv, gCurrentRatio, gRetainedEarnings, gDE, gPB,
+             gFCF, gPFCF, gDepCFO, gCapexCFO, gSA, gNetnet, gFCFA]:
     figu.title.text_font_size = '18pt'
     figu.title.align = 'center'
 
 grid = gridplot(
-    [[gCash, gBook], [gCurrentRatio, gRetainedEarnings], [gDE, gPB], [gCFO, gCFORatio], [gSA, gNetnet], [gCFOA, None]]
-    , width=500, height=500)
+    [[gCash, gBook], [gCurrentRatio, gRetainedEarnings], [gDE, gPB], [gFCF, gPFCF], [gDepCFO, gCapexCFO],
+     [gSA, gNetnet], [gFCFA, None]], width=500, height=500)
 
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 
@@ -132,12 +138,15 @@ def buttonCallback():
     divData = si.get_dividends(TICKER)
     divPrice = pd.DataFrame()
     if not divData.empty:
-        divData.groupby(by=lambda a: a.year)['dividend'].sum()
+        # divData.groupby(by=lambda a: a.year)['dividend'].sum()
         divPrice = pd.merge(divData.groupby(by=lambda d: d.year)['dividend'].sum(),
                             priceData.groupby(by=lambda d: d.year)['close'].mean(),
                             left_index=True, right_index=True)
+        print('divprice1', divPrice)
         divPrice.index.name = 'year'
         divPrice['yield'] = divPrice['dividend'] / divPrice['close'] * 100
+
+        print('divprice2', divPrice)
         divPriceData.data = ColumnDataSource.from_df(divPrice)
 
     latestPrice = si.get_live_price(TICKER)
@@ -169,12 +178,21 @@ def buttonCallback():
     cfT = cf.T
     bsT['CFO'] = bsT.index.map(
         lambda d: cfT[cfT.index == d]['totalCashFromOperatingActivities'].item() * indicatorFunction(ANNUALLY))
+    bsT['dep'] = bsT.index.map(
+        lambda d: cfT[cfT.index == d]['depreciation'].item() * indicatorFunction(ANNUALLY))
+    bsT['capex'] = bsT.index.map(
+        lambda d: cfT[cfT.index == d]['capitalExpenditures'].item() * -1 * indicatorFunction(ANNUALLY))
+    bsT['FCF'] = bsT['CFO'] - bsT['dep']
 
     bsT['CFOB'] = bsT['CFO'] / 1000000000
-    bsT['PCFO'] = bsT['marketCap'] * exRate / bsT['CFO']
+    bsT['FCFB'] = bsT['FCF'] / 1000000000
+    bsT['PFCF'] = bsT['marketCap'] * exRate / bsT['FCF']
+    bsT['DepCFO'] = bsT['dep'] / bsT['CFO']
+    bsT['CapexCFO'] = bsT['capex'] / bsT['CFO']
+
     bsT['netnetRatio'] = ((bsT['cash'] + fill0Get(bsT, 'netReceivables') * 0.8 +
                            fill0Get(bsT, 'inventory') * 0.5) / (bsT['totalLiab'] + exRate * bsT['marketCap']))
-    bsT['CFOAssetRatio'] = bsT['CFO'] / bsT['totalAssets']
+    bsT['FCFAssetRatio'] = bsT['FCF'] / bsT['totalAssets']
 
     bsT['dateStr'] = pd.to_datetime(bsT.index)
     bsT['dateStr'] = bsT['dateStr'].transform(lambda x: x.strftime('%Y-%m-%d'))
@@ -199,7 +217,7 @@ def buttonCallback():
                        + '____CR:' + str(round(bsT['currentRatio'][0], 1)) \
                        + '____DE:' + str(round(bsT['DERatio'][0], 1)) \
                        + '____RE/A:' + str(round(bsT['REAssetsRatio'][0], 1)) \
-                       + '____P/CFO:' + str(round(bsT['PCFO'][0], 1)) \
+                       + '____P/FCF:' + str(round(bsT['PFCF'][0], 1)) \
                        + '____DivYld:' + (str(round(divPrice['yield'].mean(), 1)) if 'yield' in divPrice else '') + '%' \
                        + '____lastDivYld:' \
                        + (str(round(divPrice['yield'].iloc[-1], 1)) if 'yield' in divPrice else '') + '%'
@@ -215,7 +233,8 @@ def updateGraphs():
     lastPrice = round(stockData.data['close'][-1], 2) if 'close' in stockData.data else ''
     gPrice.title.text = ' prices ' + TICKER + '____' + str(lastPrice)
 
-    for figu in [gCash, gBook, gCurrentRatio, gRetainedEarnings, gDE, gPB, gCFO, gCFORatio, gSA, gNetnet, gCFOA]:
+    for figu in [gCash, gBook, gCurrentRatio, gRetainedEarnings, gDE, gPB, gFCF, gPFCF, gDepCFO, gCapexCFO,
+                 gSA, gNetnet, gFCFA]:
         figu.x_range.factors = list(global_source.data['dateStr'][::-1])
 
     if FIRST_TIME_GRAPHING:
@@ -241,10 +260,16 @@ def updateGraphs():
         gPB.vbar(x='dateStr', top='PB', source=global_source, width=0.5)
 
         # CFO
-        gCFO.vbar(x='dateStr', top='CFOB', source=global_source, width=0.5)
+        gFCF.vbar(x='dateStr', top='FCFB', source=global_source, width=0.5)
 
-        # P/CFO
-        gCFORatio.vbar(x='dateStr', top='PCFO', source=global_source, width=0.5)
+        # P/FCF
+        gPFCF.vbar(x='dateStr', top='PFCF', source=global_source, width=0.5)
+
+        # Dep/CFO
+        gDepCFO.vbar(x='dateStr', top='DepCFO', source=global_source, width=0.5)
+
+        # capex/CFO
+        gCapexCFO.vbar(x='dateStr', top='CapexCFO', source=global_source, width=0.5)
 
         # Sales/Assets
         gSA.vbar(x='dateStr', top='SalesAssetsRatio', source=global_source, width=0.5)
@@ -253,7 +278,7 @@ def updateGraphs():
         gNetnet.vbar(x='dateStr', top='netnetRatio', source=global_source, width=0.5)
 
         # CFO/A ratio
-        gCFOA.vbar(x='dateStr', top='CFOAssetRatio', source=global_source, width=0.5)
+        gFCFA.vbar(x='dateStr', top='FCFAssetRatio', source=global_source, width=0.5)
         FIRST_TIME_GRAPHING = False
 
 
@@ -265,9 +290,6 @@ button.on_click(buttonCallback)
 
 button2 = Button(label='Reset')
 button2.on_click(resetCallback)
-
-
-# prelimLabel = Label(width=500, text='abc')
 
 
 def my_radio_handler(new):

@@ -1,4 +1,4 @@
-stockName = '0887.HK'
+stockName = '0001.HK'
 yearlyFlag = False
 
 import statistics
@@ -99,6 +99,8 @@ def getResults(stockName):
         cfo = getFromDFYearly(cf, "totalCashFromOperatingActivities", yearlyFlag)
         cfi = getFromDFYearly(cf, "totalCashflowsFromInvestingActivities", yearlyFlag)
         cff = getFromDFYearly(cf, "totalCashFromFinancingActivities", yearlyFlag)
+        dep = getFromDFYearly(cf, "depreciation", yearlyFlag)
+        capex = getFromDFYearly(cf, "capitalExpenditures", yearlyFlag)
 
         cfoA = cfo / totalAssets
 
@@ -176,7 +178,9 @@ def getResults(stockName):
         print("P/NetAssets", round(marketPrice * shares / (netAssets / exRate), 1))
         print("P/Tangible Equity", round(marketPrice * shares / (tangible_equity / exRate), 1))
         print("P/E", round(marketPrice * shares / (netIncome / exRate), 1))
-        print("P/CFO", round(marketPrice * shares / (cfo / exRate), 1))
+        print("P/FCF", round(marketPrice * shares * exRate / (cfo - dep), 1))
+        print("Dep/CFO", round(dep / cfo, 1))
+        print("Capex/CFO", round(capex / cfo, 1))
         print("S/B", round(revenue / tangible_equity, 1))
         print("                         ")
         print("********ALTMAN**********")
@@ -200,7 +204,7 @@ def getResults(stockName):
                        + " dai$Vol:" + str(round(avgVolListingCurrency / 1000000)) + "M" \
                        + " MV:" + str(roundB(marketCap, 1)) + 'B' \
                        + " Tangible_equity:" + str(roundB((tangible_equity) / exRate, 1)) + 'B' \
-                       + " P/CFO:" + str(round(marketCap / (cfo / exRate), 1)) \
+                       + " P/FCF:" + str(round(marketCap * exRate / (cfo - dep), 1)) \
                        + " pb:" + str(round(pTangibleEquity, 1)) \
                        + " CR:" + str(round(currRatio, 1)) \
                        + " D/E:" + str(round(debtEquityRatio, 1)) \
