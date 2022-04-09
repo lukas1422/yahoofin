@@ -1,4 +1,4 @@
-stockName = '0001.HK'
+stockName = 'AAPL'
 yearlyFlag = False
 
 import statistics
@@ -30,7 +30,7 @@ def getResults(stockName):
 
         avgVolListingCurrency = (data[-10:]['close'] * data[-10:]['volume']).sum() / 10
         medianVol = statistics.median(data[-10:]['close'] * data[-10:]['volume'])
-        print('data', data[-10:])
+        # print('data', data[-10:])
 
         print('mean median', avgVolListingCurrency, medianVol)
 
