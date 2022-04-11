@@ -16,7 +16,7 @@ from helperMethods import getFromDF, convertHK, roundB, convertChinaForYahoo, ge
 
 COUNT = 0
 
-MARKET = Market.US
+MARKET = Market.HK
 yearlyFlag = False
 
 
@@ -153,9 +153,9 @@ for comp in listStocks:
         pCfo = marketCap / (cfo / exRate)
         print("MV, cfo", roundB(marketCap, 2), roundB(cfo, 2))
 
-        if pCfo > 10:
-            print(comp, ' pcfo > 10')
-            continue
+        # if pCfo > 10:
+        #     print(comp, ' pcfo > 10')
+        #     continue
 
         if MARKET == Market.HK:
             if marketCap < 1000000000:

@@ -142,11 +142,11 @@ def buttonCallback():
         divPrice = pd.merge(divData.groupby(by=lambda d: d.year)['dividend'].sum(),
                             priceData.groupby(by=lambda d: d.year)['close'].mean(),
                             left_index=True, right_index=True)
-        print('divprice1', divPrice)
+        # print('divprice1', divPrice)
         divPrice.index.name = 'year'
         divPrice['yield'] = divPrice['dividend'] / divPrice['close'] * 100
 
-        print('divprice2', divPrice)
+        # print('divprice2', divPrice)
         divPriceData.data = ColumnDataSource.from_df(divPrice)
 
     latestPrice = si.get_live_price(TICKER)
