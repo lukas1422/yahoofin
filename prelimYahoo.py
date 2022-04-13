@@ -1,4 +1,4 @@
-stockName = 'AAPL'
+stockName = '2100.HK'
 yearlyFlag = False
 
 import statistics
