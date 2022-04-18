@@ -1,4 +1,4 @@
-stockName = '2100.HK'
+stockName = '1098.HK'
 yearlyFlag = False
 
 import statistics
@@ -32,9 +32,8 @@ def getResults(stockName):
         medianVol = statistics.median(data[-10:]['close'] * data[-10:]['volume'])
         # print('data', data[-10:])
 
-        print('mean median', avgVolListingCurrency, medianVol)
-
-        print(' avg vol ', str(round(avgVolListingCurrency / 1000000, 1)) + "M")
+        # print('mean median', avgVolListingCurrency, medianVol)
+        # print(' avg vol ', str(round(avgVolListingCurrency / 1000000, 1)) + "M")
 
         try:
             info = si.get_company_info(stockName)
@@ -101,6 +100,8 @@ def getResults(stockName):
         cff = getFromDFYearly(cf, "totalCashFromFinancingActivities", yearlyFlag)
         dep = getFromDFYearly(cf, "depreciation", yearlyFlag)
         capex = getFromDFYearly(cf, "capitalExpenditures", yearlyFlag)
+
+        print('cfo', roundB(cfo, 1), 'B')
 
         cfoA = cfo / totalAssets
 
@@ -190,6 +191,8 @@ def getResults(stockName):
         print("EBIT", roundB(ebit / exRate, 1), "B")
         print("netIncome", roundB(netIncome / exRate, 1), "B")
         print("CFO", roundB(cfo / exRate, 1), "B")
+        print("DEP", roundB(dep / exRate, 1), "B")
+        print("CAPEX", roundB(capex / exRate, 1), "B")
         print("CFI", roundB(cfi / exRate, 1), "B")
         print("CFF", roundB(cff / exRate, 1), "B")
         print("RE", roundB(retainedEarnings / exRate, 1), "B")

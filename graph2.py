@@ -66,9 +66,9 @@ gBook.add_tools(HoverTool(tooltips=[('dateStr', '@dateStr'), ("bookB", "@netBook
 gCurrentRatio = figure(title='currentRatio', x_range=FactorRange(factors=list()))
 gRetainedEarnings = figure(title='RetEarnings/A', x_range=FactorRange(factors=list()))
 gDE = figure(title='D/E Ratio', x_range=FactorRange(factors=list()))
-gPB = figure(title='MV/B Ratio', x_range=FactorRange(factors=list()))
+gPB = figure(title='P/B Ratio', x_range=FactorRange(factors=list()))
 gFCF = figure(title='FCF(B)', x_range=FactorRange(factors=list()))
-gPFCF = figure(title='MV/FCF', x_range=FactorRange(factors=list()))
+gPFCF = figure(title='P/FCF', x_range=FactorRange(factors=list()))
 gDepCFO = figure(title='Dep/CFO', x_range=FactorRange(factors=list()))
 gCapexCFO = figure(title='Capex/CFO', x_range=FactorRange(factors=list()))
 
@@ -187,6 +187,10 @@ def buttonCallback():
     bsT['CFOB'] = bsT['CFO'] / 1000000000
     bsT['FCFB'] = bsT['FCF'] / 1000000000
     bsT['PFCF'] = bsT['marketCap'] * exRate / bsT['FCF']
+
+    print('fcf', bsT['FCF'])
+    print('pfcf', bsT['PFCF'])
+
     bsT['DepCFO'] = bsT['dep'] / bsT['CFO']
     bsT['CapexCFO'] = bsT['capex'] / bsT['CFO']
 
