@@ -24,7 +24,7 @@ def increment():
     return COUNT
 
 
-yearAgo = datetime.today() - timedelta(weeks=53)
+# yearAgo = datetime.today() - timedelta(weeks=53)
 # START_DATE = (datetime.today() - timedelta(weeks=52 * 10)).strftime('%-m/%-d/%Y')
 # PRICE_START_DATE = (datetime.today() - timedelta(weeks=52 * 2)).strftime('%-m/%-d/%Y')
 # PRICE_START_DATE = (datetime.today() - timedelta(weeks=52 * 2)).strftime('%-m/%-d/%Y')
@@ -49,8 +49,8 @@ listStocks = stock_df[~stock_df['sector'].str.contains('financial', regex=True, 
 #                       & (stock_df['industry'].str.contains('reit', regex=True, case=False) == False)
 #                       & (stock_df['country'].str.lower() != 'china')]['ticker'].tolist()
 # listStocks = stock_df['ticker'].tolist()
+listStocks = ['VHI']
 
-# listStocks = ['APWC']
 print(len(listStocks), listStocks)
 
 for comp in listStocks:
@@ -161,7 +161,7 @@ for comp in listStocks:
 
         data = si.get_data(comp, interval=PRICE_INTERVAL)
         print("start date ", data.index[0].strftime('%-m/%-d/%Y'))
-        data52wk = data.loc[data.index > yearAgo]
+        data52wk = data.loc[data.index > ONE_YEAR_AGO]
         percentile = 100.0 * (marketPrice - data52wk['low'].min()) / (data52wk['high'].max() - data52wk['low'].min())
         low_52wk = data52wk['low'].min()
         # avgDollarVol = (data[-10:]['close'] * data[-10:]['volume']).sum() / 10
@@ -173,19 +173,30 @@ for comp in listStocks:
 
         divs = si.get_dividends(comp)
 
-        divSum = divs['dividend'].sum() if not divs.empty else 0
-        startToNow = (datetime.today() - data.index[0]).days / 365.25
-        print(" start to now ", startToNow, 'starting date ', data.index[0])
-        divYield = divSum / marketPrice / startToNow
+        # divSum = divs['dividend'].sum() if not divs.empty else 0
+        # startToNow = (datetime.today() - data.index[0]).days / 365.25
+        # divYield = divSum / marketPrice / startToNow
+        # print(" start to now ", startToNow, 'starting date ', data.index[0], 'divSUm', divSum, 'divyld', divYield)
+        # divsPastYear = divs.loc[divs.index > ONE_YEAR_AGO]
+        # divSumPastYear = divsPastYear['dividend'].sum() if not divsPastYear.empty else 0
+        # divLastYearYield = divSumPastYear / marketPrice
 
-        divsPastYear = divs.loc[divs.index > ONE_YEAR_AGO]
-        divSumPastYear = divsPastYear['dividend'].sum() if not divsPastYear.empty else 0
-        divLastYearYield = divSumPastYear / marketPrice
+        divPrice = pd.merge(divs.groupby(by=lambda d: d.year)['dividend'].sum(),
+                            data.groupby(by=lambda d: d.year)['close'].mean(),
+                            left_index=True, right_index=True)
+        divPrice['yield'] = divPrice['dividend'] / divPrice['close']
+        print('divprice', divPrice)
+
+        divYieldAll = divPrice[divPrice.index != 2022]['yield'].mean() \
+            if not divPrice[divPrice.index != 2022].empty else 0
+
+        divLastYearYield = divPrice.loc[2021]['yield'] if 2021 in divPrice.index else 0
+        print('div yield all', divYieldAll, 'lastyear', divLastYearYield)
 
         schloss = pb < 1 and marketPrice < low_52wk * 1.1 and insiderPerc > INSIDER_OWN_MIN
         netnet = (cash + receivables * 0.8 + inventory * 0.5 - totalL) / exRate - marketCap > 0
-        magic6 = pFCF < 6 and (divYield >= 0.06 or divLastYearYield >= 0.06)
-        pureHighYield = (divYield >= 0.06 or divLastYearYield >= 0.06)
+        magic6 = pFCF < 6 and (divYieldAll >= 0.06 or divLastYearYield >= 0.06)
+        pureHighYield = (divYieldAll >= 0.06 or divLastYearYield >= 0.06)
 
         if schloss or netnet or magic6 or pureHighYield:
             outputString = comp + " " + " " + companyName + ' ' \
@@ -206,7 +217,7 @@ for comp in listStocks:
                            + " S/A:" + str(round(revenue / totalAssets, 2)) \
                            + " cfo/A:" + str(round(cfoAssetRatio, 2)) \
                            + " 52w_p%:" + str(round(percentile)) \
-                           + " divYldAll:" + str(round(divYield * 100)) + "%" \
+                           + " divYldAll:" + str(round(divYieldAll * 100)) + "%" \
                            + " divYldLastYear:" + str(round(divLastYearYield * 100)) + "%" \
                            + " insider%: " + str(round(insiderPerc)) + "%"
 

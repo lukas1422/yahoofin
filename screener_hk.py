@@ -34,7 +34,7 @@ stock_df['ticker'] = stock_df['ticker'].astype(str)
 stock_df['ticker'] = stock_df['ticker'].map(lambda x: convertHK(x))
 hk_shares = pd.read_csv('list_HK_totalShares', sep=" ", index_col=False, names=['ticker', 'shares'])
 listStocks = stock_df['ticker'].tolist()
-# listStocks = ['0743.HK']
+listStocks = ['2127.HK']
 # stock_df_torun = pd.read_csv('list_special', dtype=object, sep=" ", index_col=False, names=['ticker'])
 # stock_df_torun['ticker'] = stock_df_torun['ticker'].map(lambda x: convertHK(x))
 # listStocks = stock_df_torun['ticker'].tolist()
@@ -162,18 +162,26 @@ for comp in listStocks:
             insiderPerc = 0
 
         divs = si.get_dividends(comp)
+        # divSum = divs['dividend'].sum() if not divs.empty else 0
+        # startToNow = (datetime.today() - data.index[0]).days / 365.25
+        # divYieldAll = (divSum / startToNow) / marketPrice
+        #
+        # divsPastYear = divs.loc[divs.index > ONE_YEAR_AGO]
+        # divSumPastYear = divsPastYear['dividend'].sum() if not divsPastYear.empty else 0
+        # divLastYearYield = divSumPastYear / marketPrice
 
-        divSum = divs['dividend'].sum() if not divs.empty else 0
-        startToNow = (datetime.today() - data.index[0]).days / 365.25
-        divYieldAll = (divSum / startToNow) / marketPrice
+        divPrice = pd.merge(divs.groupby(by=lambda d: d.year)['dividend'].sum(),
+                            data.groupby(by=lambda d: d.year)['close'].mean(),
+                            left_index=True, right_index=True)
+        divPrice['yield'] = divPrice['dividend'] / divPrice['close']
+        divYieldAll = divPrice[divPrice.index != 2022]['yield'].mean() \
+            if not divPrice[divPrice.index != 2022].empty else 0
+        divLastYearYield = divPrice.loc[2021]['yield'] if 2021 in divPrice.index else 0
+        print('yield all', divYieldAll, 'lastyear', divLastYearYield)
 
-        divsPastYear = divs.loc[divs.index > ONE_YEAR_AGO]
-        divSumPastYear = divsPastYear['dividend'].sum() if not divsPastYear.empty else 0
-        divLastYearYield = divSumPastYear / marketPrice
-
-        if divSumPastYear == 0:
-            print(comp, "div is 0 ")
-            continue
+        # if divSumPastYear == 0:
+        #     print(comp, "div is 0 ")
+        #     continue
 
         schloss = pb < 1 and marketPrice < low_52wk * 1.1 and insiderPerc > INSIDER_OWN_MIN
         netnetRatio = (cash + receivables * 0.8 + inventory * 0.5) / (totalLiab + exRate * marketCap)
