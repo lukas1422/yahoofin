@@ -34,7 +34,7 @@ stock_df['ticker'] = stock_df['ticker'].astype(str)
 stock_df['ticker'] = stock_df['ticker'].map(lambda x: convertHK(x))
 hk_shares = pd.read_csv('list_HK_totalShares', sep=" ", index_col=False, names=['ticker', 'shares'])
 listStocks = stock_df['ticker'].tolist()
-listStocks = ['2127.HK']
+# listStocks = ['2127.HK']
 # stock_df_torun = pd.read_csv('list_special', dtype=object, sep=" ", index_col=False, names=['ticker'])
 # stock_df_torun['ticker'] = stock_df_torun['ticker'].map(lambda x: convertHK(x))
 # listStocks = stock_df_torun['ticker'].tolist()
@@ -165,7 +165,6 @@ for comp in listStocks:
         # divSum = divs['dividend'].sum() if not divs.empty else 0
         # startToNow = (datetime.today() - data.index[0]).days / 365.25
         # divYieldAll = (divSum / startToNow) / marketPrice
-        #
         # divsPastYear = divs.loc[divs.index > ONE_YEAR_AGO]
         # divSumPastYear = divsPastYear['dividend'].sum() if not divsPastYear.empty else 0
         # divLastYearYield = divSumPastYear / marketPrice
@@ -219,22 +218,6 @@ for comp in listStocks:
             print(outputString)
             fileOutput.write(outputString + '\n')
             fileOutput.flush()
-        # else:
-        #     print("None " + companyName + ' nnRatio:' + str(round(netnetRatio, 2)) +
-        #           " MV:" + str(roundB(marketCap, 1)) + 'B'
-        #           + " BV:" + str(roundB(tangible_Equity / exRate, 1)) + 'B'
-        #           + " P/CFO:" + str(round(pCfo, 2))
-        #           + " P/B:" + str(round(pb, 1))
-        #           + " C/R:" + str(round(currRatio, 2))
-        #           + " D/E:" + str(round(debtEquityRatio, 2))
-        #           + " RetEarning/A:" + str(round(retainedEarningsAssetRatio, 2))
-        #           + " S/A:" + str(round(revenue / totalAssets, 2))
-        #           + " cfo/A:" + str(round(cfoAssetRatio, 2))
-        #           + " 52w_p%:" + str(round(percentile))
-        #           + " divYld:" + str(round(divLastYearYield * 100)) + "%"
-        #           + " divAll:" + str(round(divYieldAll * 100)) + "%"
-        #           + " insider%:" + str(round(insiderPerc)) + "%"
-        #           + " dai$Vol:" + str(round(avgDollarVol / 1000000, 2)) + "M")
 
     except Exception as e:
         print(comp, "exception", e)
