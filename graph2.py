@@ -167,7 +167,12 @@ def buttonCallback():
         shares = scrapeTotalSharesXueqiu(TICKER)
         print('using xueqiu total shares for china', TICKER, shares)
 
+    # bsT['marketCap'] = bsT['priceOnOrAfter'] * shares
+    shares = si.get_quote_data(TICKER)['marketCap'] / latestPrice
+    print(TICKER, 'shares', shares)
     bsT['marketCap'] = bsT['priceOnOrAfter'] * shares
+
+    # bsT['marketCap'] = si.get_quote_data(TICKER)['marketcap']
     bsT['PB'] = bsT['marketCap'] * exRate / bsT['netBook']
     income = si.get_income_statement(TICKER, yearly=ANNUALLY)
     incomeT = income.T
