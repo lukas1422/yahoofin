@@ -145,14 +145,14 @@ for comp in listStocks:
         retainedEarningsAssetRatio = retainedEarnings / totalAssets
         cfoAssetRatio = cfo / totalAssets
 
-        data = si.get_data(comp, interval=PRICE_INTERVAL)
-        print("date start date ", data.index[0].strftime('%-m/%-d/%Y'))
-        print('last active day', data[data['volume'] != 0].index[-1].strftime('%-m/%-d/%Y'))
+        priceData = si.get_data(comp, interval=PRICE_INTERVAL)
+        print("date start date ", priceData.index[0].strftime('%-m/%-d/%Y'))
+        print('last active day', priceData[priceData['volume'] != 0].index[-1].strftime('%-m/%-d/%Y'))
 
-        data52w = data.loc[data.index > ONE_YEAR_AGO]
+        data52w = priceData.loc[priceData.index > ONE_YEAR_AGO]
         percentile = 100.0 * (marketPrice - data52w['low'].min()) / (data52w['high'].max() - data52w['low'].min())
         low_52wk = data52w['low'].min()
-        medianDollarVol = statistics.median(data[-10:]['close'] * data[-10:]['volume']) / 5
+        medianDollarVol = statistics.median(priceData[-10:]['close'] * priceData[-10:]['volume']) / 5
 
         try:
             insiderPerc = float(si.get_holders(comp).get('Major Holders')[0][0].rstrip("%"))
@@ -169,11 +169,12 @@ for comp in listStocks:
         # divSumPastYear = divsPastYear['dividend'].sum() if not divsPastYear.empty else 0
         # divLastYearYield = divSumPastYear / marketPrice
 
+        yearSpan = 2021 - priceData[:1].index.item().year + 1
         divPrice = pd.merge(divs.groupby(by=lambda d: d.year)['dividend'].sum(),
-                            data.groupby(by=lambda d: d.year)['close'].mean(),
+                            priceData.groupby(by=lambda d: d.year)['close'].mean(),
                             left_index=True, right_index=True)
         divPrice['yield'] = divPrice['dividend'] / divPrice['close']
-        divYieldAll = divPrice[divPrice.index != 2022]['yield'].mean() \
+        divYieldAll = divPrice[divPrice.index != 2022]['yield'].sum() / yearSpan \
             if not divPrice[divPrice.index != 2022].empty else 0
         divLastYearYield = divPrice.loc[2021]['yield'] if 2021 in divPrice.index else 0
         print('yield all', divYieldAll, 'lastyear', divLastYearYield)

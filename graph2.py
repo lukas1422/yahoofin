@@ -211,6 +211,12 @@ def buttonCallback():
     global_source.data = ColumnDataSource.from_df(bsT)
     stockData.data = ColumnDataSource.from_df(priceData)
 
+    yearSpan = 2021 - priceData[:1].index.item().year + 1
+    print('year span', yearSpan)
+    divYieldAll = divPrice[divPrice.index != 2022]['yield'].sum() / yearSpan \
+        if not divPrice[divPrice.index != 2022].empty else 0
+    divYield2021 = divPrice.loc[2021]['yield'] if 2021 in divPrice.index else 0
+
     print("=============graph now===============")
 
     updateGraphs()
@@ -227,10 +233,10 @@ def buttonCallback():
                        + '____DE:' + str(round(bsT['DERatio'][0], 1)) \
                        + '____RE/A:' + str(round(bsT['REAssetsRatio'][0], 1)) \
                        + '____P/FCF:' + str(round(bsT['PFCF'][0], 1)) \
-                       + '____DivYld:' + (str(round(divPrice['yield'].mean(), 1)) if 'yield' in divPrice else '') + '%' \
-                       + '____lastDivYld:' \
-                       + (str(round(divPrice['yield'].iloc[-1], 1)) if 'yield' in divPrice else '') + '%'
-
+                       + '____DivYld:' + (str(round(divYieldAll, 1)) if 'yield' in divPrice else '') + '%' \
+                       + '____2021DivYld:' \
+                       + (str(round(divYield2021, 1))) + '%'
+    # divPrice['yield'].iloc[-1]
     print("=============graph finished===============")
 
 
