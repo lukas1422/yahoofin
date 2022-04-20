@@ -173,14 +173,6 @@ for comp in listStocks:
 
         divs = si.get_dividends(comp)
 
-        # divSum = divs['dividend'].sum() if not divs.empty else 0
-        # startToNow = (datetime.today() - data.index[0]).days / 365.25
-        # divYield = divSum / marketPrice / startToNow
-        # print(" start to now ", startToNow, 'starting date ', data.index[0], 'divSUm', divSum, 'divyld', divYield)
-        # divsPastYear = divs.loc[divs.index > ONE_YEAR_AGO]
-        # divSumPastYear = divsPastYear['dividend'].sum() if not divsPastYear.empty else 0
-        # divLastYearYield = divSumPastYear / marketPrice
-
         yearSpan = 2021 - priceData[:1].index.item().year + 1
         divPrice = pd.merge(divs.groupby(by=lambda d: d.year)['dividend'].sum(),
                             priceData.groupby(by=lambda d: d.year)['close'].mean(), left_index=True, right_index=True)

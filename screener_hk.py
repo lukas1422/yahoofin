@@ -179,9 +179,6 @@ for comp in listStocks:
         divLastYearYield = divPrice.loc[2021]['yield'] if 2021 in divPrice.index else 0
         print('yield all', divYieldAll, 'lastyear', divLastYearYield)
 
-        # if divSumPastYear == 0:
-        #     print(comp, "div is 0 ")
-        #     continue
 
         schloss = pb < 1 and marketPrice < low_52wk * 1.1 and insiderPerc > INSIDER_OWN_MIN
         netnetRatio = (cash + receivables * 0.8 + inventory * 0.5) / (totalLiab + exRate * marketCap)
