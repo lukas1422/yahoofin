@@ -49,7 +49,7 @@ listStocks = stock_df[~stock_df['sector'].str.contains('financial', regex=True, 
 #                       & (stock_df['industry'].str.contains('reit', regex=True, case=False) == False)
 #                       & (stock_df['country'].str.lower() != 'china')]['ticker'].tolist()
 # listStocks = stock_df['ticker'].tolist()
-listStocks = ['VHI']
+# listStocks = ['VHI']
 
 print(len(listStocks), listStocks)
 
@@ -149,8 +149,8 @@ for comp in listStocks:
         #     print(comp, 'pb > 0.6 or pb <= 0', pb)
         #     continue
         #
-        if pFCF > 10:
-            print(comp, 'pFCF > 10', pFCF)
+        if pFCF > 6:
+            print(comp, 'pFCF > 6', pFCF)
             continue
 
         revenue = getFromDFYearly(incomeStatement, "totalRevenue", yearlyFlag)

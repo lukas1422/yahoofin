@@ -16,7 +16,7 @@ from helperMethods import getFromDF, convertHK, roundB, convertChinaForYahoo, ge
 
 COUNT = 0
 
-MARKET = Market.USn
+MARKET = Market.HK
 yearlyFlag = False
 
 
@@ -86,9 +86,9 @@ for comp in listStocks:
         country = getFromDF(info, 'country')
         sector = getFromDF(info, 'sector')
 
-        # if 'real estate' in sector.lower() or 'financial' in sector.lower():
-        #     print(comp, " no real estate or financial ")
-        #     continue
+        if 'real estate' in sector.lower() or 'financial' in sector.lower():
+            print(comp, " no real estate or financial ")
+            continue
 
         marketPrice = si.get_live_price(comp)
         print(comp, 'market price', marketPrice)
@@ -143,7 +143,8 @@ for comp in listStocks:
         else:
             raise Exception("market not found ", MARKET)
 
-        marketCap = marketPrice * shares
+        # marketCap = marketPrice * shares
+        marketCap = si.get_quote_data(comp)['marketCap']
         print('shares ', shares, 'market cap', roundB(marketCap, 2))
 
         listingCurr = getListingCurrency(comp)
