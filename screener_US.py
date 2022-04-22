@@ -49,7 +49,7 @@ listStocks = stock_df[~stock_df['sector'].str.contains('financial', regex=True, 
 #                       & (stock_df['industry'].str.contains('reit', regex=True, case=False) == False)
 #                       & (stock_df['country'].str.lower() != 'china')]['ticker'].tolist()
 # listStocks = stock_df['ticker'].tolist()
-# listStocks = ['VHI']
+# listStocks = ['ZIM']
 
 print(len(listStocks), listStocks)
 
@@ -100,8 +100,8 @@ for comp in listStocks:
 
         currRatio = (cash + 0.8 * receivables + 0.5 * inventory) / currL
 
-        if currRatio <= 1:
-            print(comp, "current ratio < 1", currRatio)
+        if currRatio <= 0.5:
+            print(comp, "current ratio < 0.5", currRatio)
             continue
 
         totalAssets = getFromDF(bs, "totalAssets")
