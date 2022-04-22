@@ -68,10 +68,6 @@ for comp in listStocks:
             continue
         print('country sector', country, sector)
 
-        # if marketPrice <= 1:
-        #     print(comp, 'market price < 1: ', marketPrice)
-        #     continue
-
         bs = si.get_balance_sheet(comp, yearly=yearlyFlag)
 
         if bs.empty:
@@ -91,7 +87,7 @@ for comp in listStocks:
         receivables = getFromDF(bs, 'netReceivables')
         inventory = getFromDF(bs, 'inventory')
 
-        currRatio = (cash + 0.5 * receivables + 0.2 * inventory) / currLiab
+        currRatio = (cash + 0.8 * receivables + 0.5 * inventory) / currLiab
 
         if currRatio <= 1:
             print(comp, "curr ratio < 1", currRatio)
@@ -104,14 +100,19 @@ for comp in listStocks:
         tangible_Equity = totalAssets - totalLiab - goodWill - intangibles
         debtEquityRatio = totalLiab / tangible_Equity
 
-        if debtEquityRatio > 1 or tangible_Equity < 0:
-            print(comp, "de ratio> 1 or tangible equity < 0 ", debtEquityRatio, tangible_Equity)
+        if tangible_Equity < 0:
+            print(comp, "tangible equity < 0 ", tangible_Equity)
             continue
+
+        # if debtEquityRatio > 1 or tangible_Equity < 0:
+        #     print(comp, "de ratio> 1 or tangible equity < 0 ", debtEquityRatio, tangible_Equity)
+        #     continue
 
         incomeStatement = si.get_income_statement(comp, yearly=yearlyFlag)
 
         cf = si.get_cash_flow(comp, yearly=yearlyFlag)
         cfo = getFromDFYearly(cf, "totalCashFromOperatingActivities", yearlyFlag)
+        dep = getFromDFYearly(cf, "depreciation", yearlyFlag)
 
         if cfo <= 0:
             print(comp, "cfo <= 0 ", cfo)
@@ -136,20 +137,18 @@ for comp in listStocks:
         marketPrice = si.get_live_price(comp)
 
         marketCap = marketPrice * shares
-        if marketCap < 1000000000:
-            print(comp, "market cap < 1B TOO SMALL", roundB(marketCap, 2))
-            continue
+
+        # if marketCap < 1000000000:
+        #     print(comp, "market cap < 1B TOO SMALL", roundB(marketCap, 2))
+        #     continue
 
         pb = marketCap / (tangible_Equity / exRate)
-        pCfo = marketCap / (cfo / exRate)
-        print("MV, cfo", roundB(marketCap, 2), roundB(cfo, 2))
+        fcf = cfo - dep
+        pFCF = marketCap / (fcf / exRate)
+        print("MV, cfo", 'fcf', roundB(marketCap, 2), roundB(cfo, 2), roundB(fcf, 2))
 
-        # if pb >= 0.6 or pb <= 0:
-        #     print(comp, 'pb > 0.6 or pb <= 0', pb)
-        #     continue
-        #
-        if pCfo > 10 or pCfo <= 0:
-            print(comp, 'pcfo >10 or <= 0', pCfo)
+        if fcf <= 0:
+            print(comp, 'fcf <= 0', fcf)
             continue
 
         revenue = getFromDFYearly(incomeStatement, "totalRevenue", yearlyFlag)
@@ -157,12 +156,12 @@ for comp in listStocks:
         cfoAssetRatio = cfo / totalAssets
         # ebitAssetRatio = ebit / totalAssets
 
-        data = si.get_data(comp, interval=PRICE_INTERVAL)
-        print("start date ", data.index[0].strftime('%-m/%-d/%Y'))
-        data52w = data.loc[data.index > ONE_YEAR_AGO]
+        priceData = si.get_data(comp, interval=PRICE_INTERVAL)
+        print("start date ", priceData.index[0].strftime('%-m/%-d/%Y'))
+        data52w = priceData.loc[priceData.index > ONE_YEAR_AGO]
         percentile = 100.0 * (marketPrice - data52w['low'].min()) / (data52w['high'].max() - data52w['low'].min())
         low_52wk = data52w['low'].min()
-        medianDollarVol = statistics.median(data[-10:]['close'] * data[-10:]['volume']) / 5
+        medianDollarVol = statistics.median(priceData[-10:]['close'] * priceData[-10:]['volume']) / 5
 
         try:
             insiderPerc = float(si.get_holders(comp).get('Major Holders')[0][0].rstrip("%"))
@@ -171,20 +170,31 @@ for comp in listStocks:
             print(e)
             insiderPerc = 0
 
-        divs = si.get_dividends(comp, start_date=START_DATE)
-        divSum = divs['dividend'].sum() if not divs.empty else 0
-        startToNow = (datetime.today() - data.index[0]).days / 365.25
-        # print(" start to now ", startToNow, 'starting date ', data.index[0])
-        divYield = divSum / marketPrice / startToNow
+        divs = si.get_dividends(comp)
+        # divSum = divs['dividend'].sum() if not divs.empty else 0
+        # startToNow = (datetime.today() - priceData.index[0]).days / 365.25
+        # # print(" start to now ", startToNow, 'starting date ', data.index[0])
+        # divYield = divSum / marketPrice / startToNow
+        # divsPastYear = divs.loc[divs.index > ONE_YEAR_AGO]
+        # divSumPastYear = divsPastYear['dividend'].sum() if not divsPastYear.empty else 0
+        # divLastYearYield = divSumPastYear / marketPrice
 
-        divsPastYear = divs.loc[divs.index > ONE_YEAR_AGO]
-        divSumPastYear = divsPastYear['dividend'].sum() if not divsPastYear.empty else 0
-        divLastYearYield = divSumPastYear / marketPrice
+        yearSpan = 2021 - priceData[:1].index.item().year + 1
+        divPrice = pd.merge(divs.groupby(by=lambda d: d.year)['dividend'].sum(),
+                            priceData.groupby(by=lambda d: d.year)['close'].mean(), left_index=True, right_index=True)
+        divPrice['yield'] = divPrice['dividend'] / divPrice['close']
+        print('divprice', divPrice)
+
+        divYieldAll = divPrice[divPrice.index != 2022]['yield'].sum() / yearSpan \
+            if not divPrice[divPrice.index != 2022].empty else 0
+
+        divYield2021 = divPrice.loc[2021]['yield'] if 2021 in divPrice.index else 0
+        print('div yield all', divYieldAll, 'lastyear', divYield2021)
 
         schloss = pb < 0.6 and marketPrice < low_52wk * 1.1 and insiderPerc > INSIDER_OWN_MIN
         netnetRatio = (cash + receivables * 0.8 + inventory * 0.5 - totalLiab) / exRate / marketCap
         netnet = (cash + receivables * 0.8 + inventory * 0.5 - totalLiab) / exRate > marketCap
-        magic6 = pCfo < 6 and (divYield >= 0.06 or divLastYearYield >= 0.06)
+        magic6 = pFCF < 6 and (divYieldAll >= 0.06 or divYield2021 >= 0.06)
 
         if schloss or netnet or magic6:
             outputString = comp + " " + country.replace(" ", "_") + " " \
@@ -194,7 +204,7 @@ for comp in listStocks:
                            + boolToString(magic6, "magic6") \
                            + " MV:" + str(roundB(marketCap, 1)) + 'B' \
                            + " BV:" + str(roundB(tangible_Equity / exRate, 1)) + 'B' \
-                           + " P/CFO:" + str(round(pCfo, 2)) \
+                           + " P/CFO:" + str(round(pFCF, 2)) \
                            + " P/B:" + str(round(pb, 1)) \
                            + " C/R:" + str(round(currRatio, 2)) \
                            + " D/E:" + str(round(debtEquityRatio, 2)) \
