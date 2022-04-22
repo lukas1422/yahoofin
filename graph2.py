@@ -55,6 +55,10 @@ gPrice.add_tools(HoverTool(tooltips=[('date', '@date{%Y-%m-%d}'), ('close', '@cl
 gDiv = figure(title="divYld", width=1000)
 gDiv.add_tools(HoverTool(tooltips=[('year', '@year'), ("yield", "@yield")], mode='vline'))
 
+gMarketcap = figure(title='cap(B)', x_range=FactorRange(factors=list()))
+gMarketcap.title.text = 'cap(B) '
+gMarketcap.add_tools(HoverTool(tooltips=[('dateStr', '@dateStr'), ("marketCap", "@marketCapB")], mode='vline'))
+
 gCash = figure(title='cash(B)', x_range=FactorRange(factors=list()))
 gCash.title.text = 'cash(B) '
 gCash.add_tools(HoverTool(tooltips=[('dateStr', '@dateStr'), ("cash", "@cashB")], mode='vline'))
@@ -62,6 +66,11 @@ gCash.add_tools(HoverTool(tooltips=[('dateStr', '@dateStr'), ("cash", "@cashB")]
 gBook = figure(title='book(B)', x_range=FactorRange(factors=list()))
 gBook.title.text = 'Book(B)'
 gBook.add_tools(HoverTool(tooltips=[('dateStr', '@dateStr'), ("bookB", "@netBookB")], mode='vline'))
+
+gTangibleRatio = figure(title='Tangible Ratio', x_range=FactorRange(factors=list()))
+gTangibleRatio.title.text = 'Tangible Ratio'
+gTangibleRatio.add_tools(
+    HoverTool(tooltips=[('dateStr', '@dateStr'), ("tangibleRatio", "@tangibleRatio")], mode='vline'))
 
 gCurrentRatio = figure(title='currentRatio', x_range=FactorRange(factors=list()))
 gRetainedEarnings = figure(title='RetEarnings/A', x_range=FactorRange(factors=list()))
@@ -71,33 +80,30 @@ gFCF = figure(title='FCF(B)', x_range=FactorRange(factors=list()))
 gPFCF = figure(title='P/FCF', x_range=FactorRange(factors=list()))
 gDepCFO = figure(title='Dep/CFO', x_range=FactorRange(factors=list()))
 gCapexCFO = figure(title='Capex/CFO', x_range=FactorRange(factors=list()))
-
 gSA = figure(title='Sales/Assets Ratio', x_range=FactorRange(factors=list()))
 gNetnet = figure(title='netnet Ratio', x_range=FactorRange(factors=list()))
 gFCFA = figure(title='FCF/A Ratio', x_range=FactorRange(factors=list()))
 
 gCurrentRatio.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("cr", "@currentRatio")], mode='vline'))
 gRetainedEarnings.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("Re/A", "@REAssetsRatio")], mode='vline'))
-
 gDE.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("DERatio", "@DERatio")], mode='vline'))
 gPB.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("PB", "@PB")], mode='vline'))
 gFCF.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("FCFB", "@FCFB")], mode='vline'))
 gPFCF.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("PFCF", "@PFCF")], mode='vline'))
 gDepCFO.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("DepCFO", "@DepCFO")], mode='vline'))
 gCapexCFO.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("CapexCFO", "@CapexCFO")], mode='vline'))
-
 gSA.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("S/A Ratio", "@SalesAssetsRatio")], mode='vline'))
 gNetnet.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("netnet", "@netnetRatio")], mode='vline'))
 gFCFA.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("FCF/A", "@FCFAssetRatio")], mode='vline'))
 
-for figu in [gPrice, gCash, gBook, gDiv, gCurrentRatio, gRetainedEarnings, gDE, gPB,
+for figu in [gPrice, gMarketcap, gCash, gBook, gTangibleRatio, gDiv, gCurrentRatio, gRetainedEarnings, gDE, gPB,
              gFCF, gPFCF, gDepCFO, gCapexCFO, gSA, gNetnet, gFCFA]:
     figu.title.text_font_size = '18pt'
     figu.title.align = 'center'
 
 grid = gridplot(
-    [[gCash, gBook], [gCurrentRatio, gRetainedEarnings], [gDE, gPB], [gFCF, gPFCF], [gDepCFO, gCapexCFO],
-     [gSA, gNetnet], [gFCFA, None]], width=500, height=500)
+    [[gMarketcap, gCash], [gBook, gTangibleRatio], [gCurrentRatio, gRetainedEarnings], [gDE, gPB], [gFCF, gPFCF],
+     [gDepCFO, gCapexCFO], [gSA, gNetnet], [gFCFA, None]], width=500, height=500)
 
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 
@@ -157,9 +163,10 @@ def buttonCallback():
                            0.2 * fill0Get(bsT, 'inventory')) / bsT['totalCurrentLiabilities']
     bsT['netBook'] = bsT['totalAssets'] - bsT['totalLiab'] - fill0Get(bsT, 'goodWill') \
                      - fill0Get(bsT, 'intangibleAssets')
+    bsT['tangibleRatio'] = bsT['netBook'] / (bsT['totalAssets'] - bsT['totalLiab'])
     bsT['DERatio'] = bsT['totalLiab'] / bsT['netBook']
     bsT['priceOnOrAfter'] = bsT.index.map(lambda d: priceData[priceData.index >= d].iloc[0]['adjclose'])
-    bsT['priceOnOrAfter'][0] = latestPrice
+    # bsT['priceOnOrAfter'][0] = latestPrice
 
     shares = si.get_quote_data(TICKER)['sharesOutstanding']
 
@@ -171,6 +178,7 @@ def buttonCallback():
     shares = si.get_quote_data(TICKER)['marketCap'] / latestPrice
     print(TICKER, 'shares', shares)
     bsT['marketCap'] = bsT['priceOnOrAfter'] * shares
+    bsT['marketCapB'] = bsT['marketCap'] / 1000000000
 
     # bsT['marketCap'] = si.get_quote_data(TICKER)['marketcap']
     bsT['PB'] = bsT['marketCap'] * exRate / bsT['netBook']
@@ -213,6 +221,7 @@ def buttonCallback():
 
     yearSpan = 2021 - priceData[:1].index.item().year + 1
     print('year span', yearSpan)
+    print('divPrice', divPrice)
     divYieldAll = divPrice[divPrice.index != 2022]['yield'].sum() / yearSpan \
         if not divPrice[divPrice.index != 2022].empty else 0
     divYield2021 = divPrice.loc[2021]['yield'] if 2021 in divPrice.index else 0
@@ -248,7 +257,8 @@ def updateGraphs():
     lastPrice = round(stockData.data['close'][-1], 2) if 'close' in stockData.data else ''
     gPrice.title.text = ' prices ' + TICKER + '____' + str(lastPrice)
 
-    for figu in [gCash, gBook, gCurrentRatio, gRetainedEarnings, gDE, gPB, gFCF, gPFCF, gDepCFO, gCapexCFO,
+    for figu in [gMarketcap, gCash, gBook, gTangibleRatio,
+                 gCurrentRatio, gRetainedEarnings, gDE, gPB, gFCF, gPFCF, gDepCFO, gCapexCFO,
                  gSA, gNetnet, gFCFA]:
         figu.x_range.factors = list(global_source.data['dateStr'][::-1])
 
@@ -256,11 +266,17 @@ def updateGraphs():
         gPrice.line(x='date', y='close', source=stockData, color='#D06C8A')
         gDiv.vbar(x='year', top='yield', source=divPriceData, width=0.8)
 
+        # market cap
+        gMarketcap.vbar(x='dateStr', top='marketCapB', source=global_source, width=0.5)
+
         # cash
         gCash.vbar(x='dateStr', top='cashB', source=global_source, width=0.5)
 
         # book
         gBook.vbar(x='dateStr', top='netBookB', source=global_source, width=0.5)
+
+        # tangible ratio
+        gTangibleRatio.vbar(x='dateStr', top='tangibleRatio', source=global_source, width=0.5)
 
         # current ratio
         gCurrentRatio.vbar(x='dateStr', top='currentRatio', source=global_source, width=0.5)
