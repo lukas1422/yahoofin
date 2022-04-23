@@ -90,8 +90,8 @@ for comp in listStocks:
 
         currRatio = (cash + 0.8 * receivables + 0.5 * inventory) / currL
 
-        if currRatio <= 1:
-            print(comp, "curr ratio < 1", currRatio)
+        if currRatio <= 0.5:
+            print(comp, "curr ratio < 0.5", currRatio)
             continue
 
         totalAssets = getFromDF(bs, "totalAssets")

@@ -1,9 +1,9 @@
 from math import pi
 from bokeh.io import curdoc
 from bokeh.layouts import column, row
-from bokeh.models import TextInput, Button, RadioGroup, Paragraph, Label, Range1d, LinearAxis, DataRange1d, FactorRange
+from bokeh.models import TextInput, Button, RadioGroup, Paragraph, FactorRange
 
-from helperMethods import fill0Get, getBarWidth, indicatorFunction, roundB
+from helperMethods import fill0Get, indicatorFunction, roundB
 from scrape_sharesOutstanding import scrapeTotalSharesXueqiu
 
 ANNUALLY = False
