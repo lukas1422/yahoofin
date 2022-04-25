@@ -141,8 +141,9 @@ for comp in listStocks:
         marketPrice = si.get_live_price(comp)
         marketCap = marketPrice * shares
 
-        pb = marketCap / (tangible_Equity / exRate)
-        pFCF = marketCap / ((cfo - dep) / exRate)
+        fcf = cfo - dep
+        pb = marketCap * exRate / tangible_Equity
+        pFCF = marketCap * exRate / fcf
         print("MV, cfo", roundB(marketCap, 2), roundB(cfo, 2))
 
         # if pb >= 0.6 or pb <= 0:
@@ -156,7 +157,7 @@ for comp in listStocks:
         revenue = getFromDFYearly(incomeStatement, "totalRevenue", yearlyFlag)
 
         retainedEarningsAssetRatio = retainedEarnings / totalAssets
-        cfoAssetRatio = cfo / totalAssets
+        fcfAssetRatio = fcf / totalAssets
         # ebitAssetRatio = ebit / totalAssets
 
         priceData = si.get_data(comp, interval=PRICE_INTERVAL)
@@ -207,7 +208,7 @@ for comp in listStocks:
                            + " D/E:" + str(round(debtEquityRatio, 2)) \
                            + " RetEarning/A:" + str(round(retainedEarningsAssetRatio, 2)) \
                            + " S/A:" + str(round(revenue / totalAssets, 2)) \
-                           + " cfo/A:" + str(round(cfoAssetRatio, 2)) \
+                           + " fcf/A:" + str(round(fcfAssetRatio, 2)) \
                            + " 52w_p%:" + str(round(percentile)) \
                            + " divYldAll:" + str(round(divYieldAll * 100)) + "%" \
                            + " divYldLastYear:" + str(round(divLastYearYield * 100)) + "%" \

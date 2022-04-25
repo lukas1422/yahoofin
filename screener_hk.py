@@ -137,8 +137,9 @@ for comp in listStocks:
             print(comp, "market cap < 1B TOO SMALL", roundB(marketCap, 2))
             continue
 
+        fcf = cfo - dep
         pb = marketCap * exRate / tangible_Equity
-        pFcf = marketCap * exRate / (cfo - dep)
+        pFcf = marketCap * exRate / fcf
         print('mc, exrate, cfo, dep fcf', marketCap, exRate, cfo, dep, cfo - dep)
 
         print("MV, cfo", roundB(marketCap, 2), roundB(cfo, 2))
@@ -149,7 +150,7 @@ for comp in listStocks:
 
         revenue = getFromDFYearly(incomeStatement, "totalRevenue", yearlyFlag)
         retainedEarningsAssetRatio = retainedEarnings / totalAssets
-        cfoAssetRatio = cfo / totalAssets
+        fcfAssetRatio = fcf / totalAssets
 
         priceData = si.get_data(comp, interval=PRICE_INTERVAL)
         print("date start date ", priceData.index[0].strftime('%-m/%-d/%Y'))
@@ -212,7 +213,7 @@ for comp in listStocks:
                            + " D/E:" + str(round(debtEquityRatio, 2)) \
                            + " RetEarning/A:" + str(round(retainedEarningsAssetRatio, 2)) \
                            + " S/A:" + str(round(revenue / totalAssets, 2)) \
-                           + " cfo/A:" + str(round(cfoAssetRatio, 2)) \
+                           + " fcf/A:" + str(round(fcfAssetRatio, 2)) \
                            + " P/52wLow:" + str(round(marketPrice / low_52wk, 2)) \
                            + " divYldLastYr:" + str(round(divLastYearYield * 100)) + "%" \
                            + " divYldAll:" + str(round(divYieldAll * 100)) + "%" \
