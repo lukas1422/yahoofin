@@ -1,4 +1,4 @@
-stockName = 'VHI'
+stockName = 'EDU'
 yearlyFlag = False
 
 import statistics
@@ -31,7 +31,6 @@ def getResults(stockName):
         avgVolListingCurrency = (data[-10:]['close'] * data[-10:]['volume']).sum() / 10
         medianVol = statistics.median(data[-10:]['close'] * data[-10:]['volume'])
         # print('data', data[-10:])
-
         # print('mean median', avgVolListingCurrency, medianVol)
         # print(' avg vol ', str(round(avgVolListingCurrency / 1000000, 1)) + "M")
 
@@ -65,6 +64,7 @@ def getResults(stockName):
         retainedEarnings = getFromDF(bs, "retainedEarnings")
         total_CA = getFromDF(bs, "totalCurrentAssets")
         currLiab = getFromDF(bs, "totalCurrentLiabilities")
+
         totalAssets = getFromDF(bs, "totalAssets")
         totalLiab = getFromDF(bs, "totalLiab")
         intangibles = getFromDF(bs, 'intangibleAssets')

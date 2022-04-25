@@ -105,9 +105,9 @@ for comp in listStocks:
             continue
 
         debtEquityRatio = totalLiab / tangible_Equity
-        if debtEquityRatio > 1:
-            print(comp, "de ratio> 1 ", debtEquityRatio)
-            continue
+        # if debtEquityRatio > 1:
+        #     print(comp, "de ratio> 1 ", debtEquityRatio)
+        #     continue
 
         incomeStatement = si.get_income_statement(comp, yearly=yearlyFlag)
 
@@ -128,17 +128,23 @@ for comp in listStocks:
         exRate = currency_getExchangeRate.getExchangeRate(exchange_rate_dict, listingCurrency, bsCurrency)
 
         marketPrice = si.get_live_price(comp)
-        marketCap = marketPrice * shares
+        marketCap = si.get_quote_data(comp)['marketCap']
+        marketCap2 = marketPrice * shares
+
+        print('marketcap 1 2 ', marketCap, marketCap2)
+
         if marketCap < 1000000000:
             print(comp, "market cap < 1B TOO SMALL", roundB(marketCap, 2))
             continue
 
-        pb = marketCap / (tangible_Equity / exRate)
-        pFcf = marketCap / ((cfo - dep) / exRate)
+        pb = marketCap * exRate / tangible_Equity
+        pFcf = marketCap * exRate / (cfo - dep)
+        print('mc, exrate, cfo, dep fcf', marketCap, exRate, cfo, dep, cfo - dep)
+
         print("MV, cfo", roundB(marketCap, 2), roundB(cfo, 2))
 
-        if pFcf > 6:
-            print(comp, 'p/fcf > 6', pFcf)
+        if pFcf > 10:
+            print(comp, 'p/fcf > 10', pFcf)
             continue
 
         revenue = getFromDFYearly(incomeStatement, "totalRevenue", yearlyFlag)
@@ -179,14 +185,13 @@ for comp in listStocks:
         divLastYearYield = divPrice.loc[2021]['yield'] if 2021 in divPrice.index else 0
         print('yield all', divYieldAll, 'lastyear', divLastYearYield)
 
-
         schloss = pb < 1 and marketPrice < low_52wk * 1.1 and insiderPerc > INSIDER_OWN_MIN
         netnetRatio = (cash + receivables * 0.8 + inventory * 0.5) / (totalLiab + exRate * marketCap)
         netnet = (cash + receivables * 0.8 + inventory * 0.5 - totalLiab) / exRate > marketCap
         magic6 = pFcf < 6 and (divYieldAll >= 0.06 or divLastYearYield >= 0.06)
         pureHighYield = (divYieldAll >= 0.06 or divLastYearYield >= 0.06)
 
-        print('pb, pcfo, divyield', pb, pFcf, divYieldAll, magic6)
+        print('pb, pfcf, divyield', pb, pFcf, divYieldAll, magic6)
         print('netnet ratio',
               round((cash + receivables * 0.8 + inventory * 0.5 - totalLiab) / exRate / marketCap, 2))
 

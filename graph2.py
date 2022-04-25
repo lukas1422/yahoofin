@@ -3,7 +3,7 @@ from bokeh.io import curdoc
 from bokeh.layouts import column, row
 from bokeh.models import TextInput, Button, RadioGroup, Paragraph, FactorRange
 
-from helperMethods import fill0Get, indicatorFunction, roundB
+from helperMethods import fill0Get, indicatorFunction, roundB, getFromDF
 from scrape_sharesOutstanding import scrapeTotalSharesXueqiu
 
 ANNUALLY = False
@@ -175,13 +175,21 @@ def buttonCallback():
         print('using xueqiu total shares for china', TICKER, shares)
 
     # bsT['marketCap'] = bsT['priceOnOrAfter'] * shares
-    shares = si.get_quote_data(TICKER)['marketCap'] / latestPrice
+    marketCapLast = si.get_quote_data(TICKER)['marketCap']
+    shares = marketCapLast / latestPrice
     print(TICKER, 'shares', shares)
     bsT['marketCap'] = bsT['priceOnOrAfter'] * shares
     bsT['marketCapB'] = bsT['marketCap'] / 1000000000
 
     # bsT['marketCap'] = si.get_quote_data(TICKER)['marketcap']
     bsT['PB'] = bsT['marketCap'] * exRate / bsT['netBook']
+
+    totalAssets = getFromDF(bs, "totalAssets")
+    totalLiab = getFromDF(bs, "totalLiab")
+    intangibles = getFromDF(bs, 'intangibleAssets')
+    goodWill = getFromDF(bs, 'goodWill')
+    tangible_equity = totalAssets - totalLiab - goodWill - intangibles
+
     income = si.get_income_statement(TICKER, yearly=ANNUALLY)
     incomeT = income.T
     bsT['revenue'] = bsT.index.map(
@@ -235,13 +243,13 @@ def buttonCallback():
     # print(' comp name ', compName1, compName2, 'summary', info.loc['longBusinessSummary'].item().split(' '))
     text_input.title = compName1 + ' ' + compName2 + ' ' \
                        + 'shares:' + str(roundB(shares, 2)) + 'B ' \
-                       + listingCurrency + bsCurrency + '______MV:' + str(roundB(bsT['marketCap'][0], 1)) + 'B' \
+                       + listingCurrency + bsCurrency + '______MV:' + str(roundB(marketCapLast, 1)) + 'B' \
                        + "____NetB:" + str(roundB(bsT['netBook'][0] / exRate, 1)) + 'B' \
-                       + '____PB:' + str(round(bsT['PB'][0], 2)) \
+                       + '____PB:' + str(round(marketCapLast * exRate / tangible_equity, 2)) \
                        + '____CR:' + str(round(bsT['currentRatio'][0], 1)) \
                        + '____DE:' + str(round(bsT['DERatio'][0], 1)) \
                        + '____RE/A:' + str(round(bsT['REAssetsRatio'][0], 1)) \
-                       + '____P/FCF:' + str(round(bsT['PFCF'][0], 1)) \
+                       + '____P/FCF:' + str(round(marketCapLast * exRate / bsT['FCF'][0], 1)) \
                        + '____DivYld:' + (str(round(divYieldAll, 1)) if 'yield' in divPrice else '') + '%' \
                        + '____2021DivYld:' \
                        + (str(round(divYield2021, 1))) + '%'
