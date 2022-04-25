@@ -1,4 +1,6 @@
-stockName = 'EDU'
+import pandas as pd
+
+stockName = 'TLYS'
 yearlyFlag = False
 
 import statistics
@@ -19,17 +21,14 @@ ONE_YEAR_AGO = datetime.today() - timedelta(weeks=53)
 PRICE_INTERVAL = '1wk'
 
 
-# stockName = '600519.SS'
-# stockName = '000815.SZ'
-
 def getResults(stockName):
     exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
     try:
-        data = si.get_data(stockName, interval=PRICE_INTERVAL)
-        print('last trading day', data[data['volume'] != 0].index[-1].strftime('%Y/%-m/%-d'))
+        priceData = si.get_data(stockName, interval=PRICE_INTERVAL)
+        print('last trading day', priceData[priceData['volume'] != 0].index[-1].strftime('%Y/%-m/%-d'))
 
-        avgVolListingCurrency = (data[-10:]['close'] * data[-10:]['volume']).sum() / 10
-        medianVol = statistics.median(data[-10:]['close'] * data[-10:]['volume'])
+        avgVolListingCurrency = (priceData[-10:]['close'] * priceData[-10:]['volume']).sum() / 10
+        medianVol = statistics.median(priceData[-10:]['close'] * priceData[-10:]['volume'])
         # print('data', data[-10:])
         # print('mean median', avgVolListingCurrency, medianVol)
         # print(' avg vol ', str(round(avgVolListingCurrency / 1000000, 1)) + "M")
@@ -40,7 +39,7 @@ def getResults(stockName):
             print(stockName, "insider percent", insiderPerc)
         except Exception as e:
             print(e)
-            print(data[-10:])
+            print(priceData[-10:])
             info = ""
             print(stockName, "exception", e)
             exc_type, exc_obj, exc_tb = sys.exc_info()
@@ -105,9 +104,13 @@ def getResults(stockName):
 
         cfoA = cfo / totalAssets
 
+        marketCapLast = si.get_quote_data(stockName)['marketCap']
         marketPrice = si.get_live_price(stockName)
         shares = si.get_quote_data(stockName)['sharesOutstanding']
-        print("yahoo shares ", roundB(shares, 1), "B")
+        print("yahoo shares ", shares)
+        impliedShares = marketCapLast / marketPrice
+        print("implied shares ", impliedShares)
+        print("share diff", shares / impliedShares)
 
         if bsCurrency == 'CNY':
             sharesTotalXueqiu = scrape_sharesOutstanding.scrapeTotalSharesXueqiu(stockName)
@@ -135,18 +138,28 @@ def getResults(stockName):
 
         divs = si.get_dividends(stockName)
         # print('div', divs)
-        divsPastYear = divs.loc[divs.index > ONE_YEAR_AGO]
-        divSumPastYear = divsPastYear['dividend'].sum() if not divsPastYear.empty else 0
-        divLastYearYield = divSumPastYear / marketPrice
-        print('div past year yield', divLastYearYield)
+        # divsPastYear = divs.loc[divs.index > ONE_YEAR_AGO]
+        # divSumPastYear = divsPastYear['dividend'].sum() if not divsPastYear.empty else 0
+        # divLastYearYield = divSumPastYear / marketPrice
+        # print('div past year yield', divLastYearYield)
+        #
+        # divSumAll = divs['dividend'].sum() if not divs.empty else 0
+        # startToNow = (datetime.today() - data.index[0]).days / 365.25
+        # print("Years Since Listing:", round(startToNow), 'starting date ', data.index[0].strftime('%Y/%-m/%-d'))
+        # divAllTimeYld = divSumAll / startToNow / marketPrice
+        # print('div all time yld ', divAllTimeYld)
 
-        divSumAll = divs['dividend'].sum() if not divs.empty else 0
-        startToNow = (datetime.today() - data.index[0]).days / 365.25
-        print("Years Since Listing:", round(startToNow), 'starting date ', data.index[0].strftime('%Y/%-m/%-d'))
-        divAllTimeYld = divSumAll / startToNow / marketPrice
-        print('div all time yld ', divAllTimeYld)
+        yearSpan = 2021 - priceData[:1].index.item().year + 1
+        divPrice = pd.merge(divs.groupby(by=lambda d: d.year)['dividend'].sum(),
+                            priceData.groupby(by=lambda d: d.year)['close'].mean(),
+                            left_index=True, right_index=True)
+        divPrice['yield'] = divPrice['dividend'] / divPrice['close']
+        divYieldAll = divPrice[divPrice.index != 2022]['yield'].sum() / yearSpan \
+            if not divPrice[divPrice.index != 2022].empty else 0
+        div2021Yld = divPrice.loc[2021]['yield'] if 2021 in divPrice.index else 0
+        print('yield all', divYieldAll, 'lastyear', div2021Yld)
 
-        data52w = data.loc[data.index > ONE_YEAR_AGO]
+        data52w = priceData.loc[priceData.index > ONE_YEAR_AGO]
         percentile = 100.0 * (marketPrice - data52w['low'].min()) / (data52w['high'].max() - data52w['low'].min())
         print('div history ', divs) if not divs.empty else print('div is empty ')
 
@@ -178,8 +191,9 @@ def getResults(stockName):
 
         print("P/NetAssets", round(marketPrice * shares / (netAssets / exRate), 1))
         print("P/Tangible Equity", round(marketPrice * shares / (tangible_equity / exRate), 1))
-        print("P/E", round(marketPrice * shares / (netIncome / exRate), 1))
-        print("P/FCF", round(marketPrice * shares * exRate / (cfo - dep), 1))
+        print("P/E", round(marketCapLast * exRate / netIncome, 1))
+        print("P/FCF", round(marketCapLast * exRate / (cfo - dep), 1))
+        print('marketcap, exrate, cfo, dep', marketCapLast, exRate, cfo, dep)
         print("Dep/CFO", round(dep / cfo, 1))
         print("Capex/CFO", round(capex / cfo, 1))
         print("S/B", round(revenue / tangible_equity, 1))
@@ -198,16 +212,16 @@ def getResults(stockName):
         print("RE", roundB(retainedEarnings / exRate, 1), "B")
         print("RE/A", round(retainedEarnings / totalAssets, 1))
         print("S/A", round(revenue / totalAssets, 1))
-        print("div1YrYld:", round(divLastYearYield * 100), "%")
-        print("divAllYld:", round(divAllTimeYld * 100), "%")
-        print("divsum marketprice:", round(divSumPastYear, 1), round(marketPrice, 2))
+        print("div1YrYld:", round(div2021Yld * 100), "%")
+        print("divAllYld:", round(divYieldAll * 100), "%")
+        # print("divsum marketprice:", round(divSumPastYear, 1), round(marketPrice, 2))
         print('cfo/A', cfoA)
 
         outputString = stockName + " " + country.replace(' ', '') + " " + sector.replace(' ', '') \
                        + " dai$Vol:" + str(round(avgVolListingCurrency / 1000000)) + "M" \
-                       + " MV:" + str(roundB(marketCap, 1)) + 'B' \
+                       + " MV:" + str(roundB(marketCapLast, 1)) + 'B' \
                        + " Tangible_equity:" + str(roundB((tangible_equity) / exRate, 1)) + 'B' \
-                       + " P/FCF:" + str(round(marketCap * exRate / (cfo - dep), 1)) \
+                       + " P/FCF:" + str(round(marketCapLast * exRate / (cfo - dep), 1)) \
                        + " pb:" + str(round(pTangibleEquity, 1)) \
                        + " CR:" + str(round(currRatio, 1)) \
                        + " D/E:" + str(round(debtEquityRatio, 1)) \
@@ -216,8 +230,8 @@ def getResults(stockName):
                        + " ebit/A:" + str(round(ebitAssetRatio, 1)) \
                        + " tangibleRatio:" + str(round(tangibleRatio, 1)) \
                        + " 52w_p%:" + str(round(percentile)) \
-                       + " divYldAll:" + str(round(divAllTimeYld * 100)) + "%" \
-                       + " divYldLastYr:" + str(round(divLastYearYield * 100)) + "%"
+                       + " divYldAll:" + str(round(divYieldAll * 100)) + "%" \
+                       + " divYldLastYr:" + str(round(div2021Yld * 100)) + "%"
 
         print(outputString)
         return outputString

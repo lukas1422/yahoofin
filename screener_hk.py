@@ -204,7 +204,7 @@ for comp in listStocks:
                            + boolToString(magic6, "magic6") + boolToString(pureHighYield, 'pureHighYield') \
                            + " MV:" + str(roundB(marketCap, 1)) + 'B' \
                            + " BV:" + str(roundB(tangible_Equity / exRate, 1)) + 'B' \
-                           + " P/FCF:" + str(round(pFcf, 2)) \
+                           + " P/FCF:" + str(round(pFcf, 1)) \
                            + " DEP/CFO:" + str(round(dep / cfo, 2)) \
                            + " CAPEX/CFO:" + str(round(capex / cfo, 2)) \
                            + " P/B:" + str(round(pb, 1)) \
