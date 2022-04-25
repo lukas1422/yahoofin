@@ -65,10 +65,6 @@ for comp in listStocks:
             print(comp, " no real estate or financial or tech ", sector)
             continue
 
-        # if marketPrice <= 1:
-        #     print(comp, 'market price < 1: ', marketPrice)
-        #     continue
-
         yahooPE = si.get_quote_data(comp)["trailingPE"]
 
         if yahooPE > 6:
@@ -83,9 +79,9 @@ for comp in listStocks:
 
         retainedEarnings = getFromDF(bs, "retainedEarnings")
 
-        if retainedEarnings <= 0:
-            print(comp, " retained earnings < 0 ", retainedEarnings)
-            continue
+        # if retainedEarnings <= 0:
+        #     print(comp, " retained earnings < 0 ", retainedEarnings)
+        #     continue
 
         currA = getFromDF(bs, "totalCurrentAssets")
         currL = getFromDF(bs, "totalCurrentLiabilities")
@@ -96,9 +92,9 @@ for comp in listStocks:
 
         currRatio = (cash + 0.8 * receivables + 0.5 * inventory) / currL
 
-        if currRatio <= 0.5:
-            print(comp, "curr ratio < 0.5", currRatio)
-            continue
+        # if currRatio <= 0.5:
+        #     print(comp, "curr ratio < 0.5", currRatio)
+        #     continue
 
         totalAssets = getFromDF(bs, "totalAssets")
         totalLiab = getFromDF(bs, "totalLiab")
@@ -106,9 +102,9 @@ for comp in listStocks:
         intangibles = getFromDF(bs, 'intangibleAssets')
         tangible_Equity = totalAssets - totalLiab - goodWill - intangibles
 
-        if tangible_Equity < 0:
-            print(comp, " tangible equity < 0 ", tangible_Equity)
-            continue
+        # if tangible_Equity < 0:
+        #     print(comp, " tangible equity < 0 ", tangible_Equity)
+        #     continue
 
         debtEquityRatio = totalLiab / tangible_Equity
         # if debtEquityRatio > 1:
@@ -124,14 +120,14 @@ for comp in listStocks:
 
         print(comp, 'cfo, dep', cfo, dep)
 
-        if cfo <= 0 or cfo < dep:
-            print(comp, "cfo <= 0 or cfo < dep ", cfo, dep)
-            continue
+        # if cfo <= 0 or cfo < dep:
+        #     print(comp, "cfo <= 0 or cfo < dep ", cfo, dep)
+        #     continue
 
         shares = hk_shares[hk_shares['ticker'] == comp]['shares'].item()
 
-        listingCurrency = getListingCurrency(comp)
-        bsCurrency = getBalanceSheetCurrency(comp, listingCurrency)
+        listingCurrency = 'HKD'
+        bsCurrency = si.get_quote_data(comp)['financialCurrency']
         # print("listing currency, bs currency, ", listingCurrency, bsCurrency)
         exRate = currency_getExchangeRate.getExchangeRate(exchange_rate_dict, listingCurrency, bsCurrency)
 
@@ -141,20 +137,22 @@ for comp in listStocks:
 
         print('marketcap 1 2 ', marketCap, marketCap2, 'ratio', marketCap / marketCap2)
 
-        if marketCap < 1000000000:
-            print(comp, "market cap < 1B TOO SMALL", roundB(marketCap, 2))
-            continue
+        # if marketCap < 1000000000:
+        #     print(comp, "market cap < 1B TOO SMALL", roundB(marketCap, 2))
+        #     continue
 
         fcf = cfo - dep
-        pb = marketCap * exRate / tangible_Equity
+        # pb = marketCap * exRate / tangible_Equity
         pFcf = marketCap * exRate / fcf
         print('mc, exrate, cfo, dep fcf', marketCap, exRate, cfo, dep, cfo - dep)
 
+        pb = si.get_quote_data(comp)['priceToBook']
+
         print("MV, cfo", roundB(marketCap, 2), roundB(cfo, 2))
 
-        if pFcf > 10:
-            print(comp, 'p/fcf > 10', pFcf)
-            continue
+        # if pFcf > 10:
+        #     print(comp, 'p/fcf > 10', pFcf)
+        #     continue
 
         revenue = getFromDFYearly(incomeStatement, "totalRevenue", yearlyFlag)
         retainedEarningsAssetRatio = retainedEarnings / totalAssets
@@ -164,10 +162,11 @@ for comp in listStocks:
         print("date start date ", priceData.index[0].strftime('%-m/%-d/%Y'))
         print('last active day', priceData[priceData['volume'] != 0].index[-1].strftime('%-m/%-d/%Y'))
 
-        data52w = priceData.loc[priceData.index > ONE_YEAR_AGO]
-        percentile = 100.0 * (marketPrice - data52w['low'].min()) / (data52w['high'].max() - data52w['low'].min())
-        low_52wk = data52w['low'].min()
+        # data52w = priceData.loc[priceData.index > ONE_YEAR_AGO]
+        # percentile = 100.0 * (marketPrice - data52w['low'].min()) / (data52w['high'].max() - data52w['low'].min())
+        low_52wk = si.get_quote_data(comp)['fiftyTwoWeekLow']
         medianDollarVol = statistics.median(priceData[-10:]['close'] * priceData[-10:]['volume']) / 5
+        divRateYahoo = si.get_quote_data(comp)['trailingAnnualDividendRate']
 
         try:
             insiderPerc = float(si.get_holders(comp).get('Major Holders')[0][0].rstrip("%"))
@@ -177,12 +176,6 @@ for comp in listStocks:
             insiderPerc = 0
 
         divs = si.get_dividends(comp)
-        # divSum = divs['dividend'].sum() if not divs.empty else 0
-        # startToNow = (datetime.today() - data.index[0]).days / 365.25
-        # divYieldAll = (divSum / startToNow) / marketPrice
-        # divsPastYear = divs.loc[divs.index > ONE_YEAR_AGO]
-        # divSumPastYear = divsPastYear['dividend'].sum() if not divsPastYear.empty else 0
-        # divLastYearYield = divSumPastYear / marketPrice
 
         yearSpan = 2021 - priceData[:1].index.item().year + 1
         divPrice = pd.merge(divs.groupby(by=lambda d: d.year)['dividend'].sum(),
@@ -197,20 +190,22 @@ for comp in listStocks:
         schloss = pb < 1 and marketPrice < low_52wk * 1.1 and insiderPerc > INSIDER_OWN_MIN
         netnetRatio = (cash + receivables * 0.8 + inventory * 0.5) / (totalLiab + exRate * marketCap)
         netnet = (cash + receivables * 0.8 + inventory * 0.5 - totalLiab) / exRate > marketCap
-        magic6 = pFcf < 6 and (divYieldAll >= 0.06 or divLastYearYield >= 0.06)
-        pureHighYield = (divYieldAll >= 0.06 or divLastYearYield >= 0.06)
+        magic6 = yahooPE < 6 and divRateYahoo >= 6 and pb < 0.6
+        magic6_noPB = yahooPE < 6 and divRateYahoo >= 6
+        pureHighYield = divYieldAll >= 6
 
         print('pb, pfcf, divyield', pb, pFcf, divYieldAll, magic6)
         print('netnet ratio',
               round((cash + receivables * 0.8 + inventory * 0.5 - totalLiab) / exRate / marketCap, 2))
 
-        if schloss or netnet or magic6 or pureHighYield:
+        if schloss or netnet or magic6 or magic6_noPB or pureHighYield:
             outputString = comp[:4] + " " + " " + companyName[:4] + ' ' \
                            + " day$Vol:" + str(round(medianDollarVol / 1000000, 1)) + "M " \
                            + country.replace(" ", "_") + " " \
                            + sector.replace(" ", "_") + " " + listingCurrency + bsCurrency \
                            + boolToString(schloss, "schloss") + boolToString(netnet, "netnet") \
-                           + boolToString(magic6, "magic6") + boolToString(pureHighYield, 'pureHighYield') \
+                           + boolToString(magic6, "magic6") + + boolToString(magic6_noPB, "magic6_noPB") \
+                           + boolToString(pureHighYield, 'pureHighYield') \
                            + " MV:" + str(roundB(marketCap, 1)) + 'B' \
                            + " BV:" + str(roundB(tangible_Equity / exRate, 1)) + 'B' \
                            + " P/FCF:" + str(round(pFcf, 1)) \
@@ -226,6 +221,9 @@ for comp in listStocks:
                            + " divYldLastYr:" + str(round(divLastYearYield * 100)) + "%" \
                            + " divYldAll:" + str(round(divYieldAll * 100)) + "%" \
                            + " insider%:" + str(round(insiderPerc)) + "%"
+        else:
+            outputString = "nothing:" + comp[:4] + " " + " " + companyName[:4] + ' ' \
+                           + "pe:" + yahooPE + 'pb:' + pb + "div:" + divRateYahoo
 
             print(outputString)
             fileOutput.write(outputString + '\n')
