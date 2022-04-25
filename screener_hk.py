@@ -116,6 +116,8 @@ for comp in listStocks:
         dep = getFromDFYearly(cf, "depreciation", yearlyFlag)
         capex = getFromDFYearly(cf, "capitalExpenditures", yearlyFlag)
 
+        print(comp, 'cfo, dep', cfo, dep)
+
         if cfo <= 0 or cfo < dep:
             print(comp, "cfo <= 0 or cfo < dep ", cfo, dep)
             continue
@@ -131,7 +133,7 @@ for comp in listStocks:
         marketCap = si.get_quote_data(comp)['marketCap']
         marketCap2 = marketPrice * shares
 
-        print('marketcap 1 2 ', marketCap, marketCap2)
+        print('marketcap 1 2 ', marketCap, marketCap2, 'ratio', marketCap / marketCap2)
 
         if marketCap < 1000000000:
             print(comp, "market cap < 1B TOO SMALL", roundB(marketCap, 2))
