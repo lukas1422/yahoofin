@@ -229,11 +229,13 @@ for comp in listStocks:
                            + " divYldAll:" + str(round(divYieldAll * 100)) + "%" \
                            + " divYldLastYear:" + str(round(divLastYearYield * 100)) + "%" \
                            + " insider%: " + str(round(insiderPerc)) + "%" \
-                           + " yahooPE:" + str(yahooPE) + ' PB:' + str(pb) + " div:" + str(divRateYahoo * 100) + '%'
+                           + " yahooPE:" + str(round(yahooPE, 2)) + ' PB:' + str(round(pb, 2)) + " div:" \
+                           + str(round(divRateYahoo * 100, 2)) + '%'
 
         else:
             outputString = "nothing:" + comp[:4] + ' ' + companyName + ' ' \
-                           + " pe:" + str(yahooPE) + ' pb:' + str(pb) + " div:" + str(divRateYahoo * 100) + '%'
+                           + " pe:" + str(round(yahooPE, 2)) + ' pb:' + str(round(pb, 2)) \
+                           + " div:" + str(round(divRateYahoo * 100, 2)) + '%'
 
         print(outputString)
         fileOutput.write(outputString + '\n')
