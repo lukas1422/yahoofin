@@ -197,7 +197,7 @@ for comp in listStocks:
         print('div yield all', divYieldAll, 'lastyear', divLastYearYield)
 
         pb = quoteData['priceToBook'] if 'priceToBook' in quoteData else 1000
-        divRateYahoo = (quoteData['trailingAnnualDividendRate']) / 100 \
+        divRateYahoo = (quoteData['trailingAnnualDividendYield']) \
             if 'trailingAnnualDividendRate' in quoteData else 0
 
         schloss = pb < 1 and marketPrice < low_52wk * 1.1 and insiderPerc > INSIDER_OWN_MIN

@@ -168,7 +168,7 @@ for comp in listStocks:
 
         print(comp, 'low52week', low_52wk, 'price/52weeklow', marketPrice / low_52wk)
 
-        divRateYahoo = quoteData['trailingAnnualDividendRate'] / 100 \
+        divRateYahoo = quoteData['trailingAnnualDividendYield'] \
             if 'trailingAnnualDividendRate' in quoteData else 0
 
         try:
