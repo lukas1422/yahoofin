@@ -77,10 +77,10 @@ for comp in listStocks:
             continue
 
         quoteData = si.get_quote_data(comp)
-        yahooPE = quoteData["trailingPE"] if 'trailingPE' in quoteData else 1000
+        yahooPE = quoteData['trailingPE'] if 'trailingPE' in quoteData else 1000
 
         if yahooPE > 6:
-            print(comp, 'yahoo trailing PE > 6', yahooPE)
+            print(comp, 'yahoo trailing PE > 6', yahooPE, 'trailingPE' in quoteData)
             continue
 
         # if marketPrice <= 1:
@@ -203,15 +203,17 @@ for comp in listStocks:
         schloss = pb < 1 and marketPrice < low_52wk * 1.1 and insiderPerc > INSIDER_OWN_MIN
         netnet = (cash + receivables * 0.8 + inventory * 0.5 - totalL) / exRate - marketCap > 0
         magic6 = yahooPE < 6 and divRateYahoo >= 0.06 and pb < 0.6
+        peDiv = yahooPE < 6 and divRateYahoo >= 0.06
         pureHighYield = divRateYahoo >= 0.06
 
-        if schloss or netnet or magic6 or pureHighYield:
+        if schloss or netnet or magic6 or peDiv or pureHighYield:
             outputString = comp + " " + " " + companyName + ' ' \
                            + " dai$Vol:" + str(round(medianDollarVol / 1000000)) + "M " \
                            + country.replace(" ", "_") + " " \
                            + sector.replace(" ", "_") + " " + listingCurr + bsCurr \
-                           + boolToString(schloss, "schloss") + boolToString(netnet, "netnet") \
-                           + boolToString(magic6, "magic6") + boolToString(pureHighYield, 'highYield') \
+                           + boolToString(schloss, 'schloss') + boolToString(netnet, 'netnet') \
+                           + boolToString(magic6, 'magic6') + boolToString(peDiv, 'peDiv') \
+                           + boolToString(pureHighYield, 'highYield') \
                            + " MV:" + str(roundB(marketCap, 1)) + 'B' \
                            + " B:" + str(roundB(tangible_Equity / exRate, 1)) + 'B' \
                            + " P/FCF:" + str(round(pFCF, 2)) \
@@ -226,11 +228,16 @@ for comp in listStocks:
                            + " 52w_p%:" + str(round(percentile)) \
                            + " divYldAll:" + str(round(divYieldAll * 100)) + "%" \
                            + " divYldLastYear:" + str(round(divLastYearYield * 100)) + "%" \
-                           + " insider%: " + str(round(insiderPerc)) + "%"
+                           + " insider%: " + str(round(insiderPerc)) + "%" \
+                           + " yahooPE:" + str(yahooPE) + ' PB:' + str(pb) + " div:" + str(divRateYahoo * 100) + '%'
 
-            print(outputString)
-            fileOutput.write(outputString + '\n')
-            fileOutput.flush()
+        else:
+            outputString = "nothing:" + comp[:4] + " " + " " + companyName[:4] + ' ' \
+                           + " pe:" + str(yahooPE) + ' pb:' + str(pb) + " div:" + str(divRateYahoo * 100) + '%'
+
+        print(outputString)
+        fileOutput.write(outputString + '\n')
+        fileOutput.flush()
 
     except Exception as e:
         print(comp, "exception", e)

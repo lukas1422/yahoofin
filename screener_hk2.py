@@ -223,10 +223,12 @@ for comp in listStocks:
                            + " P/52wLow:" + str(round(marketPrice / low_52wk, 2)) \
                            + " divYldLastYr:" + str(round(divLastYearYield * 100)) + "%" \
                            + " divYldAll:" + str(round(divYieldAll * 100)) + "%" \
-                           + " insider%:" + str(round(insiderPerc)) + "%"
+                           + " insider%:" + str(round(insiderPerc)) + "%" \
+                           + " yahooPE:" + str(yahooPE) + ' PB:' + str(pb) + " div:" + str(divRateYahoo * 100) + '%'
+
         else:
             outputString = "nothing:" + comp[:4] + " " + " " + companyName[:4] + ' ' \
-                           + " pe:" + str(yahooPE) + ' pb:' + str(pb) + " div:" + str(divRateYahoo)
+                           + " pe:" + str(yahooPE) + ' pb:' + str(pb) + " div:" + str(divRateYahoo * 100) + '%'
 
         print(outputString)
         fileOutput.write(outputString + '\n')
