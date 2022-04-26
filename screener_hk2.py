@@ -68,7 +68,7 @@ for comp in listStocks:
         yahooPE = si.get_quote_data(comp)["trailingPE"]
 
         if yahooPE > 6:
-            print(comp, 'yahoo trailing PE >6')
+            print(comp, 'yahoo trailing PE > 6')
             continue
 
         bs = si.get_balance_sheet(comp, yearly=yearlyFlag)
@@ -225,9 +225,9 @@ for comp in listStocks:
             outputString = "nothing:" + comp[:4] + " " + " " + companyName[:4] + ' ' \
                            + " pe:" + str(yahooPE) + ' pb:' + str(pb) + " div:" + str(divRateYahoo)
 
-            print(outputString)
-            fileOutput.write(outputString + '\n')
-            fileOutput.flush()
+        print(outputString)
+        fileOutput.write(outputString + '\n')
+        fileOutput.flush()
 
     except Exception as e:
         print(comp, "exception", e)
