@@ -232,7 +232,7 @@ for comp in listStocks:
                            + " yahooPE:" + str(yahooPE) + ' PB:' + str(pb) + " div:" + str(divRateYahoo * 100) + '%'
 
         else:
-            outputString = "nothing:" + comp[:4] + " " + " " + companyName[:4] + ' ' \
+            outputString = "nothing:" + comp[:4] + " " + " " + companyName + ' ' \
                            + " pe:" + str(yahooPE) + ' pb:' + str(pb) + " div:" + str(divRateYahoo * 100) + '%'
 
         print(outputString)
