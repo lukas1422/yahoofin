@@ -4,8 +4,6 @@ import sys, os
 import yahoo_fin.stock_info as si
 import pandas as pd
 from Market import Market
-from currency_scrapeYahoo import getBalanceSheetCurrency
-from currency_scrapeYahoo import getListingCurrency
 import currency_getExchangeRate
 from helperMethods import getFromDF, convertHK, getFromDFYearly, roundB, boolToString
 
@@ -164,9 +162,13 @@ for comp in listStocks:
 
         # data52w = priceData.loc[priceData.index > ONE_YEAR_AGO]
         # percentile = 100.0 * (marketPrice - data52w['low'].min()) / (data52w['high'].max() - data52w['low'].min())
-        low_52wk = si.get_quote_data(comp)['fiftyTwoWeekLow']
+        quoteData = si.get_quote_data(comp)
+        low_52wk = quoteData['fiftyTwoWeekLow'] if 'fiftyTwoWeekLow' in quoteData else 0
         medianDollarVol = statistics.median(priceData[-10:]['close'] * priceData[-10:]['volume']) / 5
-        divRateYahoo = si.get_quote_data(comp)['trailingAnnualDividendRate']
+
+        print(comp, 'low52week', low_52wk, 'price/52weeklow', marketPrice / low_52wk)
+
+        divRateYahoo = quoteData['trailingAnnualDividendRate'] if 'trailingAnnualDividendRate' in quoteData else 0
 
         try:
             insiderPerc = float(si.get_holders(comp).get('Major Holders')[0][0].rstrip("%"))
@@ -191,21 +193,21 @@ for comp in listStocks:
         netnetRatio = (cash + receivables * 0.8 + inventory * 0.5) / (totalLiab + exRate * marketCap)
         netnet = (cash + receivables * 0.8 + inventory * 0.5 - totalLiab) / exRate > marketCap
         magic6 = yahooPE < 6 and divRateYahoo >= 6 and pb < 0.6
-        magic6_noPB = yahooPE < 6 and divRateYahoo >= 6
-        pureHighYield = divYieldAll >= 6
+        peDiv = yahooPE < 6 and divRateYahoo >= 6
+        divOnly = divRateYahoo >= 6
 
         print('pb, pfcf, divyield', pb, pFcf, divYieldAll, magic6)
         print('netnet ratio',
               round((cash + receivables * 0.8 + inventory * 0.5 - totalLiab) / exRate / marketCap, 2))
 
-        if schloss or netnet or magic6 or magic6_noPB or pureHighYield:
+        if schloss or netnet or magic6 or peDiv or divOnly:
             outputString = comp[:4] + " " + " " + companyName[:4] + ' ' \
                            + " day$Vol:" + str(round(medianDollarVol / 1000000, 1)) + "M " \
                            + country.replace(" ", "_") + " " \
                            + sector.replace(" ", "_") + " " + listingCurrency + bsCurrency \
                            + boolToString(schloss, "schloss") + boolToString(netnet, "netnet") \
-                           + boolToString(magic6, "magic6") + + boolToString(magic6_noPB, "magic6_noPB") \
-                           + boolToString(pureHighYield, 'pureHighYield') \
+                           + boolToString(magic6, "magic6") + boolToString(peDiv, "PE+DIV") \
+                           + boolToString(divOnly, 'divonly') \
                            + " MV:" + str(roundB(marketCap, 1)) + 'B' \
                            + " BV:" + str(roundB(tangible_Equity / exRate, 1)) + 'B' \
                            + " P/FCF:" + str(round(pFcf, 1)) \
