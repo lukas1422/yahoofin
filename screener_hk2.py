@@ -34,7 +34,7 @@ stock_df['ticker'] = stock_df['ticker'].astype(str)
 stock_df['ticker'] = stock_df['ticker'].map(lambda x: convertHK(x))
 hk_shares = pd.read_csv('list_HK_totalShares', sep=" ", index_col=False, names=['ticker', 'shares'])
 listStocks = stock_df['ticker'].tolist()
-# listStocks = ['2127.HK']
+# listStocks = ['0743.HK']
 # stock_df_torun = pd.read_csv('list_special', dtype=object, sep=" ", index_col=False, names=['ticker'])
 # stock_df_torun['ticker'] = stock_df_torun['ticker'].map(lambda x: convertHK(x))
 # listStocks = stock_df_torun['ticker'].tolist()
@@ -223,7 +223,7 @@ for comp in listStocks:
                            + " insider%:" + str(round(insiderPerc)) + "%"
         else:
             outputString = "nothing:" + comp[:4] + " " + " " + companyName[:4] + ' ' \
-                           + "pe:" + yahooPE + 'pb:' + pb + "div:" + divRateYahoo
+                           + " pe:" + str(yahooPE) + ' pb:' + str(pb) + " div:" + str(divRateYahoo)
 
             print(outputString)
             fileOutput.write(outputString + '\n')
