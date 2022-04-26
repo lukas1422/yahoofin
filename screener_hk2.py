@@ -63,7 +63,8 @@ for comp in listStocks:
             print(comp, " no real estate or financial or tech ", sector)
             continue
 
-        yahooPE = si.get_quote_data(comp)["trailingPE"]
+        quoteData = si.get_quote_data(comp)
+        yahooPE = quoteData["trailingPE"] if 'trailingPE' in quoteData else 1000
 
         if yahooPE > 6:
             print(comp, 'yahoo trailing PE > 6')
@@ -129,8 +130,8 @@ for comp in listStocks:
         # print("listing currency, bs currency, ", listingCurrency, bsCurrency)
         exRate = currency_getExchangeRate.getExchangeRate(exchange_rate_dict, listingCurrency, bsCurrency)
 
-        marketPrice = si.get_live_price(comp)
         marketCap = si.get_quote_data(comp)['marketCap']
+        marketPrice = si.get_live_price(comp)
         marketCap2 = marketPrice * shares
 
         print('marketcap 1 2 ', marketCap, marketCap2, 'ratio', marketCap / marketCap2)
@@ -144,7 +145,7 @@ for comp in listStocks:
         pFcf = marketCap * exRate / fcf
         print('mc, exrate, cfo, dep fcf', marketCap, exRate, cfo, dep, cfo - dep)
 
-        pb = si.get_quote_data(comp)['priceToBook']
+        pb = quoteData['priceToBook'] if 'priceToBook' in quoteData else 1000
 
         print("MV, cfo", roundB(marketCap, 2), roundB(cfo, 2))
 
@@ -162,13 +163,13 @@ for comp in listStocks:
 
         # data52w = priceData.loc[priceData.index > ONE_YEAR_AGO]
         # percentile = 100.0 * (marketPrice - data52w['low'].min()) / (data52w['high'].max() - data52w['low'].min())
-        quoteData = si.get_quote_data(comp)
         low_52wk = quoteData['fiftyTwoWeekLow'] if 'fiftyTwoWeekLow' in quoteData else 0
         medianDollarVol = statistics.median(priceData[-10:]['close'] * priceData[-10:]['volume']) / 5
 
         print(comp, 'low52week', low_52wk, 'price/52weeklow', marketPrice / low_52wk)
 
-        divRateYahoo = quoteData['trailingAnnualDividendRate'] if 'trailingAnnualDividendRate' in quoteData else 0
+        divRateYahoo = quoteData['trailingAnnualDividendRate'] / 100 \
+            if 'trailingAnnualDividendRate' in quoteData else 0
 
         try:
             insiderPerc = float(si.get_holders(comp).get('Major Holders')[0][0].rstrip("%"))
@@ -192,22 +193,22 @@ for comp in listStocks:
         schloss = pb < 1 and marketPrice < low_52wk * 1.1 and insiderPerc > INSIDER_OWN_MIN
         netnetRatio = (cash + receivables * 0.8 + inventory * 0.5) / (totalLiab + exRate * marketCap)
         netnet = (cash + receivables * 0.8 + inventory * 0.5 - totalLiab) / exRate > marketCap
-        magic6 = yahooPE < 6 and divRateYahoo >= 6 and pb < 0.6
-        peDiv = yahooPE < 6 and divRateYahoo >= 6
-        divOnly = divRateYahoo >= 6
+        magic6 = yahooPE < 6 and divRateYahoo >= 0.06 and pb < 0.6
+        peDiv = yahooPE < 6 and divRateYahoo >= 0.06
+        pureHighYield = divRateYahoo >= 6
 
         print('pb, pfcf, divyield', pb, pFcf, divYieldAll, magic6)
         print('netnet ratio',
               round((cash + receivables * 0.8 + inventory * 0.5 - totalLiab) / exRate / marketCap, 2))
 
-        if schloss or netnet or magic6 or peDiv or divOnly:
+        if schloss or netnet or magic6 or peDiv or pureHighYield:
             outputString = comp[:4] + " " + " " + companyName[:4] + ' ' \
                            + " day$Vol:" + str(round(medianDollarVol / 1000000, 1)) + "M " \
                            + country.replace(" ", "_") + " " \
                            + sector.replace(" ", "_") + " " + listingCurrency + bsCurrency \
                            + boolToString(schloss, "schloss") + boolToString(netnet, "netnet") \
                            + boolToString(magic6, "magic6") + boolToString(peDiv, "PE+DIV") \
-                           + boolToString(divOnly, 'divonly') \
+                           + boolToString(pureHighYield, 'divonly') \
                            + " MV:" + str(roundB(marketCap, 1)) + 'B' \
                            + " BV:" + str(roundB(tangible_Equity / exRate, 1)) + 'B' \
                            + " P/FCF:" + str(round(pFcf, 1)) \

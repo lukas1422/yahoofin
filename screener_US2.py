@@ -76,6 +76,13 @@ for comp in listStocks:
             print(comp, " no real estate or financial ", sector)
             continue
 
+        quoteData = si.get_quote_data(comp)
+        yahooPE = quoteData["trailingPE"] if 'trailingPE' in quoteData else 1000
+
+        if yahooPE > 6:
+            print(comp, 'yahoo trailing PE > 6', yahooPE)
+            continue
+
         # if marketPrice <= 1:
         #     print(comp, 'market price < 1: ', marketPrice)
         #     continue
@@ -100,9 +107,9 @@ for comp in listStocks:
 
         currRatio = (cash + 0.8 * receivables + 0.5 * inventory) / currL
 
-        if currRatio <= 0.5:
-            print(comp, "current ratio < 0.5", currRatio)
-            continue
+        # if currRatio <= 0.5:
+        #     print(comp, "current ratio < 0.5", currRatio)
+        #     continue
 
         totalAssets = getFromDF(bs, "totalAssets")
         totalL = getFromDF(bs, "totalLiab")
@@ -110,9 +117,9 @@ for comp in listStocks:
         intangibles = getFromDF(bs, 'intangibleAssets')
         tangible_Equity = totalAssets - totalL - goodWill - intangibles
 
-        if tangible_Equity < 0:
-            print(comp, "de ratio> 1. or tangible equity < 0 ", tangible_Equity)
-            continue
+        # if tangible_Equity < 0:
+        #     print(comp, "de ratio> 1. or tangible equity < 0 ", tangible_Equity)
+        #     continue
 
         debtEquityRatio = totalL / tangible_Equity
 
@@ -127,22 +134,25 @@ for comp in listStocks:
         dep = getFromDFYearly(cf, "depreciation", yearlyFlag)
         capex = getFromDFYearly(cf, "capitalExpenditures", yearlyFlag)
 
-        if cfo <= 0 or cfo < dep:
-            print(comp, "cfo <= 0 or cfo < dep", cfo, dep)
-            continue
+        # if cfo <= 0 or cfo < dep:
+        #     print(comp, "cfo <= 0 or cfo < dep", cfo, dep)
+        #     continue
 
         shares = si.get_quote_data(comp)['sharesOutstanding']
 
-        listingCurrency = getListingCurrency(comp)
-        bsCurrency = getBalanceSheetCurrency(comp, listingCurrency)
-        # print("listing currency, bs currency, ", listingCurrency, bsCurrency)
-        exRate = currency_getExchangeRate.getExchangeRate(exchange_rate_dict, listingCurrency, bsCurrency)
+        listingCurr = 'USD'
+        bsCurr = quoteData['financialCurrency']
 
+        # bsCurrency = getBalanceSheetCurrency(comp, listingCurrency)
+        # print("listing currency, bs currency, ", listingCurrency, bsCurrency)
+        exRate = currency_getExchangeRate.getExchangeRate(exchange_rate_dict, listingCurr, bsCurr)
+
+        marketCap = si.get_quote_data(comp)['marketCap']
         marketPrice = si.get_live_price(comp)
-        marketCap = marketPrice * shares
+        marketCap2 = marketPrice * shares
 
         fcf = cfo - dep
-        pb = marketCap * exRate / tangible_Equity
+        # pb = marketCap * exRate / tangible_Equity
         pFCF = marketCap * exRate / fcf
         print("MV, cfo", roundB(marketCap, 2), roundB(cfo, 2))
 
@@ -150,9 +160,9 @@ for comp in listStocks:
         #     print(comp, 'pb > 0.6 or pb <= 0', pb)
         #     continue
         #
-        if pFCF > 6:
-            print(comp, 'pFCF > 6', pFCF)
-            continue
+        # if pFCF > 6:
+        #     print(comp, 'pFCF > 6', pFCF)
+        #     continue
 
         revenue = getFromDFYearly(incomeStatement, "totalRevenue", yearlyFlag)
 
@@ -164,11 +174,10 @@ for comp in listStocks:
         print("start date ", priceData.index[0].strftime('%-m/%-d/%Y'))
         data52wk = priceData.loc[priceData.index > ONE_YEAR_AGO]
         percentile = 100.0 * (marketPrice - data52wk['low'].min()) / (data52wk['high'].max() - data52wk['low'].min())
-        low_52wk = data52wk['low'].min()
-        # avgDollarVol = (data[-10:]['close'] * data[-10:]['volume']).sum() / 10
+        # low_52wk = data52wk['low'].min()
+        low_52wk = quoteData['fiftyTwoWeekLow'] if 'fiftyTwoWeekLow' in quoteData else 0
         medianDollarVol = statistics.median(priceData[-10:]['close'] * priceData[-10:]['volume']) / 5
 
-        # insiderPerc = ownershipDic[comp]
         insiderPerc = float(si.get_holders(comp).get('Major Holders')[0][0].rstrip("%"))
         print(comp, "insider percent", insiderPerc)
 
@@ -176,7 +185,8 @@ for comp in listStocks:
 
         yearSpan = 2021 - priceData[:1].index.item().year + 1
         divPrice = pd.merge(divs.groupby(by=lambda d: d.year)['dividend'].sum(),
-                            priceData.groupby(by=lambda d: d.year)['close'].mean(), left_index=True, right_index=True)
+                            priceData.groupby(by=lambda d: d.year)['close'].mean(),
+                            left_index=True, right_index=True)
         divPrice['yield'] = divPrice['dividend'] / divPrice['close']
         print('divprice', divPrice)
 
@@ -186,16 +196,20 @@ for comp in listStocks:
         divLastYearYield = divPrice.loc[2021]['yield'] if 2021 in divPrice.index else 0
         print('div yield all', divYieldAll, 'lastyear', divLastYearYield)
 
+        pb = quoteData['priceToBook'] if 'priceToBook' in quoteData else 1000
+        divRateYahoo = (quoteData['trailingAnnualDividendRate']) / 100 \
+            if 'trailingAnnualDividendRate' in quoteData else 0
+
         schloss = pb < 1 and marketPrice < low_52wk * 1.1 and insiderPerc > INSIDER_OWN_MIN
         netnet = (cash + receivables * 0.8 + inventory * 0.5 - totalL) / exRate - marketCap > 0
-        magic6 = pFCF < 6 and (divYieldAll >= 0.06 or divLastYearYield >= 0.06)
-        pureHighYield = (divYieldAll >= 0.06 or divLastYearYield >= 0.06)
+        magic6 = yahooPE < 6 and divRateYahoo >= 0.06 and pb < 0.6
+        pureHighYield = divRateYahoo >= 0.06
 
         if schloss or netnet or magic6 or pureHighYield:
             outputString = comp + " " + " " + companyName + ' ' \
                            + " dai$Vol:" + str(round(medianDollarVol / 1000000)) + "M " \
                            + country.replace(" ", "_") + " " \
-                           + sector.replace(" ", "_") + " " + listingCurrency + bsCurrency \
+                           + sector.replace(" ", "_") + " " + listingCurr + bsCurr \
                            + boolToString(schloss, "schloss") + boolToString(netnet, "netnet") \
                            + boolToString(magic6, "magic6") + boolToString(pureHighYield, 'highYield') \
                            + " MV:" + str(roundB(marketCap, 1)) + 'B' \
