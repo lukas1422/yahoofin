@@ -32,7 +32,7 @@ stock_df['ticker'] = stock_df['ticker'].astype(str)
 stock_df['ticker'] = stock_df['ticker'].map(lambda x: convertHK(x))
 hk_shares = pd.read_csv('list_HK_totalShares', sep=" ", index_col=False, names=['ticker', 'shares'])
 listStocks = stock_df['ticker'].tolist()
-# listStocks = ['0743.HK']
+# listStocks = ['2127.HK']
 # stock_df_torun = pd.read_csv('list_special', dtype=object, sep=" ", index_col=False, names=['ticker'])
 # stock_df_torun['ticker'] = stock_df_torun['ticker'].map(lambda x: convertHK(x))
 # listStocks = stock_df_torun['ticker'].tolist()
@@ -66,9 +66,9 @@ for comp in listStocks:
         quoteData = si.get_quote_data(comp)
         yahooPE = quoteData["trailingPE"] if 'trailingPE' in quoteData else 1000
 
-        if yahooPE > 6:
-            print(comp, 'yahoo trailing PE > 6')
-            continue
+        # if yahooPE > 6:
+        #     print(comp, 'yahoo trailing PE > 6')
+        #     continue
 
         bs = si.get_balance_sheet(comp, yearly=yearlyFlag)
 
@@ -195,7 +195,7 @@ for comp in listStocks:
         netnet = (cash + receivables * 0.8 + inventory * 0.5 - totalLiab) / exRate > marketCap
         magic6 = yahooPE < 6 and divRateYahoo >= 0.06 and pb < 0.6
         peDiv = yahooPE < 6 and divRateYahoo >= 0.06
-        pureHighYield = divRateYahoo >= 6
+        pureHighYield = divRateYahoo >= 0.06
 
         print('pb, pfcf, divyield', pb, pFcf, divYieldAll, magic6)
         print('netnet ratio',
@@ -208,7 +208,7 @@ for comp in listStocks:
                            + sector.replace(" ", "_") + " " + listingCurrency + bsCurrency \
                            + boolToString(schloss, "schloss") + boolToString(netnet, "netnet") \
                            + boolToString(magic6, "magic6") + boolToString(peDiv, "PE+DIV") \
-                           + boolToString(pureHighYield, 'divonly') \
+                           + boolToString(pureHighYield, 'pureHighYield') \
                            + " MV:" + str(roundB(marketCap, 1)) + 'B' \
                            + " BV:" + str(roundB(tangible_Equity / exRate, 1)) + 'B' \
                            + " P/FCF:" + str(round(pFcf, 1)) \
