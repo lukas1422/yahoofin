@@ -1,6 +1,6 @@
 import pandas as pd
 
-stockName = 'WB'
+stockName = '3601.HK'
 yearlyFlag = False
 
 import statistics
@@ -27,8 +27,8 @@ def getResults(stockName):
         priceData = si.get_data(stockName, interval=PRICE_INTERVAL)
         print('last trading day', priceData[priceData['volume'] != 0].index[-1].strftime('%Y/%-m/%-d'))
 
-        avgVolListingCurrency = (priceData[-10:]['close'] * priceData[-10:]['volume']).sum() / 10
-        medianVol = statistics.median(priceData[-10:]['close'] * priceData[-10:]['volume'])
+        # avgVolListingCurrency = (priceData[-10:]['close'] * priceData[-10:]['volume']).sum() / 10
+        medianVol = statistics.median(priceData[-10:]['close'] * priceData[-10:]['volume']) / 5
         # print('data', data[-10:])
         # print('mean median', avgVolListingCurrency, medianVol)
         # print(' avg vol ', str(round(avgVolListingCurrency / 1000000, 1)) + "M")
@@ -218,7 +218,7 @@ def getResults(stockName):
         print('cfo/A', cfoA)
 
         outputString = stockName + " " + country.replace(' ', '') + " " + sector.replace(' ', '') \
-                       + " dai$Vol:" + str(round(avgVolListingCurrency / 1000000)) + "M" \
+                       + " dai$Vol:" + str(round(medianVol / 1000000)) + "M" \
                        + " MV:" + str(roundB(marketCapLast, 1)) + 'B' \
                        + " Tangible_equity:" + str(roundB((tangible_equity) / exRate, 1)) + 'B' \
                        + " P/FCF:" + str(round(marketCapLast * exRate / (cfo - dep), 1)) \

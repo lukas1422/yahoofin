@@ -57,7 +57,7 @@ elif MARKET == Market.HK:
     # listStocks = ["2698.HK", "0743.HK", "0321.HK", "0819.HK",
     #               "1361.HK", "0057.HK", "0420.HK", "1085.HK", "1133.HK", "2131.HK",
     #               "3393.HK", "2355.HK", "0517.HK", "3636.HK", "0116.HK", "1099.HK", "2386.HK", "6188.HK"]
-    # listStocks = ['0321.HK']
+    # listStocks = ['3601.HK']
 
 elif MARKET == Market.CHINA:
     stock_df = pd.read_csv('list_chinaTickers', dtype=object, sep=" ", index_col=False, names=['ticker', 'name'])
@@ -148,7 +148,8 @@ for comp in listStocks:
         print('shares ', shares, 'market cap', roundB(marketCap, 2))
 
         listingCurr = getListingCurrency(comp)
-        bsCurr = getBalanceSheetCurrency(comp, listingCurr)
+        # bsCurr = getBalanceSheetCurrency(comp, listingCurr)
+        bsCurr = si.get_quote_data(comp)['financialCurrency']
         exRate = currency_getExchangeRate.getExchangeRate(exchange_rate_dict, listingCurr, bsCurr)
 
         pCfo = marketCap / (cfo / exRate)
@@ -158,12 +159,12 @@ for comp in listStocks:
         #     print(comp, ' pcfo > 10')
         #     continue
 
-        if MARKET == Market.HK:
-            if marketCap < 1000000000:
-                print(comp, "HK market cap less than 1B", marketCap / 1000000000)
-                continue
+        # if MARKET == Market.HK:
+        #     if marketCap < 1000000000:
+        #         print(comp, "HK market cap less than 1B", marketCap / 1000000000)
+        #         continue
 
-        if (cash + receivables + inventory - totalL) / exRate < marketCap:
+        if cash + receivables + inventory - totalL < exRate * marketCap:
             print(comp, listingCurr, bsCurr,
                   'cash + rec + inv - L < mv. cash rec inv Liab MV:',
                   roundB(cash, 2), roundB(receivables, 2),

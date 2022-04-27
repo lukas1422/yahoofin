@@ -49,7 +49,7 @@ listStocks = stock_df[~stock_df['sector'].str.contains('financial', regex=True, 
 #                       & (stock_df['industry'].str.contains('reit', regex=True, case=False) == False)
 #                       & (stock_df['country'].str.lower() != 'china')]['ticker'].tolist()
 # listStocks = stock_df['ticker'].tolist()
-# listStocks = ['CENT']
+# listStocks = ['LPL']
 
 print(len(listStocks), listStocks)
 
@@ -197,7 +197,7 @@ for comp in listStocks:
         print('div yield all', divYieldAll, 'lastyear', divLastYearYield)
 
         pb = quoteData['priceToBook'] if 'priceToBook' in quoteData else 1000
-        divRateYahoo = (quoteData['trailingAnnualDividendYield']) \
+        divRateYahoo = (quoteData['trailingAnnualDividendYield']) / exRate \
             if 'trailingAnnualDividendRate' in quoteData else 0
 
         schloss = pb < 1 and marketPrice < low_52wk * 1.1 and insiderPerc > INSIDER_OWN_MIN

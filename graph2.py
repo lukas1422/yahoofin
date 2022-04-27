@@ -143,6 +143,9 @@ def buttonCallback():
     priceData.index.name = 'date'
     divData = si.get_dividends(TICKER)
     divPrice = pd.DataFrame()
+
+    print('divdata', divData)
+
     if not divData.empty:
         # divData.groupby(by=lambda a: a.year)['dividend'].sum()
         divPrice = pd.merge(divData.groupby(by=lambda d: d.year)['dividend'].sum(),
@@ -159,8 +162,8 @@ def buttonCallback():
     bs = si.get_balance_sheet(TICKER, yearly=ANNUALLY)
     bsT = bs.T
     bsT['REAssetsRatio'] = bsT['retainedEarnings'] / bsT['totalAssets']
-    bsT['currentRatio'] = (bsT['cash'] + 0.5 * fill0Get(bsT, 'netReceivables') +
-                           0.2 * fill0Get(bsT, 'inventory')) / bsT['totalCurrentLiabilities']
+    bsT['currentRatio'] = (bsT['cash'] + 0.8 * fill0Get(bsT, 'netReceivables') +
+                           0.5 * fill0Get(bsT, 'inventory')) / bsT['totalCurrentLiabilities']
     bsT['netBook'] = bsT['totalAssets'] - bsT['totalLiab'] - fill0Get(bsT, 'goodWill') \
                      - fill0Get(bsT, 'intangibleAssets')
     bsT['tangibleRatio'] = bsT['netBook'] / (bsT['totalAssets'] - bsT['totalLiab'])
@@ -228,6 +231,7 @@ def buttonCallback():
     stockData.data = ColumnDataSource.from_df(priceData)
 
     yearSpan = 2021 - priceData[:1].index.item().year + 1
+    print(divData)
     print('year span', yearSpan)
     print('divPrice', divPrice)
     divYieldAll = divPrice[divPrice.index != 2022]['yield'].sum() / yearSpan \
