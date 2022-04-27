@@ -20,3 +20,35 @@ nothing:EDUC Educational_Development_Corporation  pe:4.78 pb:1.29 div:5.8%
 nothing:F Ford_Motor_Company  pe:3.31 pb:1.21 div:0.66%
 nothing:FL Foot_Locker,_Inc.  pe:3.35 pb:0.88 div:2.87%
 nothing:FRD Friedman_Industries,_Incorporated  pe:1.91 pb:0.67 div:0.9%
+GGB  Gerdau_S.A.  dai$Vol:71M Brazil Basic_Materials USDBRL magic6! peDiv! highYield! MV:9.1B B:6.3B P/FCF:1.48 DEP/CFO:0.07 CAPEX/CFO:-0.16 P/B:0.2 C/R:1.37 D/E:1.04 RetEarning/A:0.24 S/A:1.17 fcf/A:0.4 52w_p%:36 divYldAll:4% divYldLastYear:11% insider%: 0% yahooPE:2.87 PB:0.21 div:11.78%
+nothing:GM General_Motors_Company  pe:5.09 pb:1.05 div:0.0%
+GOGL  Golden_Ocean_Group_Limited  dai$Vol:46M Bermuda Industrials USDUSD peDiv! highYield! MV:2.4B B:1.9B P/FCF:3.27 DEP/CFO:0.16 CAPEX/CFO:-0.18 P/B:1.2 C/R:1.25 D/E:0.79 RetEarning/A:0.05 S/A:0.43 fcf/A:0.21 52w_p%:62 divYldAll:9% divYldLastYear:18% insider%: 39% yahooPE:4.29 PB:1.22 div:21.44%
+nothing:GPI Group_1_Automotive,_Inc.  pe:5.43 pb:1.52 div:0.77%
+nothing:GT The_Goodyear_Tire_&_Rubber_Company  pe:4.48 pb:0.73 div:0.0%
+nothing:HHS Harte_Hanks,_Inc.  pe:4.17 pb:-2.07 div:0.0%
+nothing:HIBB Hibbett,_Inc.  pe:3.92 pb:1.93 div:1.08%
+nothing:HIMX Himax_Technologies,_Inc.  pe:3.47 pb:1.74 div:0.0%
+nothing:HVT Haverty_Furniture_Companies,_Inc.  pe:5.16 pb:1.69 div:3.74%
+nothing:KBH KB_Home  pe:5.16 pb:0.94 div:1.77%
+nothing:KEN Kenon_Holdings_Ltd.  pe:4.44 pb:1.92 div:3.38%
+nothing:LBTY Liberty_Global_plc  pe:0.99 pb:0.48 div:0.0%
+LEN-B  Lennar_Corporation  dai$Vol:6M United_States Consumer_Cyclical USDUSD schloss! MV:22.4B B:17.6B P/FCF:9.78 DEP/CFO:0.04 CAPEX/CFO:-0.03 P/B:0.9 C/R:9.45 D/E:0.7 RetEarning/A:0.44 S/A:1.02 fcf/A:0.07 52w_p%:9 divYldAll:1% divYldLastYear:1% insider%: 58% yahooPE:5.13 PB:0.94 div:1.66%
+nothing:LGL The_LGL_Group,_Inc.  pe:3.89 pb:1.03 div:0.0%
+nothing:LIVE Live_Ventures_Incorporated  pe:3.73 pb:0.74 div:0.0%
+nothing:LPX Louisiana-Pacific_Corporation  pe:4.53 pb:4.18 div:0.99%
+nothing:MATX Matson,_Inc.  pe:3.86 pb:2.04 div:1.25%
+nothing:MDC M.D.C._Holdings,_Inc.  pe:4.72 pb:1.01 div:4.77%
+nothing:MHO M/I_Homes,_Inc.  pe:3.37 pb:0.78 div:0.0%
+nothing:MIC Macquarie_Infrastructure_Holdings,_LLC  pe:0.12 pb:1.11 div:0.0%
+nothing:MPC Marathon_Petroleum_Corporation  pe:6.0 pb:1.88 div:2.75%
+nothing:MT ArcelorMittal_S.A.  pe:2.69 pb:0.58 div:1.02%
+nothing:MTH Meritage_Homes_Corporation  pe:4.2 pb:0.99 div:0.0%
+nothing:NLS Nautilus,_Inc.  pe:1.07 pb:0.5 div:0.0%
+nothing:NRG NRG_Energy,_Inc.  pe:3.74 pb:2.24 div:3.46%
+nothing:OCC Optical_Cable_Corporation  pe:3.91 pb:1.48 div:0.0%
+nothing:ONEW OneWater_Marine_Inc.  pe:4.38 pb:1.79 div:0%
+nothing:PAM Pampa_Energia_S.A.  pe:4.43 pb:0.67 div:0.0%
+nothing:PANL Pangaea_Logistics_Solutions,_Ltd.  pe:3.56 pb:0.92 div:2.66%
+PBR  Petroleo_Brasileiro_S.A._-_Petrobras  dai$Vol:390M Brazil Energy USDBRL magic6! peDiv! highYield! MV:86.6B B:14.1B P/FCF:13.86 DEP/CFO:0.3 CAPEX/CFO:-0.18 P/B:0.2 C/R:0.82 D/E:1.57 RetEarning/A:0.42 S/A:0.53 fcf/A:0.17 52w_p%:64 divYldAll:5% divYldLastYear:21% insider%: 0% yahooPE:3.96 PB:0.22 div:13.18%
+PBR-A  Petroleo_Brasileiro_S.A._-_Petrobras  dai$Vol:175M Brazil Energy USDBRL magic6! peDiv! highYield! MV:70.5B B:14.1B P/FCF:11.29 DEP/CFO:0.3 CAPEX/CFO:-0.18 P/B:0.2 C/R:0.82 D/E:1.57 RetEarning/A:0.42 S/A:0.53 fcf/A:0.17 52w_p%:56 divYldAll:4% divYldLastYear:21% insider%: 0% yahooPE:3.57 PB:0.2 div:14.62%
+nothing:PHM PulteGroup,_Inc.  pe:5.73 pb:1.42 div:1.28%
