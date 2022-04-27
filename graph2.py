@@ -43,7 +43,7 @@ def my_text_input_handler(attr, old, new):
 
 
 infoParagraph = Paragraph(width=1000, height=500, text='Blank')
-
+lastTradingPrice = si.get_live_price(TICKER)
 # price chart
 gPrice = figure(title='prices chart', width=1000, x_axis_type="datetime")
 gPrice.xaxis.major_label_orientation = pi / 4
@@ -76,6 +76,10 @@ gCurrentRatio = figure(title='currentRatio', x_range=FactorRange(factors=list())
 gRetainedEarnings = figure(title='RetEarnings/A', x_range=FactorRange(factors=list()))
 gDE = figure(title='D/E Ratio', x_range=FactorRange(factors=list()))
 gPB = figure(title='P/B Ratio', x_range=FactorRange(factors=list()))
+
+gEarnings = figure(title='Earnings(B)', x_range=FactorRange(factors=list()))
+gPE = figure(title='P/E', x_range=FactorRange(factors=list()))
+gCFO = figure(title='CFO(B)', x_range=FactorRange(factors=list()))
 gFCF = figure(title='FCF(B)', x_range=FactorRange(factors=list()))
 gPFCF = figure(title='P/FCF', x_range=FactorRange(factors=list()))
 gDepCFO = figure(title='Dep/CFO', x_range=FactorRange(factors=list()))
@@ -88,6 +92,9 @@ gCurrentRatio.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("cr", "@curre
 gRetainedEarnings.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("Re/A", "@REAssetsRatio")], mode='vline'))
 gDE.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("DERatio", "@DERatio")], mode='vline'))
 gPB.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("PB", "@PB")], mode='vline'))
+gEarnings.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("netIncomeB", "@netIncomeB")], mode='vline'))
+gPE.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("PE", "@PE")], mode='vline'))
+gCFO.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("CFOB", "@CFOB")], mode='vline'))
 gFCF.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("FCFB", "@FCFB")], mode='vline'))
 gPFCF.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("PFCF", "@PFCF")], mode='vline'))
 gDepCFO.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("DepCFO", "@DepCFO")], mode='vline'))
@@ -97,13 +104,13 @@ gNetnet.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("netnet", "@netnetR
 gFCFA.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("FCF/A", "@FCFAssetRatio")], mode='vline'))
 
 for figu in [gPrice, gMarketcap, gCash, gBook, gTangibleRatio, gDiv, gCurrentRatio, gRetainedEarnings, gDE, gPB,
-             gFCF, gPFCF, gDepCFO, gCapexCFO, gSA, gNetnet, gFCFA]:
+             gEarnings, gPE, gCFO, gFCF, gPFCF, gDepCFO, gCapexCFO, gSA, gNetnet, gFCFA]:
     figu.title.text_font_size = '18pt'
     figu.title.align = 'center'
 
 grid = gridplot(
-    [[gMarketcap, gCash], [gBook, gTangibleRatio], [gCurrentRatio, gRetainedEarnings], [gDE, gPB], [gFCF, gPFCF],
-     [gDepCFO, gCapexCFO], [gSA, gNetnet], [gFCFA, None]], width=500, height=500)
+    [[gMarketcap, gCash], [gBook, gTangibleRatio], [gCurrentRatio, gRetainedEarnings], [gDE, gPB], [gEarnings, gPE],
+     [gCFO, None], [gFCF, gPFCF], [gDepCFO, gCapexCFO], [gSA, gNetnet], [gFCFA, None]], width=500, height=500)
 
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 
@@ -124,10 +131,10 @@ def buttonCallback():
     print('annual is ', ANNUALLY)
 
     try:
-        listingCurrency = getListingCurrency(TICKER)
-        bsCurrency = getBalanceSheetCurrency(TICKER, listingCurrency)
-        print("ticker, listing currency, bs currency, ", TICKER, listingCurrency, bsCurrency)
-        exRate = currency_getExchangeRate.getExchangeRate(exchange_rate_dict, listingCurrency, bsCurrency)
+        listCurr = getListingCurrency(TICKER)
+        bsCurr = getBalanceSheetCurrency(TICKER, listCurr)
+        print("ticker, listing currency, bs currency, ", TICKER, listCurr, bsCurr)
+        exRate = currency_getExchangeRate.getExchangeRate(exchange_rate_dict, listCurr, bsCurr)
 
     except Exception as e:
         print(e)
@@ -173,7 +180,7 @@ def buttonCallback():
 
     shares = si.get_quote_data(TICKER)['sharesOutstanding']
 
-    if TICKER.upper().endswith("HK") and bsCurrency == 'CNY':
+    if TICKER.upper().endswith("HK") and bsCurr == 'CNY':
         shares = scrapeTotalSharesXueqiu(TICKER)
         print('using xueqiu total shares for china', TICKER, shares)
 
@@ -197,9 +204,17 @@ def buttonCallback():
     incomeT = income.T
     bsT['revenue'] = bsT.index.map(
         lambda d: incomeT[incomeT.index == d]['totalRevenue'].item() * indicatorFunction(ANNUALLY))
+    bsT['netIncome'] = bsT.index.map(
+        lambda d: incomeT[incomeT.index == d]['netIncome'].item() * indicatorFunction(ANNUALLY))
+
+    bsT['netIncomeB'] = bsT['netIncome'] / 1000000000
+
+    bsT['PE'] = bsT['marketCap'] * exRate / bsT['netIncome']
+
     bsT['SalesAssetsRatio'] = bsT['revenue'] / bsT['totalAssets']
     cf = si.get_cash_flow(TICKER, yearly=ANNUALLY)
     cfT = cf.T
+
     bsT['CFO'] = bsT.index.map(
         lambda d: cfT[cfT.index == d]['totalCashFromOperatingActivities'].item() * indicatorFunction(ANNUALLY))
     bsT['dep'] = bsT.index.map(
@@ -247,7 +262,7 @@ def buttonCallback():
     # print(' comp name ', compName1, compName2, 'summary', info.loc['longBusinessSummary'].item().split(' '))
     text_input.title = compName1 + ' ' + compName2 + ' ' \
                        + 'shares:' + str(roundB(shares, 2)) + 'B ' \
-                       + listingCurrency + bsCurrency + '______MV:' + str(roundB(marketCapLast, 1)) + 'B' \
+                       + listCurr + bsCurr + '______MV:' + str(roundB(marketCapLast, 1)) + 'B' \
                        + "____NetB:" + str(roundB(bsT['netBook'][0] / exRate, 1)) + 'B' \
                        + '____PB:' + str(round(marketCapLast * exRate / tangible_equity, 2)) \
                        + '____CR:' + str(round(bsT['currentRatio'][0], 1)) \
@@ -266,11 +281,12 @@ def updateGraphs():
 
     print(' updating graphs. FIrst time graphing', FIRST_TIME_GRAPHING)
     print('update price graph')
+    # lastPrice = round(stockData.data['close'][-1], 2) if 'close' in stockData.data else ''
     lastPrice = round(stockData.data['close'][-1], 2) if 'close' in stockData.data else ''
-    gPrice.title.text = ' prices ' + TICKER + '____' + str(lastPrice)
+    gPrice.title.text = ' Price chart:' + TICKER + '____' + str(round(si.get_live_price(TICKER), 2))
 
     for figu in [gMarketcap, gCash, gBook, gTangibleRatio,
-                 gCurrentRatio, gRetainedEarnings, gDE, gPB, gFCF, gPFCF, gDepCFO, gCapexCFO,
+                 gCurrentRatio, gRetainedEarnings, gDE, gPB, gEarnings, gPE, gCFO, gFCF, gPFCF, gDepCFO, gCapexCFO,
                  gSA, gNetnet, gFCFA]:
         figu.x_range.factors = list(global_source.data['dateStr'][::-1])
 
@@ -302,7 +318,16 @@ def updateGraphs():
         # P/B
         gPB.vbar(x='dateStr', top='PB', source=global_source, width=0.5)
 
+        # Earnings
+        gEarnings.vbar(x='dateStr', top='netIncomeB', source=global_source, width=0.5)
+
+        # P/E
+        gPE.vbar(x='dateStr', top='PE', source=global_source, width=0.5)
+
         # CFO
+        gCFO.vbar(x='dateStr', top='CFOB', source=global_source, width=0.5)
+
+        # FCF
         gFCF.vbar(x='dateStr', top='FCFB', source=global_source, width=0.5)
 
         # P/FCF

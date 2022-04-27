@@ -57,7 +57,6 @@ for comp in listStocks:
 
         country = getFromDF(info, "country")
         sector = getFromDF(info, 'sector')
-        # print('country sector', country, sector)
 
         if 'real estate' in sector.lower() or 'financial' in sector.lower() or 'technology' in sector.lower():
             print(comp, " no real estate or financial or tech ", sector)
