@@ -77,9 +77,9 @@ for comp in listStocks:
 
         retainedEarnings = getFromDF(bs, "retainedEarnings")
 
-        # if retainedEarnings <= 0:
-        #     print(comp, " retained earnings < 0 ", retainedEarnings)
-        #     continue
+        if retainedEarnings <= 0:
+            print(comp, " retained earnings < 0 ", retainedEarnings)
+            continue
 
         currA = getFromDF(bs, "totalCurrentAssets")
         currL = getFromDF(bs, "totalCurrentLiabilities")
@@ -110,6 +110,7 @@ for comp in listStocks:
         #     continue
 
         incomeStatement = si.get_income_statement(comp, yearly=yearlyFlag)
+        netIncome = getFromDFYearly(incomeStatement, "netIncome", yearlyFlag)
 
         cf = si.get_cash_flow(comp, yearly=yearlyFlag)
         cfo = getFromDFYearly(cf, "totalCashFromOperatingActivities", yearlyFlag)
@@ -122,6 +123,10 @@ for comp in listStocks:
         #     print(comp, "cfo <= 0 or cfo < dep ", cfo, dep)
         #     continue
 
+        if cfo <= 0:
+            print(comp, "cfo <= 0", cfo, dep)
+            continue
+
         shares = hk_shares[hk_shares['ticker'] == comp]['shares'].item()
 
         listingCurrency = 'HKD'
@@ -133,8 +138,10 @@ for comp in listStocks:
         marketPrice = si.get_live_price(comp)
         marketCap2 = marketPrice * shares
 
+        manualPE = marketCap * exRate / netIncome
         print('marketcap 1 2 ', marketCap, marketCap2, 'ratio', marketCap / marketCap2)
 
+        print(comp, 'manual pe', manualPE, 'yahoo PE', yahooPE)
         # if marketCap < 1000000000:
         #     print(comp, "market cap < 1B TOO SMALL", roundB(marketCap, 2))
         #     continue
@@ -192,8 +199,8 @@ for comp in listStocks:
         schloss = pb < 1 and marketPrice < low_52wk * 1.1 and insiderPerc > INSIDER_OWN_MIN
         netnetRatio = (cash + receivables * 0.8 + inventory * 0.5) / (totalLiab + exRate * marketCap)
         netnet = (cash + receivables * 0.8 + inventory * 0.5 - totalLiab) / exRate > marketCap
-        magic6 = yahooPE < 6 and divRateYahoo >= 0.06 and pb < 0.6
-        peDiv = yahooPE < 6 and divRateYahoo >= 0.06
+        magic6 = manualPE < 6 and divRateYahoo >= 0.06 and pb < 0.6
+        peDiv = manualPE < 6 and divRateYahoo >= 0.06
         pureHighYield = divRateYahoo >= 0.06
 
         print('pb, pfcf, divyield', pb, pFcf, divYieldAll, magic6)
@@ -223,7 +230,8 @@ for comp in listStocks:
                            + " divYldLastYr:" + str(round(divLastYearYield * 100)) + "%" \
                            + " divYldAll:" + str(round(divYieldAll * 100)) + "%" \
                            + " insider%:" + str(round(insiderPerc)) + "%" \
-                           + " yahooPE:" + str(round(yahooPE, 2)) + ' PB:' \
+                           + " yahooPE:" + str(round(yahooPE, 2)) \
+                           + " manual PE:" + str(round(manualPE, 2)) + ' PB:' \
                            + str(round(pb, 2)) + " div:" + str(round(divRateYahoo * 100, 2)) + '%'
 
         else:
