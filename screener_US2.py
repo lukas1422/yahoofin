@@ -110,16 +110,16 @@ for comp in listStocks:
         #     continue
 
         totalAssets = getFromDF(bs, "totalAssets")
-        totalL = getFromDF(bs, "totalLiab")
+        totalLiab = getFromDF(bs, "totalLiab")
         goodWill = getFromDF(bs, 'goodWill')
         intangibles = getFromDF(bs, 'intangibleAssets')
-        tangible_Equity = totalAssets - totalL - goodWill - intangibles
+        tangible_Equity = totalAssets - totalLiab - goodWill - intangibles
 
         # if tangible_Equity < 0:
         #     print(comp, "de ratio> 1. or tangible equity < 0 ", tangible_Equity)
         #     continue
 
-        debtEquityRatio = totalL / tangible_Equity
+        debtEquityRatio = totalLiab / tangible_Equity
 
         # if debtEquityRatio > 1:
         #     print(comp, "de ratio > 1 ", debtEquityRatio)
@@ -149,6 +149,12 @@ for comp in listStocks:
         marketCap = si.get_quote_data(comp)['marketCap']
         marketPrice = si.get_live_price(comp)
         marketCap2 = marketPrice * shares
+
+        netnetRatio = (cash + receivables * 0.8 + inventory * 0.5) / (totalLiab + exRate * marketCap)
+
+        if netnetRatio < 0.5:
+            print('netnetratio < 0.5', netnetRatio)
+            continue
 
         manualPE = marketCap * exRate / netIncome
 
@@ -202,7 +208,7 @@ for comp in listStocks:
             if 'trailingAnnualDividendRate' in quoteData else 0
 
         schloss = pb < 1 and marketPrice < low_52wk * 1.1 and insiderPerc > INSIDER_OWN_MIN
-        netnet = (cash + receivables * 0.8 + inventory * 0.5 - totalL) / exRate - marketCap > 0
+        netnet = (cash + receivables * 0.8 + inventory * 0.5 - totalLiab) / exRate - marketCap > 0
         magic6 = manualPE < 6 and divRateYahoo >= 0.06 and pb < 0.6
         peDiv = manualPE < 6 and divRateYahoo >= 0.06
         pureHighYield = divRateYahoo >= 0.06
@@ -215,6 +221,7 @@ for comp in listStocks:
                            + boolToString(schloss, 'schloss') + boolToString(netnet, 'netnet') \
                            + boolToString(magic6, 'magic6') + boolToString(peDiv, 'peDiv') \
                            + boolToString(pureHighYield, 'highYield') \
+                           + " netnetRatio:" + str(round(netnetRatio, 1)) \
                            + " MV:" + str(roundB(marketCap, 1)) + 'B' \
                            + " B:" + str(roundB(tangible_Equity / exRate, 1)) + 'B' \
                            + " P/FCF:" + str(round(pFCF, 2)) \
