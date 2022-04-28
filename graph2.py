@@ -205,7 +205,7 @@ def buttonCallback():
     bsT['revenue'] = bsT.index.map(
         lambda d: incomeT[incomeT.index == d]['totalRevenue'].item() * indicatorFunction(ANNUALLY))
     bsT['netIncome'] = bsT.index.map(
-        lambda d: incomeT[incomeT.index == d]['netIncome'].item() * indicatorFunction(ANNUALLY))
+        lambda d: incomeT[incomeT.index == d]['netIncome'].item() * indicatorFunctifon(ANNUALLY))
 
     bsT['netIncomeB'] = bsT['netIncome'] / 1000000000
 

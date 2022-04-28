@@ -90,9 +90,9 @@ for comp in listStocks:
 
         currRatio = (cash + 0.8 * receivables + 0.5 * inventory) / currL
 
-        # if currRatio <= 0.5:
-        #     print(comp, "curr ratio < 0.5", currRatio)
-        #     continue
+        if currRatio <= 0.5:
+            print(comp, "curr ratio < 0.5", currRatio)
+            continue
 
         totalAssets = getFromDF(bs, "totalAssets")
         totalLiab = getFromDF(bs, "totalLiab")
@@ -138,10 +138,16 @@ for comp in listStocks:
         marketPrice = si.get_live_price(comp)
         marketCap2 = marketPrice * shares
 
+        netnetRatio = (cash + receivables * 0.8 + inventory * 0.5) / (totalLiab + exRate * marketCap)
+
         manualPE = marketCap * exRate / netIncome
         print('marketcap 1 2 ', marketCap, marketCap2, 'ratio', marketCap / marketCap2)
 
         print(comp, 'manual pe', manualPE, 'yahoo PE', yahooPE)
+
+        if manualPE > 20 or manualPE < 0:
+            print(comp, "manual pe > 10", manualPE)
+            continue
         # if marketCap < 1000000000:
         #     print(comp, "market cap < 1B TOO SMALL", roundB(marketCap, 2))
         #     continue
@@ -171,6 +177,11 @@ for comp in listStocks:
         # percentile = 100.0 * (marketPrice - data52w['low'].min()) / (data52w['high'].max() - data52w['low'].min())
         low_52wk = quoteData['fiftyTwoWeekLow'] if 'fiftyTwoWeekLow' in quoteData else 0
         medianDollarVol = statistics.median(priceData[-10:]['close'] * priceData[-10:]['volume']) / 5
+        print(comp, 'vol is ', medianDollarVol)
+
+        if medianDollarVol < 500000:
+            print(comp, 'vol too small', medianDollarVol)
+            continue
 
         print(comp, 'low52week', low_52wk, 'price/52weeklow', marketPrice / low_52wk)
 
@@ -203,9 +214,12 @@ for comp in listStocks:
         peDiv = manualPE < 6 and divRateYahoo >= 0.06
         pureHighYield = divRateYahoo >= 0.06
 
+        if (netnetRatio < 0.5):
+            print('netnet ratio < 0.5', netnetRatio)
+            continue
+
         print('pb, pfcf, divyield', pb, pFcf, divYieldAll, magic6)
-        print('netnet ratio',
-              round((cash + receivables * 0.8 + inventory * 0.5 - totalLiab) / exRate / marketCap, 2))
+        print('netnet ratio', round(netnetRatio, 2))
 
         if schloss or netnet or magic6 or peDiv or pureHighYield:
             outputString = comp[:4] + " " + " " + companyName[:4] + ' ' \
@@ -215,6 +229,7 @@ for comp in listStocks:
                            + boolToString(schloss, "schloss") + boolToString(netnet, "netnet") \
                            + boolToString(magic6, "magic6") + boolToString(peDiv, "PE+DIV") \
                            + boolToString(pureHighYield, 'pureHighYield') \
+                           + " netnetRatio:" + str(round(netnetRatio, 1)) \
                            + " MV:" + str(roundB(marketCap, 1)) + 'B' \
                            + " BV:" + str(roundB(tangible_Equity / exRate, 1)) + 'B' \
                            + " P/FCF:" + str(round(pFcf, 1)) \
@@ -238,6 +253,7 @@ for comp in listStocks:
             outputString = "nothing:" + comp[:4] + " " + " " + companyName[:4] + ' ' \
                            + " pe:" + str(round(yahooPE, 2)) \
                            + ' pb:' + str(round(pb, 2)) \
+                           + ' netnetRatio:' + str(round(netnetRatio, 2)) \
                            + " div:" + str(round(divRateYahoo * 100, 2)) + '%'
 
         print(outputString)

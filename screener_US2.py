@@ -77,9 +77,9 @@ for comp in listStocks:
         quoteData = si.get_quote_data(comp)
         yahooPE = quoteData['trailingPE'] if 'trailingPE' in quoteData else 1000
 
-        if yahooPE > 6:
-            print(comp, 'yahoo trailing PE > 6', yahooPE, 'trailingPE' in quoteData)
-            continue
+        # if yahooPE > 6:
+        #     print(comp, 'yahoo trailing PE > 6', yahooPE, 'trailingPE' in quoteData)
+        #     continue
 
         # if marketPrice <= 1:
         #     print(comp, 'market price < 1: ', marketPrice)
@@ -230,7 +230,7 @@ for comp in listStocks:
                            + " divYldAll:" + str(round(divYieldAll * 100)) + "%" \
                            + " divYldLastYear:" + str(round(divLastYearYield * 100)) + "%" \
                            + " insider%: " + str(round(insiderPerc)) + "%" \
-                           + " yahooPE:" + str(round(yahooPE, 2)) + " manual PE:" + str(round(manualPE, 2)) \
+                           + " yahooPE:" + str(round(yahooPE, 2)) + " manualPE:" + str(round(manualPE, 2)) \
                            + ' PB:' + str(round(pb, 2)) + " div:" \
                            + str(round(divRateYahoo * 100, 2)) + '%'
 
