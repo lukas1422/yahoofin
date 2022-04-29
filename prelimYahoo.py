@@ -1,6 +1,6 @@
 import pandas as pd
 
-stockName = '3601.HK'
+stockName = 'ades'
 yearlyFlag = False
 
 import statistics
@@ -212,8 +212,8 @@ def getResults(stockName):
         print("RE", roundB(retainedEarnings / exRate, 1), "B")
         print("RE/A", round(retainedEarnings / totalAssets, 1))
         print("S/A", round(revenue / totalAssets, 1))
-        print("div1YrYld:", round(div2021Yld * 100), "%")
-        print("divAllYld:", round(divYieldAll * 100), "%")
+        print("divYld2021:", round(div2021Yld * 100), "%")
+        print("divYldAll:", round(divYieldAll * 100), "%")
         # print("divsum marketprice:", round(divSumPastYear, 1), round(marketPrice, 2))
         print('cfo/A', cfoA)
 
@@ -231,7 +231,7 @@ def getResults(stockName):
                        + " tangibleRatio:" + str(round(tangibleRatio, 1)) \
                        + " 52w_p%:" + str(round(percentile)) \
                        + " divYldAll:" + str(round(divYieldAll * 100)) + "%" \
-                       + " divYldLastYr:" + str(round(div2021Yld * 100)) + "%"
+                       + " divYld2021:" + str(round(div2021Yld * 100)) + "%"
 
         print(outputString)
         return outputString

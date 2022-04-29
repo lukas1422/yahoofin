@@ -244,6 +244,7 @@ for comp in listStocks:
         else:
             outputString = "nothing:" + comp[:4] + ' ' + companyName + ' ' \
                            + " pe:" + str(round(yahooPE, 2)) + ' pb:' + str(round(pb, 2)) \
+                           + ' netnetRatio:' + str(round(netnetRatio, 2)) \
                            + " div:" + str(round(divRateYahoo * 100, 2)) + '%'
 
         print(outputString)
