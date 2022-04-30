@@ -63,6 +63,10 @@ gCash = figure(title='cash(B)', x_range=FactorRange(factors=list()))
 gCash.title.text = 'cash(B) '
 gCash.add_tools(HoverTool(tooltips=[('dateStr', '@dateStr'), ("cash", "@cashB")], mode='vline'))
 
+gCurrentAssets = figure(title='currentAssets', x_range=FactorRange(factors=list()),
+                        tools="hover", tooltips="$name @dateStr: @$name")
+gCurrentAssets.title.text = 'currentAssets'
+
 gBook = figure(title='book(B)', x_range=FactorRange(factors=list()))
 gBook.title.text = 'Book(B)'
 gBook.add_tools(HoverTool(tooltips=[('dateStr', '@dateStr'), ("bookB", "@netBookB")], mode='vline'))
@@ -103,14 +107,15 @@ gSA.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("S/A Ratio", "@SalesAss
 gNetnet.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("netnet", "@netnetRatio")], mode='vline'))
 gFCFA.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("FCF/A", "@FCFAssetRatio")], mode='vline'))
 
-for figu in [gPrice, gMarketcap, gCash, gBook, gTangibleRatio, gDiv, gCurrentRatio, gRetainedEarnings, gDE, gPB,
-             gEarnings, gPE, gCFO, gFCF, gPFCF, gDepCFO, gCapexCFO, gSA, gNetnet, gFCFA]:
+for figu in [gPrice, gMarketcap, gCash, gCurrentAssets, gBook, gTangibleRatio, gDiv, gCurrentRatio, gRetainedEarnings,
+             gDE, gPB, gEarnings, gPE, gCFO, gFCF, gPFCF, gDepCFO, gCapexCFO, gSA, gNetnet, gFCFA]:
     figu.title.text_font_size = '18pt'
     figu.title.align = 'center'
 
 grid = gridplot(
-    [[gMarketcap, gCash], [gBook, gTangibleRatio], [gCurrentRatio, gRetainedEarnings], [gDE, gPB], [gEarnings, gPE],
-     [gCFO, None], [gFCF, gPFCF], [gDepCFO, gCapexCFO], [gSA, gNetnet], [gFCFA, None]], width=500, height=500)
+    [[gMarketcap, gCash], [gCurrentAssets, None], [gBook, gTangibleRatio], [gCurrentRatio, gRetainedEarnings],
+     [gDE, gPB], [gEarnings, gPE], [gCFO, None], [gFCF, gPFCF], [gDepCFO, gCapexCFO], [gSA, gNetnet], [gFCFA, None]],
+    width=500, height=500)
 
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 
@@ -177,6 +182,9 @@ def buttonCallback():
     bsT['DERatio'] = bsT['totalLiab'] / bsT['netBook']
     bsT['priceOnOrAfter'] = bsT.index.map(lambda d: priceData[priceData.index >= d].iloc[0]['adjclose'])
     # bsT['priceOnOrAfter'][0] = latestPrice
+    bsT['currentAssets'] = bsT['cash'] + fill0Get(bsT, 'netReceivables') + fill0Get(bsT, 'inventory')
+
+    print('bsT current assets', bsT['cash'], bsT['netReceivables'], bsT['inventory'])
 
     shares = si.get_quote_data(TICKER)['sharesOutstanding']
 
@@ -187,7 +195,7 @@ def buttonCallback():
     # bsT['marketCap'] = bsT['priceOnOrAfter'] * shares
     marketCapLast = si.get_quote_data(TICKER)['marketCap']
     shares = marketCapLast / latestPrice
-    print(TICKER, 'shares', shares)
+    # print(TICKER, 'shares', shares)
     bsT['marketCap'] = bsT['priceOnOrAfter'] * shares
     bsT['marketCapB'] = bsT['marketCap'] / 1000000000
 
@@ -205,7 +213,7 @@ def buttonCallback():
     bsT['revenue'] = bsT.index.map(
         lambda d: incomeT[incomeT.index == d]['totalRevenue'].item() * indicatorFunction(ANNUALLY))
     bsT['netIncome'] = bsT.index.map(
-        lambda d: incomeT[incomeT.index == d]['netIncome'].item() * indicatorFunctifon(ANNUALLY))
+        lambda d: incomeT[incomeT.index == d]['netIncome'].item() * indicatorFunction(ANNUALLY))
 
     bsT['netIncomeB'] = bsT['netIncome'] / 1000000000
 
@@ -240,6 +248,8 @@ def buttonCallback():
     bsT['dateStr'] = pd.to_datetime(bsT.index)
     bsT['dateStr'] = bsT['dateStr'].transform(lambda x: x.strftime('%Y-%m-%d'))
     bsT['cashB'] = bsT['cash'] / 1000000000
+    bsT['netReceivablesB'] = bsT['netReceivables'] / 1000000000
+    bsT['inventoryB'] = bsT['inventory'] / 1000000000
     bsT['netBookB'] = bsT['netBook'] / 1000000000
 
     global_source.data = ColumnDataSource.from_df(bsT)
@@ -285,7 +295,7 @@ def updateGraphs():
     lastPrice = round(stockData.data['close'][-1], 2) if 'close' in stockData.data else ''
     gPrice.title.text = ' Price chart:' + TICKER + '____' + str(round(si.get_live_price(TICKER), 2))
 
-    for figu in [gMarketcap, gCash, gBook, gTangibleRatio,
+    for figu in [gMarketcap, gCash, gCurrentAssets, gBook, gTangibleRatio,
                  gCurrentRatio, gRetainedEarnings, gDE, gPB, gEarnings, gPE, gCFO, gFCF, gPFCF, gDepCFO, gCapexCFO,
                  gSA, gNetnet, gFCFA]:
         figu.x_range.factors = list(global_source.data['dateStr'][::-1])
@@ -299,6 +309,12 @@ def updateGraphs():
 
         # cash
         gCash.vbar(x='dateStr', top='cashB', source=global_source, width=0.5)
+
+        # current assets
+        colors = ["#c9d9d3", "#718dbf", "#e84d60"]
+        currentAssetItems = ['cashB', 'netReceivablesB', 'inventoryB']
+        gCurrentAssets.vbar_stack(currentAssetItems, x='dateStr',
+                                  source=global_source, color=colors, legend_label=currentAssetItems, width=0.5)
 
         # book
         gBook.vbar(x='dateStr', top='netBookB', source=global_source, width=0.5)

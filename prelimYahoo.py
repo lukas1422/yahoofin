@@ -1,6 +1,6 @@
 import pandas as pd
 
-stockName = 'ades'
+stockName = '0116.HK'
 yearlyFlag = False
 
 import statistics
