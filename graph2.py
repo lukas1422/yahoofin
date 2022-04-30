@@ -156,7 +156,7 @@ def buttonCallback():
     divData = si.get_dividends(TICKER)
     divPrice = pd.DataFrame()
 
-    print('divdata', divData)
+    # print('divdata', divData)
 
     if not divData.empty:
         # divData.groupby(by=lambda a: a.year)['dividend'].sum()
@@ -186,7 +186,7 @@ def buttonCallback():
 
     print('bsT current assets', bsT['cash'], bsT['netReceivables'], bsT['inventory'])
 
-    shares = si.get_quote_data(TICKER)['sharesOutstanding']
+    # shares = si.get_quote_data(TICKER)['sharesOutstanding']
 
     if TICKER.upper().endswith("HK") and bsCurr == 'CNY':
         shares = scrapeTotalSharesXueqiu(TICKER)
