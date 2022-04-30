@@ -3,7 +3,7 @@ from bokeh.io import curdoc
 from bokeh.layouts import column, row
 from bokeh.models import TextInput, Button, RadioGroup, Paragraph, FactorRange
 
-from helperMethods import fill0Get, indicatorFunction, roundB, getFromDF
+from helperMethods import fill0Get, indicatorFunction, roundB, getFromDF, fill0GetLatest
 from scrape_sharesOutstanding import scrapeTotalSharesXueqiu
 
 ANNUALLY = False
@@ -255,6 +255,13 @@ def buttonCallback():
     global_source.data = ColumnDataSource.from_df(bsT)
     stockData.data = ColumnDataSource.from_df(priceData)
 
+    latestNetnetRatio = (bsT['cash'][0] + fill0GetLatest(bsT, 'netReceivables') * 0.8 +
+                         fill0GetLatest(bsT, 'inventory') * 0.5) / (bsT['totalLiab'][0] + exRate * marketCapLast)
+
+    print("latest netnet ratio", latestNetnetRatio, 'cash', bsT['cash'][0], 'rec', fill0GetLatest(bsT, 'netReceivables')
+          , 'inv', fill0GetLatest(bsT, 'inventory'), 'totalliab', bsT['totalLiab'][0], 'exrate', exRate,
+          'marketcaplast', marketCapLast)
+
     yearSpan = 2021 - priceData[:1].index.item().year + 1
     print(divData)
     print('year span', yearSpan)
@@ -274,6 +281,7 @@ def buttonCallback():
                        + 'shares:' + str(roundB(shares, 2)) + 'B ' \
                        + listCurr + bsCurr + '______MV:' + str(roundB(marketCapLast, 1)) + 'B' \
                        + "____NetB:" + str(roundB(bsT['netBook'][0] / exRate, 1)) + 'B' \
+                       + "____netnetRatio:" + str(round(latestNetnetRatio, 2)) \
                        + '____PB:' + str(round(marketCapLast * exRate / tangible_equity, 2)) \
                        + '____CR:' + str(round(bsT['currentRatio'][0], 1)) \
                        + '____DE:' + str(round(bsT['DERatio'][0], 1)) \

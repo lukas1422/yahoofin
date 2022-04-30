@@ -110,6 +110,8 @@ def indicatorFunction(annually):
 def fill0Get(df, item):
     return df[item].fillna(0) if item in df.columns else 0
 
+def fill0GetLatest(df, item):
+    return df[item].fillna(0)[0] if item in df.columns else 0
 
 # import inspect
 

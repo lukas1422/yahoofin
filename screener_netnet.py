@@ -9,7 +9,6 @@ import yahoo_fin.stock_info as si
 import pandas as pd
 
 from Market import Market
-from currency_scrapeYahoo import getBalanceSheetCurrency
 from currency_scrapeYahoo import getListingCurrency
 import currency_getExchangeRate
 from helperMethods import getFromDF, convertHK, roundB, convertChinaForYahoo, getFromDFYearly
@@ -57,7 +56,7 @@ elif MARKET == Market.HK:
     # listStocks = ["2698.HK", "0743.HK", "0321.HK", "0819.HK",
     #               "1361.HK", "0057.HK", "0420.HK", "1085.HK", "1133.HK", "2131.HK",
     #               "3393.HK", "2355.HK", "0517.HK", "3636.HK", "0116.HK", "1099.HK", "2386.HK", "6188.HK"]
-    # listStocks = ['1358.HK']
+    listStocks = ['2127.HK']
 
 elif MARKET == Market.CHINA:
     stock_df = pd.read_csv('list_chinaTickers', dtype=object, sep=" ", index_col=False, names=['ticker', 'name'])
@@ -175,18 +174,25 @@ for comp in listStocks:
         medianDollarVol = statistics.median(data[-10:]['close'] * data[-10:]['volume']) / 5
 
         additionalComment = ""
-        if (cash - totalL) / exRate - marketCap > 0:
-            profit = (cash - totalL) / (exRate * marketCap) - 1
+        if cash > totalL + exRate * marketCap:
+            profit = (cash + 0.8 * receivables + 0.5 * inventory) / (totalL + exRate * marketCap) - 1
             additionalComment = " CASH netnet, profit:" + str(round(profit * 100)) + '%'
-        elif (cash + receivables - totalL) / exRate - marketCap > 0:
-            additionalComment = " receivable conversion rate:" \
-                                + str(round((totalL + marketCap * exRate - cash) / receivables, 2))
-        elif (cash + 0.8 * receivables + inventory - totalL) / exRate - marketCap > 0:
-            additionalComment = " inventory conversion rate:" \
-                                + str(round((totalL + marketCap * exRate - cash - 0.8 * receivables)
-                                            / inventory, 2))
-        elif (cash + receivables + inventory - totalL) / exRate - marketCap > 0:
+        elif cash + 0.8 * receivables > totalL + exRate * marketCap:
+            profit = (cash + 0.8 * receivables + 0.5 * inventory) / (totalL + exRate * marketCap) - 1
+            # additionalComment = " receivable conversion rate:" \
+            #                     + str(round((totalL + marketCap * exRate - cash) / receivables, 2))
+            additionalComment = " RECEIVABLES netnet, profit:" + str(round(profit * 100)) + '%'
+        elif cash + 0.8 * receivables + 0.5 * inventory > totalL + exRate * marketCap:
+            profit = (cash + 0.8 * receivables + 0.5 * inventory) / (totalL + exRate * marketCap) - 1
+            # additionalComment = " inventory conversion rate:" \
+            #                     + str(round((totalL + marketCap * exRate - cash - 0.8 * receivables)
+            #                                 / inventory, 2))
+            additionalComment = " INVENTORY netnet, profit:" + str(round(profit * 100)) + '%'
+        elif cash + receivables + inventory > totalL + exRate * marketCap:
             additionalComment = " 鸡肋:cash+rec+inv-L>MV"
+        else:
+            print('none')
+            continue
 
         # .to_string(index=False, header=False)
         outputString = comp + " " + stock_df[stock_df['ticker'] == comp]['name'].item() \
