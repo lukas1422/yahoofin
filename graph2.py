@@ -48,7 +48,7 @@ lastTradingPrice = si.get_live_price(TICKER)
 gPrice = figure(title='prices chart', width=1000, x_axis_type="datetime")
 gPrice.xaxis.major_label_orientation = pi / 4
 gPrice.grid.grid_line_alpha = 0.3
-gPrice.add_tools(HoverTool(tooltips=[('date', '@date{%Y-%m-%d}'), ('close', '@close')],
+gPrice.add_tools(HoverTool(tooltips=[('date', '@date{%Y-%m-%d}'), ('adjclose', '@adjclose')],
                            formatters={'@date': 'datetime'}, mode='vline'))
 
 # priceChart.background_fill_color = "#f5f5f5"
@@ -167,11 +167,11 @@ def buttonCallback():
     if not divData.empty:
         # divData.groupby(by=lambda a: a.year)['dividend'].sum()
         divPrice = pd.merge(divData.groupby(by=lambda d: d.year)['dividend'].sum(),
-                            priceData.groupby(by=lambda d: d.year)['close'].mean(),
+                            priceData.groupby(by=lambda d: d.year)['adjclose'].mean(),
                             left_index=True, right_index=True)
         # print('divprice1', divPrice)
         divPrice.index.name = 'year'
-        divPrice['yield'] = divPrice['dividend'] / divPrice['close'] * 100
+        divPrice['yield'] = divPrice['dividend'] / divPrice['adjclose'] * 100
 
         # print('divprice2', divPrice)
         divPriceData.data = ColumnDataSource.from_df(divPrice)
@@ -310,7 +310,7 @@ def updateGraphs():
     print(' updating graphs. FIrst time graphing', FIRST_TIME_GRAPHING)
     print('update price graph')
     # lastPrice = round(stockData.data['close'][-1], 2) if 'close' in stockData.data else ''
-    lastPrice = round(stockData.data['close'][-1], 2) if 'close' in stockData.data else ''
+    # lastPrice = round(stockData.data['close'][-1], 2) if 'close' in stockData.data else ''
     gPrice.title.text = ' Price chart:' + TICKER + '____' + str(round(si.get_live_price(TICKER), 2))
 
     for figu in [gMarketcap, gCash, gCurrentAssets, gAssetComposition, gBook, gTangibleRatio,
@@ -319,7 +319,7 @@ def updateGraphs():
         figu.x_range.factors = list(global_source.data['dateStr'][::-1])
 
     if FIRST_TIME_GRAPHING:
-        gPrice.line(x='date', y='close', source=stockData, color='#D06C8A')
+        gPrice.line(x='date', y='adjclose', source=stockData, color='#D06C8A')
         gDiv.vbar(x='year', top='yield', source=divPriceData, width=0.8)
 
         # market cap
