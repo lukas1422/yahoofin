@@ -1,20 +1,10 @@
-nothing:ADES Advanced_Emissions_Solutions,_Inc.  pe:2.02 pb:0.79 netnetRatio:0.55 div:4.05%
-nothing:AE Adams_Resources_&_Energy,_Inc.  pe:11.19 pb:1.07 netnetRatio:0.57 div:2.46%
-nothing:AGX Argan,_Inc.  pe:12.91 pb:1.67 netnetRatio:0.53 div:2.71%
-nothing:AVT Avnet,_Inc.  pe:9.65 pb:1.02 netnetRatio:0.54 div:2.08%
-nothing:BHE Benchmark_Electronics,_Inc.  pe:27.95 pb:0.87 netnetRatio:0.53 div:2.7%
+APWC  Asia_Pacific_Wire_&_Cable_Corporation_Limited  dai$Vol:0M Taiwan Industrials USDUSD netnet! netnetRatio:1.1 MV:0.0B B:0.2B P/FCF:-0.31 DEP/CFO:-0.06 CAPEX/CFO:0.09 P/B:0.1 C/R:1.48 D/E:0.7 RetEarning/A:0.14 S/A:1.18 fcf/A:-0.26 52w_p%:5 divYldAll:0% divYldLastYear:0% insider%: 75% yahooPE:39.23 manualPE:-128.98 PB:0.13 div:0.0%
+CSPI  CSP_Inc.  dai$Vol:0M United_States Technology USDUSD schloss! netnetRatio:0.7 MV:0.0B B:0.0B P/FCF:-7.53 DEP/CFO:-0.1 CAPEX/CFO:0.04 P/B:0.9 C/R:2.27 D/E:0.85 RetEarning/A:0.4 S/A:0.64 fcf/A:-0.07 52w_p%:8 divYldAll:1% divYldLastYear:0% insider%: 23% yahooPE:1000 manualPE:9.44 PB:0.91 div:4.18%
 DAKT  Daktronics,_Inc.  dai$Vol:1M United_States Technology USDUSD schloss! netnetRatio:0.6 MV:0.2B B:0.2B P/FCF:-3.38 DEP/CFO:-0.5 CAPEX/CFO:0.43 P/B:0.8 C/R:1.21 D/E:1.14 RetEarning/A:0.24 S/A:1.57 fcf/A:-0.11 52w_p%:1 divYldAll:2% divYldLastYear:0% insider%: 17% yahooPE:81.71 manualPE:16.04 PB:0.78 div:0.0%
-nothing:FRD Friedman_Industries,_Incorporated  pe:2.01 pb:0.7 netnetRatio:0.54 div:0.9%
-nothing:INT World_Fuel_Services_Corporation  pe:20.88 pb:0.78 netnetRatio:0.51 div:1.8%
-JRSH  Jerash_Holdings_(US),_Inc.  dai$Vol:0M United_States Consumer_Cyclical USDUSD schloss! netnetRatio:0.6 MV:0.1B B:0.1B P/FCF:4.92 DEP/CFO:0.19 CAPEX/CFO:-0.16 P/B:1.0 C/R:4.72 D/E:0.18 RetEarning/A:0.57 S/A:1.78 fcf/A:0.17 52w_p%:5 divYldAll:2% divYldLastYear:1% insider%: 55% yahooPE:7.41 manualPE:10.29 PB:0.99 div:3.64%
-JVA  Coffee_Holding_Co.,_Inc.  dai$Vol:0M United_States Consumer_Defensive USDUSD schloss! netnetRatio:0.6 MV:0.0B B:0.0B P/FCF:45.95 DEP/CFO:0.67 CAPEX/CFO:-0.03 P/B:0.6 C/R:1.85 D/E:0.54 RetEarning/A:0.33 S/A:1.63 fcf/A:0.01 52w_p%:2 divYldAll:1% divYldLastYear:0% insider%: 10% yahooPE:32.83 manualPE:12.38 PB:0.62 div:0%
-nothing:KBH KB_Home  pe:5.01 pb:0.92 netnetRatio:0.52 div:1.76%
-nothing:KELY Kelly_Services,_Inc.  pe:4.93 pb:0.57 netnetRatio:0.52 div:0.49%
-nothing:MHO M/I_Homes,_Inc.  pe:3.63 pb:0.83 netnetRatio:0.51 div:0%
-nothing:NLS Nautilus,_Inc.  pe:1.12 pb:0.52 netnetRatio:0.6 div:0.0%
-nothing:SVT Servotronics,_Inc.  pe:6.67 pb:0.69 netnetRatio:0.69 div:0.0%
-nothing:TATT TAT_Technologies_Ltd.  pe:1000 pb:0.69 netnetRatio:0.5 div:0.0%
+JRSH  Jerash_Holdings_(US),_Inc.  dai$Vol:0M United_States Consumer_Cyclical USDUSD schloss! netnetRatio:0.6 MV:0.1B B:0.1B P/FCF:4.92 DEP/CFO:0.19 CAPEX/CFO:-0.16 P/B:1.0 C/R:4.72 D/E:0.18 RetEarning/A:0.57 S/A:1.78 fcf/A:0.17 52w_p%:5 divYldAll:3% divYldLastYear:3% insider%: 55% yahooPE:7.41 manualPE:10.29 PB:0.99 div:3.64%
+JVA  Coffee_Holding_Co.,_Inc.  dai$Vol:0M United_States Consumer_Defensive USDUSD schloss! netnetRatio:0.6 MV:0.0B B:0.0B P/FCF:45.95 DEP/CFO:0.67 CAPEX/CFO:-0.03 P/B:0.6 C/R:1.85 D/E:0.54 RetEarning/A:0.33 S/A:1.63 fcf/A:0.01 52w_p%:2 divYldAll:1% divYldLastYear:0% insider%: 10% yahooPE:20.13 manualPE:12.38 PB:0.6 div:0.0%
+POWL  Powell_Industries,_Inc.  dai$Vol:1M United_States Industrials USDUSD schloss! netnetRatio:0.7 MV:0.2B B:0.3B P/FCF:8.32 DEP/CFO:0.26 CAPEX/CFO:-0.05 P/B:0.8 C/R:1.94 D/E:0.45 RetEarning/A:0.65 S/A:1.19 fcf/A:0.06 52w_p%:3 divYldAll:1% divYldLastYear:3% insider%: 24% yahooPE:1000 manualPE:17.35 PB:0.77 div:5.28%
+SSY  SunLink_Health_Systems,_Inc.  dai$Vol:0M United_States Healthcare USDUSD schloss! netnetRatio:1.0 MV:0.0B B:0.0B P/FCF:-13.48 DEP/CFO:1.74 CAPEX/CFO:-3.93 P/B:0.4 C/R:2.27 D/E:0.38 RetEarning/A:0.27 S/A:1.38 fcf/A:-0.02 52w_p%:1 divYldAll:0% divYldLastYear:0% insider%: 29% yahooPE:1.55 manualPE:-3.55 PB:0.38 div:0.0%
 TAYD  Taylor_Devices,_Inc.  dai$Vol:0M United_States Industrials USDUSD schloss! netnetRatio:0.8 MV:0.0B B:0.0B P/FCF:-4.59 DEP/CFO:-0.23 CAPEX/CFO:0.07 P/B:0.8 C/R:6.56 D/E:0.1 RetEarning/A:0.75 S/A:0.67 fcf/A:-0.15 52w_p%:1 divYldAll:0% divYldLastYear:0% insider%: 15% yahooPE:29.7 manualPE:12.01 PB:0.76 div:0.0%
-nothing:TESS TESSCO_Technologies_Incorporated  pe:1000 pb:0.7 netnetRatio:0.54 div:0.0%
 TPC  Tutor_Perini_Corporation  dai$Vol:2M United_States Industrials USDUSD schloss! netnetRatio:0.8 MV:0.5B B:1.3B P/FCF:-2.31 DEP/CFO:-1.41 CAPEX/CFO:0.39 P/B:0.3 C/R:1.53 D/E:2.41 RetEarning/A:0.1 S/A:0.98 fcf/A:-0.04 52w_p%:2 divYldAll:0% divYldLastYear:0% insider%: 18% yahooPE:5.18 manualPE:7.69 PB:0.29 div:0.0%
-nothing:TSRI TSR,_Inc.  pe:2.74 pb:1.37 netnetRatio:0.54 div:0.0%
+XBIT  XBiotech_Inc.  dai$Vol:1M United_States Healthcare USDUSD schloss! netnet! netnetRatio:1.0 MV:0.2B B:0.3B P/FCF:-14.42 DEP/CFO:-0.2 CAPEX/CFO:0.21 P/B:0.9 C/R:64.03 D/E:0.02 RetEarning/A:0.04 S/A:0.06 fcf/A:-0.06 52w_p%:5 divYldAll:2% divYldLastYear:16% insider%: 40% yahooPE:1000 manualPE:-18.08 PB:0.86 div:0%

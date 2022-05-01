@@ -67,6 +67,10 @@ gCurrentAssets = figure(title='currentAssets', x_range=FactorRange(factors=list(
                         tools="hover", tooltips="$name @dateStr: @$name")
 gCurrentAssets.title.text = 'currentAssets'
 
+gAssetComposition = figure(title='Assets compo', x_range=FactorRange(factors=list()),
+                           tools="hover", tooltips="$name @dateStr: @$name")
+gAssetComposition.title.text = 'Assets compo'
+
 gBook = figure(title='book(B)', x_range=FactorRange(factors=list()))
 gBook.title.text = 'Book(B)'
 gBook.add_tools(HoverTool(tooltips=[('dateStr', '@dateStr'), ("bookB", "@netBookB")], mode='vline'))
@@ -107,14 +111,16 @@ gSA.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("S/A Ratio", "@SalesAss
 gNetnet.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("netnet", "@netnetRatio")], mode='vline'))
 gFCFA.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("FCF/A", "@FCFAssetRatio")], mode='vline'))
 
-for figu in [gPrice, gMarketcap, gCash, gCurrentAssets, gBook, gTangibleRatio, gDiv, gCurrentRatio, gRetainedEarnings,
+for figu in [gPrice, gMarketcap, gCash, gCurrentAssets, gAssetComposition, gBook, gTangibleRatio, gDiv, gCurrentRatio,
+             gRetainedEarnings,
              gDE, gPB, gEarnings, gPE, gCFO, gFCF, gPFCF, gDepCFO, gCapexCFO, gSA, gNetnet, gFCFA]:
     figu.title.text_font_size = '18pt'
     figu.title.align = 'center'
 
 grid = gridplot(
-    [[gMarketcap, gCash], [gCurrentAssets, None], [gBook, gTangibleRatio], [gCurrentRatio, gRetainedEarnings],
-     [gDE, gPB], [gEarnings, gPE], [gCFO, None], [gFCF, gPFCF], [gDepCFO, gCapexCFO], [gSA, gNetnet], [gFCFA, None]],
+    [[gMarketcap, gCash], [gCurrentAssets, gAssetComposition], [gBook, gTangibleRatio],
+     [gCurrentRatio, gRetainedEarnings], [gDE, gPB], [gEarnings, gPE], [gCFO, None], [gFCF, gPFCF],
+     [gDepCFO, gCapexCFO], [gSA, gNetnet], [gFCFA, None]],
     width=500, height=500)
 
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
@@ -184,7 +190,11 @@ def buttonCallback():
     # bsT['priceOnOrAfter'][0] = latestPrice
     bsT['currentAssets'] = bsT['cash'] + fill0Get(bsT, 'netReceivables') + fill0Get(bsT, 'inventory')
 
-    print('bsT current assets', bsT['cash'], bsT['netReceivables'], bsT['inventory'])
+    bsT['totalLiabB'] = bsT['totalLiab'] / 1000000000 if 'totalLiab' in bsT else 0
+    bsT['goodWillB'] = bsT['goodWill'] / 1000000000 if 'goodWill' in bsT else 0
+    bsT['intangibleAssetsB'] = bsT['intangibleAssets'] / 1000000000 if 'intangibleAssets' in bsT else 0
+
+    # print('bsT current assets', bsT['cash'], bsT['netReceivables'], bsT['inventory'])
 
     # shares = si.get_quote_data(TICKER)['sharesOutstanding']
 
@@ -247,10 +257,10 @@ def buttonCallback():
 
     bsT['dateStr'] = pd.to_datetime(bsT.index)
     bsT['dateStr'] = bsT['dateStr'].transform(lambda x: x.strftime('%Y-%m-%d'))
-    bsT['cashB'] = bsT['cash'] / 1000000000
-    bsT['netReceivablesB'] = bsT['netReceivables'] / 1000000000
-    bsT['inventoryB'] = bsT['inventory'] / 1000000000
-    bsT['netBookB'] = bsT['netBook'] / 1000000000
+    bsT['cashB'] = bsT['cash'] / 1000000000 if 'cash' in bsT else 0
+    bsT['netReceivablesB'] = bsT['netReceivables'] / 1000000000 if 'netReceivables' in bsT else 0
+    bsT['inventoryB'] = bsT['inventory'] / 1000000000 if 'inventory' in bsT else 0
+    bsT['netBookB'] = bsT['netBook'] / 1000000000 if 'netBook' in bsT else 0
 
     global_source.data = ColumnDataSource.from_df(bsT)
     stockData.data = ColumnDataSource.from_df(priceData)
@@ -303,7 +313,7 @@ def updateGraphs():
     lastPrice = round(stockData.data['close'][-1], 2) if 'close' in stockData.data else ''
     gPrice.title.text = ' Price chart:' + TICKER + '____' + str(round(si.get_live_price(TICKER), 2))
 
-    for figu in [gMarketcap, gCash, gCurrentAssets, gBook, gTangibleRatio,
+    for figu in [gMarketcap, gCash, gCurrentAssets, gAssetComposition, gBook, gTangibleRatio,
                  gCurrentRatio, gRetainedEarnings, gDE, gPB, gEarnings, gPE, gCFO, gFCF, gPFCF, gDepCFO, gCapexCFO,
                  gSA, gNetnet, gFCFA]:
         figu.x_range.factors = list(global_source.data['dateStr'][::-1])
@@ -323,6 +333,12 @@ def updateGraphs():
         currentAssetItems = ['cashB', 'netReceivablesB', 'inventoryB']
         gCurrentAssets.vbar_stack(currentAssetItems, x='dateStr',
                                   source=global_source, color=colors, legend_label=currentAssetItems, width=0.5)
+
+        # assets composition
+        colors = ["darkgreen", "gold", "navy", 'darkred']
+        assetCompoItems = ['netBookB', 'goodWillB', 'intangibleAssetsB', 'totalLiabB']
+        gAssetComposition.vbar_stack(assetCompoItems, x='dateStr',
+                                     source=global_source, color=colors, legend_label=assetCompoItems, width=0.5)
 
         # book
         gBook.vbar(x='dateStr', top='netBookB', source=global_source, width=0.5)
