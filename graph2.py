@@ -193,6 +193,10 @@ def buttonCallback():
     bsT['currentAssets'] = bsT['cash'] + fill0Get(bsT, 'netReceivables') + fill0Get(bsT, 'inventory')
 
     bsT['totalLiabB'] = bsT['totalLiab'] / 1000000000 if 'totalLiab' in bsT else 0
+    bsT['totalCurrentLiabB'] = bsT['totalCurrentLiabilities'] / 1000000000 \
+        if 'totalCurrentLiabilities' in bsT else 0
+    bsT['totalNoncurrentLiab'] = bsT['totalLiab'] - bsT['totalCurrentLiabilities']
+    bsT['totalNoncurrentLiabB'] = bsT['totalNoncurrentLiab'] / 1000000000
     bsT['goodWillB'] = bsT['goodWill'] / 1000000000 if 'goodWill' in bsT else 0
     bsT['intangibleAssetsB'] = bsT['intangibleAssets'] / 1000000000 if 'intangibleAssets' in bsT else 0
 
@@ -240,7 +244,9 @@ def buttonCallback():
     bsT['dep'] = bsT.index.map(
         lambda d: cfT[cfT.index == d]['depreciation'].item() * indicatorFunction(ANNUALLY))
     bsT['capex'] = bsT.index.map(
-        lambda d: cfT[cfT.index == d]['capitalExpenditures'].item() * -1 * indicatorFunction(ANNUALLY))
+        lambda d: cfT[cfT.index == d]['capitalExpenditures'].item() * -1 * indicatorFunction(ANNUALLY)) \
+        if 'capitalExpenditures' in cfT else 0
+
     bsT['FCF'] = bsT['CFO'] - bsT['dep']
 
     bsT['CFOB'] = bsT['CFO'] / 1000000000
@@ -340,8 +346,8 @@ def updateGraphs():
         gCurrentAssets.legend.location = "top_left"
 
         # assets composition
-        colors = ["darkgreen", "gold", "navy", 'darkred']
-        assetCompoItems = ['netBookB', 'goodWillB', 'intangibleAssetsB', 'totalLiabB']
+        colors = ["darkgreen", "gold", "navy", 'salmon', 'darkred']
+        assetCompoItems = ['netBookB', 'goodWillB', 'intangibleAssetsB', 'totalCurrentLiabB', 'totalNoncurrentLiabB']
         gAssetComposition.vbar_stack(assetCompoItems, x='dateStr',
                                      source=global_source, color=colors, legend_label=assetCompoItems, width=0.5)
         # gAssetComposition.legend.orientation = "horizontal"
