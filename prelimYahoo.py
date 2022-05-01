@@ -1,6 +1,6 @@
 import pandas as pd
 
-stockName = '0116.HK'
+stockName = 'PDD'
 yearlyFlag = False
 
 import statistics
@@ -112,12 +112,13 @@ def getResults(stockName):
         print("implied shares ", impliedShares)
         print("share diff", shares / impliedShares)
 
-        if bsCurrency == 'CNY':
+        if bsCurrency == 'CNY' and listingCurr != 'USD':
             sharesTotalXueqiu = scrape_sharesOutstanding.scrapeTotalSharesXueqiu(stockName)
             floatingSharesXueqiu = scrape_sharesOutstanding.scrapeFloatingSharesXueqiu(stockName)
+            print('floating shares xiuqiu', floatingSharesXueqiu)
             sharesFinviz = scrape_sharesOutstanding.scrapeSharesOutstandingFinviz(stockName)
             print('xueqiu total shares', sharesTotalXueqiu)
-            print('xueqiu floating shares', roundB(floatingSharesXueqiu, 1))
+            # print('xueqiu floating shares', roundB(floatingSharesXueqiu, 1))
             print('finviz shares', roundB(sharesFinviz, 1))
             if stockName.lower().endswith('hk') and sharesTotalXueqiu != 0:
                 shares = sharesTotalXueqiu
@@ -149,15 +150,18 @@ def getResults(stockName):
         # divAllTimeYld = divSumAll / startToNow / marketPrice
         # print('div all time yld ', divAllTimeYld)
 
-        yearSpan = 2021 - priceData[:1].index.item().year + 1
-        divPrice = pd.merge(divs.groupby(by=lambda d: d.year)['dividend'].sum(),
-                            priceData.groupby(by=lambda d: d.year)['close'].mean(),
-                            left_index=True, right_index=True)
-        divPrice['yield'] = divPrice['dividend'] / divPrice['close']
-        divYieldAll = divPrice[divPrice.index != 2022]['yield'].sum() / yearSpan \
-            if not divPrice[divPrice.index != 2022].empty else 0
-        div2021Yld = divPrice.loc[2021]['yield'] if 2021 in divPrice.index else 0
-        print('yield all', divYieldAll, 'lastyear', div2021Yld)
+        divYieldAll = 0
+        div2021Yld = 0
+        if not divs.empty:
+            yearSpan = 2021 - priceData[:1].index.item().year + 1
+            divPrice = pd.merge(divs.groupby(by=lambda d: d.year)['dividend'].sum(),
+                                priceData.groupby(by=lambda d: d.year)['close'].mean(),
+                                left_index=True, right_index=True)
+            divPrice['yield'] = divPrice['dividend'] / divPrice['close']
+            divYieldAll = divPrice[divPrice.index != 2022]['yield'].sum() / yearSpan \
+                if not divPrice[divPrice.index != 2022].empty else 0
+            div2021Yld = divPrice.loc[2021]['yield'] if 2021 in divPrice.index else 0
+            print('yield all', divYieldAll, 'lastyear', div2021Yld)
 
         data52w = priceData.loc[priceData.index > ONE_YEAR_AGO]
         percentile = 100.0 * (marketPrice - data52w['low'].min()) / (data52w['high'].max() - data52w['low'].min())

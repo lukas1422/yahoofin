@@ -66,6 +66,8 @@ gCash.add_tools(HoverTool(tooltips=[('dateStr', '@dateStr'), ("cash", "@cashB")]
 gCurrentAssets = figure(title='currentAssets', x_range=FactorRange(factors=list()),
                         tools="hover", tooltips="$name @dateStr: @$name")
 gCurrentAssets.title.text = 'currentAssets'
+# gCurrentAssets.legend.orientation = "horizontal"
+# gCurrentAssets.legend.location = "top_center"
 
 gAssetComposition = figure(title='Assets compo', x_range=FactorRange(factors=list()),
                            tools="hover", tooltips="$name @dateStr: @$name")
@@ -332,13 +334,18 @@ def updateGraphs():
         colors = ["#c9d9d3", "#718dbf", "#e84d60"]
         currentAssetItems = ['cashB', 'netReceivablesB', 'inventoryB']
         gCurrentAssets.vbar_stack(currentAssetItems, x='dateStr',
-                                  source=global_source, color=colors, legend_label=currentAssetItems, width=0.5)
+                                  source=global_source, color=colors,
+                                  legend_label=currentAssetItems, width=0.5)
+        # gCurrentAssets.legend.orientation = "vertical"
+        gCurrentAssets.legend.location = "top_left"
 
         # assets composition
         colors = ["darkgreen", "gold", "navy", 'darkred']
         assetCompoItems = ['netBookB', 'goodWillB', 'intangibleAssetsB', 'totalLiabB']
         gAssetComposition.vbar_stack(assetCompoItems, x='dateStr',
                                      source=global_source, color=colors, legend_label=assetCompoItems, width=0.5)
+        # gAssetComposition.legend.orientation = "horizontal"
+        gAssetComposition.legend.location = "top_left"
 
         # book
         gBook.vbar(x='dateStr', top='netBookB', source=global_source, width=0.5)
