@@ -73,9 +73,10 @@ gAssetComposition = figure(title='Assets compo', x_range=FactorRange(factors=lis
                            tools="hover", tooltips="$name @dateStr: @$name")
 gAssetComposition.title.text = 'Assets compo'
 
-gBook = figure(title='book(B)', x_range=FactorRange(factors=list()))
+gBook = figure(title='book(B)', x_range=FactorRange(factors=list()),
+               tools="hover", tooltips="$name @dateStr: @$name")
 gBook.title.text = 'Book(B)'
-gBook.add_tools(HoverTool(tooltips=[('dateStr', '@dateStr'), ("bookB", "@netBookB")], mode='vline'))
+# gBook.add_tools(HoverTool(tooltips=[('dateStr', '@dateStr'), ("bookB", "@netBookB")], mode='vline'))
 
 gTangibleRatio = figure(title='Tangible Ratio', x_range=FactorRange(factors=list()))
 gTangibleRatio.title.text = 'Tangible Ratio'
@@ -186,7 +187,7 @@ def buttonCallback():
                            0.5 * fill0Get(bsT, 'inventory')) / bsT['totalCurrentLiabilities']
     bsT['netBook'] = bsT['totalAssets'] - bsT['totalLiab'] - fill0Get(bsT, 'goodWill') \
                      - fill0Get(bsT, 'intangibleAssets')
-    bsT['noncashAssets'] = bsT['netBook'] - bsT['cash']
+    # bsT['noncashAssets'] = bsT['netBook'] - bsT['cash']
     bsT['tangibleRatio'] = bsT['netBook'] / (bsT['totalAssets'] - bsT['totalLiab'])
     bsT['DERatio'] = bsT['totalLiab'] / bsT['netBook']
     bsT['priceOnOrAfter'] = bsT.index.map(lambda d: priceData[priceData.index >= d].iloc[0]['adjclose'])
@@ -270,7 +271,7 @@ def buttonCallback():
     bsT['netReceivablesB'] = bsT['netReceivables'] / 1000000000 if 'netReceivables' in bsT else 0
     bsT['inventoryB'] = bsT['inventory'] / 1000000000 if 'inventory' in bsT else 0
     bsT['netBookB'] = bsT['netBook'] / 1000000000 if 'netBook' in bsT else 0
-    bsT['noncashAssetsB'] = bsT['noncashAssets'] / 1000000000 if 'noncashAssets' in bsT else 0
+    # bsT['noncashAssetsB'] = bsT['noncashAssets'] / 1000000000 if 'noncashAssets' in bsT else 0
 
     global_source.data = ColumnDataSource.from_df(bsT)
     stockData.data = ColumnDataSource.from_df(priceData)
@@ -348,16 +349,20 @@ def updateGraphs():
         gCurrentAssets.legend.location = "top_left"
 
         # assets composition
-        colors = ["darkgreen", 'yellowgreen', "gold", "navy", 'salmon', 'darkred']
-        assetCompoItems = ['cashB', 'noncashAssetsB', 'goodWillB',
-                           'intangibleAssetsB', 'totalCurrentLiabB', 'totalNoncurrentLiabB']
+        # colors = ["darkgreen", 'yellowgreen', "gold", "navy", 'salmon', 'darkred']
+        colors = ['darkgreen', 'salmon', 'darkred']
+        assetCompoItems = ['cashB', 'totalCurrentLiabB', 'totalNoncurrentLiabB']
         gAssetComposition.vbar_stack(assetCompoItems, x='dateStr',
                                      source=global_source, color=colors, legend_label=assetCompoItems, width=0.5)
         # gAssetComposition.legend.orientation = "horizontal"
         gAssetComposition.legend.location = "top_left"
 
         # book
-        gBook.vbar(x='dateStr', top='netBookB', source=global_source, width=0.5)
+        bookItems = ['netBookB', 'goodWillB', 'intangibleAssetsB']
+        gBook.vbar_stack(bookItems, x='dateStr', source=global_source, color=colors,
+                         legend_label=bookItems, width=0.5)
+        gBook.legend.location = "top_left"
+        # gBook.vbar(x='dateStr', top='netBookB', source=global_source, width=0.5)
 
         # tangible ratio
         gTangibleRatio.vbar(x='dateStr', top='tangibleRatio', source=global_source, width=0.5)
