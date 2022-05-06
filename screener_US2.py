@@ -242,7 +242,7 @@ for comp in listStocks:
                            + str(round(divRateYahoo * 100, 2)) + '%'
 
         else:
-            outputString = "nothing:" + " dai$Vol:" + str(round(medianDollarVol / 1000000), 2) + "M " \
+            outputString = "nothing:" + " dai$Vol:" + str(round(medianDollarVol / 1000000)) + "M " \
                            + comp[:4] + ' ' + companyName + ' ' \
                            + " pe:" + str(round(yahooPE, 2)) + ' pb:' + str(round(pb, 2)) \
                            + ' netnetRatio:' + str(round(netnetRatio, 2)) \

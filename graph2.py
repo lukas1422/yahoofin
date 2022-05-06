@@ -48,7 +48,7 @@ lastTradingPrice = si.get_live_price(TICKER)
 gPrice = figure(title='prices chart', width=1000, x_axis_type="datetime")
 gPrice.xaxis.major_label_orientation = pi / 4
 gPrice.grid.grid_line_alpha = 0.3
-gPrice.add_tools(HoverTool(tooltips=[('date', '@date{%Y-%m-%d}'), ('adjclose', '@adjclose')],
+gPrice.add_tools(HoverTool(tooltips=[('date', '@date{%Y-%m-%d}'), ('close', '@close')],
                            formatters={'@date': 'datetime'}, mode='vline'))
 
 # priceChart.background_fill_color = "#f5f5f5"
@@ -170,11 +170,11 @@ def buttonCallback():
     if not divData.empty:
         # divData.groupby(by=lambda a: a.year)['dividend'].sum()
         divPrice = pd.merge(divData.groupby(by=lambda d: d.year)['dividend'].sum(),
-                            priceData.groupby(by=lambda d: d.year)['adjclose'].mean(),
+                            priceData.groupby(by=lambda d: d.year)['close'].mean(),
                             left_index=True, right_index=True)
         # print('divprice1', divPrice)
         divPrice.index.name = 'year'
-        divPrice['yield'] = divPrice['dividend'] / divPrice['adjclose'] * 100
+        divPrice['yield'] = divPrice['dividend'] / divPrice['close'] * 100
 
         # print('divprice2', divPrice)
         divPriceData.data = ColumnDataSource.from_df(divPrice)
@@ -185,12 +185,13 @@ def buttonCallback():
     bsT['REAssetsRatio'] = bsT['retainedEarnings'] / bsT['totalAssets'] if 'retainedEarnings' in bsT else 0
     bsT['currentRatio'] = (bsT['cash'] + 0.8 * fill0Get(bsT, 'netReceivables') +
                            0.5 * fill0Get(bsT, 'inventory')) / bsT['totalCurrentLiabilities']
+
     bsT['netBook'] = bsT['totalAssets'] - bsT['totalLiab'] - fill0Get(bsT, 'goodWill') \
                      - fill0Get(bsT, 'intangibleAssets')
     # bsT['noncashAssets'] = bsT['netBook'] - bsT['cash']
     bsT['tangibleRatio'] = bsT['netBook'] / (bsT['totalAssets'] - bsT['totalLiab'])
     bsT['DERatio'] = bsT['totalLiab'] / bsT['netBook']
-    bsT['priceOnOrAfter'] = bsT.index.map(lambda d: priceData[priceData.index >= d].iloc[0]['adjclose'])
+    bsT['priceOnOrAfter'] = bsT.index.map(lambda d: priceData[priceData.index >= d].iloc[0]['close'])
     # bsT['priceOnOrAfter'][0] = latestPrice
     bsT['currentAssets'] = bsT['cash'] + fill0Get(bsT, 'netReceivables') + fill0Get(bsT, 'inventory')
 
@@ -329,7 +330,7 @@ def updateGraphs():
         figu.x_range.factors = list(global_source.data['dateStr'][::-1])
 
     if FIRST_TIME_GRAPHING:
-        gPrice.line(x='date', y='adjclose', source=stockData, color='#D06C8A')
+        gPrice.line(x='date', y='close', source=stockData, color='#D06C8A')
         gDiv.vbar(x='year', top='yield', source=divPriceData, width=0.8)
 
         # market cap
