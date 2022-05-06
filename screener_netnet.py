@@ -84,9 +84,10 @@ for comp in listStocks:
         info = si.get_company_info(comp)
         country = getFromDF(info, 'country')
         sector = getFromDF(info, 'sector')
+        print('sector', sector)
 
-        if 'real estate' in sector.lower() or 'financial' in sector.lower():
-            print(comp, " no real estate or financial ")
+        if (not 'sector' in info.index) or 'real estate' in sector.lower() or 'financial' in sector.lower():
+            print(comp, 'sector', sector, " no real estate or financial ")
             continue
 
         marketPrice = si.get_live_price(comp)
