@@ -214,9 +214,9 @@ for comp in listStocks:
         peDiv = manualPE < 6 and divRateYahoo >= 0.06
         pureHighYield = divRateYahoo >= 0.06
 
-        if (netnetRatio < 0.5):
-            print('netnet ratio < 0.5', netnetRatio)
-            continue
+        # if (netnetRatio < 0.5):
+        #     print('netnet ratio < 0.5', netnetRatio)
+        #     continue
 
         print('pb, pfcf, divyield', pb, pFcf, divYieldAll, magic6)
         print('netnet ratio', round(netnetRatio, 2))
@@ -249,17 +249,17 @@ for comp in listStocks:
                            + " manual PE:" + str(round(manualPE, 2)) + ' PB:' \
                            + str(round(pb, 2)) + " div:" + str(round(divRateYahoo * 100, 2)) + '%'
 
-        else:
-            outputString = "nothing:" + comp[:4] + " " + " " + companyName[:4] + ' ' \
-                           + " yahoo pe:" + str(round(yahooPE, 2)) \
-                           + " manual pe:" + str(round(manualPE, 2)) \
-                           + ' pb:' + str(round(pb, 2)) \
-                           + ' netnetRatio:' + str(round(netnetRatio, 2)) \
-                           + " div:" + str(round(divRateYahoo * 100, 2)) + '%'
+        # else:
+        #     outputString = "nothing:" + comp[:4] + " " + " " + companyName[:4] + ' ' \
+        #                    + " yahoo pe:" + str(round(yahooPE, 2)) \
+        #                    + " manual pe:" + str(round(manualPE, 2)) \
+        #                    + ' pb:' + str(round(pb, 2)) \
+        #                    + ' netnetRatio:' + str(round(netnetRatio, 2)) \
+        #                    + " div:" + str(round(divRateYahoo * 100, 2)) + '%'
 
-        print(outputString)
-        fileOutput.write(outputString + '\n')
-        fileOutput.flush()
+            print(outputString)
+            fileOutput.write(outputString + '\n')
+            fileOutput.flush()
 
     except Exception as e:
         print(comp, "exception", e)

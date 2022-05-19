@@ -23,3 +23,13 @@ nothing: dai$Vol:1M MLR Miller_Industries,_Inc.  pe:10.74 pb:0.95 netnetRatio:0.
 nothing: dai$Vol:32M MTH Meritage_Homes_Corporation  pe:4.7 pb:1.06 netnetRatio:0.55 div:0%
 nothing: dai$Vol:2M NLS Nautilus,_Inc.  pe:1.02 pb:0.45 netnetRatio:0.6 div:0%
 PFIN  P&F_Industries,_Inc.  dai$Vol:0M United_States Industrials USDUSD schloss! netnetRatio:0.6 MV:0.0B B:0.0B P/FCF:-1.28 DEP/CFO:-0.32 CAPEX/CFO:0.08 P/B:0.4 C/R:1.67 D/E:0.42 RetEarning/A:0.62 S/A:0.9 fcf/A:-0.23 52w_p%:9 divYldAll:0% divYldLastYear:0% insider%: 54% yahooPE:7.51 manualPE:4.74 PB:0.39 div:0.0%
+SSY  SunLink_Health_Systems,_Inc.  dai$Vol:0M United_States Healthcare USDUSD schloss! netnet! netnetRatio:1.0 MV:0.0B B:0.0B P/FCF:-11.7 DEP/CFO:1.74 CAPEX/CFO:-3.93 P/B:0.3 C/R:2.27 D/E:0.38 RetEarning/A:0.27 S/A:1.38 fcf/A:-0.02 52w_p%:3 divYldAll:0% divYldLastYear:0% insider%: 29% yahooPE:1.34 manualPE:-3.08 PB:0.33 div:0.0%
+nothing: dai$Vol:0M STRT Strattec_Security_Corporation  pe:12.3 pb:0.61 netnetRatio:0.52 div:0.0%
+nothing: dai$Vol:0M SVT Servotronics,_Inc.  pe:6.81 pb:0.79 netnetRatio:0.59 div:0.0%
+nothing: dai$Vol:0M TACT TransAct_Technologies_Incorporated  pe:1000 pb:1.38 netnetRatio:0.51 div:0.0%
+nothing: dai$Vol:0M TATT TAT_Technologies_Ltd.  pe:1000 pb:0.67 netnetRatio:0.53 div:0.0%
+TAYD  Taylor_Devices,_Inc.  dai$Vol:0M United_States Industrials USDUSD schloss! netnetRatio:0.8 MV:0.0B B:0.0B P/FCF:5.39 DEP/CFO:0.19 CAPEX/CFO:-0.09 P/B:0.7 C/R:6.31 D/E:0.11 RetEarning/A:0.74 S/A:0.53 fcf/A:0.12 52w_p%:0 divYldAll:0% divYldLastYear:0% insider%: 15% yahooPE:28.69 manualPE:-65.22 PB:0.73 div:0%
+nothing: dai$Vol:0M TESS TESSCO_Technologies_Incorporated  pe:1000 pb:0.72 netnetRatio:0.53 div:0.0%
+nothing: dai$Vol:2M TPC Tutor_Perini_Corporation  pe:5.35 pb:0.32 netnetRatio:0.81 div:0%
+nothing: dai$Vol:0M TRT Trio-Tech_International  pe:1000 pb:0.8 netnetRatio:0.53 div:0.0%
+nothing: dai$Vol:0M TSRI TSR,_Inc.  pe:2.42 pb:1.17 netnetRatio:0.64 div:0.0%
