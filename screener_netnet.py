@@ -152,17 +152,14 @@ for comp in listStocks:
         bsCurr = si.get_quote_data(comp)['financialCurrency']
         exRate = currency_getExchangeRate.getExchangeRate(exchange_rate_dict, listingCurr, bsCurr)
 
+        print('listcurr, bscurr, exrate', listingCurr, bsCurr, exRate)
+
         pCfo = marketCap / (cfo / exRate)
         print("MV, cfo", roundB(marketCap, 2), roundB(cfo, 2))
 
         # if pCfo > 10:
         #     print(comp, ' pcfo > 10')
         #     continue
-
-        # if MARKET == Market.HK:
-        #     if marketCap < 1000000000:
-        #         print(comp, "HK market cap less than 1B", marketCap / 1000000000)
-        #         continue
 
         if cash + receivables + inventory - totalL < exRate * marketCap:
             print(comp, listingCurr, bsCurr,
@@ -173,6 +170,10 @@ for comp in listStocks:
 
         data = si.get_data(comp, interval='1wk')
         medianDollarVol = statistics.median(data[-10:]['close'] * data[-10:]['volume']) / 5
+
+        if medianDollarVol < 500000:
+            print(comp, 'vol too small', medianDollarVol)
+            continue
 
         additionalComment = ""
         if cash > totalL + exRate * marketCap:
