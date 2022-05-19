@@ -152,9 +152,9 @@ for comp in listStocks:
 
         netnetRatio = (cash + receivables * 0.8 + inventory * 0.5) / (totalLiab + exRate * marketCap)
 
-        if netnetRatio < 0.5:
-            print('netnetratio < 0.5', netnetRatio)
-            continue
+        # if netnetRatio < 0.5:
+        #     print('netnetratio < 0.5', netnetRatio)
+        #     continue
 
         manualPE = marketCap * exRate / netIncome
 
@@ -185,6 +185,10 @@ for comp in listStocks:
         low_52wk = quoteData['fiftyTwoWeekLow'] if 'fiftyTwoWeekLow' in quoteData else 0
         medianDollarVol = statistics.median(priceData[-10:]['close'] * priceData[-10:]['volume']) / 5
 
+        if medianDollarVol < 1000000:
+            print(comp, 'vol too small', medianDollarVol)
+            continue
+
         insiderPerc = float(si.get_holders(comp).get('Major Holders')[0][0].rstrip("%"))
         print(comp, "insider percent", insiderPerc)
 
@@ -208,7 +212,7 @@ for comp in listStocks:
             if 'trailingAnnualDividendRate' in quoteData else 0
 
         schloss = pb < 1 and marketPrice < low_52wk * 1.1 and insiderPerc > INSIDER_OWN_MIN
-        netnet = (cash + receivables * 0.8 + inventory * 0.5 - totalLiab) / exRate - marketCap > 0
+        netnet = cash + receivables * 0.8 + inventory * 0.5 > (totalLiab + exRate * marketCap)
         magic6 = manualPE < 6 and divRateYahoo >= 0.06 and pb < 0.6
         peDiv = manualPE < 6 and divRateYahoo >= 0.06
         pureHighYield = divRateYahoo >= 0.06
@@ -241,16 +245,16 @@ for comp in listStocks:
                            + ' PB:' + str(round(pb, 2)) + " div:" \
                            + str(round(divRateYahoo * 100, 2)) + '%'
 
-        else:
-            outputString = "nothing:" + " dai$Vol:" + str(round(medianDollarVol / 1000000)) + "M " \
-                           + comp[:4] + ' ' + companyName + ' ' \
-                           + " pe:" + str(round(yahooPE, 2)) + ' pb:' + str(round(pb, 2)) \
-                           + ' netnetRatio:' + str(round(netnetRatio, 2)) \
-                           + " div:" + str(round(divRateYahoo * 100, 2)) + '%'
+            # else:
+            #     outputString = "nothing:" + " dai$Vol:" + str(round(medianDollarVol / 1000000)) + "M " \
+            #                    + comp[:4] + ' ' + companyName + ' ' \
+            #                    + " pe:" + str(round(yahooPE, 2)) + ' pb:' + str(round(pb, 2)) \
+            #                    + ' netnetRatio:' + str(round(netnetRatio, 2)) \
+            #                    + " div:" + str(round(divRateYahoo * 100, 2)) + '%'
 
-        print(outputString)
-        fileOutput.write(outputString + '\n')
-        fileOutput.flush()
+            print(outputString)
+            fileOutput.write(outputString + '\n')
+            fileOutput.flush()
 
     except Exception as e:
         print(comp, "exception", e)

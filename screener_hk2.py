@@ -159,6 +159,10 @@ for comp in listStocks:
 
         pb = quoteData['priceToBook'] if 'priceToBook' in quoteData else 1000
 
+        if pb > 1:
+            print(comp, 'pb > 1', pb)
+            continue
+
         print("MV, cfo", roundB(marketCap, 2), roundB(cfo, 2))
 
         # if pFcf > 10:
@@ -249,13 +253,13 @@ for comp in listStocks:
                            + " manual PE:" + str(round(manualPE, 2)) + ' PB:' \
                            + str(round(pb, 2)) + " div:" + str(round(divRateYahoo * 100, 2)) + '%'
 
-        # else:
-        #     outputString = "nothing:" + comp[:4] + " " + " " + companyName[:4] + ' ' \
-        #                    + " yahoo pe:" + str(round(yahooPE, 2)) \
-        #                    + " manual pe:" + str(round(manualPE, 2)) \
-        #                    + ' pb:' + str(round(pb, 2)) \
-        #                    + ' netnetRatio:' + str(round(netnetRatio, 2)) \
-        #                    + " div:" + str(round(divRateYahoo * 100, 2)) + '%'
+            # else:
+            #     outputString = "nothing:" + comp[:4] + " " + " " + companyName[:4] + ' ' \
+            #                    + " yahoo pe:" + str(round(yahooPE, 2)) \
+            #                    + " manual pe:" + str(round(manualPE, 2)) \
+            #                    + ' pb:' + str(round(pb, 2)) \
+            #                    + ' netnetRatio:' + str(round(netnetRatio, 2)) \
+            #                    + " div:" + str(round(divRateYahoo * 100, 2)) + '%'
 
             print(outputString)
             fileOutput.write(outputString + '\n')
