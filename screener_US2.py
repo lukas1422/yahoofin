@@ -47,7 +47,7 @@ listStocks = stock_df[~stock_df['sector'].str.contains('financial', regex=True, 
 #                       & (stock_df['industry'].str.contains('reit', regex=True, case=False) == False)
 #                       & (stock_df['country'].str.lower() != 'china')]['ticker'].tolist()
 # listStocks = stock_df['ticker'].tolist()
-# listStocks = ['LPL']
+# listStocks = ['DAC']
 
 print(len(listStocks), listStocks)
 
@@ -207,7 +207,10 @@ for comp in listStocks:
         divLastYearYield = divPrice.loc[2021]['yield'] if 2021 in divPrice.index else 0
         print('div yield all', divYieldAll, 'lastyear', divLastYearYield)
 
+        pb1 = marketCap * exRate / tangible_Equity
+
         pb = quoteData['priceToBook'] if 'priceToBook' in quoteData else 1000
+        print('pb1', 'pb', pb1, pb)
         divRateYahoo = (quoteData['trailingAnnualDividendYield']) / exRate \
             if 'trailingAnnualDividendRate' in quoteData else 0
 
@@ -242,19 +245,53 @@ for comp in listStocks:
                            + " divYldLastYear:" + str(round(divLastYearYield * 100)) + "%" \
                            + " insider%: " + str(round(insiderPerc)) + "%" \
                            + " yahooPE:" + str(round(yahooPE, 2)) + " manualPE:" + str(round(manualPE, 2)) \
+                           + ' PB1:' + str(round(pb1, 2)) + " div:" \
                            + ' PB:' + str(round(pb, 2)) + " div:" \
                            + str(round(divRateYahoo * 100, 2)) + '%'
-
-            # else:
-            #     outputString = "nothing:" + " dai$Vol:" + str(round(medianDollarVol / 1000000)) + "M " \
-            #                    + comp[:4] + ' ' + companyName + ' ' \
-            #                    + " pe:" + str(round(yahooPE, 2)) + ' pb:' + str(round(pb, 2)) \
-            #                    + ' netnetRatio:' + str(round(netnetRatio, 2)) \
-            #                    + " div:" + str(round(divRateYahoo * 100, 2)) + '%'
 
             print(outputString)
             fileOutput.write(outputString + '\n')
             fileOutput.flush()
+            print(outputString)
+            fileOutput.write(outputString + '\n')
+            fileOutput.flush()
+
+        else:
+            nothingString = "nothing:" + " dai$Vol:" + str(round(medianDollarVol / 1000000)) + "M " \
+                            + comp[:4] + ' ' + companyName + ' ' \
+                            + " pe:" + str(round(yahooPE, 2)) + ' pb:' + str(round(pb, 2)) \
+                            + ' netnetRatio:' + str(round(netnetRatio, 3)) \
+                            + " div:" + str(round(divRateYahoo * 100, 2)) + '%'
+            print(nothingString)
+            nothingString2 = comp + " " + " " + companyName + ' ' \
+                             + " dai$Vol:" + str(round(medianDollarVol / 1000000)) + "M " \
+                             + country.replace(" ", "_") + " " \
+                             + sector.replace(" ", "_") + " " + listingCurr + bsCurr \
+                             + boolToString(schloss, 'schloss') + boolToString(netnet, 'netnet') \
+                             + boolToString(magic6, 'magic6') + boolToString(peDiv, 'peDiv') \
+                             + boolToString(pureHighYield, 'highYield') \
+                             + " netnetRatio:" + str(round(netnetRatio, 1)) \
+                             + " MV:" + str(roundB(marketCap, 1)) + 'B' \
+                             + " B:" + str(roundB(tangible_Equity / exRate, 1)) + 'B' \
+                             + " P/FCF:" + str(round(pFCF, 2)) \
+                             + " DEP/CFO:" + str(round(dep / cfo, 2)) \
+                             + " CAPEX/CFO:" + str(round(capex / cfo, 2)) \
+                             + " P/B:" + str(round(pb, 1)) \
+                             + " C/R:" + str(round(currRatio, 2)) \
+                             + " D/E:" + str(round(debtEquityRatio, 2)) \
+                             + " RetEarning/A:" + str(round(retainedEarningsAssetRatio, 2)) \
+                             + " S/A:" + str(round(revenue / totalAssets, 2)) \
+                             + " fcf/A:" + str(round(fcfAssetRatio, 2)) \
+                             + " 52w_p%:" + str(round(percentile)) \
+                             + " divYldAll:" + str(round(divYieldAll * 100)) + "%" \
+                             + " divYldLastYear:" + str(round(divLastYearYield * 100)) + "%" \
+                             + " insider%: " + str(round(insiderPerc)) + "%" \
+                             + " yahooPE:" + str(round(yahooPE, 2)) + " manualPE:" + str(round(manualPE, 2)) \
+                             + ' PB1:' + str(round(pb1, 2)) \
+                             + ' PB:' + str(round(pb, 2)) + " div:" \
+                             + str(round(divRateYahoo * 100, 2)) + '%'
+            print(nothingString2)
+
 
     except Exception as e:
         print(comp, "exception", e)

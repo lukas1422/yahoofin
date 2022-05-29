@@ -153,21 +153,21 @@ for comp in listStocks:
         #     continue
 
         fcf = cfo - dep
-        # pb = marketCap * exRate / tangible_Equity
+        pb1 = marketCap * exRate / tangible_Equity
         pFcf = marketCap * exRate / fcf
         print('mc, exrate, cfo, dep fcf', marketCap, exRate, cfo, dep, cfo - dep)
 
         pb = quoteData['priceToBook'] if 'priceToBook' in quoteData else 1000
 
-        if pb > 1:
+        if pb1 > 1:
             print(comp, 'pb > 1', pb)
             continue
 
         print("MV, cfo", roundB(marketCap, 2), roundB(cfo, 2))
 
-        # if pFcf > 10:
-        #     print(comp, 'p/fcf > 10', pFcf)
-        #     continue
+        if pFcf > 5 or pFcf < 0:
+            print(comp, 'p/fcf > 5', pFcf)
+            continue
 
         revenue = getFromDFYearly(incomeStatement, "totalRevenue", yearlyFlag)
         retainedEarningsAssetRatio = retainedEarnings / totalAssets
