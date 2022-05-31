@@ -220,7 +220,7 @@ for comp in listStocks:
         magic6 = manualPE < 6 and divRateYahoo >= 0.06 and pb < 0.6
         peDiv = manualPE < 6 and divRateYahoo >= 0.06
         pureHighYield = divRateYahoo >= 0.06
-        highSP = sp > 1
+        highSP = sp > 3
 
         # if (netnetRatio < 0.5):
         #     print('netnet ratio < 0.5', netnetRatio)
