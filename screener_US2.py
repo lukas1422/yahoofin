@@ -252,9 +252,6 @@ for comp in listStocks:
             print(outputString)
             fileOutput.write(outputString + '\n')
             fileOutput.flush()
-            print(outputString)
-            fileOutput.write(outputString + '\n')
-            fileOutput.flush()
 
         else:
             nothingString = "nothing:" + " dai$Vol:" + str(round(medianDollarVol / 1000000)) + "M " \
@@ -280,7 +277,7 @@ for comp in listStocks:
                              + " C/R:" + str(round(currRatio, 2)) \
                              + " D/E:" + str(round(debtEquityRatio, 2)) \
                              + " RetEarning/A:" + str(round(retainedEarningsAssetRatio, 2)) \
-                             + " S/A:" + str(round(revenue / totalAssets, 2)) \
+                             + " S/P:" + str(round(revenue / (marketCap * exRate), 2)) \
                              + " fcf/A:" + str(round(fcfAssetRatio, 2)) \
                              + " 52w_p%:" + str(round(percentile)) \
                              + " divYldAll:" + str(round(divYieldAll * 100)) + "%" \

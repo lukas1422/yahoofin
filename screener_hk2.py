@@ -243,7 +243,7 @@ for comp in listStocks:
                            + " C/R:" + str(round(currRatio, 2)) \
                            + " D/E:" + str(round(debtEquityRatio, 2)) \
                            + " RetEarning/A:" + str(round(retainedEarningsAssetRatio, 2)) \
-                           + " S/A:" + str(round(revenue / totalAssets, 2)) \
+                           + " S/P:" + str(round(revenue / (marketCap * exRate), 2)) \
                            + " fcf/A:" + str(round(fcfAssetRatio, 2)) \
                            + " P/52wLow:" + str(round(marketPrice / low_52wk, 2)) \
                            + " divYldLastYr:" + str(round(divLastYearYield * 100)) + "%" \

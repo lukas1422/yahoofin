@@ -96,6 +96,7 @@ gPFCF = figure(title='P/FCF', x_range=FactorRange(factors=list()))
 gDepCFO = figure(title='Dep/CFO', x_range=FactorRange(factors=list()))
 gCapexCFO = figure(title='Capex/CFO', x_range=FactorRange(factors=list()))
 gSA = figure(title='Sales/Assets Ratio', x_range=FactorRange(factors=list()))
+gSP = figure(title='Sales/Price Ratio', x_range=FactorRange(factors=list()))
 gNetnet = figure(title='netnet Ratio', x_range=FactorRange(factors=list()))
 gFCFA = figure(title='FCF/A Ratio', x_range=FactorRange(factors=list()))
 
@@ -111,19 +112,20 @@ gPFCF.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("PFCF", "@PFCF")], mo
 gDepCFO.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("DepCFO", "@DepCFO")], mode='vline'))
 gCapexCFO.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("CapexCFO", "@CapexCFO")], mode='vline'))
 gSA.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("S/A Ratio", "@SalesAssetsRatio")], mode='vline'))
+gSP.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("S/P Ratio", "@SalesPriceRatio")], mode='vline'))
 gNetnet.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("netnet", "@netnetRatio")], mode='vline'))
 gFCFA.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("FCF/A", "@FCFAssetRatio")], mode='vline'))
 
 for figu in [gPrice, gMarketcap, gCash, gCurrentAssets, gAssetComposition, gBook, gTangibleRatio, gDiv, gCurrentRatio,
              gRetainedEarnings,
-             gDE, gPB, gEarnings, gPE, gCFO, gFCF, gPFCF, gDepCFO, gCapexCFO, gSA, gNetnet, gFCFA]:
+             gDE, gPB, gEarnings, gPE, gCFO, gFCF, gPFCF, gDepCFO, gCapexCFO, gSA, gSP, gNetnet, gFCFA]:
     figu.title.text_font_size = '18pt'
     figu.title.align = 'center'
 
 grid = gridplot(
     [[gMarketcap, gCash], [gCurrentAssets, gAssetComposition], [gBook, gTangibleRatio],
      [gCurrentRatio, gRetainedEarnings], [gDE, gPB], [gEarnings, gPE], [gCFO, None], [gFCF, gPFCF],
-     [gDepCFO, gCapexCFO], [gSA, gNetnet], [gFCFA, None]],
+     [gDepCFO, gCapexCFO], [gSA, gSP], [gNetnet, gFCFA]],
     width=500, height=500)
 
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
@@ -238,6 +240,8 @@ def buttonCallback():
     bsT['PE'] = bsT['marketCap'] * exRate / bsT['netIncome']
 
     bsT['SalesAssetsRatio'] = bsT['revenue'] / bsT['totalAssets']
+    bsT['SalesPriceRatio'] = bsT['revenue'] / (bsT['marketCap'] * exRate)
+
     cf = si.get_cash_flow(TICKER, yearly=ANNUALLY)
     cfT = cf.T
 
@@ -326,7 +330,7 @@ def updateGraphs():
 
     for figu in [gMarketcap, gCash, gCurrentAssets, gAssetComposition, gBook, gTangibleRatio,
                  gCurrentRatio, gRetainedEarnings, gDE, gPB, gEarnings, gPE, gCFO, gFCF, gPFCF, gDepCFO, gCapexCFO,
-                 gSA, gNetnet, gFCFA]:
+                 gSA, gSP, gNetnet, gFCFA]:
         figu.x_range.factors = list(global_source.data['dateStr'][::-1])
 
     if FIRST_TIME_GRAPHING:
@@ -402,6 +406,9 @@ def updateGraphs():
 
         # Sales/Assets
         gSA.vbar(x='dateStr', top='SalesAssetsRatio', source=global_source, width=0.5)
+
+        # Sales/Price
+        gSP.vbar(x='dateStr', top='SalesPriceRatio', source=global_source, width=0.5)
 
         # netnet ratio
         gNetnet.vbar(x='dateStr', top='netnetRatio', source=global_source, width=0.5)

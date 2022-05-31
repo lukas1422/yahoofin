@@ -99,6 +99,7 @@ for comp in listStocks:
 
         bs = si.get_balance_sheet(comp, yearly=yearlyFlag)
 
+
         if bs.empty:
             print(comp, "balance sheet is empty")
             continue
