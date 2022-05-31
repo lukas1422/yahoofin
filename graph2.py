@@ -309,15 +309,16 @@ def buttonCallback():
     text_input.title = compName1 + ' ' + compName2 + ' ' \
                        + 'shares:' + str(roundB(shares, 2)) + 'B ' \
                        + listCurr + bsCurr + '______MV:' + str(roundB(marketCapLast, 1)) + 'B' \
-                       + "____NetB:" + str(roundB(bsT['netBook'][0] / exRate, 1)) + 'B' \
-                       + "____netnetRatio:" + str(round(latestNetnetRatio, 2)) \
-                       + '____PB:' + str(round(marketCapLast * exRate / tangible_equity, 2)) \
-                       + '____CR:' + str(round(bsT['currentRatio'][0], 1)) \
-                       + '____DE:' + str(round(bsT['DERatio'][0], 1)) \
-                       + '____RE/A:' + str(round(bsT['REAssetsRatio'][0], 1)) \
-                       + '____P/FCF:' + str(round(marketCapLast * exRate / bsT['FCF'][0], 1)) \
-                       + '____DivYld:' + (str(round(divYieldAll, 1)) if 'yield' in divPrice else '') + '%' \
-                       + '____2021DivYld:' \
+                       + "___NetB:" + str(roundB(bsT['netBook'][0] / exRate, 1)) + 'B' \
+                       + "___nnR:" + str(round(latestNetnetRatio, 2)) \
+                       + '___SP:' + str(round(bsT['revenue'][0] / marketCapLast / exRate, 1)) \
+                       + '___PB:' + str(round(marketCapLast * exRate / tangible_equity, 2)) \
+                       + '___CR:' + str(round(bsT['currentRatio'][0], 1)) \
+                       + '___DE:' + str(round(bsT['DERatio'][0], 1)) \
+                       + '___RE/A:' + str(round(bsT['REAssetsRatio'][0], 1)) \
+                       + '___P/FCF:' + str(round(marketCapLast * exRate / bsT['FCF'][0], 1)) \
+                       + '___DivYld:' + (str(round(divYieldAll, 1)) if 'yield' in divPrice else '') + '%' \
+                       + '___2021DivYld:' \
                        + (str(round(divYield2021, 1))) + '%'
     # divPrice['yield'].iloc[-1]
     print("=============graph finished===============")
