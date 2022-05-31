@@ -56,7 +56,7 @@ elif MARKET == Market.HK:
     # listStocks = ["2698.HK", "0743.HK", "0321.HK", "0819.HK",
     #               "1361.HK", "0057.HK", "0420.HK", "1085.HK", "1133.HK", "2131.HK",
     #               "3393.HK", "2355.HK", "0517.HK", "3636.HK", "0116.HK", "1099.HK", "2386.HK", "6188.HK"]
-    # listStocks = ['2127.HK']
+    listStocks = ['2127.HK']
 
 elif MARKET == Market.CHINA:
     stock_df = pd.read_csv('list_chinaTickers', dtype=object, sep=" ", index_col=False, names=['ticker', 'name'])
@@ -98,7 +98,6 @@ for comp in listStocks:
             continue
 
         bs = si.get_balance_sheet(comp, yearly=yearlyFlag)
-
 
         if bs.empty:
             print(comp, "balance sheet is empty")
@@ -153,6 +152,10 @@ for comp in listStocks:
         bsCurr = si.get_quote_data(comp)['financialCurrency']
         exRate = currency_getExchangeRate.getExchangeRate(exchange_rate_dict, listingCurr, bsCurr)
 
+        incomeStatement = si.get_income_statement(comp, yearly=yearlyFlag)
+        revenue = getFromDFYearly(incomeStatement, "totalRevenue", yearlyFlag)
+        sp = revenue / (marketCap * exRate)
+
         print('listcurr, bscurr, exrate', listingCurr, bsCurr, exRate)
 
         pCfo = marketCap / (cfo / exRate)
@@ -203,6 +206,7 @@ for comp in listStocks:
                        + listingCurr + bsCurr + " " + str(exRate) + " " \
                        + country.replace(" ", "_") + " " \
                        + sector.replace(" ", "_") + " " \
+                       + 'sales/price:' + str(round(sp, 2)) + ' ' \
                        + " cash:" + str(roundB(cash, 2)) \
                        + " rec:" + str(roundB(receivables, 2)) \
                        + " inv:" + str(roundB(inventory, 2)) \
