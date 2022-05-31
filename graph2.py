@@ -2,7 +2,6 @@ from math import pi
 from bokeh.io import curdoc
 from bokeh.layouts import column, row
 from bokeh.models import TextInput, Button, RadioGroup, Paragraph, FactorRange
-
 from helperMethods import fill0Get, indicatorFunction, roundB, getFromDF, fill0GetLatest
 from scrape_sharesOutstanding import scrapeTotalSharesXueqiu
 
@@ -73,6 +72,9 @@ gAssetComposition = figure(title='Assets compo', x_range=FactorRange(factors=lis
                            tools="hover", tooltips="$name @dateStr: @$name")
 gAssetComposition.title.text = 'Assets compo'
 
+gALE = figure(title='ALE', x_range=FactorRange(factors=list()), tools="hover", tooltips="$name @dateStr: @$name")
+gALE.title.text = 'ALE'
+
 gBook = figure(title='book(B)', x_range=FactorRange(factors=list()),
                tools="hover", tooltips="$name @dateStr: @$name")
 gBook.title.text = 'Book(B)'
@@ -87,7 +89,6 @@ gCurrentRatio = figure(title='currentRatio', x_range=FactorRange(factors=list())
 gRetainedEarnings = figure(title='RetEarnings/A', x_range=FactorRange(factors=list()))
 gDE = figure(title='D/E Ratio', x_range=FactorRange(factors=list()))
 gPB = figure(title='P/B Ratio', x_range=FactorRange(factors=list()))
-
 gEarnings = figure(title='Earnings(B)', x_range=FactorRange(factors=list()))
 gPE = figure(title='P/E', x_range=FactorRange(factors=list()))
 gCFO = figure(title='CFO(B)', x_range=FactorRange(factors=list()))
@@ -116,15 +117,15 @@ gSP.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("S/P Ratio", "@SalesPri
 gNetnet.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("netnet", "@netnetRatio")], mode='vline'))
 gFCFA.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("FCF/A", "@FCFAssetRatio")], mode='vline'))
 
-for figu in [gPrice, gMarketcap, gCash, gCurrentAssets, gAssetComposition, gBook, gTangibleRatio, gDiv, gCurrentRatio,
-             gRetainedEarnings,
-             gDE, gPB, gEarnings, gPE, gCFO, gFCF, gPFCF, gDepCFO, gCapexCFO, gSA, gSP, gNetnet, gFCFA]:
+for figu in [gPrice, gMarketcap, gCash, gCurrentAssets, gAssetComposition, gALE, gBook, gTangibleRatio,
+             gDiv, gCurrentRatio, gRetainedEarnings, gDE, gPB, gEarnings, gPE, gCFO, gFCF, gPFCF, gDepCFO,
+             gCapexCFO, gSA, gSP, gNetnet, gFCFA]:
     figu.title.text_font_size = '18pt'
     figu.title.align = 'center'
 
 grid = gridplot(
-    [[gMarketcap, gCash], [gCurrentAssets, gAssetComposition], [gBook, gTangibleRatio],
-     [gCurrentRatio, gRetainedEarnings], [gDE, gPB], [gEarnings, gPE], [gCFO, None], [gFCF, gPFCF],
+    [[gMarketcap, gCash], [gCurrentAssets, gAssetComposition], [gALE, gBook], [gPB, gTangibleRatio],
+     [gCurrentRatio, gRetainedEarnings], [gDE, None], [gEarnings, gPE], [gCFO, None], [gFCF, gPFCF],
      [gDepCFO, gCapexCFO], [gSA, gSP], [gNetnet, gFCFA]],
     width=500, height=500)
 
@@ -139,7 +140,7 @@ def resetCallback():
     infoParagraph.text = ""
     text_input.title = ''
     gPrice.title.text = ''
-    print(' cleared source ')
+    print('cleared source')
 
 
 def buttonCallback():
@@ -187,6 +188,8 @@ def buttonCallback():
     bsT['REAssetsRatio'] = bsT['retainedEarnings'] / bsT['totalAssets'] if 'retainedEarnings' in bsT else 0
     bsT['currentRatio'] = (bsT['cash'] + 0.8 * fill0Get(bsT, 'netReceivables') +
                            0.5 * fill0Get(bsT, 'inventory')) / bsT['totalCurrentLiabilities']
+    bsT['grossBook'] = bsT['totalAssets'] - bsT['totalLiab'] if 'totalLiab' in bsT else 0
+    bsT['grossBookB'] = bsT['grossBook'] / 1000000000 if 'grossBook' in bsT else 0
 
     bsT['netBook'] = bsT['totalAssets'] - bsT['totalLiab'] - fill0Get(bsT, 'goodWill') \
                      - fill0Get(bsT, 'intangibleAssets')
@@ -198,6 +201,7 @@ def buttonCallback():
     bsT['currentAssets'] = bsT['cash'] + fill0Get(bsT, 'netReceivables') + fill0Get(bsT, 'inventory')
 
     bsT['totalLiabB'] = bsT['totalLiab'] / 1000000000 if 'totalLiab' in bsT else 0
+    bsT['totalAssetsB'] = bsT['totalAssets'] / 1000000000 if 'totalAssets' in bsT else 0
     bsT['totalCurrentLiabB'] = bsT['totalCurrentLiabilities'] / 1000000000 \
         if 'totalCurrentLiabilities' in bsT else 0
     bsT['totalNoncurrentLiab'] = bsT['totalLiab'] - bsT['totalCurrentLiabilities']
@@ -288,9 +292,9 @@ def buttonCallback():
           'marketcaplast', marketCapLast)
 
     yearSpan = 2021 - priceData[:1].index.item().year + 1
-    print(divData)
-    print('year span', yearSpan)
-    print('divPrice', divPrice)
+    # print(divData)
+    # print('year span', yearSpan)
+    # print('divPrice', divPrice)
     divYieldAll = divPrice[divPrice.index != 2022]['yield'].sum() / yearSpan \
         if not divPrice[divPrice.index != 2022].empty else 0
     divYield2021 = divPrice.loc[2021]['yield'] if 2021 in divPrice.index else 0
@@ -298,7 +302,7 @@ def buttonCallback():
     print("=============graph now===============")
 
     updateGraphs()
-    print('pfcf info marketcap, exrate, lastfcf', marketCapLast, exRate, bsT['FCF'][0])
+    # print('pfcf info marketcap, exrate, lastfcf', marketCapLast, exRate, bsT['FCF'][0])
     compName1 = info.loc['longBusinessSummary'].item().split(' ')[0] if 'longBusinessSummary' in info.index else ""
     compName2 = info.loc['longBusinessSummary'].item().split(' ')[1] if 'longBusinessSummary' in info.index else ""
     # print(' comp name ', compName1, compName2, 'summary', info.loc['longBusinessSummary'].item().split(' '))
@@ -328,7 +332,7 @@ def updateGraphs():
     # lastPrice = round(stockData.data['close'][-1], 2) if 'close' in stockData.data else ''
     gPrice.title.text = ' Price chart:' + TICKER + '____' + str(round(si.get_live_price(TICKER), 2))
 
-    for figu in [gMarketcap, gCash, gCurrentAssets, gAssetComposition, gBook, gTangibleRatio,
+    for figu in [gMarketcap, gCash, gCurrentAssets, gAssetComposition, gALE, gBook, gTangibleRatio,
                  gCurrentRatio, gRetainedEarnings, gDE, gPB, gEarnings, gPE, gCFO, gFCF, gPFCF, gDepCFO, gCapexCFO,
                  gSA, gSP, gNetnet, gFCFA]:
         figu.x_range.factors = list(global_source.data['dateStr'][::-1])
@@ -367,6 +371,10 @@ def updateGraphs():
                          legend_label=bookItems, width=0.5)
         gBook.legend.location = "top_left"
         # gBook.vbar(x='dateStr', top='netBookB', source=global_source, width=0.5)
+
+        aleItems = ['grossBookB', 'totalLiabB', 'totalAssetsB']
+        gALE.vbar_stack(aleItems, x='dateStr', source=global_source, color=colors, legend_label=aleItems, width=0.5)
+        gALE.legend.location = "top_left"
 
         # tangible ratio
         gTangibleRatio.vbar(x='dateStr', top='tangibleRatio', source=global_source, width=0.5)

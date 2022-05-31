@@ -47,7 +47,7 @@ listStocks = stock_df[~stock_df['sector'].str.contains('financial', regex=True, 
 #                       & (stock_df['industry'].str.contains('reit', regex=True, case=False) == False)
 #                       & (stock_df['country'].str.lower() != 'china')]['ticker'].tolist()
 # listStocks = stock_df['ticker'].tolist()
-# listStocks = ['DAC']
+# listStocks = ['AAPL']
 
 print(len(listStocks), listStocks)
 
@@ -199,7 +199,7 @@ for comp in listStocks:
                             priceData.groupby(by=lambda d: d.year)['close'].mean(),
                             left_index=True, right_index=True)
         divPrice['yield'] = divPrice['dividend'] / divPrice['close']
-        print('divprice', divPrice)
+        # print('divprice', divPrice)
 
         divYieldAll = divPrice[divPrice.index != 2022]['yield'].sum() / yearSpan \
             if not divPrice[divPrice.index != 2022].empty else 0
@@ -208,6 +208,9 @@ for comp in listStocks:
         print('div yield all', divYieldAll, 'lastyear', divLastYearYield)
 
         pb1 = marketCap * exRate / tangible_Equity
+
+        sp = revenue / (marketCap * exRate)
+        print('sales/marketcap', sp)
 
         pb = quoteData['priceToBook'] if 'priceToBook' in quoteData else 1000
         print('pb1', 'pb', pb1, pb)
@@ -219,8 +222,9 @@ for comp in listStocks:
         magic6 = manualPE < 6 and divRateYahoo >= 0.06 and pb < 0.6
         peDiv = manualPE < 6 and divRateYahoo >= 0.06
         pureHighYield = divRateYahoo >= 0.06
+        highSP = sp > 1
 
-        if schloss or netnet or magic6 or peDiv or pureHighYield:
+        if schloss or netnet or magic6 or peDiv or pureHighYield or highSP:
             outputString = comp + " " + " " + companyName + ' ' \
                            + " dai$Vol:" + str(round(medianDollarVol / 1000000)) + "M " \
                            + country.replace(" ", "_") + " " \
@@ -228,7 +232,9 @@ for comp in listStocks:
                            + boolToString(schloss, 'schloss') + boolToString(netnet, 'netnet') \
                            + boolToString(magic6, 'magic6') + boolToString(peDiv, 'peDiv') \
                            + boolToString(pureHighYield, 'highYield') \
+                           + boolToString(highSP, 'high rev/price') \
                            + " netnetRatio:" + str(round(netnetRatio, 1)) \
+                           + " S/P:" + str(round(revenue / (exRate * marketCap), 2)) \
                            + " MV:" + str(roundB(marketCap, 1)) + 'B' \
                            + " B:" + str(roundB(tangible_Equity / exRate, 1)) + 'B' \
                            + " P/FCF:" + str(round(pFCF, 2)) \
@@ -238,7 +244,6 @@ for comp in listStocks:
                            + " C/R:" + str(round(currRatio, 2)) \
                            + " D/E:" + str(round(debtEquityRatio, 2)) \
                            + " RetEarning/A:" + str(round(retainedEarningsAssetRatio, 2)) \
-                           + " S/A:" + str(round(revenue / totalAssets, 2)) \
                            + " fcf/A:" + str(round(fcfAssetRatio, 2)) \
                            + " 52w_p%:" + str(round(percentile)) \
                            + " divYldAll:" + str(round(divYieldAll * 100)) + "%" \
@@ -267,6 +272,7 @@ for comp in listStocks:
                              + boolToString(schloss, 'schloss') + boolToString(netnet, 'netnet') \
                              + boolToString(magic6, 'magic6') + boolToString(peDiv, 'peDiv') \
                              + boolToString(pureHighYield, 'highYield') \
+                             + " S/P:" + str(round(revenue / (marketCap * exRate), 2)) \
                              + " netnetRatio:" + str(round(netnetRatio, 1)) \
                              + " MV:" + str(roundB(marketCap, 1)) + 'B' \
                              + " B:" + str(roundB(tangible_Equity / exRate, 1)) + 'B' \
@@ -277,7 +283,6 @@ for comp in listStocks:
                              + " C/R:" + str(round(currRatio, 2)) \
                              + " D/E:" + str(round(debtEquityRatio, 2)) \
                              + " RetEarning/A:" + str(round(retainedEarningsAssetRatio, 2)) \
-                             + " S/P:" + str(round(revenue / (marketCap * exRate), 2)) \
                              + " fcf/A:" + str(round(fcfAssetRatio, 2)) \
                              + " 52w_p%:" + str(round(percentile)) \
                              + " divYldAll:" + str(round(divYieldAll * 100)) + "%" \
@@ -287,7 +292,7 @@ for comp in listStocks:
                              + ' PB1:' + str(round(pb1, 2)) \
                              + ' PB:' + str(round(pb, 2)) + " div:" \
                              + str(round(divRateYahoo * 100, 2)) + '%'
-            print(nothingString2)
+            print('nothing:', nothingString2)
 
 
     except Exception as e:

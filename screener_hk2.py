@@ -32,7 +32,7 @@ stock_df['ticker'] = stock_df['ticker'].astype(str)
 stock_df['ticker'] = stock_df['ticker'].map(lambda x: convertHK(x))
 hk_shares = pd.read_csv('list_HK_totalShares', sep=" ", index_col=False, names=['ticker', 'shares'])
 listStocks = stock_df['ticker'].tolist()
-# listStocks = ['2127.HK']
+listStocks = ['2127.HK']
 # stock_df_torun = pd.read_csv('list_special', dtype=object, sep=" ", index_col=False, names=['ticker'])
 # stock_df_torun['ticker'] = stock_df_torun['ticker'].map(lambda x: convertHK(x))
 # listStocks = stock_df_torun['ticker'].tolist()
@@ -170,6 +170,9 @@ for comp in listStocks:
             continue
 
         revenue = getFromDFYearly(incomeStatement, "totalRevenue", yearlyFlag)
+
+        sp = revenue / (marketCap * exRate)
+
         retainedEarningsAssetRatio = retainedEarnings / totalAssets
         fcfAssetRatio = fcf / totalAssets
 
@@ -187,7 +190,7 @@ for comp in listStocks:
             print(comp, 'vol too small', medianDollarVol)
             continue
 
-        print(comp, 'low52week', low_52wk, 'price/52weeklow', marketPrice / low_52wk)
+        print(comp, marketPrice, 'low52week', low_52wk, 'price/52weeklow', marketPrice / low_52wk)
 
         divRateYahoo = quoteData['trailingAnnualDividendYield'] \
             if 'trailingAnnualDividendRate' in quoteData else 0
@@ -217,6 +220,7 @@ for comp in listStocks:
         magic6 = manualPE < 6 and divRateYahoo >= 0.06 and pb < 0.6
         peDiv = manualPE < 6 and divRateYahoo >= 0.06
         pureHighYield = divRateYahoo >= 0.06
+        highSP = sp > 1
 
         # if (netnetRatio < 0.5):
         #     print('netnet ratio < 0.5', netnetRatio)
@@ -225,7 +229,7 @@ for comp in listStocks:
         print('pb, pfcf, divyield', pb, pFcf, divYieldAll, magic6)
         print('netnet ratio', round(netnetRatio, 2))
 
-        if schloss or netnet or magic6 or peDiv or pureHighYield:
+        if schloss or netnet or magic6 or peDiv or pureHighYield or highSP:
             outputString = comp[:4] + " " + " " + companyName[:4] + ' ' \
                            + " dai$Vol:" + str(round(medianDollarVol / 1000000, 1)) + "M " \
                            + country.replace(" ", "_") + " " \
@@ -233,7 +237,9 @@ for comp in listStocks:
                            + boolToString(schloss, "schloss") + boolToString(netnet, "netnet") \
                            + boolToString(magic6, "magic6") + boolToString(peDiv, "PE+DIV") \
                            + boolToString(pureHighYield, 'pureHighYield') \
+                           + boolToString(highSP, 'highSP') \
                            + " netnetRatio:" + str(round(netnetRatio, 1)) \
+                           + " S/P:" + str(round(revenue / (marketCap * exRate), 2)) \
                            + " MV:" + str(roundB(marketCap, 1)) + 'B' \
                            + " BV:" + str(roundB(tangible_Equity / exRate, 1)) + 'B' \
                            + " P/FCF:" + str(round(pFcf, 1)) \
@@ -243,7 +249,6 @@ for comp in listStocks:
                            + " C/R:" + str(round(currRatio, 2)) \
                            + " D/E:" + str(round(debtEquityRatio, 2)) \
                            + " RetEarning/A:" + str(round(retainedEarningsAssetRatio, 2)) \
-                           + " S/P:" + str(round(revenue / (marketCap * exRate), 2)) \
                            + " fcf/A:" + str(round(fcfAssetRatio, 2)) \
                            + " P/52wLow:" + str(round(marketPrice / low_52wk, 2)) \
                            + " divYldLastYr:" + str(round(divLastYearYield * 100)) + "%" \
