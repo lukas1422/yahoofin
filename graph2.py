@@ -312,7 +312,7 @@ def buttonCallback():
                        + "___NetB:" + str(roundB(bsT['netBook'][0] / exRate, 1)) + 'B' \
                        + "___nnR:" + str(round(latestNetnetRatio, 2)) \
                        + '___SP:' + str(round(bsT['revenue'][0] / marketCapLast / exRate, 1)) \
-                       + '___PB:' + str(round(marketCapLast * exRate / tangible_equity, 2)) \
+                       + '___PB:' + str(round(marketCapLast * exRate / tangible_equity, 1)) \
                        + '___CR:' + str(round(bsT['currentRatio'][0], 1)) \
                        + '___DE:' + str(round(bsT['DERatio'][0], 1)) \
                        + '___RE/A:' + str(round(bsT['REAssetsRatio'][0], 1)) \

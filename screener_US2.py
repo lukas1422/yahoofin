@@ -232,7 +232,7 @@ for comp in listStocks:
                            + boolToString(schloss, 'schloss') + boolToString(netnet, 'netnet') \
                            + boolToString(magic6, 'magic6') + boolToString(peDiv, 'peDiv') \
                            + boolToString(pureHighYield, 'highYield') \
-                           + boolToString(highSP, 'high rev/price') \
+                           + boolToString(highSP, 'rev/price') \
                            + " netnetRatio:" + str(round(netnetRatio, 1)) \
                            + " S/P:" + str(round(revenue / (exRate * marketCap), 2)) \
                            + " MV:" + str(roundB(marketCap, 1)) + 'B' \
