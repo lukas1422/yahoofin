@@ -351,10 +351,10 @@ def updateGraphs():
         gCash.vbar(x='dateStr', top='cashB', source=global_source, width=0.5)
 
         # current assets
-        colors = ["#c9d9d3", "#718dbf", "#e84d60"]
+        colorsCurrent = ["darkgreen", "olive", "tan"]
         currentAssetItems = ['cashB', 'netReceivablesB', 'inventoryB']
         gCurrentAssets.vbar_stack(currentAssetItems, x='dateStr',
-                                  source=global_source, color=colors,
+                                  source=global_source, color=colorsCurrent,
                                   legend_label=currentAssetItems, width=0.5)
         # gCurrentAssets.legend.orientation = "vertical"
         gCurrentAssets.legend.location = "top_left"
@@ -363,7 +363,7 @@ def updateGraphs():
         # colors = ["darkgreen", 'yellowgreen', "gold", "navy", 'salmon', 'darkred']
         colors = ['darkgreen', 'salmon', 'darkred']
 
-        colors5 = ['darkgreen', 'salmon', 'darkred', 'navy', 'tan']
+        colors5 = ['darkgreen', 'olive', 'tan', 'salmon', 'darkred']
         assetCompoItems = ['cashB', 'noncashCurrentAssetsB', 'nonCurrentAssetsB', 'totalCurrentLiabB',
                            'totalNoncurrentLiabB']
         gAssetComposition.vbar_stack(assetCompoItems, x='dateStr',
@@ -382,7 +382,8 @@ def updateGraphs():
         # gBook.vbar(x='dateStr', top='netBookB', source=global_source, width=0.5)
 
         aleItems = ['grossBookB', 'totalLiabB', 'totalAssetsB']
-        gALE.vbar_stack(aleItems, x='dateStr', source=global_source, color=colors, legend_label=aleItems, width=0.5)
+        gALE.vbar_stack(aleItems, x='dateStr', source=global_source, color=['darkgreen', 'darkred', 'tan']
+                        , legend_label=aleItems, width=0.5)
         gALE.legend.location = "top_left"
 
         # tangible ratio
