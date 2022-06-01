@@ -233,7 +233,7 @@ for comp in listStocks:
                            + boolToString(magic6, 'magic6') + boolToString(peDiv, 'peDiv') \
                            + boolToString(pureHighYield, 'highYield') \
                            + boolToString(highSP, 'rev/price') \
-                           + " netnetRatio:" + str(round(netnetRatio, 1)) \
+                           + " nnR:" + str(round(netnetRatio, 1)) \
                            + " S/P:" + str(round(revenue / (exRate * marketCap), 2)) \
                            + " MV:" + str(roundB(marketCap, 1)) + 'B' \
                            + " B:" + str(roundB(tangible_Equity / exRate, 1)) + 'B' \

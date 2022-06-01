@@ -123,10 +123,9 @@ for figu in [gPrice, gMarketcap, gCash, gCurrentAssets, gAssetComposition, gALE,
     figu.title.text_font_size = '18pt'
     figu.title.align = 'center'
 
-grid = gridplot(
-    [[gMarketcap, gCash], [gCurrentAssets, gAssetComposition], [gALE, gBook], [gPB, gTangibleRatio],
-     [gCurrentRatio, gRetainedEarnings], [gDE, gEarnings], [gPE, gCFO], [gFCF, gPFCF],
-     [gDepCFO, gCapexCFO], [gSA, gSP], [gNetnet, gFCFA]], width=500, height=500)
+grid = gridplot([[gMarketcap, gCash], [gCurrentAssets, gAssetComposition], [gALE, gBook], [gPB, gTangibleRatio],
+                 [gCurrentRatio, gRetainedEarnings], [gDE, gEarnings], [gPE, gCFO], [gFCF, gPFCF],
+                 [gDepCFO, gCapexCFO], [gSA, gSP], [gNetnet, gFCFA]], width=500, height=500)
 
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 
@@ -198,6 +197,10 @@ def buttonCallback():
     bsT['priceOnOrAfter'] = bsT.index.map(lambda d: priceData[priceData.index >= d].iloc[0]['close'])
     # bsT['priceOnOrAfter'][0] = latestPrice
     bsT['currentAssets'] = bsT['cash'] + fill0Get(bsT, 'netReceivables') + fill0Get(bsT, 'inventory')
+    bsT['noncashCurrentAssets'] = bsT['totalCurrentAssets'] - bsT['cash'] if 'totalCurrentAssets' in bsT else 0
+    bsT['nonCurrentAssets'] = bsT['totalAssets'] - bsT['totalCurrentAssets'] if 'totalCurrentAssets' in bsT else 0
+    bsT['noncashCurrentAssetsB'] = bsT['noncashCurrentAssets'] / 1000000000 if 'noncashCurrentAssets' in bsT else 0
+    bsT['nonCurrentAssetsB'] = bsT['nonCurrentAssets'] / 1000000000 if 'nonCurrentAssets' in bsT else 0
 
     bsT['totalLiabB'] = bsT['totalLiab'] / 1000000000 if 'totalLiab' in bsT else 0
     bsT['totalAssetsB'] = bsT['totalAssets'] / 1000000000 if 'totalAssets' in bsT else 0
@@ -359,14 +362,20 @@ def updateGraphs():
         # assets composition
         # colors = ["darkgreen", 'yellowgreen', "gold", "navy", 'salmon', 'darkred']
         colors = ['darkgreen', 'salmon', 'darkred']
-        assetCompoItems = ['cashB', 'totalCurrentLiabB', 'totalNoncurrentLiabB']
+
+        colors5 = ['darkgreen', 'salmon', 'darkred', 'navy', 'tan']
+        assetCompoItems = ['cashB', 'noncashCurrentAssetsB', 'nonCurrentAssetsB', 'totalCurrentLiabB',
+                           'totalNoncurrentLiabB']
         gAssetComposition.vbar_stack(assetCompoItems, x='dateStr',
-                                     source=global_source, color=colors, legend_label=assetCompoItems, width=0.5)
+                                     source=global_source, color=colors5, legend_label=assetCompoItems, width=0.5)
         # gAssetComposition.legend.orientation = "horizontal"
         gAssetComposition.legend.location = "top_left"
 
         # book
         bookItems = ['netBookB', 'goodWillB', 'intangibleAssetsB']
+        gBook.vbar_stack(bookItems, x='dateStr', source=global_source, color=colors,
+                         legend_label=bookItems, width=0.1)
+        # try this
         gBook.vbar_stack(bookItems, x='dateStr', source=global_source, color=colors,
                          legend_label=bookItems, width=0.5)
         gBook.legend.location = "top_left"
