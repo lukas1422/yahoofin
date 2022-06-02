@@ -12,10 +12,19 @@ from helperMethods import getFromDF, convertHK, roundB, convertChinaForYahoo, ge
 
 COUNT = 0
 
-MARKET = Market.TAIWAN
+MARKET = Market.US
 yearlyFlag = False
 PRICE_INTERVAL = '1wk'
 
+import pandas as pd
+
+stock_df = pd.read_csv('list_US_Tickers', sep=" ", index_col=False,
+                       names=['ticker', 'name', 'sector', 'industry', 'country', 'mv', 'price'])
+print(stock_df)
+
+listStocks = stock_df['ticker'].tolist()
+
+print(len(listStocks), listStocks)
 
 def increment():
     global COUNT
@@ -25,11 +34,11 @@ def increment():
 
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 
-fileOutput = open('list_bigMoveTW', 'w')
+fileOutput = open('list_bigMoveUS', 'w')
 
 # US Version Starts
 
-listStocks = [str(i).zfill(4) + '.TW' for i in range(1, 9999)]
+# listStocks = [str(i).zfill(4) + '.TW' for i in range(1, 9999)]
 # listStocks = ['2609.TW']
 
 for comp in listStocks:
