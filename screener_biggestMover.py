@@ -1,3 +1,5 @@
+# return the lowest percentile on a historical basis
+
 import math
 import os
 import statistics
@@ -47,6 +49,7 @@ if MARKET == Market.US:
     # listStocks=['APWC']
 
 elif MARKET == Market.HK:
+
     stock_df = pd.read_csv('list_HK_Tickers', dtype=object, sep=" ", index_col=False, names=['ticker', 'name'])
     stock_df['ticker'] = stock_df['ticker'].astype(str)
     stock_df['ticker'] = stock_df['ticker'].map(lambda x: convertHK(x))
@@ -57,7 +60,7 @@ elif MARKET == Market.HK:
     # listStocks = ["2698.HK", "0743.HK", "0321.HK", "0819.HK",
     #               "1361.HK", "0057.HK", "0420.HK", "1085.HK", "1133.HK", "2131.HK",
     #               "3393.HK", "2355.HK", "0517.HK", "3636.HK", "0116.HK", "1099.HK", "2386.HK", "6188.HK"]
-    # listStocks = ['1733.HK']
+    # listStocks = ['2127.HK']
 
 elif MARKET == Market.CHINA:
     stock_df = pd.read_csv('list_chinaTickers', dtype=object, sep=" ", index_col=False, names=['ticker', 'name'])
@@ -94,54 +97,35 @@ for comp in listStocks:
             print(comp, "market price is nan")
             continue
 
-        # shares = scrape_sharesOutstanding.scrapeTotalSharesXueqiu(comp)
-        if MARKET == Market.US:
-            shares = si.get_quote_data(comp)['sharesOutstanding']
-        elif MARKET == Market.HK:
-            shares = hk_shares[hk_shares['ticker'] == comp]['shares'].item()
-            print(hk_shares[hk_shares['ticker'] == comp]['shares'].item())
-        elif MARKET == Market.CHINA:
-            shares = china_shares[china_shares['ticker'] == comp]['shares'].item()
-            print('china shares', shares)
-        else:
-            raise Exception("market not found ", MARKET)
-
-        marketCap = si.get_quote_data(comp)['marketCap']
-        print('shares ', shares, 'market cap', roundB(marketCap, 2), 'B')
-
-        listingCurr = getListingCurrency(comp)
-        bsCurr = si.get_quote_data(comp)['financialCurrency']
-        exRate = currency_getExchangeRate.getExchangeRate(exchange_rate_dict, listingCurr, bsCurr)
-
-        incomeStatement = si.get_income_statement(comp, yearly=yearlyFlag)
-        revenue = getFromDFYearly(incomeStatement, "totalRevenue", yearlyFlag)
-        sp = revenue / (marketCap * exRate)
-
-        print('listcurr, bscurr, exrate', listingCurr, bsCurr, exRate)
-
         priceData = si.get_data(comp, interval=PRICE_INTERVAL)
         quoteData = si.get_quote_data(comp)
-        low_52wk = quoteData['fiftyTwoWeekLow'] if 'fiftyTwoWeekLow' in quoteData else 0
+        hi = max(priceData['high'])
+        lo = min(priceData['low'])
+        percentile = (marketPrice - lo) / (hi - lo)
+        if percentile > 0.1:
+            print(comp, 'percentile > 0.1 ', percentile)
+            continue
+
+        maxT = priceData['high'].idxmax().date()
+        minT = priceData['low'].idxmin().date()
+
         medianDollarVol = statistics.median(priceData[-10:]['close'] * priceData[-10:]['volume']) / 5
         print(comp, 'vol is ', medianDollarVol)
-
-        # if medianDollarVol < 500000:
-        #     print(comp, 'vol too small', medianDollarVol)
-        #     continue
-
-        print(comp, marketPrice, 'low52week', low_52wk, 'price/52weeklow', marketPrice / low_52wk)
-
-        if marketPrice / low_52wk < 5:
-            print('did not rise 5 times')
+        if medianDollarVol < 1000000:
+            print(comp, 'vol too small')
             continue
+
+        print(comp, marketPrice, 'max', hi, 'min', lo, 'percentile', percentile)
 
         outputString = comp + " " + stock_df[stock_df['ticker'] == comp]['name'].item() \
                        + " day$Vol:" + str(round(medianDollarVol / 1000000, 1)) + "M " \
-                       + listingCurr + bsCurr + " " + str(exRate) + " " \
                        + country.replace(" ", "_") + " " \
                        + sector.replace(" ", "_") + " " \
-                       + 'sales/price:' + str(round(sp, 1)) + ' ' \
-                       + 'rose multiple:' + str(round(marketPrice / low_52wk))
+                       + 'percentile:' + str(round(percentile * 100)) \
+                       + ' maxT:' + str(maxT) \
+                       + ' max:' + str(round(hi, 2)) \
+                       + ' minT:' + str(minT) \
+                       + ' min:' + str(round(lo, 2))
 
         print(outputString)
 

@@ -1,9 +1,4 @@
-0037.HK 遠東酒店實業 day$Vol:4.4M HKDHKD 1 Hong_Kong Real_Estate sales/price:0.1 rose multiple:8
-0515.HK 中華銀科技 day$Vol:0.1M HKDHKD 1 Hong_Kong Technology sales/price:8.6 rose multiple:5
-0539.HK 冠華國際控股 day$Vol:0.0M HKDHKD 1 Hong_Kong Consumer_Cyclical sales/price:617.5 rose multiple:10
-0810.HK 中國互聯網投資 day$Vol:0.0M HKDHKD 1 Hong_Kong Financial_Services sales/price:0.0 rose multiple:7
-1028.HK 千百度 day$Vol:0.0M HKDCNY 0.81 Hong_Kong Consumer_Cyclical sales/price:3.2 rose multiple:5
-1094.HK 中國公共採購 day$Vol:0.0M HKDHKD 1 Hong_Kong Industrials sales/price:0.5 rose multiple:8
-1400.HK 滿地科技股份－新 day$Vol:0.1M HKDCNY 0.81 China Consumer_Cyclical sales/price:0.1 rose multiple:9
-1450.HK 世紀睿科 day$Vol:1.4M HKDCNY 0.81 China Technology sales/price:0.1 rose multiple:14
-1733.HK 易大宗s day$Vol:33.9M HKDHKD 1 China Energy sales/price:10.5 rose multiple:5
+0007.HK 智富資源投資 day$Vol:2.2M Hong_Kong Technology percentile:1 maxT:2001-07-22 max:5.8 minT:2022-03-13 min:0.07
+0013.HK 和黃醫藥s day$Vol:16.1M Hong_Kong Healthcare percentile:3 maxT:2021-06-27 max:85.8 minT:2022-05-22 min:14.4
+0023.HK 東亞銀行s day$Vol:9.8M Hong_Kong Financial_Services percentile:2 maxT:2007-12-02 max:55.45 minT:2008-10-26 min:10.71
+0035.HK 遠東發展s day$Vol:1.8M Hong_Kong Real_Estate percentile:6 maxT:2010-03-28 max:35.0 minT:2003-04-27 min:0.25
