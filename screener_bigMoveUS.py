@@ -26,6 +26,7 @@ listStocks = stock_df['ticker'].tolist()
 
 print(len(listStocks), listStocks)
 
+
 def increment():
     global COUNT
     COUNT = COUNT + 1
@@ -55,6 +56,15 @@ for comp in listStocks:
 
         if math.isnan(marketPrice):
             print(comp, "market price is nan")
+            continue
+
+        bs = si.get_balance_sheet(comp, yearly=yearlyFlag)
+        if bs.empty:
+            print(comp, "balance sheet is empty")
+            continue
+
+        if bs.loc['retainedEarnings'][0] <= 0:
+            print(comp, " retained earnings < 0 ", bs.loc['retainedEarnings'][0])
             continue
 
         priceData = si.get_data(comp, interval=PRICE_INTERVAL)
