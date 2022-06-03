@@ -124,7 +124,7 @@ for figu in [gPrice, gMarketcap, gCash, gCurrentAssets, gAssetComposition, gALE,
     figu.title.align = 'center'
 
 grid = gridplot([[gMarketcap, gCash], [gCurrentAssets, gAssetComposition], [gALE, gBook], [gPB, gTangibleRatio],
-                 [gCurrentRatio, gRetainedEarnings], [gDE, gEarnings], [gPE, gCFO], [gFCF, gPFCF],
+                 [gCurrentRatio, gRetainedEarnings], [gDE, gEarnings], [gCFO, gPE], [gFCF, gPFCF],
                  [gDepCFO, gCapexCFO], [gSA, gSP], [gNetnet, gFCFA]], width=500, height=500)
 
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()

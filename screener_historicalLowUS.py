@@ -30,55 +30,22 @@ def increment():
 
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 
-fileOutput = open('list_biggestMover', 'w')
+fileOutput = open('list_historicalLowUS', 'w')
 
-# US Version Starts
-if MARKET == Market.US:
-    stock_df = pd.read_csv('list_US_Tickers', sep=" ", index_col=False,
-                           names=['ticker', 'name', 'sector', 'industry', 'country', 'mv', 'price'])
+stock_df = pd.read_csv('list_US_Tickers', sep=" ", index_col=False,
+                       names=['ticker', 'name', 'sector', 'industry', 'country', 'mv', 'price'])
+print(stock_df)
 
-    # stock_df['listingDate'] = pd.to_datetime(stock_df['listingDate'])
+listStocks = stock_df['ticker'].tolist()
 
-    listStocks = stock_df['ticker'].tolist()
-    # listStocks = stock_df[(stock_df['price'] > 1)
-    #                       & (stock_df['sector'].str.contains('financial|healthcare', regex=True, case=False) == False)
-    #                       # & (stock_df['listingDate'] < pd.to_datetime('2020-1-1'))
-    #                       & (stock_df['industry'].str.contains('reit', regex=True, case=False) == False)
-    #                       & (stock_df['country'].str.lower() != 'china')]['ticker'].tolist()
-
-    # listStocks=['APWC']
-
-elif MARKET == Market.HK:
-
-    stock_df = pd.read_csv('list_HK_Tickers', dtype=object, sep=" ", index_col=False, names=['ticker', 'name'])
-    stock_df['ticker'] = stock_df['ticker'].astype(str)
-    stock_df['ticker'] = stock_df['ticker'].map(lambda x: convertHK(x))
-    listStocks = stock_df['ticker'].tolist()
-    hk_shares = pd.read_csv('list_HK_totalShares', sep=" ", index_col=False, names=['ticker', 'shares'])
-    # print(hk_shares)
-    # listStocks = ['0539.HK']
-    # listStocks = ["2698.HK", "0743.HK", "0321.HK", "0819.HK",
-    #               "1361.HK", "0057.HK", "0420.HK", "1085.HK", "1133.HK", "2131.HK",
-    #               "3393.HK", "2355.HK", "0517.HK", "3636.HK", "0116.HK", "1099.HK", "2386.HK", "6188.HK"]
-    # listStocks = ['2127.HK']
-
-elif MARKET == Market.CHINA:
-    stock_df = pd.read_csv('list_chinaTickers', dtype=object, sep=" ", index_col=False, names=['ticker', 'name'])
-    stock_df['ticker'] = stock_df['ticker'].astype(str)
-    stock_df['ticker'] = stock_df['ticker'].map(lambda x: convertChinaForYahoo(x))
-    china_shares = pd.read_csv('list_China_totalShares', sep=" ", index_col=False, names=['ticker', 'shares'])
-    china_shares['ticker'] = china_shares['ticker'].map(lambda x: convertChinaForYahoo(x))
-    listStocks = stock_df['ticker'].tolist()
-
-else:
-    raise Exception("market not found")
+print(len(listStocks), listStocks)
 
 print(datetime.now(), MARKET, len(listStocks), listStocks)
 
 for comp in listStocks:
 
     print(increment())
-    print(comp, stock_df[stock_df['ticker'] == comp]['name'].item())
+    print(comp)
 
     # data = si.get_data(comp, start_date=TEN_YEAR_AGO, interval=PRICE_INTERVAL)
     # print("start date ", data.index[0].strftime('%-m/%-d/%Y'))
@@ -97,6 +64,16 @@ for comp in listStocks:
             print(comp, "market price is nan")
             continue
 
+        #check RE
+        bs = si.get_balance_sheet(comp, yearly=yearlyFlag)
+        if bs.empty:
+            print(comp, "balance sheet is empty")
+            continue
+        retainedEarnings = getFromDF(bs, "retainedEarnings")
+        if retainedEarnings <= 0:
+            print(comp, " retained earnings < 0 ", retainedEarnings)
+            continue
+
         priceData = si.get_data(comp, interval=PRICE_INTERVAL)
         quoteData = si.get_quote_data(comp)
         hi = max(priceData['adjclose'])
@@ -111,13 +88,13 @@ for comp in listStocks:
 
         medianDollarVol = statistics.median(priceData[-10:]['close'] * priceData[-10:]['volume']) / 5
         print(comp, 'vol is ', medianDollarVol)
-        if medianDollarVol < 1000000:
+        if medianDollarVol < 100000:
             print(comp, 'vol too small')
             continue
 
         print(comp, marketPrice, 'max', hi, 'min', lo, 'percentile', percentile)
 
-        outputString = comp + " " + stock_df[stock_df['ticker'] == comp]['name'].item() \
+        outputString = comp + " " \
                        + " day$Vol:" + str(round(medianDollarVol / 1000000, 1)) + "M " \
                        + country.replace(" ", "_") + " " \
                        + sector.replace(" ", "_") + " " \
