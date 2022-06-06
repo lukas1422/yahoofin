@@ -5,7 +5,7 @@ import os
 import statistics
 import sys
 
-from datetime import datetime
+from datetime import datetime, timedelta
 
 import yahoo_fin.stock_info as si
 import pandas as pd
@@ -20,6 +20,8 @@ COUNT = 0
 MARKET = Market.HK
 yearlyFlag = False
 PRICE_INTERVAL = '1wk'
+N_YEAR_LOW = 3
+N_YEAR_AGO = datetime.today() - timedelta(weeks=53 * N_YEAR_LOW)
 
 
 def increment():
@@ -57,6 +59,10 @@ for comp in listStocks:
         sector = getFromDF(info, 'sector')
         print('sector', sector)
 
+        if 'real estate' in sector.lower() or 'financial' in sector.lower() or 'healthcare' in sector.lower():
+            print(comp, " no real estate or financial or healthcare", sector)
+            continue
+
         marketPrice = si.get_live_price(comp)
         print(comp, 'market price', marketPrice)
 
@@ -64,7 +70,7 @@ for comp in listStocks:
             print(comp, "market price is nan")
             continue
 
-        #check RE
+        # check RE
         bs = si.get_balance_sheet(comp, yearly=yearlyFlag)
         if bs.empty:
             print(comp, "balance sheet is empty")
@@ -76,15 +82,17 @@ for comp in listStocks:
 
         priceData = si.get_data(comp, interval=PRICE_INTERVAL)
         quoteData = si.get_quote_data(comp)
-        hi = max(priceData['adjclose'])
-        lo = min(priceData['adjclose'])
+
+        N_YEAR_DATA = priceData.loc[priceData.index > N_YEAR_AGO]
+        hi = max(N_YEAR_DATA['adjclose'])
+        lo = min(N_YEAR_DATA['adjclose'])
         percentile = (marketPrice - lo) / (hi - lo)
         if percentile > 0.1:
             print(comp, 'percentile > 0.1 ', percentile)
             continue
 
-        maxT = priceData['adjclose'].idxmax().date()
-        minT = priceData['adjclose'].idxmin().date()
+        maxT = N_YEAR_DATA['adjclose'].idxmax().date()
+        minT = N_YEAR_DATA['adjclose'].idxmin().date()
 
         medianDollarVol = statistics.median(priceData[-10:]['close'] * priceData[-10:]['volume']) / 5
         print(comp, 'vol is ', medianDollarVol)
