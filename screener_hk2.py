@@ -8,7 +8,7 @@ import currency_getExchangeRate
 from helperMethods import getFromDF, convertHK, getFromDFYearly, roundB, boolToString
 
 MARKET = Market.HK
-yearlyFlag = False
+yearlyFlag = True
 INSIDER_OWN_MIN = 10
 
 COUNT = 0
@@ -58,7 +58,8 @@ for comp in listStocks:
         country = getFromDF(info, "country")
         sector = getFromDF(info, 'sector')
 
-        if 'real estate' in sector.lower() or 'financial' in sector.lower() or 'technology' in sector.lower():
+        if 'real estate' in sector.lower() or 'financial' in sector.lower() \
+                or 'technology' in sector.lower() or 'healthcare' in sector.lower():
             print(comp, " no real estate or financial or tech ", sector)
             continue
 
