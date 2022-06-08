@@ -20,7 +20,7 @@ def increment():
     return COUNT
 
 
-ONE_YEAR_AGO = datetime.today() - timedelta(weeks=53)
+# ONE_YEAR_AGO = datetime.today() - timedelta(weeks=53)
 PRICE_INTERVAL = '1wk'
 
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()

@@ -39,6 +39,7 @@ stock_df = pd.read_csv('list_US_Tickers', sep=" ", index_col=False,
 print(stock_df)
 
 listStocks = stock_df['ticker'].tolist()
+listStocks = ['baba']
 
 print(len(listStocks), listStocks)
 
@@ -59,7 +60,12 @@ for comp in listStocks:
         sector = getFromDF(info, 'sector')
         print('sector', sector)
 
-        if 'real estate' in sector.lower() or 'financial' in sector.lower() or 'healthcare' in sector.lower():
+        if country.lower() == 'china':
+            print('country cannot be china')
+            continue
+
+        if 'real estate' in sector.lower() or 'financial' in sector.lower() \
+                or 'healthcare' in sector.lower() or 'technology' in sector.lower():
             print(comp, " no real estate or financial or healthcare", sector)
             continue
 
@@ -79,6 +85,19 @@ for comp in listStocks:
         if retainedEarnings <= 0:
             print(comp, " retained earnings < 0 ", retainedEarnings)
             continue
+        currAssets = getFromDF(bs, "totalCurrentAssets")
+        currL = getFromDF(bs, "totalCurrentLiabilities")
+
+        if currAssets < currL:
+            print("current ratio < 1")
+            continue
+
+        totalAssets = getFromDF(bs, 'totalAssets')
+        totalLiab = getFromDF(bs, 'totalLiab')
+
+        if totalLiab / totalAssets > 0.5:
+            print('liab over half of assets')
+            continue
 
         priceData = si.get_data(comp, interval=PRICE_INTERVAL)
         quoteData = si.get_quote_data(comp)
@@ -96,7 +115,7 @@ for comp in listStocks:
 
         medianDollarVol = statistics.median(priceData[-10:]['close'] * priceData[-10:]['volume']) / 5
         print(comp, 'vol is ', medianDollarVol)
-        if medianDollarVol < 100000:
+        if medianDollarVol < 300000:
             print(comp, 'vol too small')
             continue
 
