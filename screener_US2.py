@@ -9,9 +9,10 @@ import currency_getExchangeRate
 from helperMethods import getFromDF, getFromDFYearly, roundB, boolToString
 
 MARKET = Market.US
-yearlyFlag = False
+yearlyFlag = True
 INSIDER_OWN_MIN = 10
-ONE_YEAR_AGO = datetime.today() - timedelta(weeks=53)
+N_YEARS = 1
+N_YEAR_AGO = datetime.today() - timedelta(weeks=53 * N_YEARS)
 
 COUNT = 0
 
@@ -166,7 +167,6 @@ for comp in listStocks:
         # if pb >= 0.6 or pb <= 0:
         #     print(comp, 'pb > 0.6 or pb <= 0', pb)
         #     continue
-        #
         # if pFCF > 6:
         #     print(comp, 'pFCF > 6', pFCF)
         #     continue
@@ -179,8 +179,8 @@ for comp in listStocks:
 
         priceData = si.get_data(comp, interval=PRICE_INTERVAL)
         print("start date ", priceData.index[0].strftime('%-m/%-d/%Y'))
-        data52wk = priceData.loc[priceData.index > ONE_YEAR_AGO]
-        percentile = 100.0 * (marketPrice - data52wk['low'].min()) / (data52wk['high'].max() - data52wk['low'].min())
+        dataRange = priceData.loc[priceData.index > N_YEAR_AGO]
+        percentile = 100.0 * (marketPrice - dataRange['low'].min()) / (dataRange['high'].max() - dataRange['low'].min())
         # low_52wk = data52wk['low'].min()
         low_52wk = quoteData['fiftyTwoWeekLow'] if 'fiftyTwoWeekLow' in quoteData else 0
         medianDollarVol = statistics.median(priceData[-10:]['close'] * priceData[-10:]['volume']) / 5
