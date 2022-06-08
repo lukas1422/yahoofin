@@ -20,7 +20,7 @@ COUNT = 0
 # MARKET = Market.HK
 yearlyFlag = True
 PRICE_INTERVAL = '1wk'
-N_YEAR_LOW = 3
+N_YEAR_LOW = 100
 N_YEAR_AGO = datetime.today() - timedelta(weeks=53 * N_YEAR_LOW)
 
 
@@ -32,12 +32,12 @@ def increment():
 
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 
-fileOutput = open('list_historicalLowUS', 'w')
+fileOutput = open('list_historicalLowHK', 'w')
 
-stock_df = pd.read_csv('list_US_Tickers', sep=" ", index_col=False,
-                       names=['ticker', 'name', 'sector', 'industry', 'country', 'mv', 'price'])
-print(stock_df)
-
+stock_df = pd.read_csv('list_HK_Tickers', dtype=object, sep=" ", index_col=False, names=['ticker', 'name'])
+stock_df['ticker'] = stock_df['ticker'].astype(str)
+stock_df['ticker'] = stock_df['ticker'].map(lambda x: convertHK(x))
+hk_shares = pd.read_csv('list_HK_totalShares', sep=" ", index_col=False, names=['ticker', 'shares'])
 listStocks = stock_df['ticker'].tolist()
 
 print(len(listStocks), listStocks)
@@ -58,10 +58,6 @@ for comp in listStocks:
         country = getFromDF(info, 'country')
         sector = getFromDF(info, 'sector')
         print('sector', sector)
-
-        if country.lower() == 'china':
-            print('country cannot be china')
-            continue
 
         if 'real estate' in sector.lower() or 'financial' in sector.lower() \
                 or 'healthcare' in sector.lower() or 'technology' in sector.lower():
