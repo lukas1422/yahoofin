@@ -124,7 +124,7 @@ for figu in [gPrice, gMarketcap, gCash, gCurrentAssets, gAssetComposition, gALE,
     figu.title.align = 'center'
 
 grid = gridplot([[gMarketcap, gCash], [gCurrentAssets, gAssetComposition], [gALE, gBook], [gPB, gTangibleRatio],
-                 [gCurrentRatio, gRetainedEarnings], [gDE, None], [gEarnings, gPE], [gCFO, None], [gFCF, gPFCF],
+                 [gCurrentRatio, gDE], [gRetainedEarnings, gCFO], [gFCF, gPFCF], [gEarnings, gPE],
                  [gDepCFO, gCapexCFO], [gSA, gSP], [gNetnet, gFCFA]], width=500, height=500)
 
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
@@ -252,13 +252,17 @@ def buttonCallback():
         lambda d: incomeT[incomeT.index == d]['netIncome'].item() * indicatorFunction(ANNUALLY))
 
     bsT['netIncomeB'] = bsT['netIncome'] / 1000000000
+    bsT['netIncomeBText'] = bsT['netIncomeB'].transform(lambda x: str(round(x)))
 
     bsT['PE'] = bsT['marketCap'] * exRate / bsT['netIncome']
     bsT['PE'] = bsT['PE'].transform(lambda x: x if x > 0 else 0)
-    bsT['PEText'] = bsT['PE'].transform(lambda x: str(round(x, 2)))
+    bsT['PEText'] = bsT['PE'].transform(lambda x: str(round(x)))
 
     bsT['SalesAssetsRatio'] = bsT['revenue'] / bsT['totalAssets']
+    bsT['SalesAssetsRatioText'] = bsT['SalesAssetsRatio'].transform(lambda x: str(round(x, 1)))
+
     bsT['SalesPriceRatio'] = bsT['revenue'] / (bsT['marketCap'] * exRate)
+    bsT['SalesPriceRatioText'] = bsT['SalesPriceRatio'].transform(lambda x: str(round(x, 1)))
 
     cf = si.get_cash_flow(TICKER, yearly=ANNUALLY)
     cfT = cf.T
@@ -274,28 +278,33 @@ def buttonCallback():
     bsT['FCF'] = bsT['CFO'] - bsT['dep']
 
     bsT['CFOB'] = bsT['CFO'] / 1000000000
-    bsT['CFOBText'] = bsT['CFOB'].transform(lambda x: str(round(x, 0)))
+    bsT['CFOBText'] = bsT['CFOB'].transform(lambda x: str(round(x)))
 
     bsT['FCFB'] = bsT['FCF'] / 1000000000
-    bsT['FCFBText'] = bsT['FCFB'].transform(lambda x: str(round(x, 0)))
+    bsT['FCFBText'] = bsT['FCFB'].transform(lambda x: str(round(x)))
 
     bsT['PFCF'] = bsT['marketCap'] * exRate / bsT['FCF']
     bsT['PFCF'] = bsT['PFCF'].transform(lambda x: x if x > 0 else 0)
-    bsT['PFCFText'] = bsT['PFCF'].transform(lambda x: str(round(x, 0)))
+    bsT['PFCFText'] = bsT['PFCF'].transform(lambda x: str(round(x)))
 
     # print('fcf', bsT['FCF'])
     # print('pfcf', bsT['PFCF'])
 
     bsT['DepCFO'] = bsT['dep'] / bsT['CFO']
+
     bsT['CapexCFO'] = bsT['capex'] / bsT['CFO']
 
     bsT['DepCFO'] = bsT['DepCFO'].transform(lambda x: x if x > 0 else 0)
     bsT['CapexCFO'] = bsT['CapexCFO'].transform(lambda x: x if x > 0 else 0)
 
+    bsT['DepCFOText'] = bsT['DepCFO'].transform(lambda x: str(round(x, 1)))
+    bsT['CapexCFOText'] = bsT['CapexCFO'].transform(lambda x: str(round(x, 1)))
+
     bsT['netnetRatio'] = ((bsT['cash'] + fill0Get(bsT, 'netReceivables') * 0.8 +
                            fill0Get(bsT, 'inventory') * 0.5) / (bsT['totalLiab'] + exRate * bsT['marketCap']))
     bsT['nnrText'] = bsT['netnetRatio'].transform(lambda x: str(round(x, 1)))
     bsT['FCFAssetRatio'] = bsT['FCF'] / bsT['totalAssets']
+    bsT['FCFAssetRatioText'] = bsT['FCFAssetRatio'].transform(lambda x: str(round(x, 1)))
 
     bsT['dateStr'] = pd.to_datetime(bsT.index)
     bsT['dateStr'] = bsT['dateStr'].transform(lambda x: x.strftime('%Y-%m-%d'))
@@ -445,8 +454,8 @@ def updateGraphs():
 
         # Debt/Equity
         gDE.vbar(x='dateStr', top='DERatio', source=global_source, width=0.5)
-        gRetainedEarnings.add_layout(LabelSet(x='dateStr', y='REAssetsRatio', text='REAssetsRatioText'
-                                              , source=global_source, text_align='center', text_font_size="13pt"))
+        gDE.add_layout(LabelSet(x='dateStr', y='DERatio', text='DERatioText'
+                                , source=global_source, text_align='center', text_font_size="13pt"))
 
         # P/B
         gPB.vbar(x='dateStr', top='PB', source=global_source, width=0.5)
@@ -455,13 +464,13 @@ def updateGraphs():
 
         # Earnings
         gEarnings.vbar(x='dateStr', top='netIncomeB', source=global_source, width=0.5)
-        gRetainedEarnings.add_layout(LabelSet(x='dateStr', y='REAssetsRatio', text='REAssetsRatioText'
-                                              , source=global_source, text_align='center', text_font_size="13pt"))
+        gEarnings.add_layout(LabelSet(x='dateStr', y='netIncomeB', text='netIncomeBText'
+                                      , source=global_source, text_align='center', text_font_size="13pt"))
 
         # P/E
         gPE.vbar(x='dateStr', top='PE', source=global_source, width=0.5)
-        gRetainedEarnings.add_layout(LabelSet(x='dateStr', y='REAssetsRatio', text='REAssetsRatioText'
-                                              , source=global_source, text_align='center', text_font_size="13pt"))
+        gPE.add_layout(LabelSet(x='dateStr', y='PE', text='PEText'
+                                , source=global_source, text_align='center', text_font_size="13pt"))
 
         # CFO
         gCFO.vbar(x='dateStr', top='CFOB', source=global_source, width=0.5)
@@ -480,16 +489,20 @@ def updateGraphs():
 
         # Dep/CFO
         gDepCFO.vbar(x='dateStr', top='DepCFO', source=global_source, width=0.5)
-
+        gDepCFO.add_layout(LabelSet(x='dateStr', y='DepCFO', text='DepCFOText'
+                                    , source=global_source, text_align='center', text_font_size="13pt"))
         # capex/CFO
         gCapexCFO.vbar(x='dateStr', top='CapexCFO', source=global_source, width=0.5)
-
+        gCapexCFO.add_layout(LabelSet(x='dateStr', y='CapexCFO', text='CapexCFOText'
+                                      , source=global_source, text_align='center', text_font_size="13pt"))
         # Sales/Assets
         gSA.vbar(x='dateStr', top='SalesAssetsRatio', source=global_source, width=0.5)
-
+        gSA.add_layout(LabelSet(x='dateStr', y='SalesAssetsRatio', text='SalesAssetsRatioText'
+                                , source=global_source, text_align='center', text_font_size="13pt"))
         # Sales/Price
         gSP.vbar(x='dateStr', top='SalesPriceRatio', source=global_source, width=0.5)
-
+        gSP.add_layout(LabelSet(x='dateStr', y='SalesPriceRatio', text='SalesPriceRatioText'
+                                , source=global_source, text_align='center', text_font_size="13pt"))
         # netnet ratio
         gNetnet.vbar(x='dateStr', top='netnetRatio', source=global_source, width=0.5)
         gNetnet.add_layout(LabelSet(x='dateStr', y='netnetRatio', text='nnrText', source=global_source,
@@ -497,6 +510,9 @@ def updateGraphs():
 
         # CFO/A ratio
         gFCFA.vbar(x='dateStr', top='FCFAssetRatio', source=global_source, width=0.5)
+        gFCFA.add_layout(LabelSet(x='dateStr', y='FCFAssetRatio', text='FCFAssetRatioText'
+                                  , source=global_source, text_align='center', text_font_size="13pt"))
+
         FIRST_TIME_GRAPHING = False
 
 
