@@ -12,3 +12,17 @@ HYLN  day$Vol:6.6M United_States Consumer_Cyclical percentile:2 maxT:2020-09-23 
 IRBT  day$Vol:20.5M United_States Consumer_Cyclical percentile:8 maxT:2021-02-08 max:133.4 minT:2020-03-30 min:38.02
 KBAL  day$Vol:1.4M United_States Consumer_Cyclical percentile:9 maxT:2020-01-13 max:20.12 minT:2022-04-25 min:7.68
 LANC  day$Vol:16.3M United_States Consumer_Defensive percentile:0 maxT:2021-07-12 max:200.08 minT:2022-05-30 min:119.68
+MLR  day$Vol:1.3M United_States Consumer_Cyclical percentile:8 maxT:2021-03-29 max:45.57 minT:2022-05-16 min:23.45
+MTRX  day$Vol:1.6M United_States Industrials percentile:9 maxT:2019-12-16 max:23.25 minT:2022-05-09 min:5.01
+OCG  day$Vol:0.4M Hong_Kong Consumer_Cyclical percentile:0 maxT:2021-03-15 max:11.43 minT:2021-03-01 min:3.02
+OPRA  day$Vol:0.6M Norway Communication_Services percentile:6 maxT:2019-09-02 max:13.77 minT:2022-03-07 min:4.76
+PRLB  day$Vol:7.3M United_States Industrials percentile:4 maxT:2021-02-01 max:216.56 minT:2022-04-25 min:42.61
+SAM  day$Vol:48.9M United_States Consumer_Defensive percentile:3 maxT:2021-04-12 max:1294.93 minT:2020-03-16 min:306.46
+SFIX  day$Vol:24.6M United_States Consumer_Cyclical percentile:1 maxT:2021-01-18 max:96.92 minT:2022-05-09 min:8.23
+SGHC  day$Vol:3.3M Guernsey Consumer_Cyclical percentile:2 maxT:2021-11-08 max:11.8 minT:2022-06-06 min:5.86
+SMED  day$Vol:0.6M United_States Industrials percentile:5 maxT:2021-04-26 max:17.49 minT:2019-05-27 min:3.23
+TDCX  day$Vol:3.4M Singapore Industrials percentile:2 maxT:2021-10-25 max:28.68 minT:2022-03-07 min:9.89
+TRMR  day$Vol:2.1M Israel Communication_Services percentile:7 maxT:2021-08-16 max:22.31 minT:2022-05-09 min:10.87
+VFF  day$Vol:1.7M Canada Consumer_Defensive percentile:4 maxT:2021-02-15 max:17.08 minT:2020-03-16 min:2.39
+VITL  day$Vol:2.5M United_States Consumer_Defensive percentile:0 maxT:2020-10-05 max:39.56 minT:2022-06-08 min:9.57
+YY  day$Vol:23.2M Singapore Communication_Services percentile:6 maxT:2021-02-08 max:129.5 minT:2022-03-07 min:30.8

@@ -5,7 +5,7 @@ from bokeh.models import TextInput, Button, RadioGroup, Paragraph, FactorRange
 from helperMethods import fill0Get, indicatorFunction, roundB, getFromDF, fill0GetLatest
 from scrape_sharesOutstanding import scrapeTotalSharesXueqiu
 
-ANNUALLY = False
+ANNUALLY = True
 FIRST_TIME_GRAPHING = True
 
 from bokeh.layouts import gridplot
@@ -124,7 +124,7 @@ for figu in [gPrice, gMarketcap, gCash, gCurrentAssets, gAssetComposition, gALE,
     figu.title.align = 'center'
 
 grid = gridplot([[gMarketcap, gCash], [gCurrentAssets, gAssetComposition], [gALE, gBook], [gPB, gTangibleRatio],
-                 [gCurrentRatio, gRetainedEarnings], [gDE, gEarnings], [gCFO, gPE], [gFCF, gPFCF],
+                 [gCurrentRatio, gRetainedEarnings], [gDE, None], [gEarnings, gPE], [gCFO, None], [gFCF, gPFCF],
                  [gDepCFO, gCapexCFO], [gSA, gSP], [gNetnet, gFCFA]], width=500, height=500)
 
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
@@ -244,6 +244,7 @@ def buttonCallback():
     bsT['netIncomeB'] = bsT['netIncome'] / 1000000000
 
     bsT['PE'] = bsT['marketCap'] * exRate / bsT['netIncome']
+    bsT['PE'] = bsT['PE'].transform(lambda x: x if x > 0 else 0)
 
     bsT['SalesAssetsRatio'] = bsT['revenue'] / bsT['totalAssets']
     bsT['SalesPriceRatio'] = bsT['revenue'] / (bsT['marketCap'] * exRate)
@@ -264,6 +265,7 @@ def buttonCallback():
     bsT['CFOB'] = bsT['CFO'] / 1000000000
     bsT['FCFB'] = bsT['FCF'] / 1000000000
     bsT['PFCF'] = bsT['marketCap'] * exRate / bsT['FCF']
+    bsT['PFCF'] = bsT['PFCF'].transform(lambda x: x if x > 0 else 0)
 
     print('fcf', bsT['FCF'])
     print('pfcf', bsT['PFCF'])
@@ -453,7 +455,7 @@ def my_radio_handler(new):
     resetCallback()
 
 
-rg = RadioGroup(labels=['Annual', 'Quarterly'], active=1)
+rg = RadioGroup(labels=['Annual', 'Quarterly'], active=0)
 rg.on_click(my_radio_handler)
 
 curdoc().add_root(column(row(button, button2), rg, text_input, gPrice, gDiv, grid, infoParagraph))
