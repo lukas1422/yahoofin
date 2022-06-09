@@ -47,43 +47,43 @@ lastTradingPrice = si.get_live_price(TICKER)
 gPrice = figure(title='prices chart', width=1000, x_axis_type="datetime")
 gPrice.xaxis.major_label_orientation = pi / 4
 gPrice.grid.grid_line_alpha = 0.3
-gPrice.add_tools(HoverTool(tooltips=[('date', '@date{%Y-%m-%d}'), ('close', '@close')],
+gPrice.add_tools(HoverTool(tooltips=[('date', '@date{%Y-%m-%d}'), ('close', '@close{0.0}')],
                            formatters={'@date': 'datetime'}, mode='vline'))
 
 # priceChart.background_fill_color = "#f5f5f5"
 gDiv = figure(title="divYld", width=1000)
-gDiv.add_tools(HoverTool(tooltips=[('year', '@year'), ("yield", "@yield")], mode='vline'))
+gDiv.add_tools(HoverTool(tooltips=[('year', '@year'), ("yield", "@yield{0.0}")], mode='vline'))
 
 gMarketcap = figure(title='cap(B)', x_range=FactorRange(factors=list()))
 gMarketcap.title.text = 'cap(B) '
-gMarketcap.add_tools(HoverTool(tooltips=[('dateStr', '@dateStr'), ("marketCap", "@marketCapB")], mode='vline'))
+gMarketcap.add_tools(HoverTool(tooltips=[('dateStr', '@dateStr'), ("marketCap", "@marketCapB{0.0}")], mode='vline'))
 
 gCash = figure(title='cash(B)', x_range=FactorRange(factors=list()))
 gCash.title.text = 'cash(B) '
-gCash.add_tools(HoverTool(tooltips=[('dateStr', '@dateStr'), ("cash", "@cashB")], mode='vline'))
+gCash.add_tools(HoverTool(tooltips=[('dateStr', '@dateStr'), ("cash", "@cashB{0.0}")], mode='vline'))
 
 gCurrentAssets = figure(title='currentAssets', x_range=FactorRange(factors=list()),
-                        tools="hover", tooltips="$name @dateStr: @$name")
+                        tools="hover", tooltips="$name @dateStr: @$name{0.0}")
 gCurrentAssets.title.text = 'currentAssets'
 # gCurrentAssets.legend.orientation = "horizontal"
 # gCurrentAssets.legend.location = "top_center"
 
 gAssetComposition = figure(title='Assets compo', x_range=FactorRange(factors=list()),
-                           tools="hover", tooltips="$name @dateStr: @$name")
+                           tools="hover", tooltips="$name @dateStr: @$name{0.0}")
 gAssetComposition.title.text = 'Assets compo'
 
-gALE = figure(title='ALE', x_range=FactorRange(factors=list()), tools="hover", tooltips="$name @dateStr: @$name")
+gALE = figure(title='ALE', x_range=FactorRange(factors=list()), tools="hover", tooltips="$name @dateStr: @$name{0.0}")
 gALE.title.text = 'ALE'
 
 gBook = figure(title='book(B)', x_range=FactorRange(factors=list()),
-               tools="hover", tooltips="$name @dateStr: @$name")
+               tools="hover", tooltips="$name @dateStr: @$name{0.0}")
 gBook.title.text = 'Book(B)'
 # gBook.add_tools(HoverTool(tooltips=[('dateStr', '@dateStr'), ("bookB", "@netBookB")], mode='vline'))
 
 gTangibleRatio = figure(title='Tangible Ratio', x_range=FactorRange(factors=list()))
 gTangibleRatio.title.text = 'Tangible Ratio'
 gTangibleRatio.add_tools(
-    HoverTool(tooltips=[('dateStr', '@dateStr'), ("tangibleRatio", "@tangibleRatio")], mode='vline'))
+    HoverTool(tooltips=[('dateStr', '@dateStr'), ("tangibleRatio", "@tangibleRatio{0.0}")], mode='vline'))
 
 gCurrentRatio = figure(title='currentRatio', x_range=FactorRange(factors=list()))
 gRetainedEarnings = figure(title='RetEarnings/A', x_range=FactorRange(factors=list()))
@@ -101,21 +101,21 @@ gSP = figure(title='Sales/Price Ratio', x_range=FactorRange(factors=list()))
 gNetnet = figure(title='netnet Ratio', x_range=FactorRange(factors=list()))
 gFCFA = figure(title='FCF/A Ratio', x_range=FactorRange(factors=list()))
 
-gCurrentRatio.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("cr", "@currentRatio")], mode='vline'))
-gRetainedEarnings.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("Re/A", "@REAssetsRatio")], mode='vline'))
-gDE.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("DERatio", "@DERatio")], mode='vline'))
-gPB.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("PB", "@PB")], mode='vline'))
-gEarnings.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("netIncomeB", "@netIncomeB")], mode='vline'))
-gPE.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("PE", "@PE")], mode='vline'))
-gCFO.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("CFOB", "@CFOB")], mode='vline'))
-gFCF.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("FCFB", "@FCFB")], mode='vline'))
-gPFCF.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("PFCF", "@PFCF")], mode='vline'))
-gDepCFO.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("DepCFO", "@DepCFO")], mode='vline'))
-gCapexCFO.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("CapexCFO", "@CapexCFO")], mode='vline'))
-gSA.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("S/A Ratio", "@SalesAssetsRatio")], mode='vline'))
-gSP.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("S/P Ratio", "@SalesPriceRatio")], mode='vline'))
-gNetnet.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("netnet", "@netnetRatio")], mode='vline'))
-gFCFA.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("FCF/A", "@FCFAssetRatio")], mode='vline'))
+gCurrentRatio.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("cr", "@currentRatio{0.0}")], mode='vline'))
+gRetainedEarnings.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("Re/A", "@REAssetsRatio{0.0}")], mode='vline'))
+gDE.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("DERatio", "@DERatio{0.0}")], mode='vline'))
+gPB.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("PB", "@PB{0.0}")], mode='vline'))
+gEarnings.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("netIncomeB", "@netIncomeB{0.0}")], mode='vline'))
+gPE.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("PE", "@PE{0.0}")], mode='vline'))
+gCFO.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("CFOB", "@CFOB{0.0}")], mode='vline'))
+gFCF.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("FCFB", "@FCFB{0.0}")], mode='vline'))
+gPFCF.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("PFCF", "@PFCF{0.0}")], mode='vline'))
+gDepCFO.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("DepCFO", "@DepCFO{0.0}")], mode='vline'))
+gCapexCFO.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("CapexCFO", "@CapexCFO{0.0}")], mode='vline'))
+gSA.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("S/A Ratio", "@SalesAssetsRatio{0.0}")], mode='vline'))
+gSP.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("S/P Ratio", "@SalesPriceRatio{0.0}")], mode='vline'))
+gNetnet.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("netnet", "@netnetRatio{0.0}")], mode='vline'))
+gFCFA.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("FCF/A", "@FCFAssetRatio{0.0}")], mode='vline'))
 
 for figu in [gPrice, gMarketcap, gCash, gCurrentAssets, gAssetComposition, gALE, gBook, gTangibleRatio,
              gDiv, gCurrentRatio, gRetainedEarnings, gDE, gPB, gEarnings, gPE, gCFO, gFCF, gPFCF, gDepCFO,
