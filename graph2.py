@@ -123,9 +123,10 @@ for figu in [gPrice, gMarketcap, gCash, gCurrentAssets, gAssetComposition, gALE,
     figu.title.text_font_size = '18pt'
     figu.title.align = 'center'
 
-grid = gridplot([[gMarketcap, gCash], [gCurrentAssets, gAssetComposition], [gALE, gBook], [gPB, gTangibleRatio],
-                 [gCurrentRatio, gDE], [gRetainedEarnings, gCFO], [gFCF, gPFCF], [gEarnings, gPE],
-                 [gDepCFO, gCapexCFO], [gSA, gSP], [gNetnet, gFCFA]], width=500, height=500)
+grid = gridplot(
+    [[gMarketcap, gNetnet], [gCash, gCurrentAssets], [gAssetComposition, gALE]
+        , [gBook, gPB], [gTangibleRatio, None], [gCurrentRatio, gDE], [gRetainedEarnings, gCFO], [gFCF, gPFCF],
+     [gEarnings, gPE], [gDepCFO, gCapexCFO], [gSA, gSP], [gFCFA, None]], width=500, height=500)
 
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 
@@ -188,7 +189,7 @@ def buttonCallback():
 
     bsT['currentRatio'] = (bsT['cash'] + 0.8 * fill0Get(bsT, 'netReceivables') +
                            0.5 * fill0Get(bsT, 'inventory')) / bsT['totalCurrentLiabilities']
-    bsT['currentRatioText'] = bsT['currentRatio'].transform(lambda x: str(round(x, 1)))
+    bsT['currentRatioText'] = bsT['currentRatio'].transform(lambda x: str(round(x, 0)))
 
     bsT['grossBook'] = bsT['totalAssets'] - bsT['totalLiab'] if 'totalLiab' in bsT else 0
     bsT['grossBookB'] = bsT['grossBook'] / 1000000000 if 'grossBook' in bsT else 0
