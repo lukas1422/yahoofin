@@ -1,7 +1,7 @@
 from math import pi
 from bokeh.io import curdoc
 from bokeh.layouts import column, row
-from bokeh.models import TextInput, Button, RadioGroup, Paragraph, FactorRange
+from bokeh.models import TextInput, Button, RadioGroup, Paragraph, FactorRange, LabelSet
 from helperMethods import fill0Get, indicatorFunction, roundB, getFromDF, fill0GetLatest
 from scrape_sharesOutstanding import scrapeTotalSharesXueqiu
 
@@ -176,7 +176,7 @@ def buttonCallback():
         # print('divprice1', divPrice)
         divPrice.index.name = 'year'
         divPrice['yield'] = divPrice['dividend'] / divPrice['close'] * 100
-
+        divPrice['yieldText'] = divPrice['yield'].transform(lambda x: str(round(x)))
         # print('divprice2', divPrice)
         divPriceData.data = ColumnDataSource.from_df(divPrice)
 
@@ -184,8 +184,12 @@ def buttonCallback():
     bs = si.get_balance_sheet(TICKER, yearly=ANNUALLY)
     bsT = bs.T
     bsT['REAssetsRatio'] = bsT['retainedEarnings'] / bsT['totalAssets'] if 'retainedEarnings' in bsT else 0
+    bsT['REAssetsRatioText'] = bsT['REAssetsRatio'].transform(lambda x: str(round(x, 1)))
+
     bsT['currentRatio'] = (bsT['cash'] + 0.8 * fill0Get(bsT, 'netReceivables') +
                            0.5 * fill0Get(bsT, 'inventory')) / bsT['totalCurrentLiabilities']
+    bsT['currentRatioText'] = bsT['currentRatio'].transform(lambda x: str(round(x, 1)))
+
     bsT['grossBook'] = bsT['totalAssets'] - bsT['totalLiab'] if 'totalLiab' in bsT else 0
     bsT['grossBookB'] = bsT['grossBook'] / 1000000000 if 'grossBook' in bsT else 0
 
@@ -193,7 +197,11 @@ def buttonCallback():
                      - fill0Get(bsT, 'intangibleAssets')
     # bsT['noncashAssets'] = bsT['netBook'] - bsT['cash']
     bsT['tangibleRatio'] = bsT['netBook'] / (bsT['totalAssets'] - bsT['totalLiab'])
+    bsT['tangibleRatioText'] = bsT['tangibleRatio'].transform(lambda x: str(round(x, 1)))
+
     bsT['DERatio'] = bsT['totalLiab'] / bsT['netBook']
+    bsT['DERatioText'] = bsT['DERatio'].transform(lambda x: str(round(x, 1)))
+
     bsT['priceOnOrAfter'] = bsT.index.map(lambda d: priceData[priceData.index >= d].iloc[0]['close'])
     # bsT['priceOnOrAfter'][0] = latestPrice
     bsT['currentAssets'] = bsT['cash'] + fill0Get(bsT, 'netReceivables') + fill0Get(bsT, 'inventory')
@@ -224,9 +232,11 @@ def buttonCallback():
     # print(TICKER, 'shares', shares)
     bsT['marketCap'] = bsT['priceOnOrAfter'] * shares
     bsT['marketCapB'] = bsT['marketCap'] / 1000000000
+    bsT['marketCapBText'] = bsT['marketCapB'].transform(lambda x: str(round(x)))
 
     # bsT['marketCap'] = si.get_quote_data(TICKER)['marketcap']
     bsT['PB'] = bsT['marketCap'] * exRate / bsT['netBook']
+    bsT['PBText'] = bsT['PB'].transform(lambda x: str(round(x, 1)))
 
     totalAssets = getFromDF(bs, "totalAssets")
     totalLiab = getFromDF(bs, "totalLiab")
@@ -245,6 +255,7 @@ def buttonCallback():
 
     bsT['PE'] = bsT['marketCap'] * exRate / bsT['netIncome']
     bsT['PE'] = bsT['PE'].transform(lambda x: x if x > 0 else 0)
+    bsT['PEText'] = bsT['PE'].transform(lambda x: str(round(x, 2)))
 
     bsT['SalesAssetsRatio'] = bsT['revenue'] / bsT['totalAssets']
     bsT['SalesPriceRatio'] = bsT['revenue'] / (bsT['marketCap'] * exRate)
@@ -263,26 +274,42 @@ def buttonCallback():
     bsT['FCF'] = bsT['CFO'] - bsT['dep']
 
     bsT['CFOB'] = bsT['CFO'] / 1000000000
+    bsT['CFOBText'] = bsT['CFOB'].transform(lambda x: str(round(x, 0)))
+
     bsT['FCFB'] = bsT['FCF'] / 1000000000
+    bsT['FCFBText'] = bsT['FCFB'].transform(lambda x: str(round(x, 0)))
+
     bsT['PFCF'] = bsT['marketCap'] * exRate / bsT['FCF']
     bsT['PFCF'] = bsT['PFCF'].transform(lambda x: x if x > 0 else 0)
+    bsT['PFCFText'] = bsT['PFCF'].transform(lambda x: str(round(x, 0)))
 
-    print('fcf', bsT['FCF'])
-    print('pfcf', bsT['PFCF'])
+    # print('fcf', bsT['FCF'])
+    # print('pfcf', bsT['PFCF'])
 
     bsT['DepCFO'] = bsT['dep'] / bsT['CFO']
     bsT['CapexCFO'] = bsT['capex'] / bsT['CFO']
 
+    bsT['DepCFO'] = bsT['DepCFO'].transform(lambda x: x if x > 0 else 0)
+    bsT['CapexCFO'] = bsT['CapexCFO'].transform(lambda x: x if x > 0 else 0)
+
     bsT['netnetRatio'] = ((bsT['cash'] + fill0Get(bsT, 'netReceivables') * 0.8 +
                            fill0Get(bsT, 'inventory') * 0.5) / (bsT['totalLiab'] + exRate * bsT['marketCap']))
+    bsT['nnrText'] = bsT['netnetRatio'].transform(lambda x: str(round(x, 1)))
     bsT['FCFAssetRatio'] = bsT['FCF'] / bsT['totalAssets']
 
     bsT['dateStr'] = pd.to_datetime(bsT.index)
     bsT['dateStr'] = bsT['dateStr'].transform(lambda x: x.strftime('%Y-%m-%d'))
-    bsT['cashB'] = bsT['cash'] / 1000000000 if 'cash' in bsT else 0
+    bsT['cashB'] = round(bsT['cash'] / 1000000000, 0) if 'cash' in bsT else 0
+    bsT['cashBText'] = bsT['cashB'].transform(lambda x: str(round(x)))
+
     bsT['netReceivablesB'] = bsT['netReceivables'] / 1000000000 if 'netReceivables' in bsT else 0
     bsT['inventoryB'] = bsT['inventory'] / 1000000000 if 'inventory' in bsT else 0
     bsT['netBookB'] = bsT['netBook'] / 1000000000 if 'netBook' in bsT else 0
+
+    bsT['bookAllB'] = bsT['netBookB'] + bsT['goodWillB'] + bsT['intangibleAssetsB']
+    bsT['bookAllBText'] = bsT['bookAllB'].transform(lambda x: str(round(x)))
+
+    # ['netBookB', 'goodWillB', 'intangibleAssetsB']
     # bsT['noncashAssetsB'] = bsT['noncashAssets'] / 1000000000 if 'noncashAssets' in bsT else 0
 
     global_source.data = ColumnDataSource.from_df(bsT)
@@ -326,6 +353,10 @@ def buttonCallback():
                        + (str(round(divYield2021, 1))) + '%'
     # divPrice['yield'].iloc[-1]
     print("=============graph finished===============")
+    # print('globalsource1', global_source.data['dateStr'])
+    # print('globalsource2', global_source.data['cashB'])
+    # print('globalsource3', global_source.data)
+    # print('div', divPriceData.data)
 
 
 def updateGraphs():
@@ -345,12 +376,20 @@ def updateGraphs():
     if FIRST_TIME_GRAPHING:
         gPrice.line(x='date', y='close', source=stockData, color='#D06C8A')
         gDiv.vbar(x='year', top='yield', source=divPriceData, width=0.8)
+        gDiv.add_layout(LabelSet(x='year', y='yield', text='yieldText',
+                                 source=divPriceData, text_align='center', render_mode='canvas'))
 
         # market cap
         gMarketcap.vbar(x='dateStr', top='marketCapB', source=global_source, width=0.5)
+        gMarketcap.add_layout(LabelSet(x='dateStr', y='marketCapB', text='marketCapBText', source=global_source,
+                                       text_align='center', text_font_size="13pt"))
 
         # cash
         gCash.vbar(x='dateStr', top='cashB', source=global_source, width=0.5)
+        gCash.add_layout(LabelSet(x='dateStr', y='cashB', text='cashBText', source=global_source,
+                                  text_align='center', text_font_size="13pt"))
+
+        # , render_mode='canvas'
 
         # current assets
         colorsCurrent = ["darkgreen", "olive", "tan"]
@@ -381,6 +420,8 @@ def updateGraphs():
         gBook.vbar_stack(bookItems, x='dateStr', source=global_source, color=colors,
                          legend_label=bookItems, width=0.5)
         gBook.legend.location = "top_left"
+        gBook.add_layout(LabelSet(x='dateStr', y='bookAllB', text='bookAllBText',
+                                  source=global_source, text_align='center', text_font_size="13pt"))
         # gBook.vbar(x='dateStr', top='netBookB', source=global_source, width=0.5)
 
         aleItems = ['grossBookB', 'totalLiabB', 'totalAssetsB']
@@ -390,33 +431,52 @@ def updateGraphs():
 
         # tangible ratio
         gTangibleRatio.vbar(x='dateStr', top='tangibleRatio', source=global_source, width=0.5)
-
+        gTangibleRatio.add_layout(LabelSet(x='dateStr', y='tangibleRatio', text='tangibleRatioText',
+                                           source=global_source, text_align='center', text_font_size="13pt"))
         # current ratio
         gCurrentRatio.vbar(x='dateStr', top='currentRatio', source=global_source, width=0.5)
+        gCurrentRatio.add_layout(LabelSet(x='dateStr', y='currentRatio', text='currentRatioText',
+                                          source=global_source, text_align='center', text_font_size="13pt"))
 
         # retained earnings/Asset
         gRetainedEarnings.vbar(x='dateStr', top='REAssetsRatio', source=global_source, width=0.5)
+        gRetainedEarnings.add_layout(LabelSet(x='dateStr', y='REAssetsRatio', text='REAssetsRatioText'
+                                              , source=global_source, text_align='center', text_font_size="13pt"))
 
         # Debt/Equity
         gDE.vbar(x='dateStr', top='DERatio', source=global_source, width=0.5)
+        gRetainedEarnings.add_layout(LabelSet(x='dateStr', y='REAssetsRatio', text='REAssetsRatioText'
+                                              , source=global_source, text_align='center', text_font_size="13pt"))
 
         # P/B
         gPB.vbar(x='dateStr', top='PB', source=global_source, width=0.5)
+        gPB.add_layout(LabelSet(x='dateStr', y='PB', text='PBText'
+                                , source=global_source, text_align='center', text_font_size="13pt"))
 
         # Earnings
         gEarnings.vbar(x='dateStr', top='netIncomeB', source=global_source, width=0.5)
+        gRetainedEarnings.add_layout(LabelSet(x='dateStr', y='REAssetsRatio', text='REAssetsRatioText'
+                                              , source=global_source, text_align='center', text_font_size="13pt"))
 
         # P/E
         gPE.vbar(x='dateStr', top='PE', source=global_source, width=0.5)
+        gRetainedEarnings.add_layout(LabelSet(x='dateStr', y='REAssetsRatio', text='REAssetsRatioText'
+                                              , source=global_source, text_align='center', text_font_size="13pt"))
 
         # CFO
         gCFO.vbar(x='dateStr', top='CFOB', source=global_source, width=0.5)
+        gCFO.add_layout(LabelSet(x='dateStr', y='CFOB', text='CFOBText'
+                                 , source=global_source, text_align='center', text_font_size="13pt"))
 
         # FCF
         gFCF.vbar(x='dateStr', top='FCFB', source=global_source, width=0.5)
+        gFCF.add_layout(LabelSet(x='dateStr', y='FCFB', text='FCFBText'
+                                 , source=global_source, text_align='center', text_font_size="13pt"))
 
         # P/FCF
         gPFCF.vbar(x='dateStr', top='PFCF', source=global_source, width=0.5)
+        gPFCF.add_layout(LabelSet(x='dateStr', y='PFCF', text='PFCFText'
+                                  , source=global_source, text_align='center', text_font_size="13pt"))
 
         # Dep/CFO
         gDepCFO.vbar(x='dateStr', top='DepCFO', source=global_source, width=0.5)
@@ -432,6 +492,8 @@ def updateGraphs():
 
         # netnet ratio
         gNetnet.vbar(x='dateStr', top='netnetRatio', source=global_source, width=0.5)
+        gNetnet.add_layout(LabelSet(x='dateStr', y='netnetRatio', text='nnrText', source=global_source,
+                                    text_align='center', text_font_size="13pt"))
 
         # CFO/A ratio
         gFCFA.vbar(x='dateStr', top='FCFAssetRatio', source=global_source, width=0.5)
