@@ -279,14 +279,15 @@ def buttonCallback():
     bsT['FCF'] = bsT['CFO'] - bsT['dep']
 
     bsT['CFOB'] = bsT['CFO'] / 1000000000
-    bsT['CFOBText'] = bsT['CFOB'].transform(lambda x: str(round(x)))
+    print('cfo', bsT['CFOB'])
+    bsT['CFOBText'] = bsT['CFOB'].fillna(0).transform(lambda x: str(round(x)))
 
     bsT['FCFB'] = bsT['FCF'] / 1000000000
-    bsT['FCFBText'] = bsT['FCFB'].transform(lambda x: str(round(x)))
+    bsT['FCFBText'] = bsT['FCFB'].fillna(0).transform(lambda x: str(round(x)))
 
     bsT['PFCF'] = bsT['marketCap'] * exRate / bsT['FCF']
     bsT['PFCF'] = bsT['PFCF'].transform(lambda x: x if x > 0 else 0)
-    bsT['PFCFText'] = bsT['PFCF'].transform(lambda x: str(round(x)))
+    bsT['PFCFText'] = bsT['PFCF'].fillna(0).transform(lambda x: str(round(x)))
 
     # print('fcf', bsT['FCF'])
     # print('pfcf', bsT['PFCF'])
@@ -309,15 +310,16 @@ def buttonCallback():
 
     bsT['dateStr'] = pd.to_datetime(bsT.index)
     bsT['dateStr'] = bsT['dateStr'].transform(lambda x: x.strftime('%Y-%m-%d'))
-    bsT['cashB'] = round(bsT['cash'] / 1000000000, 0) if 'cash' in bsT else 0
-    bsT['cashBText'] = bsT['cashB'].transform(lambda x: str(round(x)))
+    bsT['cashB'] = round(bsT['cash'] / 1000000000, 1) if 'cash' in bsT else 0
+    bsT['cashBText'] = bsT['cashB'].fillna(0).transform(lambda x: str(round(x, 1))) if 'cashB' in bsT else ''
 
     bsT['netReceivablesB'] = bsT['netReceivables'] / 1000000000 if 'netReceivables' in bsT else 0
     bsT['inventoryB'] = bsT['inventory'] / 1000000000 if 'inventory' in bsT else 0
     bsT['netBookB'] = bsT['netBook'] / 1000000000 if 'netBook' in bsT else 0
 
     bsT['bookAllB'] = bsT['netBookB'] + bsT['goodWillB'] + bsT['intangibleAssetsB']
-    bsT['bookAllBText'] = bsT['bookAllB'].transform(lambda x: str(round(x)))
+    # print('bookallb', bsT['bookAllB'], bsT['bookAllB'].fillna(0))
+    bsT['bookAllBText'] = bsT['bookAllB'].fillna(0).transform(lambda x: str(round(x))) if 'bookAllB' in bsT else ''
 
     # ['netBookB', 'goodWillB', 'intangibleAssetsB']
     # bsT['noncashAssetsB'] = bsT['noncashAssets'] / 1000000000 if 'noncashAssets' in bsT else 0
@@ -328,9 +330,9 @@ def buttonCallback():
     latestNetnetRatio = (bsT['cash'][0] + fill0GetLatest(bsT, 'netReceivables') * 0.8 +
                          fill0GetLatest(bsT, 'inventory') * 0.5) / (bsT['totalLiab'][0] + exRate * marketCapLast)
 
-    print("latest netnet ratio", latestNetnetRatio, 'cash', bsT['cash'][0], 'rec', fill0GetLatest(bsT, 'netReceivables')
-          , 'inv', fill0GetLatest(bsT, 'inventory'), 'totalliab', bsT['totalLiab'][0], 'exrate', exRate,
-          'marketcaplast', marketCapLast)
+    # print("latest netnet ratio", latestNetnetRatio, 'cash', bsT['cash'][0], 'rec', fill0GetLatest(bsT, 'netReceivables')
+    #       , 'inv', fill0GetLatest(bsT, 'inventory'), 'totalliab', bsT['totalLiab'][0], 'exrate', exRate,
+    #       'marketcaplast', marketCapLast)
 
     yearSpan = 2021 - priceData[:1].index.item().year + 1
     # print(divData)
@@ -363,10 +365,6 @@ def buttonCallback():
                        + (str(round(divYield2021, 1))) + '%'
     # divPrice['yield'].iloc[-1]
     print("=============graph finished===============")
-    # print('globalsource1', global_source.data['dateStr'])
-    # print('globalsource2', global_source.data['cashB'])
-    # print('globalsource3', global_source.data)
-    # print('div', divPriceData.data)
 
 
 def updateGraphs():

@@ -15,7 +15,7 @@ from helperMethods import getFromDF, convertHK, roundB, convertChinaForYahoo, ge
 
 COUNT = 0
 
-MARKET = Market.US
+MARKET = Market.HK
 yearlyFlag = True
 
 
@@ -52,7 +52,7 @@ elif MARKET == Market.HK:
     listStocks = stock_df['ticker'].tolist()
     hk_shares = pd.read_csv('list_HK_totalShares', sep=" ", index_col=False, names=['ticker', 'shares'])
     # print(hk_shares)
-    # listStocks = ['0539.HK']
+    # listStocks = ['0769.HK']
     # listStocks = ["2698.HK", "0743.HK", "0321.HK", "0819.HK",
     #               "1361.HK", "0057.HK", "0420.HK", "1085.HK", "1133.HK", "2131.HK",
     #               "3393.HK", "2355.HK", "0517.HK", "3636.HK", "0116.HK", "1099.HK", "2386.HK", "6188.HK"]
