@@ -166,8 +166,7 @@ for comp in listStocks:
         #     continue
 
         if cash + receivables + inventory - totalL < exRate * marketCap:
-            print(comp, listingCurr, bsCurr,
-                  'cash + rec + inv - L < mv. cash rec inv Liab MV:',
+            print(comp, listingCurr, bsCurr,'cash + rec + inv - L < mv. cash rec inv Liab MV:',
                   roundB(cash, 2), roundB(receivables, 2),
                   roundB(inventory, 2), roundB(totalL, 2), roundB(marketCap, 2))
             continue

@@ -359,7 +359,8 @@ def buttonCallback():
                        + '___CR:' + str(round(bsT['currentRatio'][0], 1)) \
                        + '___DE:' + str(round(bsT['DERatio'][0], 1)) \
                        + '___RE/A:' + str(round(bsT['REAssetsRatio'][0], 1)) \
-                       + '___P/FCF:' + str(round(marketCapLast * exRate / bsT['FCF'][0], 1)) \
+                       + '___P/FCF:' + (str(round(marketCapLast * exRate / bsT['FCF'][0], 1)) \
+                                            if bsT['FCF'][0] > 0 else 'undef') \
                        + '___DivYld:' + (str(round(divYieldAll, 1)) if 'yield' in divPrice else '') + '%' \
                        + '___2021DivYld:' \
                        + (str(round(divYield2021, 1))) + '%'
