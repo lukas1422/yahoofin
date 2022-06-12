@@ -1,5 +1,4 @@
 # return the lowest percentile on a historical basis
-
 import math
 import os
 import statistics
@@ -20,7 +19,7 @@ COUNT = 0
 # MARKET = Market.HK
 yearlyFlag = True
 PRICE_INTERVAL = '1wk'
-N_YEAR_LOW = 3
+N_YEAR_LOW = 100
 N_YEAR_AGO = datetime.today() - timedelta(weeks=53 * N_YEAR_LOW)
 
 
