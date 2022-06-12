@@ -1,2 +1,14 @@
-OIS  day$Vol:5.0M United_States Energy percentile:9 maxT:2014-06-16 max:65.32 minT:2020-03-16 min:1.99
-VRA  day$Vol:1.8M United_States Consumer_Cyclical percentile:4 maxT:2011-05-09 max:50.82 minT:2020-03-30 min:3.24
+ADES  day$Vol:0.5M United_States Industrials percentile:0 maxT:2021-06-07 max:7.75 minT:2022-06-06 min:4.94
+ADTH  day$Vol:0.9M United_States Communication_Services percentile:6 maxT:2021-12-20 max:10.21 minT:2022-01-24 min:4.37
+AKA  day$Vol:0.8M United_States Consumer_Cyclical percentile:4 maxT:2021-11-15 max:13.73 minT:2022-05-16 min:3.29
+ALG  day$Vol:4.3M United_States Industrials percentile:5 maxT:2022-01-10 max:158.13 minT:2022-05-16 min:111.56
+AME  day$Vol:121.7M United_States Industrials percentile:0 maxT:2021-12-27 max:147.04 minT:2022-06-06 min:115.46
+AOS  day$Vol:55.2M United_States Industrials percentile:1 maxT:2021-12-27 max:85.15 minT:2022-05-16 min:57.77
+AOUT  day$Vol:1.4M United_States Consumer_Cyclical percentile:3 maxT:2021-06-28 max:34.0 minT:2022-05-16 min:10.58
+APEI  day$Vol:0.9M United_States Consumer_Defensive percentile:2 maxT:2021-07-26 max:29.62 minT:2022-05-16 min:13.43
+APT  day$Vol:0.4M Canada Industrials percentile:6 maxT:2021-07-26 max:12.01 minT:2022-04-18 min:3.95
+AXON  day$Vol:39.3M United_States Industrials percentile:1 maxT:2021-08-02 max:192.59 minT:2022-05-02 min:95.99
+AZZ  day$Vol:4.6M United_States Industrials percentile:2 maxT:2021-07-05 max:56.79 minT:2022-05-16 min:43.43
+BCPC  day$Vol:10.9M United_States Basic_Materials percentile:0 maxT:2021-12-27 max:168.6 minT:2022-05-09 min:118.91
+BMI  day$Vol:8.7M United_States Industrials percentile:2 maxT:2021-11-08 max:108.7 minT:2022-05-16 min:77.15
+BOC  day$Vol:1.9M United_States Communication_Services percentile:0 maxT:2021-09-20 max:42.75 minT:2022-06-06 min:20.26
