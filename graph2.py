@@ -257,7 +257,7 @@ def buttonCallback():
 
     bsT['PE'] = bsT['marketCap'] * exRate / bsT['netIncome']
     bsT['PE'] = bsT['PE'].transform(lambda x: x if x > 0 else 0)
-    bsT['PEText'] = bsT['PE'].transform(lambda x: str(round(x)))
+    bsT['PEText'] = bsT['PE'].transform(lambda x: str(round(x)) if x != 0 else 'undef')
 
     bsT['SalesAssetsRatio'] = bsT['revenue'] / bsT['totalAssets']
     bsT['SalesAssetsRatioText'] = bsT['SalesAssetsRatio'].transform(lambda x: str(round(x, 1)))
@@ -279,7 +279,7 @@ def buttonCallback():
     bsT['FCF'] = bsT['CFO'] - bsT['dep']
 
     bsT['CFOB'] = bsT['CFO'] / 1000000000
-    print('cfo', bsT['CFOB'])
+    # print('cfo', bsT['CFOB'])
     bsT['CFOBText'] = bsT['CFOB'].fillna(0).transform(lambda x: str(round(x)))
 
     bsT['FCFB'] = bsT['FCF'] / 1000000000
@@ -287,7 +287,7 @@ def buttonCallback():
 
     bsT['PFCF'] = bsT['marketCap'] * exRate / bsT['FCF']
     bsT['PFCF'] = bsT['PFCF'].transform(lambda x: x if x > 0 else 0)
-    bsT['PFCFText'] = bsT['PFCF'].fillna(0).transform(lambda x: str(round(x)))
+    bsT['PFCFText'] = bsT['PFCF'].fillna(0).transform(lambda x: str(round(x)) if x != 0 else 'undef')
 
     # print('fcf', bsT['FCF'])
     # print('pfcf', bsT['PFCF'])
