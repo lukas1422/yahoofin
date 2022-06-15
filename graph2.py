@@ -1,4 +1,6 @@
 from math import pi
+
+import numpy as np
 from bokeh.io import curdoc
 from bokeh.layouts import column, row
 from bokeh.models import TextInput, Button, RadioGroup, Paragraph, FactorRange, LabelSet
@@ -196,12 +198,16 @@ def buttonCallback():
 
     bsT['netBook'] = bsT['totalAssets'] - bsT['totalLiab'] - fill0Get(bsT, 'goodWill') \
                      - fill0Get(bsT, 'intangibleAssets')
+
+    bsT['netBook'] = bsT['netBook'].transform(lambda x: x if x > 0 else 0)
+
     # bsT['noncashAssets'] = bsT['netBook'] - bsT['cash']
     bsT['tangibleRatio'] = bsT['netBook'] / (bsT['totalAssets'] - bsT['totalLiab'])
     bsT['tangibleRatioText'] = bsT['tangibleRatio'].transform(lambda x: str(round(x, 1)))
 
-    bsT['DERatio'] = bsT['totalLiab'] / bsT['netBook']
-    bsT['DERatioText'] = bsT['DERatio'].transform(lambda x: str(round(x, 1)))
+    # bsT['DERatio'] = bsT['totalLiab'] / bsT['netBook'] if bsT['netBook'] != 0 else 0
+    bsT['DERatio'] = bsT['totalLiab'].div(bsT['netBook']).replace(np.inf, 0)
+    bsT['DERatioText'] = bsT['DERatio'].transform(lambda x: str(round(x, 1)) if x != 0 else 'undef')
 
     bsT['priceOnOrAfter'] = bsT.index.map(lambda d: priceData[priceData.index >= d].iloc[0]['close'])
     # bsT['priceOnOrAfter'][0] = latestPrice
@@ -236,8 +242,9 @@ def buttonCallback():
     bsT['marketCapBText'] = bsT['marketCapB'].transform(lambda x: str(round(x)))
 
     # bsT['marketCap'] = si.get_quote_data(TICKER)['marketcap']
-    bsT['PB'] = bsT['marketCap'] * exRate / bsT['netBook']
-    bsT['PBText'] = bsT['PB'].transform(lambda x: str(round(x, 1)))
+    # bsT['PB'] = bsT['marketCap'] * exRate / bsT['netBook'] if bsT['netBook'] != 0 else 0
+    bsT['PB'] = bsT['marketCap'].div(bsT['netBook']).replace(np.inf, 0) * exRate
+    bsT['PBText'] = bsT['PB'].transform(lambda x: str(round(x, 1)) if x != 0 else 'undef')
 
     totalAssets = getFromDF(bs, "totalAssets")
     totalLiab = getFromDF(bs, "totalLiab")
