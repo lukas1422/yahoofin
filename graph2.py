@@ -340,8 +340,12 @@ def buttonCallback():
     global_source.data = ColumnDataSource.from_df(bsT)
     stockData.data = ColumnDataSource.from_df(priceData)
 
+    latestLiqRatio = (bsT['cash'][0] + fill0GetLatest(bsT, 'netReceivables') * 0.8 +
+                      fill0GetLatest(bsT, 'inventory') * 0.5) / bsT['totalLiab'][0]
+
     latestNetnetRatio = (bsT['cash'][0] + fill0GetLatest(bsT, 'netReceivables') * 0.8 +
-                         fill0GetLatest(bsT, 'inventory') * 0.5) / (bsT['totalLiab'][0] + exRate * marketCapLast)
+                         fill0GetLatest(bsT, 'inventory') * 0.5) / \
+                        (bsT['totalLiab'][0] + exRate * marketCapLast)
 
     # print("latest netnet ratio", latestNetnetRatio, 'cash', bsT['cash'][0], 'rec', fill0GetLatest(bsT, 'netReceivables')
     #       , 'inv', fill0GetLatest(bsT, 'inventory'), 'totalliab', bsT['totalLiab'][0], 'exrate', exRate,
@@ -363,20 +367,21 @@ def buttonCallback():
     compName2 = info.loc['longBusinessSummary'].item().split(' ')[1] if 'longBusinessSummary' in info.index else ""
     # print(' comp name ', compName1, compName2, 'summary', info.loc['longBusinessSummary'].item().split(' '))
     text_input.title = compName1 + ' ' + compName2 + ' ' \
-                       + 'shares:' + str(roundB(shares, 2)) + 'B ' \
-                       + listCurr + bsCurr + '______MV:' + str(roundB(marketCapLast, 1)) + 'B' \
-                       + "___NetB:" + str(roundB(bsT['netBook'][0] / exRate, 1)) + 'B' \
-                       + "___nnR:" + str(round(latestNetnetRatio, 2)) \
-                       + '___SP:' + str(round(bsT['revenue'][0] / marketCapLast / exRate, 1)) \
-                       + '___PB:' + str(round(marketCapLast * exRate / tangible_equity, 1)) \
-                       + '___CR:' + str(round(bsT['currentRatio'][0], 1)) \
-                       + '___DE:' + str(round(bsT['DERatio'][0], 1)) \
-                       + '___RE/A:' + str(round(bsT['REAssetsRatio'][0], 1)) \
-                       + '___P/FCF:' + (str(round(marketCapLast * exRate / bsT['FCF'][0], 1)) \
-                                            if bsT['FCF'][0] > 0 else 'undef') \
-                       + '___DivYld:' + (str(round(divYieldAll, 1)) if 'yield' in divPrice else '') + '%' \
-                       + '___2021DivYld:' \
-                       + (str(round(divYield2021, 1))) + '%'
+                       + 'shares:' + str(roundB(shares, 1)) + 'B ' \
+                       + listCurr + bsCurr + '___MV:' + str(roundB(marketCapLast, 1)) + 'B' \
+                       + "__NetB:" + str(roundB(bsT['netBook'][0] / exRate, 1)) + 'B' \
+                       + "__liqR:" + str(round(latestLiqRatio, 1)) \
+                       + "__nnR:" + str(round(latestNetnetRatio, 1)) \
+                       + '__SP:' + str(round(bsT['revenue'][0] / marketCapLast / exRate, 1)) \
+                       + '__PB:' + str(round(marketCapLast * exRate / tangible_equity, 1)) \
+                       + '__CR:' + str(round(bsT['currentRatio'][0], 1)) \
+                       + '__DE:' + str(round(bsT['DERatio'][0], 1)) \
+                       + '__RE/A:' + str(round(bsT['REAssetsRatio'][0], 1)) \
+                       + '__P/FCF:' + (str(round(marketCapLast * exRate / bsT['FCF'][0], 1)) \
+                                           if bsT['FCF'][0] > 0 else 'undef') \
+                       + '__DivYld:' + (str(round(divYieldAll)) if 'yield' in divPrice else '') + '%' \
+                       + '__2021DivYld:' \
+                       + (str(round(divYield2021))) + '%'
     # divPrice['yield'].iloc[-1]
     print("=============graph finished===============")
 
