@@ -323,7 +323,7 @@ def buttonCallback():
 
     bsT['dateStr'] = pd.to_datetime(bsT.index)
     bsT['dateStr'] = bsT['dateStr'].transform(lambda x: x.strftime('%Y-%m-%d'))
-    bsT['cashB'] = round(bsT['cash'] / 1000000000, 1) if 'cash' in bsT else 0
+    bsT['cashB'] = round(bsT['cash'] / 1000000000, 3) if 'cash' in bsT else 0
     bsT['cashBText'] = bsT['cashB'].fillna(0).transform(lambda x: str(round(x, 1))) if 'cashB' in bsT else ''
 
     bsT['netReceivablesB'] = bsT['netReceivables'] / 1000000000 if 'netReceivables' in bsT else 0
