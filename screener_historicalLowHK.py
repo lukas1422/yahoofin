@@ -110,7 +110,7 @@ for comp in listStocks:
 
         medianDollarVol = statistics.median(priceData[-10:]['close'] * priceData[-10:]['volume']) / 5
         print(comp, 'vol is ', medianDollarVol)
-        if medianDollarVol < 300000:
+        if medianDollarVol < 500000:
             print(comp, 'vol too small')
             continue
 

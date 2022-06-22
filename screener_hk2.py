@@ -124,9 +124,9 @@ for comp in listStocks:
         #     print(comp, "cfo <= 0 or cfo < dep ", cfo, dep)
         #     continue
 
-        if cfo <= 0:
-            print(comp, "cfo <= 0", cfo, dep)
-            continue
+        # if cfo <= 0:
+        #     print(comp, "cfo <= 0", cfo, dep)
+        #     continue
 
         shares = hk_shares[hk_shares['ticker'] == comp]['shares'].item()
 
@@ -146,9 +146,9 @@ for comp in listStocks:
 
         print(comp, 'manual pe', manualPE, 'yahoo PE', yahooPE)
 
-        if manualPE > 20 or manualPE < 0:
-            print(comp, "manual pe > 10", manualPE)
-            continue
+        # if manualPE > 20 or manualPE < 0:
+        #     print(comp, "manual pe > 10", manualPE)
+        #     continue
         # if marketCap < 1000000000:
         #     print(comp, "market cap < 1B TOO SMALL", roundB(marketCap, 2))
         #     continue

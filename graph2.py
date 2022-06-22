@@ -329,10 +329,10 @@ def buttonCallback():
     bsT['netReceivablesB'] = bsT['netReceivables'] / 1000000000 if 'netReceivables' in bsT else 0
     bsT['inventoryB'] = bsT['inventory'] / 1000000000 if 'inventory' in bsT else 0
     bsT['netBookB'] = bsT['netBook'] / 1000000000 if 'netBook' in bsT else 0
-
+    print('intang',bsT['intangibleAssetsB'])
     bsT['bookAllB'] = bsT['netBookB'] + bsT['goodWillB'] + bsT['intangibleAssetsB']
     # print('bookallb', bsT['bookAllB'], bsT['bookAllB'].fillna(0))
-    bsT['bookAllBText'] = bsT['bookAllB'].fillna(0).transform(lambda x: str(round(x))) if 'bookAllB' in bsT else ''
+    bsT['bookAllBText'] = bsT['bookAllB'].fillna(0).transform(lambda x: str(round(x,1))) if 'bookAllB' in bsT else ''
 
     # ['netBookB', 'goodWillB', 'intangibleAssetsB']
     # bsT['noncashAssetsB'] = bsT['noncashAssets'] / 1000000000 if 'noncashAssets' in bsT else 0
