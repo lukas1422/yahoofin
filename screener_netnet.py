@@ -117,16 +117,16 @@ for comp in listStocks:
         currA = getFromDF(bs, "totalCurrentAssets")
         totalL = getFromDF(bs, "totalLiab")
 
-        if currA < totalL:
-            print(comp, " current assets < total liab", roundB(currA, 2), roundB(totalL, 2))
-            continue
+        # if currA < totalL:
+        #     print(comp, " current assets < total liab", roundB(currA, 2), roundB(totalL, 2))
+        #     continue
 
         cf = si.get_cash_flow(comp, yearly=yearlyFlag)
         cfo = getFromDFYearly(cf, "totalCashFromOperatingActivities", yearlyFlag)
 
-        if cfo <= 0:
-            print(comp, "cfo <= 0 ", cfo)
-            continue
+        # if cfo <= 0:
+        #     print(comp, "cfo <= 0 ", cfo)
+        #     continue
 
         receivables = getFromDF(bs, 'netReceivables')
         inventory = getFromDF(bs, 'inventory')

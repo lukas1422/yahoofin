@@ -32,7 +32,7 @@ stock_df['ticker'] = stock_df['ticker'].astype(str)
 stock_df['ticker'] = stock_df['ticker'].map(lambda x: convertHK(x))
 hk_shares = pd.read_csv('list_HK_totalShares', sep=" ", index_col=False, names=['ticker', 'shares'])
 listStocks = stock_df['ticker'].tolist()
-# listStocks = ['1733.HK']
+listStocks = ['0818.HK']
 # stock_df_torun = pd.read_csv('list_special', dtype=object, sep=" ", index_col=False, names=['ticker'])
 # stock_df_torun['ticker'] = stock_df_torun['ticker'].map(lambda x: convertHK(x))
 # listStocks = stock_df_torun['ticker'].tolist()
@@ -58,8 +58,7 @@ for comp in listStocks:
         country = getFromDF(info, "country")
         sector = getFromDF(info, 'sector')
 
-        if 'real estate' in sector.lower() or 'financial' in sector.lower() \
-                or 'technology' in sector.lower() or 'healthcare' in sector.lower():
+        if 'real estate' in sector.lower() or 'financial' in sector.lower() or 'healthcare' in sector.lower():
             print(comp, " no real estate or financial or tech ", sector)
             continue
 
@@ -166,9 +165,9 @@ for comp in listStocks:
 
         print("MV, cfo", roundB(marketCap, 2), roundB(cfo, 2))
 
-        if pFcf > 5 or pFcf < 0:
-            print(comp, 'p/fcf > 5', pFcf)
-            continue
+        # if pFcf > 5 or pFcf < 0:
+        #     print(comp, 'p/fcf > 5 or < 0', pFcf)
+        #     continue
 
         revenue = getFromDFYearly(incomeStatement, "totalRevenue", yearlyFlag)
         sp = revenue / (marketCap * exRate)
