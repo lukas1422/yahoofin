@@ -1,7 +1,7 @@
 import pandas as pd
 
-stockName = '2607.HK'
-yearlyFlag = False
+stockName = '2127.HK'
+yearlyFlag = True
 
 import statistics
 import os
@@ -187,10 +187,10 @@ def getResults(stockName):
         print("E", roundB((totalAssets - totalLiab) / exRate, 1), "B")
         print("Tangible Equity", roundB(tangible_equity, 1), "B", bsCurrency,
               roundB(tangible_equity / exRate, 1), 'B', listingCurr)
-        print("Market Cap", str(roundB(marketPrice * shares, 0)) + "B", listingCurr)
+        print("Market Cap", str(roundB(marketPrice * shares, 2)) + "B", listingCurr)
 
         # print("PER SHARE:")
-        print("Market price", round(marketPrice, 1), listingCurr)
+        print("Market price", round(marketPrice, 2), listingCurr)
         print("Tangible Equity per share", round(tangible_equity / exRate / shares, 1), listingCurr)
 
         print("P/NetAssets", round(marketPrice * shares / (netAssets / exRate), 1))
