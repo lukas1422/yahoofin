@@ -15,7 +15,7 @@ from helperMethods import getFromDF, convertHK, roundB, convertChinaForYahoo, ge
 
 COUNT = 0
 
-MARKET = Market.HK
+MARKET = Market.US
 yearlyFlag = True
 
 
@@ -174,9 +174,9 @@ for comp in listStocks:
         data = si.get_data(comp, interval='1wk')
         medianDollarVol = statistics.median(data[-10:]['close'] * data[-10:]['volume']) / 5
 
-        if medianDollarVol < 500000:
-            print(comp, 'vol too small', medianDollarVol)
-            continue
+        # if medianDollarVol < 500000:
+        #     print(comp, 'vol too small', medianDollarVol)
+        #     continue
 
         additionalComment = ""
         if cash > totalL + exRate * marketCap:
