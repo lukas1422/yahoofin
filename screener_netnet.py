@@ -15,7 +15,7 @@ from helperMethods import getFromDF, convertHK, roundB, convertChinaForYahoo, ge
 
 COUNT = 0
 
-MARKET = Market.HK
+MARKET = Market.US
 yearlyFlag = True
 
 
@@ -46,10 +46,16 @@ if MARKET == Market.US:
     # listStocks=['APWC']
 
 elif MARKET == Market.HK:
-    stock_df = pd.read_csv('list_HK_Tickers', dtype=object, sep=" ", index_col=False, names=['ticker', 'name'])
-    stock_df['ticker'] = stock_df['ticker'].astype(str)
-    stock_df['ticker'] = stock_df['ticker'].map(lambda x: convertHK(x))
-    listStocks = stock_df['ticker'].tolist()
+    # stock_df = pd.read_csv('list_HK_Tickers', dtype=object, sep=" ", index_col=False, names=['ticker', 'name'])
+    # stock_df['ticker'] = stock_df['ticker'].astype(str)
+    # stock_df['ticker'] = stock_df['ticker'].map(lambda x: convertHK(x))
+    # listStocks = stock_df['ticker'].tolist()
+
+    stock_df = pd.read_csv('list_HK_ticker_temp', sep="\t", header=None, names=['ticker','name'])
+    listStocks = stock_df[stock_df.columns[0]].to_list()
+    print(listStocks)
+    # listStocks=['0738.HK']
+
     hk_shares = pd.read_csv('list_HK_totalShares', sep=" ", index_col=False, names=['ticker', 'shares'])
     # print(hk_shares)
     # listStocks = ['0769.HK']
@@ -74,8 +80,7 @@ print(datetime.now(), MARKET, len(listStocks), listStocks)
 for comp in listStocks:
 
     print(increment())
-    print(comp, stock_df[stock_df['ticker'] == comp]['name'].item())
-
+    # print(comp, stock_df[stock_df['ticker'] == comp]['name'].item())
     # data = si.get_data(comp, start_date=TEN_YEAR_AGO, interval=PRICE_INTERVAL)
     # print("start date ", data.index[0].strftime('%-m/%-d/%Y'))
     # print('last active day', data[data['volume'] != 0].index[-1].strftime('%-m/%-d/%Y'))
@@ -166,7 +171,7 @@ for comp in listStocks:
         #     continue
 
         if cash + receivables + inventory - totalL < exRate * marketCap:
-            print(comp, listingCurr, bsCurr,'cash + rec + inv - L < mv. cash rec inv Liab MV:',
+            print(comp, listingCurr, bsCurr, 'cash + rec + inv - L < mv. cash rec inv Liab MV:',
                   roundB(cash, 2), roundB(receivables, 2),
                   roundB(inventory, 2), roundB(totalL, 2), roundB(marketCap, 2))
             continue
@@ -174,9 +179,9 @@ for comp in listStocks:
         data = si.get_data(comp, interval='1wk')
         medianDollarVol = statistics.median(data[-10:]['close'] * data[-10:]['volume']) / 5
 
-        # if medianDollarVol < 500000:
-        #     print(comp, 'vol too small', medianDollarVol)
-        #     continue
+        if medianDollarVol < 100000:
+            print(comp, 'vol too small', medianDollarVol)
+            continue
 
         additionalComment = ""
         if cash > totalL + exRate * marketCap:

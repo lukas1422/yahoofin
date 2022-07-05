@@ -34,14 +34,13 @@ exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 
 fileOutput = open('list_results_US', 'w')
 
-stock_df = pd.read_csv('list_historicalLowUS', sep=" ")
+stock_df = pd.read_csv('list_historicalLowUS', sep=" ", header=None)
 print(stock_df)
 
 listStocks = stock_df[stock_df.columns[0]].to_list()
-# print(listStocks)
+print(listStocks)
 
-# listStocks = ['LTRPA']
-
+# listStocks = ['YEXT']
 # listStocks = stock_df[~stock_df['sector'].str.contains('financial', regex=True, case=False)
 #                       & (stock_df['industry'].str.contains('reit', regex=True, case=False) == False)
 #                       & (stock_df['country'].str.lower() != 'china')]['ticker'].tolist()
@@ -70,8 +69,9 @@ for comp in listStocks:
         #     print(comp, " no real estate or financial ", sector)
         #     continue
 
-        if 'healthcare' in sector.lower() or 'financial' in sector.lower():
-            print(comp, " no real estate or financial ", sector)
+        if 'real estate' in sector.lower() or \
+                'healthcare' in sector.lower() or 'financial' in sector.lower():
+            print(comp, " no healthcare or financial ", sector)
             continue
 
         quoteData = si.get_quote_data(comp)
@@ -97,6 +97,10 @@ for comp in listStocks:
         # if retainedEarnings <= 0:
         #     print(comp, " retained earnings < 0 ", retainedEarnings)
         #     continue
+
+        if sum(bs.loc['retainedEarnings'] > 0) == 0:
+            print(comp, 'retained earnings all negative')
+            continue
 
         currL = getFromDF(bs, "totalCurrentLiabilities")
 
@@ -196,20 +200,20 @@ for comp in listStocks:
         insiderPerc = float(si.get_holders(comp).get('Major Holders')[0][0].rstrip("%"))
         print(comp, "insider percent", insiderPerc)
 
-        divs = si.get_dividends(comp)
-
-        yearSpan = 2021 - priceData[:1].index.item().year + 1
-        divPrice = pd.merge(divs.groupby(by=lambda d: d.year)['dividend'].sum(),
-                            priceData.groupby(by=lambda d: d.year)['close'].mean(),
-                            left_index=True, right_index=True)
-        divPrice['yield'] = divPrice['dividend'] / divPrice['close']
-        # print('divprice', divPrice)
-
-        divYieldAll = divPrice[divPrice.index != 2022]['yield'].sum() / yearSpan \
-            if not divPrice[divPrice.index != 2022].empty else 0
-
-        divLastYearYield = divPrice.loc[2021]['yield'] if 2021 in divPrice.index else 0
-        print('div yield all', divYieldAll, 'lastyear', divLastYearYield)
+        # divs = si.get_dividends(comp)
+        #
+        # yearSpan = 2021 - priceData[:1].index.item().year + 1
+        # divPrice = pd.merge(divs.groupby(by=lambda d: d.year)['dividend'].sum(),
+        #                     priceData.groupby(by=lambda d: d.year)['close'].mean(),
+        #                     left_index=True, right_index=True)
+        # divPrice['yield'] = divPrice['dividend'] / divPrice['close']
+        # # print('divprice', divPrice)
+        #
+        # divYieldAll = divPrice[divPrice.index != 2022]['yield'].sum() / yearSpan \
+        #     if not divPrice[divPrice.index != 2022].empty else 0
+        #
+        # divLastYearYield = divPrice.loc[2021]['yield'] if 2021 in divPrice.index else 0
+        # print('div yield all', divYieldAll, 'lastyear', divLastYearYield)
 
         pb1 = marketCap * exRate / tangible_Equity
 
@@ -249,8 +253,6 @@ for comp in listStocks:
                        + " RetEarning/A:" + str(round(retainedEarningsAssetRatio, 2)) \
                        + " fcf/A:" + str(round(fcfAssetRatio, 2)) \
                        + " 52w_p%:" + str(round(percentile)) \
-                       + " divYldAll:" + str(round(divYieldAll * 100)) + "%" \
-                       + " divYldLastYear:" + str(round(divLastYearYield * 100)) + "%" \
                        + " insider%: " + str(round(insiderPerc)) + "%" \
                        + " yahooPE:" + str(round(yahooPE, 2)) + " manualPE:" + str(round(manualPE, 2)) \
                        + ' PB1:' + str(round(pb1, 2)) + " div:" \

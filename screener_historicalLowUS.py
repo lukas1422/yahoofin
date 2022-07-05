@@ -38,7 +38,6 @@ stock_df = pd.read_csv('list_US_Tickers', sep=" ", index_col=False,
 print(stock_df)
 
 listStocks = stock_df['ticker'].tolist()
-# listStocks=['LTRPA']
 
 print(len(listStocks), listStocks)
 
