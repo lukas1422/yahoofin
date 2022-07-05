@@ -19,7 +19,7 @@ COUNT = 0
 # MARKET = Market.HK
 yearlyFlag = True
 PRICE_INTERVAL = '1wk'
-N_YEAR_LOW = 100
+N_YEAR_LOW = 30
 N_YEAR_AGO = datetime.today() - timedelta(weeks=53 * N_YEAR_LOW)
 
 
@@ -38,6 +38,7 @@ stock_df = pd.read_csv('list_US_Tickers', sep=" ", index_col=False,
 print(stock_df)
 
 listStocks = stock_df['ticker'].tolist()
+# listStocks=['LTRPA']
 
 print(len(listStocks), listStocks)
 
@@ -62,10 +63,15 @@ for comp in listStocks:
             print('country cannot be china')
             continue
 
-        if 'real estate' in sector.lower() or 'financial' in sector.lower() \
-                or 'healthcare' in sector.lower() or 'technology' in sector.lower():
-            print(comp, " no real estate or financial or healthcare", sector)
-            continue
+        # if 'real estate' in sector.lower() or 'financial' in sector.lower() \
+        #         or 'healthcare' in sector.lower() or 'technology' in sector.lower():
+        #     print(comp, " no real estate or financial or healthcare", sector)
+        #     continue
+
+        # if 'real estate' in sector.lower() or 'financial' in sector.lower() \
+        #         or 'healthcare' in sector.lower() or 'technology' in sector.lower():
+        #     print(comp, " no real estate or financial or healthcare", sector)
+        #     continue
 
         marketPrice = si.get_live_price(comp)
         print(comp, 'market price', marketPrice)
@@ -80,22 +86,22 @@ for comp in listStocks:
             print(comp, "balance sheet is empty")
             continue
         retainedEarnings = getFromDF(bs, "retainedEarnings")
-        if retainedEarnings <= 0:
-            print(comp, " retained earnings < 0 ", retainedEarnings)
-            continue
+        # if retainedEarnings <= 0:
+        #     print(comp, " retained earnings < 0 ", retainedEarnings)
+        #     continue
         currAssets = getFromDF(bs, "totalCurrentAssets")
         currL = getFromDF(bs, "totalCurrentLiabilities")
 
-        if currAssets < currL:
-            print("current ratio < 1")
-            continue
+        # if currAssets < currL:
+        #     print("current ratio < 1")
+        #     continue
 
         totalAssets = getFromDF(bs, 'totalAssets')
         totalLiab = getFromDF(bs, 'totalLiab')
 
-        if totalLiab / totalAssets > 0.5:
-            print('liab over half of assets')
-            continue
+        # if totalLiab / totalAssets > 0.5:
+        #     print('liab over half of assets')
+        #     continue
 
         priceData = si.get_data(comp, interval=PRICE_INTERVAL)
         quoteData = si.get_quote_data(comp)
