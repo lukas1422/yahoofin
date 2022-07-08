@@ -38,6 +38,7 @@ stock_df = pd.read_csv('list_US_Tickers', sep=" ", index_col=False,
 print(stock_df)
 
 listStocks = stock_df['ticker'].tolist()
+# listStocks = ['nndm']
 
 print(len(listStocks), listStocks)
 
@@ -90,6 +91,11 @@ for comp in listStocks:
         #     continue
         currAssets = getFromDF(bs, "totalCurrentAssets")
         currL = getFromDF(bs, "totalCurrentLiabilities")
+
+        if sum(bs.loc['retainedEarnings'] > 0) != 4:
+            print(comp, 'retained earnings not all positive')
+            continue
+
 
         # if currAssets < currL:
         #     print("current ratio < 1")
