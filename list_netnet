@@ -1,20 +1,2 @@
-AVIR Atea_Pharmaceuticals,_Inc. day$Vol:6.2M USDUSD 1 United_States Healthcare sales/price:0.6  cash:0.76 rec:0.01 inv:0.0 CA:0.77 L:0.06 mv:0.62 CASH netnet, profit:12%
-CLEU China_Liberal_Education_Holdings_Limited day$Vol:0.6M USDUSD 1 China Consumer_Defensive sales/price:0.5  cash:0.03 rec:0.0 inv:0.0 CA:0.04 L:0.0 mv:0.01 CASH netnet, profit:312%
-CO Global_Cord_Blood_Corporation day$Vol:0.3M USDCNY 6.37 Hong_Kong Healthcare sales/price:0.5  cash:6.08 rec:0.14 inv:0.04 CA:6.3 L:3.52 mv:0.36 CASH netnet, profit:7%
-CYD China_Yuchai_International_Limited day$Vol:0.1M USDCNY 6.37 Singapore Industrials sales/price:9.1  cash:4.79 rec:7.43 inv:5.21 CA:17.99 L:13.49 mv:0.37 鸡肋:cash+rec+inv-L>MV
-EJH E-Home_Household_Service_Holdings_Limited day$Vol:0.5M USDUSD 1 China Consumer_Cyclical sales/price:7.9  cash:0.05 rec:0.0 inv:0.0 CA:0.07 L:0.01 mv:0.01 CASH netnet, profit:173%
-FAMI Farmmi,_Inc. day$Vol:1.3M USDUSD 1 China Consumer_Defensive sales/price:1.6  cash:0.06 rec:0.02 inv:0.07 CA:0.16 L:0.0 mv:0.02 CASH netnet, profit:289%
-FPH Five_Point_Holdings,_LLC day$Vol:0.5M USDUSD 1 United_States Real_Estate sales/price:0.4  cash:0.27 rec:0.08 inv:2.1 CA:2.44 L:1.02 mv:0.58 鸡肋:cash+rec+inv-L>MV
-HAPP Happiness_Development_Group_Limited day$Vol:0.1M USDUSD 1 China Consumer_Defensive sales/price:9.7  cash:0.04 rec:0.03 inv:0.0 CA:0.1 L:0.02 mv:0.01 CASH netnet, profit:190%
 HURC Hurco_Companies,_Inc. day$Vol:0.4M USDUSD 1 United_States Industrials sales/price:1.5  cash:0.08 rec:0.04 inv:0.15 CA:0.29 L:0.09 mv:0.16 鸡肋:cash+rec+inv-L>MV
-ITP IT_Tech_Packaging,_Inc. day$Vol:0.3M USDUSD 1 China Basic_Materials sales/price:13.4  cash:0.01 rec:0.03 inv:0.02 CA:0.06 L:0.03 mv:0.01 INVENTORY netnet, profit:8%
-LLL JX_Luxventure_Limited day$Vol:0.3M USDUSD 1 China Consumer_Cyclical sales/price:2.0  cash:0.02 rec:0.01 inv:0.0 CA:0.03 L:0.01 mv:0.01 CASH netnet, profit:98%
-LSEA Landsea_Homes_Corporation day$Vol:0.5M USDUSD 1 United_States Real_Estate sales/price:3.5  cash:0.34 rec:0.01 inv:0.84 CA:1.21 L:0.64 mv:0.29 鸡肋:cash+rec+inv-L>MV
-NREF NexPoint_Real_Estate_Finance,_Inc. day$Vol:2.4M USDUSD 1 United_States Real_Estate sales/price:0.5  cash:0.03 rec:8.29 inv:0.0 CA:8.32 L:8.01 mv:0.19 鸡肋:cash+rec+inv-L>MV
-QD Qudian_Inc. day$Vol:0.7M USDCNY 6.37 China Financial_Services sales/price:0.8  cash:2.07 rec:3.81 inv:0.02 CA:12.22 L:1.57 mv:0.31 RECEIVABLES netnet, profit:44%
-SEVN Seven_Hills_Realty_Trust day$Vol:0.2M USDUSD 1 United_States Real_Estate sales/price:0.1  cash:0.03 rec:0.57 inv:0.0 CA:0.6 L:0.34 mv:0.16 鸡肋:cash+rec+inv-L>MV
 STRN Stran_&_Company,_Inc. day$Vol:0.2M USDUSD 1 United_States Communication_Services sales/price:1.2  cash:0.03 rec:0.01 inv:0.01 CA:0.05 L:0.01 mv:0.03 INVENTORY netnet, profit:1%
-TANH Tantech_Holdings_Ltd day$Vol:0.3M USDUSD 1 China Consumer_Defensive sales/price:10.1  cash:0.04 rec:0.03 inv:0.0 CA:0.08 L:0.02 mv:0.0 CASH netnet, profit:210%
-TPC Tutor_Perini_Corporation day$Vol:2.1M USDUSD 1 United_States Industrials sales/price:10.4  cash:0.2 rec:3.38 inv:0.0 CA:3.86 L:3.05 mv:0.45 鸡肋:cash+rec+inv-L>MV
-TPH Tri_Pointe_Homes,_Inc. day$Vol:22.7M USDUSD 1 United_States Consumer_Cyclical sales/price:2.1  cash:0.68 rec:0.07 inv:3.05 CA:3.87 L:1.89 mv:1.88 鸡肋:cash+rec+inv-L>MV
-XBIT XBiotech_Inc. day$Vol:0.6M USDUSD 1 United_States Healthcare sales/price:0.1  cash:0.24 rec:0.01 inv:0.0 CA:0.25 L:0.01 mv:0.18 CASH netnet, profit:32%

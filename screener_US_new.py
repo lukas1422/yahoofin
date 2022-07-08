@@ -98,7 +98,7 @@ for comp in listStocks:
         #     print(comp, " retained earnings < 0 ", retainedEarnings)
         #     continue
 
-        if sum(bs.loc['retainedEarnings'] > 0) == 0:
+        if sum(bs.loc['retainedEarnings'] > 0) != 4:
             print(comp, 'retained earnings all negative')
             continue
 

@@ -96,7 +96,6 @@ for comp in listStocks:
             print(comp, 'retained earnings not all positive')
             continue
 
-
         # if currAssets < currL:
         #     print("current ratio < 1")
         #     continue
