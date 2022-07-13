@@ -90,3 +90,6 @@ UWMC  day$Vol:5.3M United_States Financial_Services percentile:8 maxT:2020-12-28
 VFF  day$Vol:1.3M Canada Consumer_Defensive percentile:4 maxT:2021-02-15 max:17.08 minT:2020-03-16 min:2.39
 VITL  day$Vol:2.4M United_States Consumer_Defensive percentile:2 maxT:2020-10-05 max:39.56 minT:2022-06-27 min:8.83
 VRA  day$Vol:2.2M United_States Consumer_Cyclical percentile:2 maxT:2011-05-09 max:50.82 minT:2020-03-30 min:3.24
+VTRS  day$Vol:93.4M United_States Healthcare percentile:9 maxT:2015-04-20 max:75.52 minT:1992-02-17 min:4.26
+WW  day$Vol:8.1M United_States Consumer_Cyclical percentile:3 maxT:2018-07-02 max:102.42 minT:2015-07-06 min:3.97
+XRX  day$Vol:30.1M United_States Technology percentile:7 maxT:1999-01-25 max:100.85 minT:2009-03-02 min:7.54

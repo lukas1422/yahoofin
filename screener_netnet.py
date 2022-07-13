@@ -15,7 +15,7 @@ from helperMethods import getFromDF, convertHK, roundB, convertChinaForYahoo, ge
 
 COUNT = 0
 
-MARKET = Market.US
+MARKET = Market.HK
 yearlyFlag = True
 
 
@@ -91,9 +91,9 @@ for comp in listStocks:
         sector = getFromDF(info, 'sector')
         print('sector', sector)
 
-        # if (not 'sector' in info.index) or 'real estate' in sector.lower() or 'financial' in sector.lower():
-        #     print(comp, 'sector', sector, " no real estate or financial ")
-        #     continue
+        if (not 'sector' in info.index) or 'real estate' in sector.lower() or 'financial' in sector.lower():
+            print(comp, 'sector', sector, " no real estate or financial ")
+            continue
 
         marketPrice = si.get_live_price(comp)
         print(comp, 'market price', marketPrice)
