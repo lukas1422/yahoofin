@@ -106,9 +106,9 @@ for comp in listStocks:
 
         currRatio = (cash + 0.8 * receivables + 0.5 * inventory) / currL
 
-        # if currRatio <= 0.5:
-        #     print(comp, "current ratio < 0.5", currRatio)
-        #     continue
+        if currRatio <= 1:
+            print(comp, "current ratio < 1", currRatio)
+            continue
 
         totalAssets = getFromDF(bs, "totalAssets")
         totalLiab = getFromDF(bs, "totalLiab")
@@ -116,15 +116,15 @@ for comp in listStocks:
         intangibles = getFromDF(bs, 'intangibleAssets')
         tangible_Equity = totalAssets - totalLiab - goodWill - intangibles
 
-        # if tangible_Equity < 0:
-        #     print(comp, "de ratio> 1. or tangible equity < 0 ", tangible_Equity)
-        #     continue
+        if tangible_Equity < 0:
+            print(comp, "de ratio> 1. or tangible equity < 0 ", tangible_Equity)
+            continue
 
         debtEquityRatio = totalLiab / tangible_Equity
 
-        # if debtEquityRatio > 1:
-        #     print(comp, "de ratio > 1 ", debtEquityRatio)
-        #     continue
+        if debtEquityRatio > 1:
+            print(comp, "de ratio > 1 ", debtEquityRatio)
+            continue
 
         incomeStatement = si.get_income_statement(comp, yearly=yearlyFlag)
         netIncome = getFromDFYearly(incomeStatement, "netIncome", yearlyFlag)
@@ -185,7 +185,7 @@ for comp in listStocks:
         low_52wk = quoteData['fiftyTwoWeekLow'] if 'fiftyTwoWeekLow' in quoteData else 0
         medianDollarVol = statistics.median(priceData[-10:]['close'] * priceData[-10:]['volume']) / 5
 
-        if medianDollarVol < 1000000:
+        if medianDollarVol < 100000:
             print(comp, 'vol too small', medianDollarVol)
             continue
 

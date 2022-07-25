@@ -66,7 +66,7 @@ for comp in listStocks:
         sector = getFromDF(info, 'sector')
 
         if country.lower() == 'china':
-            #print(comp, 'country is china')
+            # print(comp, 'country is china')
             continue
 
         # if 'real estate' in sector.lower() or \
@@ -117,9 +117,17 @@ for comp in listStocks:
         debtEquityRatio = totalLiab / tangible_Equity
         print(comp, 'DE ratio', debtEquityRatio)
 
+        priceData = si.get_data(comp, interval=PRICE_INTERVAL)
+        close2019 = priceData.loc[priceData.index < datetime(2020, 1, 1)].tail(1).iloc[0]['adjclose']
+        close2020 = priceData.loc[priceData.index < datetime(2021, 1, 1)].tail(1).iloc[0]['adjclose']
+        close2021 = priceData.loc[priceData.index < datetime(2022, 1, 1)].tail(1).iloc[0]['adjclose']
+        now = priceData.loc[priceData.index < datetime(2023, 1, 1)].tail(1).iloc[0]['adjclose']
 
+        return2020 = round(close2020 / close2019 - 1, 2)
+        return2021 = round(close2021 / close2020 - 1, 2)
+        return2022 = round(now / close2021 - 1, 2)
 
-
+        print(comp, 'return', return2020, return2021, return2022)
 
         # # if retainedEarnings <= 0:
         # #     print(comp, " retained earnings < 0 ", retainedEarnings)
@@ -194,7 +202,7 @@ for comp in listStocks:
         #
         # revenue = getFromDFYearly(incomeStatement, "totalRevenue", yearlyFlag)
         #
-        # retainedEarningsAssetRatio = retainedEarnings / totalAssets
+        # iretainedEarningsAssetRatio = retainedEarnings / totalAssets
         # fcfAssetRatio = fcf / totalAssets
         # # ebitAssetRatio = ebit / totalAssets
         #

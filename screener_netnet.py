@@ -46,14 +46,14 @@ if MARKET == Market.US:
     # listStocks=['APWC']
 
 elif MARKET == Market.HK:
-    # stock_df = pd.read_csv('list_HK_Tickers', dtype=object, sep=" ", index_col=False, names=['ticker', 'name'])
-    # stock_df['ticker'] = stock_df['ticker'].astype(str)
-    # stock_df['ticker'] = stock_df['ticker'].map(lambda x: convertHK(x))
-    # listStocks = stock_df['ticker'].tolist()
+    stock_df = pd.read_csv('list_HK_Tickers', dtype=object, sep=" ", index_col=False, names=['ticker', 'name'])
+    stock_df['ticker'] = stock_df['ticker'].astype(str)
+    stock_df['ticker'] = stock_df['ticker'].map(lambda x: convertHK(x))
+    listStocks = stock_df['ticker'].tolist()
 
-    stock_df = pd.read_csv('list_HK_ticker_temp', sep="\t", header=None, names=['ticker','name'])
-    listStocks = stock_df[stock_df.columns[0]].to_list()
-    print(listStocks)
+    # stock_df = pd.read_csv('list_HK_ticker_temp', sep="\t", header=None, names=['ticker','name'])
+    # listStocks = stock_df[stock_df.columns[0]].to_list()
+    # print(listStocks)
     # listStocks=['0738.HK']
 
     hk_shares = pd.read_csv('list_HK_totalShares', sep=" ", index_col=False, names=['ticker', 'shares'])
@@ -62,7 +62,7 @@ elif MARKET == Market.HK:
     # listStocks = ["2698.HK", "0743.HK", "0321.HK", "0819.HK",
     #               "1361.HK", "0057.HK", "0420.HK", "1085.HK", "1133.HK", "2131.HK",
     #               "3393.HK", "2355.HK", "0517.HK", "3636.HK", "0116.HK", "1099.HK", "2386.HK", "6188.HK"]
-    # listStocks = ['2127.HK']
+    # listStocks = ['2698.HK']
 
 elif MARKET == Market.CHINA:
     stock_df = pd.read_csv('list_chinaTickers', dtype=object, sep=" ", index_col=False, names=['ticker', 'name'])
