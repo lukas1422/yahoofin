@@ -90,8 +90,8 @@ for comp in listStocks:
 
         currRatio = (cash + 0.8 * receivables + 0.5 * inventory) / currL
 
-        if currRatio <= 0.5:
-            print(comp, "curr ratio < 0.5", currRatio)
+        if currRatio <= 1:
+            print(comp, "curr ratio < 1", currRatio)
             continue
 
         totalAssets = getFromDF(bs, "totalAssets")
@@ -105,9 +105,10 @@ for comp in listStocks:
         #     continue
 
         debtEquityRatio = totalLiab / tangible_Equity
-        # if debtEquityRatio > 1:
-        #     print(comp, "de ratio> 1 ", debtEquityRatio)
-        #     continue
+
+        if debtEquityRatio > 1:
+            print(comp, "de ratio> 1 ", debtEquityRatio)
+            continue
 
         incomeStatement = si.get_income_statement(comp, yearly=yearlyFlag)
         netIncome = getFromDFYearly(incomeStatement, "netIncome", yearlyFlag)
