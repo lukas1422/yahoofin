@@ -108,6 +108,7 @@ gSP = figure(title='Sales/Price Ratio', x_range=FactorRange(factors=list()))
 gNetnet = figure(title='netnet Ratio', x_range=FactorRange(factors=list()))
 gPayAllDebt = figure(title='payAllDebt Ratio', x_range=FactorRange(factors=list()))
 gFCFA = figure(title='FCF/A Ratio', x_range=FactorRange(factors=list()))
+gPSPB = figure(title='PSPB', x_range=FactorRange(factors=list()))
 
 gCurrentRatio.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("cr", "@currentRatio{0.0}")], mode='vline'))
 gRetainedEarnings.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("Re/A", "@REAssetsRatio{0.0}")], mode='vline'))
@@ -125,17 +126,18 @@ gSP.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("S/P Ratio", "@SalesPri
 gNetnet.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("netnet", "@netnetRatio{0.0}")], mode='vline'))
 gPayAllDebt.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("payAllDebt", "@payAllDebtRatio{0.0}")], mode='vline'))
 gFCFA.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("FCF/A", "@FCFAssetRatio{0.0}")], mode='vline'))
+gPSPB.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("pspb", "@pspb{0.0}")], mode='vline'))
 
 for figu in [gPrice, gMarketcap, gCash, gCurrentAssets, gAssetComposition, gALE, gBook, gTangibleRatio,
              gDiv, gCurrentRatio, gRetainedEarnings, gDE, gPB, gEarnings, gPE, gCFO, gFCF, gPFCF, gDepCFO,
-             gCapexCFO, gSA, gSP, gNetnet, gPayAllDebt, gFCFA]:
+             gCapexCFO, gSA, gSP, gNetnet, gPayAllDebt, gFCFA, gPSPB]:
     figu.title.text_font_size = '18pt'
     figu.title.align = 'center'
 
 grid = gridplot(
     [[gMarketcap, None], [gPayAllDebt, gNetnet], [gCash, gCurrentAssets], [gAssetComposition, gALE]
         , [gBook, gPB], [gTangibleRatio, None], [gCurrentRatio, gDE], [gRetainedEarnings, gCFO], [gFCF, gPFCF],
-     [gEarnings, gPE], [gDepCFO, gCapexCFO], [gSA, gSP], [gFCFA, None]], width=500, height=500)
+     [gEarnings, gPE], [gDepCFO, gCapexCFO], [gSA, gSP], [gFCFA, gPSPB]], width=500, height=500)
 
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 
@@ -279,6 +281,9 @@ def buttonCallback():
     bsT['SalesPriceRatio'] = bsT['revenue'] / (bsT['marketCap'] * exRate)
     bsT['SalesPriceRatioText'] = bsT['SalesPriceRatio'].transform(lambda x: str(round(x, 1)))
 
+    bsT['pspb'] = (bsT['marketCap'] * exRate) / bsT['revenue'] * bsT['PB'] * 10000
+    bsT['pspbText'] = bsT['pspb'].transform(lambda x: str(round(x)))
+
     cf = si.get_cash_flow(TICKER, yearly=ANNUALLY)
     cfT = cf.T
 
@@ -402,7 +407,7 @@ def updateGraphs():
 
     for figu in [gMarketcap, gCash, gCurrentAssets, gAssetComposition, gALE, gBook, gTangibleRatio,
                  gCurrentRatio, gRetainedEarnings, gDE, gPB, gEarnings, gPE, gCFO, gFCF, gPFCF, gDepCFO, gCapexCFO,
-                 gSA, gSP, gNetnet, gPayAllDebt, gFCFA]:
+                 gSA, gSP, gNetnet, gPayAllDebt, gFCFA, gPSPB]:
         figu.x_range.factors = list(global_source.data['dateStr'][::-1])
 
     if FIRST_TIME_GRAPHING:
@@ -540,6 +545,11 @@ def updateGraphs():
         gFCFA.vbar(x='dateStr', top='FCFAssetRatio', source=global_source, width=0.5)
         gFCFA.add_layout(LabelSet(x='dateStr', y='FCFAssetRatio', text='FCFAssetRatioText'
                                   , source=global_source, text_align='center', text_font_size="13pt"))
+
+        # pspb
+        gPSPB.vbar(x='dateStr', top='pspb', source=global_source, width=0.5)
+        gPSPB.add_layout(LabelSet(x='dateStr', y='pspb', text='pspbText', source=global_source,
+                                  text_align='center', text_font_size="13pt"))
 
         FIRST_TIME_GRAPHING = False
 
