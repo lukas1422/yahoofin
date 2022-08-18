@@ -286,14 +286,17 @@ def buttonCallback():
     bsT['pspb'] = (bsT['marketCap'] * exRate) / bsT['revenue'] * bsT['PB'] * 10000
     bsT['pspbText'] = bsT['pspb'].transform(lambda x: str(round(x)))
 
-    bsT['liq'] = bsT['cash'] + fill0Get(bsT, 'netReceivables') * 0.8 + fill0Get(bsT, 'inventory') * 0.5 - bsT[
-        'totalLiab']
+    bsT['liq'] = bsT['cash'] + fill0Get(bsT, 'netReceivables') * 0.8 \
+                 + fill0Get(bsT, 'inventory') * 0.5 - bsT['totalLiab']
 
     print('bst liq', bsT['liq'])
 
-    bsT['liq'] = bsT['liq'].transform(lambda x: 0 if x < 0 else x)
+    # bsT['liq'] = bsT['liq'].transform(lambda x: 0 if x < 0 else x)
 
-    bsT['pspliq'] = bsT['marketCap'] * bsT['marketCap'] * (exRate ** 2) / bsT['revenue'] / bsT['liq'] * 10000
+    bsT['pspliq'] = bsT['marketCap'] * bsT['marketCap'] * (exRate ** 2) \
+                    / bsT['revenue'] / bsT['liq'] * 10000
+
+    bsT['pspliq'] = bsT['pspliq'].transform(lambda x: 0 if x < 0 else x)
 
     bsT['pspliqText'] = bsT['pspliq'].transform(lambda x: str(round(x)))
 
