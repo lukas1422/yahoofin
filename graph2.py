@@ -1,3 +1,4 @@
+import math
 from math import pi
 
 import numpy as np
@@ -283,7 +284,14 @@ def buttonCallback():
     bsT['SalesPriceRatio'] = bsT['revenue'] / (bsT['marketCap'] * exRate)
     bsT['SalesPriceRatioText'] = bsT['SalesPriceRatio'].transform(lambda x: str(round(x, 1)))
 
+    print('pb', bsT['PB'])
+    print('rev', bsT['revenue'])
+
     bsT['pspb'] = (bsT['marketCap'] * exRate) / bsT['revenue'] * bsT['PB'] * 10000
+    bsT['pspb'] = bsT['pspb'].transform(lambda x: 0 if math.isinf(x) else x)
+
+    print('pspb', bsT['pspb'])
+
     bsT['pspbText'] = bsT['pspb'].transform(lambda x: str(round(x)))
 
     bsT['liq'] = bsT['cash'] + fill0Get(bsT, 'netReceivables') * 0.8 \
@@ -296,7 +304,7 @@ def buttonCallback():
     bsT['pspliq'] = bsT['marketCap'] * bsT['marketCap'] * (exRate ** 2) \
                     / bsT['revenue'] / bsT['liq'] * 10000
 
-    bsT['pspliq'] = bsT['pspliq'].transform(lambda x: 0 if x < 0 else x)
+    bsT['pspliq'] = bsT['pspliq'].transform(lambda x: 0 if (x < 0 or math.isinf(x)) else x)
 
     bsT['pspliqText'] = bsT['pspliq'].transform(lambda x: str(round(x)))
 
