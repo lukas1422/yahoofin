@@ -162,6 +162,7 @@ def buttonCallback():
 
     try:
         listCurr = getListingCurrency(TICKER)
+        print('listCurr is ', listCurr)
         bsCurr = getBalanceSheetCurrency(TICKER, listCurr)
         print("ticker, listing currency, bs currency, ", TICKER, listCurr, bsCurr)
         exRate = currency_getExchangeRate.getExchangeRate(exchange_rate_dict, listCurr, bsCurr)
@@ -294,8 +295,8 @@ def buttonCallback():
 
     bsT['pspbText'] = bsT['pspb'].transform(lambda x: str(round(x)))
 
-    bsT['liq'] = bsT['cash'] + fill0Get(bsT, 'netReceivables') * 0.8 \
-                 + fill0Get(bsT, 'inventory') * 0.5 - bsT['totalLiab']
+    bsT['liq'] = bsT['cash'] + fill0Get(bsT, 'netReceivables') * 0.8 + fill0Get(bsT, 'inventory') * 0.5 - \
+                 bsT['totalLiab']
 
     print('bst liq', bsT['liq'])
 
