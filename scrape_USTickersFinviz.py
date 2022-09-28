@@ -9,7 +9,10 @@ def getUSTickers():
     lastIndex = 1
 
     for i in range(1, numStocks, 20):
-        urlToScrape = 'https://finviz.com/screener.ashx?v=111&r=' + str(i)
+
+        #urlToScrape = 'https://finviz.com/screener.ashx?v=111&r=' + str(i)
+        urlToScrape = 'https://finviz.com/screener.ashx?v=121&f=sec_industrials&o=pb&r=' + str(i)
+
 
         req = Request(urlToScrape, headers={'User-Agent': 'Mozilla/5.0'})
         webpage = urlopen(req).read()
