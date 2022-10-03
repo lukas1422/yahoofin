@@ -169,11 +169,15 @@ def buttonCallback():
 
     except Exception as e:
         print(e)
-
-    info = si.get_company_info(TICKER)
-    infoText = info.loc['country'].item() + "______________" + info.loc['industry'].item() + \
-               '______________' + info.loc['sector'].item() + "______________" + info.loc['longBusinessSummary'].item()
-
+    try:
+        info = si.get_company_info(TICKER)
+        infoText = info.loc['country'].item() + "______________" + info.loc['industry'].item() + \
+                   '______________' + info.loc['sector'].item() + "______________" + info.loc[
+                       'longBusinessSummary'].item()
+    except Exception as e:
+        print(e)
+        info = ''
+        infoText = ''
     print('info text is ', infoText)
     infoParagraph.text = str(infoText)
 
@@ -202,8 +206,12 @@ def buttonCallback():
     bsT['REAssetsRatio'] = bsT['retainedEarnings'] / bsT['totalAssets'] if 'retainedEarnings' in bsT else 0
     bsT['REAssetsRatioText'] = bsT['REAssetsRatio'].transform(lambda x: str(round(x, 1)))
 
-    bsT['currentRatio'] = (bsT['cash'] + 0.8 * fill0Get(bsT, 'netReceivables') +
-                           0.5 * fill0Get(bsT, 'inventory')) / bsT['totalCurrentLiabilities']
+    if 'totalCurrentliabilities' not in bsT.index:
+        bsT['currentRatio'] = (fill0Get(bsT, 'cash') + 0.8 * fill0Get(bsT, 'netReceivables') +
+                               0.5 * fill0Get(bsT, 'inventory')) / bsT['totalCurrentLiabilities']
+    else:
+        bsT['currentRatio'] = 0
+
     bsT['currentRatioText'] = bsT['currentRatio'].transform(lambda x: str(round(x, 0)))
 
     bsT['grossBook'] = bsT['totalAssets'] - bsT['totalLiab'] if 'totalLiab' in bsT else 0
@@ -289,9 +297,9 @@ def buttonCallback():
     print('rev', bsT['revenue'])
 
     bsT['pspb'] = (bsT['marketCap'] * exRate) / bsT['revenue'] * bsT['PB'] * 10000
-    bsT['pspb'] = bsT['pspb'].transform(lambda x: 0 if math.isinf(x) else x)
+    bsT['pspb'] = bsT['pspb'].transform(lambda x: 0 if math.isinf(x) or math.isnan(x) else x)
 
-    print('pspb', bsT['pspb'])
+    print('pspb print', bsT['pspb'])
 
     bsT['pspbText'] = bsT['pspb'].transform(lambda x: str(round(x)))
 
@@ -398,9 +406,17 @@ def buttonCallback():
 
     updateGraphs()
     # print('pfcf info marketcap, exrate, lastfcf', marketCapLast, exRate, bsT['FCF'][0])
-    compName1 = info.loc['longBusinessSummary'].item().split(' ')[0] if 'longBusinessSummary' in info.index else ""
-    compName2 = info.loc['longBusinessSummary'].item().split(' ')[1] if 'longBusinessSummary' in info.index else ""
+    try:
+        compName1 = info.loc['longBusinessSummary'].item().split(' ')[0] \
+            if 'longBusinessSummary' in info.index and len(info) != 0 else ""
+        compName2 = info.loc['longBusinessSummary'].item().split(' ')[1] \
+            if 'longBusinessSummary' in info.index and len(info) != 0 else ""
     # print(' comp name ', compName1, compName2, 'summary', info.loc['longBusinessSummary'].item().split(' '))
+    except Exception as e:
+        print('comp name fail exception:', e)
+        compName1 = ''
+        compName2 = ''
+
     text_input.title = compName1 + ' ' + compName2 + ' ' \
                        + 'shares:' + str(roundB(shares, 1)) + 'B ' \
                        + listCurr + bsCurr + '___MV:' + str(roundB(marketCapLast, 1)) + 'B' \

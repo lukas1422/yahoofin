@@ -1,7 +1,7 @@
 import pandas as pd
 
-stockName = '0743.HK'
-yearlyFlag = True
+stockName = 'CUK'
+yearlyFlag = False
 
 import statistics
 import os
@@ -58,7 +58,7 @@ def getResults(stockName):
 
         bs = si.get_balance_sheet(stockName, yearly=yearlyFlag)
         print("balance sheet date:", bs.columns[0].strftime('%Y/%-m/%-d'))
-        print("bs cols", bs.columns)
+        #print("bs cols", bs.columns)
 
         retainedEarnings = getFromDF(bs, "retainedEarnings")
         total_CA = getFromDF(bs, "totalCurrentAssets")
@@ -161,11 +161,11 @@ def getResults(stockName):
             divYieldAll = divPrice[divPrice.index != 2022]['yield'].sum() / yearSpan \
                 if not divPrice[divPrice.index != 2022].empty else 0
             div2021Yld = divPrice.loc[2021]['yield'] if 2021 in divPrice.index else 0
-            print('yield all', divYieldAll, 'lastyear', div2021Yld)
+            #print('yield all', divYieldAll, 'lastyear', div2021Yld)
 
         data52w = priceData.loc[priceData.index > ONE_YEAR_AGO]
         percentile = 100.0 * (marketPrice - data52w['low'].min()) / (data52w['high'].max() - data52w['low'].min())
-        print('div history ', divs) if not divs.empty else print('div is empty ')
+        #print('div history ', divs) if not divs.empty else print('div is empty ')
 
         # PRINTING*****
         print("listing Currency:", listingCurr, "bs currency:", bsCurrency, "ExRate:", exRate)
