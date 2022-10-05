@@ -1,6 +1,6 @@
 import pandas as pd
 
-stockName = 'CUK'
+stockName = 'astl'
 yearlyFlag = False
 
 import statistics

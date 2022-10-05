@@ -299,8 +299,6 @@ def buttonCallback():
     bsT['pspb'] = (bsT['marketCap'] * exRate) / bsT['revenue'] * bsT['PB'] * 10000
     bsT['pspb'] = bsT['pspb'].transform(lambda x: 0 if math.isinf(x) or math.isnan(x) else x)
 
-    print('pspb print', bsT['pspb'])
-
     bsT['pspbText'] = bsT['pspb'].transform(lambda x: str(round(x)))
 
     bsT['liq'] = bsT['cash'] + fill0Get(bsT, 'netReceivables') * 0.8 + fill0Get(bsT, 'inventory') * 0.5 - \
@@ -313,8 +311,10 @@ def buttonCallback():
     bsT['pspliq'] = bsT['marketCap'] * bsT['marketCap'] * (exRate ** 2) \
                     / bsT['revenue'] / bsT['liq'] * 10000
 
-    bsT['pspliq'] = bsT['pspliq'].transform(lambda x: 0 if (x < 0 or math.isinf(x)) else x)
+    bsT['pspliq'] = bsT['pspliq']\
+        .transform(lambda x: 0 if (x < 0 or math.isinf(x) or math.isnan(x)) else x)
 
+    print('print pspliq', bsT['pspliq'])
     bsT['pspliqText'] = bsT['pspliq'].transform(lambda x: str(round(x)))
 
     cf = si.get_cash_flow(TICKER, yearly=ANNUALLY)
