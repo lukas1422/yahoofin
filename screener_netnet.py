@@ -16,7 +16,7 @@ from helperMethods import getFromDF, convertHK, roundB, convertChinaForYahoo, ge
 COUNT = 0
 
 MARKET = Market.HK
-yearlyFlag = True
+yearlyFlag = False
 
 
 def increment():
@@ -46,7 +46,8 @@ if MARKET == Market.US:
     # listStocks=['APWC']
 
 elif MARKET == Market.HK:
-    stock_df = pd.read_csv('list_HK_Tickers', dtype=object, sep=" ", index_col=False, names=['ticker', 'name'])
+    stock_df = pd.read_csv('list_HK_Tickers', dtype=object, sep=" "
+                           , index_col=False, names=['ticker', 'name'])
     stock_df['ticker'] = stock_df['ticker'].astype(str)
     stock_df['ticker'] = stock_df['ticker'].map(lambda x: convertHK(x))
     listStocks = stock_df['ticker'].tolist()

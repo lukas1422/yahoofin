@@ -105,7 +105,7 @@ gPFCF = figure(title='P/FCF', x_range=FactorRange(factors=list()))
 gDepCFO = figure(title='Dep/CFO', x_range=FactorRange(factors=list()))
 gCapexCFO = figure(title='Capex/CFO', x_range=FactorRange(factors=list()))
 gSA = figure(title='Sales/Assets Ratio', x_range=FactorRange(factors=list()))
-gSP = figure(title='Sales/Price Ratio', x_range=FactorRange(factors=list()))
+gPS = figure(title='Price/Sales Ratio', x_range=FactorRange(factors=list()))
 gNetnet = figure(title='netnet Ratio', x_range=FactorRange(factors=list()))
 gPayAllDebt = figure(title='payAllDebt Ratio', x_range=FactorRange(factors=list()))
 gFCFA = figure(title='FCF/A Ratio', x_range=FactorRange(factors=list()))
@@ -124,7 +124,7 @@ gPFCF.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("PFCF", "@PFCF{0.0}")
 gDepCFO.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("DepCFO", "@DepCFO{0.0}")], mode='vline'))
 gCapexCFO.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("CapexCFO", "@CapexCFO{0.0}")], mode='vline'))
 gSA.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("S/A Ratio", "@SalesAssetsRatio{0.0}")], mode='vline'))
-gSP.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("S/P Ratio", "@SalesPriceRatio{0.0}")], mode='vline'))
+gPS.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("P/S Ratio", "@PriceSalesRatio{0.0}")], mode='vline'))
 gNetnet.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("netnet", "@netnetRatio{0.0}")], mode='vline'))
 gPayAllDebt.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("payAllDebt", "@payAllDebtRatio{0.0}")], mode='vline'))
 gFCFA.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("FCF/A", "@FCFAssetRatio{0.0}")], mode='vline'))
@@ -133,14 +133,15 @@ gPSPLiq.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("pspliq", "@pspliq{
 
 for figu in [gPrice, gMarketcap, gCash, gCurrentAssets, gAssetComposition, gALE, gBook, gTangibleRatio,
              gDiv, gCurrentRatio, gRetainedEarnings, gDE, gPB, gEarnings, gPE, gCFO, gFCF, gPFCF, gDepCFO,
-             gCapexCFO, gSA, gSP, gNetnet, gPayAllDebt, gFCFA, gPSPB, gPSPLiq]:
+             gCapexCFO, gSA, gPS, gNetnet, gPayAllDebt, gFCFA, gPSPB, gPSPLiq]:
     figu.title.text_font_size = '18pt'
     figu.title.align = 'center'
 
 grid = gridplot(
-    [[gMarketcap, None], [gPayAllDebt, gNetnet], [gCash, gCurrentAssets], [gAssetComposition, gALE]
-        , [gBook, gPB], [gTangibleRatio, gFCFA], [gCurrentRatio, gDE], [gRetainedEarnings, gCFO], [gFCF, gPFCF],
-     [gEarnings, gPE], [gDepCFO, gCapexCFO], [gSA, gSP], [gPSPB, gPSPLiq]], width=500, height=500)
+    [[gRetainedEarnings, gDE], [gCurrentRatio, gNetnet], [gPB, gPS], [gPSPB, gPSPLiq],
+     [gCash, gCurrentAssets], [gAssetComposition, gALE], [gBook, gTangibleRatio]
+        , [gMarketcap, gSA], [gCFO, gFCF], [gPFCF, gFCFA],
+     [gEarnings, gPE], [gDepCFO, gCapexCFO], [gPayAllDebt, None]], width=500, height=500)
 
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 
@@ -183,6 +184,18 @@ def buttonCallback():
 
     priceData = si.get_data(TICKER)
     priceData.index.name = 'date'
+
+    oneYearPercentile = round(100 * (priceData['adjclose'][-1] - min(priceData['adjclose'][-250:])) / \
+                              (max(priceData['adjclose'][-250:]) - min(priceData['adjclose'][-250:])))
+
+    twoYearPercentile = round(100 * (priceData['adjclose'][-1] - min(priceData['adjclose'][-500:])) / \
+                              (max(priceData['adjclose'][-500:]) - min(priceData['adjclose'][-500:])))
+
+    threeYearPercentile = round(100 * (priceData['adjclose'][-1] - min(priceData['adjclose'][-750:])) / \
+                                (max(priceData['adjclose'][-750:]) - min(priceData['adjclose'][-750:])))
+
+    print("1 2 3 percentile", oneYearPercentile, twoYearPercentile, threeYearPercentile)
+
     divData = si.get_dividends(TICKER)
     divPrice = pd.DataFrame()
 
@@ -284,14 +297,15 @@ def buttonCallback():
     bsT['netIncomeBText'] = bsT['netIncomeB'].transform(lambda x: str(round(x)))
 
     bsT['PE'] = bsT['marketCap'] * exRate / bsT['netIncome']
-    bsT['PE'] = bsT['PE'].transform(lambda x: x if x > 0 else 0)
+    bsT['PE'] = bsT['PE'].transform(lambda x: x if x > 0 and not math.isinf(x) else 0)
+    print('bstPE', bsT['PE'])
     bsT['PEText'] = bsT['PE'].transform(lambda x: str(round(x)) if x != 0 else 'undef')
 
     bsT['SalesAssetsRatio'] = bsT['revenue'] / bsT['totalAssets']
     bsT['SalesAssetsRatioText'] = bsT['SalesAssetsRatio'].transform(lambda x: str(round(x, 1)))
 
-    bsT['SalesPriceRatio'] = bsT['revenue'] / (bsT['marketCap'] * exRate)
-    bsT['SalesPriceRatioText'] = bsT['SalesPriceRatio'].transform(lambda x: str(round(x, 1)))
+    bsT['PriceSalesRatio'] = (bsT['marketCap'] * exRate) / bsT['revenue']
+    bsT['PriceSalesRatioText'] = bsT['PriceSalesRatio'].transform(lambda x: str(round(x, 1)))
 
     print('pb', bsT['PB'])
     print('rev', bsT['revenue'])
@@ -311,10 +325,10 @@ def buttonCallback():
     bsT['pspliq'] = bsT['marketCap'] * bsT['marketCap'] * (exRate ** 2) \
                     / bsT['revenue'] / bsT['liq'] * 10000
 
-    bsT['pspliq'] = bsT['pspliq']\
+    bsT['pspliq'] = bsT['pspliq'] \
         .transform(lambda x: 0 if (x < 0 or math.isinf(x) or math.isnan(x)) else x)
 
-    print('print pspliq', bsT['pspliq'])
+    # print('print pspliq', bsT['pspliq'])
     bsT['pspliqText'] = bsT['pspliq'].transform(lambda x: str(round(x)))
 
     cf = si.get_cash_flow(TICKER, yearly=ANNUALLY)
@@ -418,23 +432,28 @@ def buttonCallback():
         compName2 = ''
 
     text_input.title = compName1 + ' ' + compName2 + ' ' \
-                       + 'shares:' + str(roundB(shares, 1)) + 'B ' \
-                       + listCurr + bsCurr + '___MV:' + str(roundB(marketCapLast, 1)) + 'B' \
+                       + '#:' + str(roundB(shares, 1)) + 'B ' \
+                       + listCurr + bsCurr + '__MV:' + str(roundB(marketCapLast, 1)) + 'B' \
                        + "__NetB:" + str(roundB(bsT['netBook'][0] / exRate, 1)) + 'B' \
                        + "__liqR:" + str(round(latestLiqRatio, 1)) \
                        + "__nnR:" + str(round(latestNetnetRatio, 1)) \
-                       + '__SP:' + str(round(bsT['revenue'][0] / marketCapLast / exRate, 1)) \
+                       + '__PS:' + (str(round(marketCapLast * exRate / bsT['revenue'][0], 1))
+                                    if bsT['revenue'][0] != 0 else "na") \
                        + '__PB:' + str(round(marketCapLast * exRate / tangible_equity, 1)) \
                        + '__CR:' + str(round(bsT['currentRatio'][0], 1)) \
                        + '__DE:' + str(round(bsT['DERatio'][0], 1)) \
                        + '__RE/A:' + str(round(bsT['REAssetsRatio'][0], 1)) \
                        + '__P/FCF:' + (str(round(marketCapLast * exRate / bsT['FCF'][0], 1)) \
                                            if bsT['FCF'][0] > 0 else 'undef') \
-                       + '__DivYld:' + (str(round(divYieldAll)) if 'yield' in divPrice else '') + '%' \
-                       + '__2021DivYld:' \
-                       + (str(round(divYield2021))) + '%'
-    # divPrice['yield'].iloc[-1]
-    print("=============graph finished===============")
+                       + '__Div:' + (str(round(divYieldAll)) if 'yield' in divPrice else '') + '%' \
+                       + '__2021Div:' \
+                       + (str(round(divYield2021))) + '%' \
+                       + 'p%:' + str(oneYearPercentile) + ' ' + str(twoYearPercentile) + ' ' \
+                       + str(threeYearPercentile)
+
+
+# divPrice['yield'].iloc[-1]
+print("=============graph finished===============")
 
 
 def updateGraphs():
@@ -447,8 +466,8 @@ def updateGraphs():
     gPrice.title.text = ' Price chart:' + TICKER + '____' + str(round(si.get_live_price(TICKER), 2))
 
     for figu in [gMarketcap, gCash, gCurrentAssets, gAssetComposition, gALE, gBook, gTangibleRatio,
-                 gCurrentRatio, gRetainedEarnings, gDE, gPB, gEarnings, gPE, gCFO, gFCF, gPFCF, gDepCFO, gCapexCFO,
-                 gSA, gSP, gNetnet, gPayAllDebt, gFCFA, gPSPB, gPSPLiq]:
+                 gCurrentRatio, gRetainedEarnings, gDE, gPB, gEarnings, gPE, gCFO, gFCF, gPFCF,
+                 gDepCFO, gCapexCFO, gSA, gPS, gNetnet, gPayAllDebt, gFCFA, gPSPB, gPSPLiq]:
         figu.x_range.factors = list(global_source.data['dateStr'][::-1])
 
     if FIRST_TIME_GRAPHING:
@@ -569,8 +588,8 @@ def updateGraphs():
         gSA.add_layout(LabelSet(x='dateStr', y='SalesAssetsRatio', text='SalesAssetsRatioText'
                                 , source=global_source, text_align='center', text_font_size="13pt"))
         # Sales/Price
-        gSP.vbar(x='dateStr', top='SalesPriceRatio', source=global_source, width=0.5)
-        gSP.add_layout(LabelSet(x='dateStr', y='SalesPriceRatio', text='SalesPriceRatioText'
+        gPS.vbar(x='dateStr', top='PriceSalesRatio', source=global_source, width=0.5)
+        gPS.add_layout(LabelSet(x='dateStr', y='PriceSalesRatio', text='PriceSalesRatioText'
                                 , source=global_source, text_align='center', text_font_size="13pt"))
         # netnet ratio
         gNetnet.vbar(x='dateStr', top='netnetRatio', source=global_source, width=0.5)
@@ -619,4 +638,4 @@ def my_radio_handler(new):
 rg = RadioGroup(labels=['Annual', 'Quarterly'], active=0)
 rg.on_click(my_radio_handler)
 
-curdoc().add_root(column(row(button, button2), rg, text_input, gPrice, gDiv, grid, infoParagraph))
+curdoc().add_root(column(row(button, button2), rg, text_input, grid, gPrice, gDiv, infoParagraph))

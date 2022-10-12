@@ -284,9 +284,6 @@ for comp in listStocks:
         # # fileOutput.write(outputString + '\n')
         # # fileOutput.flush()
 
-
-
-
     except Exception as e:
         print(comp, "exception", e)
         exc_type, exc_obj, exc_tb = sys.exc_info()
