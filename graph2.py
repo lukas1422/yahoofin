@@ -185,14 +185,14 @@ def buttonCallback():
     priceData = si.get_data(TICKER)
     priceData.index.name = 'date'
 
-    oneYearPercentile = round(100 * (priceData['adjclose'][-1] - min(priceData['adjclose'][-250:])) / \
-                              (max(priceData['adjclose'][-250:]) - min(priceData['adjclose'][-250:])))
+    oneYearPercentile = round(100 * (priceData['adjclose'][-1] - min(priceData['low'][-250:])) /
+                              (max(priceData['high'][-250:]) - min(priceData['low'][-250:])))
 
-    twoYearPercentile = round(100 * (priceData['adjclose'][-1] - min(priceData['adjclose'][-500:])) / \
-                              (max(priceData['adjclose'][-500:]) - min(priceData['adjclose'][-500:])))
+    twoYearPercentile = round(100 * (priceData['adjclose'][-1] - min(priceData['low'][-500:])) /
+                              (max(priceData['high'][-500:]) - min(priceData['low'][-500:])))
 
-    threeYearPercentile = round(100 * (priceData['adjclose'][-1] - min(priceData['adjclose'][-750:])) / \
-                                (max(priceData['adjclose'][-750:]) - min(priceData['adjclose'][-750:])))
+    threeYearPercentile = round(100 * (priceData['adjclose'][-1] - min(priceData['low'][-750:])) /
+                                (max(priceData['high'][-750:]) - min(priceData['low'][-750:])))
 
     print("1 2 3 percentile", oneYearPercentile, twoYearPercentile, threeYearPercentile)
 
@@ -443,17 +443,16 @@ def buttonCallback():
                        + '__CR:' + str(round(bsT['currentRatio'][0], 1)) \
                        + '__DE:' + str(round(bsT['DERatio'][0], 1)) \
                        + '__RE/A:' + str(round(bsT['REAssetsRatio'][0], 1)) \
-                       + '__P/FCF:' + (str(round(marketCapLast * exRate / bsT['FCF'][0], 1)) \
-                                           if bsT['FCF'][0] > 0 else 'undef') \
+                       + '__P/FCF:' + (str(round(marketCapLast * exRate / bsT['FCF'][0], 1))
+                                       if bsT['FCF'][0] > 0 else 'undef') \
                        + '__Div:' + (str(round(divYieldAll)) if 'yield' in divPrice else '') + '%' \
                        + '__2021Div:' \
                        + (str(round(divYield2021))) + '%' \
-                       + 'p%:' + str(oneYearPercentile) + ' ' + str(twoYearPercentile) + ' ' \
+                       + '__p%:' + str(oneYearPercentile) + ' ' + str(twoYearPercentile) + ' ' \
                        + str(threeYearPercentile)
 
-
-# divPrice['yield'].iloc[-1]
-print("=============graph finished===============")
+    # divPrice['yield'].iloc[-1]
+    print("=============graph finished===============")
 
 
 def updateGraphs():
