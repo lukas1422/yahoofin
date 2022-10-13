@@ -1,4 +1,5 @@
 import math
+from datetime import datetime
 from math import pi
 
 import numpy as np
@@ -408,6 +409,9 @@ def buttonCallback():
     #       , 'inv', fill0GetLatest(bsT, 'inventory'), 'totalliab', bsT['totalLiab'][0], 'exrate', exRate,
     #       'marketcaplast', marketCapLast)
 
+    yearsListed = datetime.now().year - priceData.index[0].year
+    listYear = priceData.index[0].year
+
     yearSpan = 2021 - priceData[:1].index.item().year + 1
     # print(divData)
     # print('year span', yearSpan)
@@ -449,7 +453,7 @@ def buttonCallback():
                        + '__2021Div:' \
                        + (str(round(divYield2021))) + '%' \
                        + '__p%:' + str(oneYearPercentile) + ' ' + str(twoYearPercentile) + ' ' \
-                       + str(threeYearPercentile)
+                       + str(threeYearPercentile) + '_list:' + str(listYear)
 
     # divPrice['yield'].iloc[-1]
     print("=============graph finished===============")
@@ -462,6 +466,7 @@ def updateGraphs():
     print('update price graph')
     # lastPrice = round(stockData.data['close'][-1], 2) if 'close' in stockData.data else ''
     # lastPrice = round(stockData.data['close'][-1], 2) if 'close' in stockData.data else ''
+    # yearsListed = priceData
     gPrice.title.text = ' Price chart:' + TICKER + '____' + str(round(si.get_live_price(TICKER), 2))
 
     for figu in [gMarketcap, gCash, gCurrentAssets, gAssetComposition, gALE, gBook, gTangibleRatio,
