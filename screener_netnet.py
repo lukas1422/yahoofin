@@ -42,8 +42,7 @@ if MARKET == Market.US:
     #                       # & (stock_df['listingDate'] < pd.to_datetime('2020-1-1'))
     #                       & (stock_df['industry'].str.contains('reit', regex=True, case=False) == False)
     #                       & (stock_df['country'].str.lower() != 'china')]['ticker'].tolist()
-
-    # listStocks=['APWC']
+    # listStocks=['1895.HK']
 
 elif MARKET == Market.HK:
     stock_df = pd.read_csv('list_HK_Tickers', dtype=object, sep=" "
@@ -92,9 +91,9 @@ for comp in listStocks:
         sector = getFromDF(info, 'sector')
         print('sector', sector)
 
-        if (not 'sector' in info.index) or 'real estate' in sector.lower() or 'financial' in sector.lower():
-            print(comp, 'sector', sector, " no real estate or financial ")
-            continue
+        # if (not 'sector' in info.index) or 'real estate' in sector.lower() or 'financial' in sector.lower():
+        #     print(comp, 'sector', sector, " no real estate or financial ")
+        #     continue
 
         marketPrice = si.get_live_price(comp)
         print(comp, 'market price', marketPrice)
