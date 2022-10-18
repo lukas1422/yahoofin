@@ -345,7 +345,7 @@ def buttonCallback():
         else:
             bsT['dep'] = 0
 
-π
+
         bsT['capex'] = bsT.index.map(
             lambda d: cfT[cfT.index == d]['capitalExpenditures'].item() * -1 * indicatorFunction(ANNUALLY)) \
             if 'capitalExpenditures' in cfT else 0
