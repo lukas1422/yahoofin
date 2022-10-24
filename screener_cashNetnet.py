@@ -15,7 +15,7 @@ from helperMethods import getFromDF, convertHK, roundB, convertChinaForYahoo, ge
 
 COUNT = 0
 
-MARKET = Market.HK
+MARKET = Market.US
 yearlyFlag = False
 
 
@@ -27,7 +27,7 @@ def increment():
 
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 
-fileOutput = open('list_netnet2', 'w')
+fileOutput = open('list_netnet', 'w')
 
 # US Version Starts
 if MARKET == Market.US:
