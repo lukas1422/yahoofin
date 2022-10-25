@@ -110,9 +110,9 @@ for comp in listStocks:
 
         retainedEarnings = getFromDF(bs, "retainedEarnings")
 
-        # if retainedEarnings <= 0:
-        #     print(comp, " retained earnings <= 0 ", retainedEarnings)
-        #     continue
+        if retainedEarnings <= 0:
+            print(comp, " retained earnings <= 0 ", retainedEarnings)
+            continue
 
         cash = getFromDF(bs, 'cash')
         if cash == 0:
