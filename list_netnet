@@ -1,0 +1,20 @@
+ACMR ACM_Research,_Inc. day$Vol:8.7M USDUSD 1 United_States Technology sales/price:1.5  cash:0.38 rec:0.13 inv:0.27 CA:0.9 L:0.28 mv:0.12 RECEIVABLES netnet, profit:57%
+ADES Advanced_Emissions_Solutions,_Inc. day$Vol:0.2M USDUSD 1 United_States Industrials sales/price:1.9  cash:0.08 rec:0.01 inv:0.01 CA:0.11 L:0.04 mv:0.06 INVENTORY netnet, profit:3%
+AVIR Atea_Pharmaceuticals,_Inc. day$Vol:2.6M USDUSD 1 United_States Healthcare sales/price:0.0  cash:0.71 rec:0.05 inv:0.0 CA:0.71 L:0.04 mv:0.45 CASH netnet, profit:52%
+CLEU China_Liberal_Education_Holdings_Limited day$Vol:0.2M USDUSD 1 China Consumer_Defensive sales/price:0.3  cash:0.03 rec:0.0 inv:0.0 CA:0.04 L:0.0 mv:0.01 CASH netnet, profit:164%
+EHTH eHealth,_Inc. day$Vol:2.2M USDUSD 1 United_States Financial_Services sales/price:0.0  cash:0.08 rec:0.26 inv:0.0 CA:0.41 L:0.17 mv:0.08 RECEIVABLES netnet, profit:19%
+EJH E-Home_Household_Service_Holdings_Limited day$Vol:0.6M USDUSD 1 China Consumer_Cyclical sales/price:12.5  cash:0.06 rec:0.0 inv:0.0 CA:0.07 L:0.01 mv:0.01 CASH netnet, profit:194%
+ELVT Elevate_Credit,_Inc. day$Vol:0.1M USDUSD 1 United_States Financial_Services sales/price:16.6  cash:0.11 rec:0.6 inv:0.0 CA:0.72 L:0.59 mv:0.03 鸡肋:cash+rec+inv-L>MV
+FAMI Farmmi,_Inc. day$Vol:0.1M USDUSD 1 China Consumer_Defensive sales/price:0.0  cash:0.06 rec:0.02 inv:0.07 CA:0.16 L:0.0 mv:0.01 CASH netnet, profit:543%
+FPH Five_Point_Holdings,_LLC day$Vol:0.3M USDUSD 1 United_States Real_Estate sales/price:0.1  cash:0.2 rec:0.08 inv:2.14 CA:2.43 L:1.03 mv:0.35 鸡肋:cash+rec+inv-L>MV
+HOLI Hollysys_Automation_Technologies_Ltd. day$Vol:6.0M USDUSD 1 China Industrials sales/price:0.7  cash:0.67 rec:0.64 inv:0.09 CA:1.51 L:0.5 mv:0.87 鸡肋:cash+rec+inv-L>MV
+HURC Hurco_Companies,_Inc. day$Vol:0.2M USDUSD 1 United_States Industrials sales/price:1.5  cash:0.08 rec:0.03 inv:0.15 CA:0.28 L:0.09 mv:0.17 鸡肋:cash+rec+inv-L>MV
+KBH KB_Home day$Vol:48.9M USDUSD 1 United_States Consumer_Cyclical sales/price:2.9  cash:0.24 rec:0.3 inv:5.56 CA:6.16 L:3.29 mv:2.36 鸡肋:cash+rec+inv-L>MV
+LAKE Lakeland_Industries,_Inc. day$Vol:0.6M USDUSD 1 United_States Consumer_Cyclical sales/price:1.2  cash:0.05 rec:0.02 inv:0.05 CA:0.12 L:0.02 mv:0.09 鸡肋:cash+rec+inv-L>MV
+LSEA Landsea_Homes_Corporation day$Vol:0.3M USDUSD 1 United_States Real_Estate sales/price:6.2  cash:0.08 rec:0.02 inv:1.11 CA:1.23 L:0.7 mv:0.21 鸡肋:cash+rec+inv-L>MV
+MDC M.D.C._Holdings,_Inc. day$Vol:16.6M USDUSD 1 United_States Consumer_Cyclical sales/price:2.7  cash:0.48 rec:0.12 inv:4.1 CA:5.07 L:2.36 mv:2.23 鸡肋:cash+rec+inv-L>MV
+MHO M/I_Homes,_Inc. day$Vol:8.8M USDUSD 1 United_States Consumer_Cyclical sales/price:3.5  cash:0.19 rec:0.03 inv:2.82 CA:3.2 L:1.68 mv:1.18 鸡肋:cash+rec+inv-L>MV
+MTH Meritage_Homes_Corporation day$Vol:26.6M USDUSD 1 United_States Consumer_Cyclical sales/price:2.1  cash:0.27 rec:0.17 inv:4.47 CA:5.16 L:1.9 mv:2.7 鸡肋:cash+rec+inv-L>MV
+OPRT Oportun_Financial_Corporation day$Vol:1.1M USDUSD 1 United_States Financial_Services sales/price:5.5  cash:0.07 rec:2.89 inv:0.0 CA:3.04 L:2.7 mv:0.15 鸡肋:cash+rec+inv-L>MV
+REFI Chicago_Atlantic_Real_Estate_Finance,_Inc. day$Vol:0.5M USDUSD 1 United_States Real_Estate sales/price:0.2  cash:0.01 rec:0.28 inv:0.0 CA:0.29 L:0.02 mv:0.25 鸡肋:cash+rec+inv-L>MV
+SEVN Seven_Hills_Realty_Trust day$Vol:0.1M USDUSD 1 United_States Real_Estate sales/price:0.2  cash:0.05 rec:0.67 inv:0.0 CA:0.72 L:0.45 mv:0.14 鸡肋:cash+rec+inv-L>MV

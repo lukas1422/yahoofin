@@ -1,0 +1,54 @@
+0050.HK 香港小輪（集團）s day$Vol:0.3M HKDHKD 1 Hong_Kong Real_Estate sales/price:0.1  cash:1.68 rec:0.26 inv:1.34 CA:3.28 L:0.26 mv:2.14 INVENTORY netnet, profit:6%
+0057.HK 震雄集團 day$Vol:0.2M HKDHKD 1 Hong_Kong Industrials sales/price:2.3  cash:0.67 rec:1.27 inv:1.06 CA:3.15 L:1.2 mv:1.0 INVENTORY netnet, profit:1%
+0116.HK 周生生s day$Vol:1.9M HKDHKD 1 Hong_Kong Consumer_Cyclical sales/price:4.4  cash:0.67 rec:0.98 inv:11.34 CA:13.82 L:5.35 mv:5.03 鸡肋:cash+rec+inv-L>MV
+0119.HK 保利置業集團s day$Vol:3.3M HKDHKD 1 Hong_Kong Real_Estate sales/price:8.4  cash:36.28 rec:23.11 inv:147.4 CA:207.68 L:189.17 mv:5.35 鸡肋:cash+rec+inv-L>MV
+0321.HK 德永佳集團s day$Vol:0.6M HKDHKD 1 Hong_Kong Consumer_Cyclical sales/price:5.3  cash:2.36 rec:1.13 inv:2.48 CA:6.38 L:3.54 mv:1.46 鸡肋:cash+rec+inv-L>MV
+0326.HK 中國星集團 day$Vol:0.6M HKDHKD 1 Hong_Kong Communication_Services sales/price:0.0  cash:0.1 rec:0.73 inv:3.71 CA:5.07 L:2.22 mv:1.85 鸡肋:cash+rec+inv-L>MV
+0397.HK 權威金融集團 day$Vol:0.5M HKDHKD 1 Hong_Kong Financial_Services sales/price:0.3  cash:0.15 rec:0.78 inv:0.0 CA:1.46 L:0.05 mv:0.43 RECEIVABLES netnet, profit:62%
+0556.HK 泛亞環保 day$Vol:2.8M HKDCNY 0.92 Hong_Kong Industrials sales/price:0.1  cash:1.22 rec:0.01 inv:0.0 CA:1.23 L:0.1 mv:0.59 CASH netnet, profit:91%
+0716.HK 勝獅貨櫃s day$Vol:2.0M HKDUSD 0.13 Hong_Kong Consumer_Cyclical sales/price:6.7  cash:0.44 rec:0.08 inv:0.21 CA:0.77 L:0.26 mv:1.59 RECEIVABLES netnet, profit:30%
+0743.HK 亞洲水泥（中國）s day$Vol:1.8M HKDCNY 0.92 China Basic_Materials sales/price:1.8  cash:7.14 rec:2.17 inv:0.97 CA:10.34 L:2.88 mv:4.94 RECEIVABLES netnet, profit:26%
+0769.HK 中國稀土s day$Vol:0.9M HKDHKD 1 China Basic_Materials sales/price:1.5  cash:1.82 rec:0.56 inv:0.34 CA:2.73 L:0.16 mv:0.9 CASH netnet, profit:131%
+0804.HK 鼎石資本 day$Vol:0.2M HKDHKD 1 Hong_Kong Financial_Services sales/price:0.3  cash:0.05 rec:0.14 inv:0.0 CA:0.19 L:0.01 mv:0.08 RECEIVABLES netnet, profit:80%
+0818.HK 高陽科技s day$Vol:0.5M HKDHKD 1 Hong_Kong Technology sales/price:0.0  cash:3.25 rec:2.45 inv:0.02 CA:7.03 L:3.33 mv:2.22 鸡肋:cash+rec+inv-L>MV
+0829.HK 神冠控股 day$Vol:0.1M HKDCNY 0.92 Hong_Kong Consumer_Defensive sales/price:1.7  cash:1.0 rec:0.19 inv:0.42 CA:1.73 L:0.66 mv:0.82 鸡肋:cash+rec+inv-L>MV
+0869.HK 彩星玩具 day$Vol:0.2M HKDHKD 1 Hong_Kong Consumer_Cyclical sales/price:1.3  cash:0.89 rec:0.12 inv:0.06 CA:1.2 L:0.26 mv:0.65 RECEIVABLES netnet, profit:12%
+0873.HK 世茂服務s day$Vol:27.6M HKDCNY 0.92 China Real_Estate sales/price:2.5  cash:9.84 rec:3.14 inv:0.23 CA:13.93 L:8.93 mv:3.53 RECEIVABLES netnet, profit:2%
+0884.HK 旭輝控股集團s day$Vol:161.2M HKDCNY 0.92 China Real_Estate sales/price:32.2  cash:46.46 rec:105.18 inv:188.3 CA:351.53 L:325.35 mv:4.82 鸡肋:cash+rec+inv-L>MV
+0900.HK AEON信貸財務 day$Vol:0.2M HKDHKD 1 Hong_Kong Financial_Services sales/price:0.5  cash:0.55 rec:4.27 inv:0.0 CA:4.95 L:1.51 mv:1.93 RECEIVABLES netnet, profit:15%
+0978.HK 招商局置地 day$Vol:0.2M HKDCNY 0.92 Hong_Kong Real_Estate sales/price:14.7  cash:14.42 rec:19.63 inv:74.62 CA:113.37 L:104.88 mv:2.75 鸡肋:cash+rec+inv-L>MV
+1099.HK 國藥控股s day$Vol:62.8M HKDCNY 0.92 China Healthcare sales/price:0.0  cash:35.91 rec:211.55 inv:56.3 CA:314.61 L:258.29 mv:48.62 鸡肋:cash+rec+inv-L>MV
+1263.HK 柏能集團s day$Vol:4.9M HKDHKD 1 Hong_Kong Technology sales/price:11.6  cash:3.77 rec:0.74 inv:1.51 CA:6.65 L:3.83 mv:1.49 鸡肋:cash+rec+inv-L>MV
+1282.HK 寶新金融s day$Vol:10.5M HKDHKD 1 Hong_Kong Industrials sales/price:0.0  cash:0.73 rec:2.72 inv:0.84 CA:5.02 L:3.55 mv:0.6 鸡肋:cash+rec+inv-L>MV
+1428.HK 耀才證券金融 day$Vol:0.5M HKDHKD 1 Hong_Kong Financial_Services sales/price:0.5  cash:0.52 rec:8.97 inv:0.0 CA:9.54 L:7.3 mv:1.97 鸡肋:cash+rec+inv-L>MV
+1495.HK 集一控股 day$Vol:3.7M HKDCNY 0.92 China Industrials sales/price:10.1  cash:0.03 rec:0.57 inv:0.36 CA:0.97 L:0.51 mv:0.04 INVENTORY netnet, profit:24%
+1502.HK 金融街物業 day$Vol:0.2M HKDCNY 0.92 China Real_Estate sales/price:1.9  cash:1.4 rec:0.21 inv:0.0 CA:1.75 L:0.72 mv:0.8 RECEIVABLES netnet, profit:8%
+1516.HK 融創服務s day$Vol:28.1M HKDCNY 0.92 China Real_Estate sales/price:2.1  cash:5.3 rec:4.36 inv:0.06 CA:10.22 L:4.8 mv:4.68 鸡肋:cash+rec+inv-L>MV
+1676.HK 中國升海集團 day$Vol:1.0M HKDCNY 0.92 China Consumer_Defensive sales/price:0.5  cash:0.18 rec:0.12 inv:0.06 CA:0.37 L:0.05 mv:0.15 RECEIVABLES netnet, profit:66%
+1786.HK 鐵建裝備 day$Vol:0.2M HKDCNY 0.92 China Industrials sales/price:3.0  cash:1.18 rec:2.37 inv:2.22 CA:5.91 L:2.39 mv:0.87 INVENTORY netnet, profit:31%
+1815.HK 金貓銀貓 day$Vol:0.2M HKDCNY 0.92 China Consumer_Cyclical sales/price:0.8  cash:0.31 rec:0.07 inv:0.98 CA:1.48 L:0.11 mv:0.41 INVENTORY netnet, profit:75%
+1908.HK 建發國際集團s day$Vol:57.4M HKDCNY 0.92 Hong_Kong Real_Estate sales/price:4.2  cash:46.05 rec:33.61 inv:231.23 CA:322.5 L:280.27 mv:23.45 鸡肋:cash+rec+inv-L>MV
+2019.HK 德信中國s day$Vol:1.9M HKDCNY 0.92 China Real_Estate sales/price:9.3  cash:16.11 rec:20.5 inv:63.67 CA:103.85 L:94.67 mv:2.35 鸡肋:cash+rec+inv-L>MV
+2038.HK 富智康集團s day$Vol:2.5M HKDUSD 0.13 Taiwan Technology sales/price:12.9  cash:1.88 rec:2.0 inv:0.85 CA:4.75 L:3.81 mv:5.52 鸡肋:cash+rec+inv-L>MV
+2100.HK 百奧家庭互動 day$Vol:0.2M HKDCNY 0.92 China Communication_Services sales/price:0.8  cash:1.43 rec:0.03 inv:0.0 CA:1.57 L:0.31 mv:0.99 CASH netnet, profit:19%
+2127.HK 匯森家居s day$Vol:3.0M HKDCNY 0.92 China Consumer_Cyclical sales/price:5.9  cash:3.14 rec:1.34 inv:0.22 CA:4.7 L:0.97 mv:1.01 CASH netnet, profit:127%
+2131.HK 云想科技 day$Vol:0.2M HKDCNY 0.92 China Communication_Services sales/price:4.7  cash:0.36 rec:1.51 inv:0.0 CA:2.39 L:0.88 mv:0.72 RECEIVABLES netnet, profit:2%
+2146.HK 榮萬家 day$Vol:0.2M HKDCNY 0.92 China Real_Estate sales/price:4.6  cash:0.93 rec:1.84 inv:0.04 CA:3.47 L:1.74 mv:0.56 RECEIVABLES netnet, profit:7%
+2159.HK 麥迪衛康 day$Vol:0.4M HKDCNY 0.92 China Healthcare sales/price:5.8  cash:0.17 rec:0.08 inv:0.0 CA:0.28 L:0.07 mv:0.14 RECEIVABLES netnet, profit:16%
+2192.HK 醫脈通s day$Vol:3.0M HKDCNY 0.92 China Healthcare sales/price:0.1  cash:4.05 rec:0.1 inv:0.0 CA:4.19 L:0.16 mv:4.31 RECEIVABLES netnet, profit:0%
+2666.HK 環球醫療s day$Vol:6.8M HKDCNY 0.92 China Financial_Services sales/price:1.5  cash:2.34 rec:60.81 inv:0.27 CA:64.51 L:52.28 mv:6.71 鸡肋:cash+rec+inv-L>MV
+2698.HK 魏橋紡織s day$Vol:0.3M HKDCNY 0.92 China Consumer_Cyclical sales/price:14.0  cash:11.57 rec:0.82 inv:2.97 CA:15.9 L:6.12 mv:1.36 CASH netnet, profit:86%
+2877.HK 神威藥業s day$Vol:2.0M HKDCNY 0.92 China Healthcare sales/price:0.9  cash:4.21 rec:0.87 inv:0.59 CA:5.7 L:1.3 mv:3.89 RECEIVABLES netnet, profit:6%
+3393.HK 威勝控股s day$Vol:1.7M HKDCNY 0.92 Hong_Kong Industrials sales/price:2.4  cash:2.58 rec:5.12 inv:0.99 CA:9.59 L:6.59 mv:2.24 鸡肋:cash+rec+inv-L>MV
+3616.HK 恒達集團控股 day$Vol:0.1M HKDCNY 0.92 China Real_Estate sales/price:11.1  cash:0.28 rec:0.21 inv:8.92 CA:9.94 L:8.45 mv:0.4 鸡肋:cash+rec+inv-L>MV
+3818.HK 中國動向s day$Vol:0.8M HKDCNY 0.92 China Consumer_Cyclical sales/price:0.0  cash:1.52 rec:0.99 inv:0.4 CA:5.27 L:1.13 mv:1.56 鸡肋:cash+rec+inv-L>MV
+3878.HK Vicon day$Vol:0.5M HKDHKD 1 Hong_Kong Industrials sales/price:2.8  cash:0.03 rec:0.22 inv:0.0 CA:0.25 L:0.08 mv:0.07 RECEIVABLES netnet, profit:34%
+6108.HK 新銳醫藥 day$Vol:0.3M HKDHKD 1 China Healthcare sales/price:1.3  cash:0.15 rec:0.07 inv:0.13 CA:0.48 L:0.03 mv:0.19 INVENTORY netnet, profit:20%
+6123.HK 圓通速遞(國際) day$Vol:0.2M HKDHKD 1 Hong_Kong Industrials sales/price:13.8  cash:0.57 rec:1.49 inv:0.0 CA:2.08 L:1.19 mv:0.66 鸡肋:cash+rec+inv-L>MV
+6158.HK 正榮地產s day$Vol:2.9M HKDCNY 0.92 China Real_Estate sales/price:46.0  cash:39.12 rec:37.43 inv:142.63 CA:226.81 L:212.9 mv:0.99 鸡肋:cash+rec+inv-L>MV
+6677.HK 遠洋服務s day$Vol:0.9M HKDCNY 0.92 China Real_Estate sales/price:1.8  cash:2.53 rec:0.62 inv:0.18 CA:3.45 L:1.39 mv:1.93 鸡肋:cash+rec+inv-L>MV
+6958.HK 正榮服務s day$Vol:0.2M HKDCNY 0.92 China Real_Estate sales/price:4.9  cash:0.74 rec:0.65 inv:0.0 CA:1.44 L:1.05 mv:0.29 鸡肋:cash+rec+inv-L>MV
+6989.HK 卓越商企服務s day$Vol:2.9M HKDCNY 0.92 China Real_Estate sales/price:1.3  cash:3.01 rec:1.37 inv:0.0 CA:4.51 L:1.61 mv:3.0 鸡肋:cash+rec+inv-L>MV
+9909.HK 寶龍商業管理s day$Vol:3.7M HKDCNY 0.92 China Real_Estate sales/price:1.7  cash:3.99 rec:0.18 inv:0.0 CA:4.26 L:2.6 mv:1.69 鸡肋:cash+rec+inv-L>MV
+9928.HK 時代鄰里s day$Vol:1.0M HKDCNY 0.92 China Real_Estate sales/price:7.9  cash:0.81 rec:1.15 inv:0.0 CA:2.24 L:1.34 mv:0.43 RECEIVABLES netnet, profit:0%
+9982.HK 中原建業s day$Vol:0.9M HKDCNY 0.92 China Real_Estate sales/price:0.8  cash:1.98 rec:0.86 inv:0.0 CA:2.84 L:0.58 mv:1.81 RECEIVABLES netnet, profit:19%
