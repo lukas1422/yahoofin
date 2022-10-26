@@ -3,7 +3,6 @@ ADES Advanced_Emissions_Solutions,_Inc. day$Vol:0.2M USDUSD 1 United_States Indu
 AVIR Atea_Pharmaceuticals,_Inc. day$Vol:2.6M USDUSD 1 United_States Healthcare sales/price:0.0  cash:0.71 rec:0.05 inv:0.0 CA:0.71 L:0.04 mv:0.45 CASH netnet, profit:52%
 CLEU China_Liberal_Education_Holdings_Limited day$Vol:0.2M USDUSD 1 China Consumer_Defensive sales/price:0.3  cash:0.03 rec:0.0 inv:0.0 CA:0.04 L:0.0 mv:0.01 CASH netnet, profit:164%
 EHTH eHealth,_Inc. day$Vol:2.2M USDUSD 1 United_States Financial_Services sales/price:0.0  cash:0.08 rec:0.26 inv:0.0 CA:0.41 L:0.17 mv:0.08 RECEIVABLES netnet, profit:19%
-EJH E-Home_Household_Service_Holdings_Limited day$Vol:0.6M USDUSD 1 China Consumer_Cyclical sales/price:12.5  cash:0.06 rec:0.0 inv:0.0 CA:0.07 L:0.01 mv:0.01 CASH netnet, profit:194%
 ELVT Elevate_Credit,_Inc. day$Vol:0.1M USDUSD 1 United_States Financial_Services sales/price:16.6  cash:0.11 rec:0.6 inv:0.0 CA:0.72 L:0.59 mv:0.03 鸡肋:cash+rec+inv-L>MV
 FAMI Farmmi,_Inc. day$Vol:0.1M USDUSD 1 China Consumer_Defensive sales/price:0.0  cash:0.06 rec:0.02 inv:0.07 CA:0.16 L:0.0 mv:0.01 CASH netnet, profit:543%
 FPH Five_Point_Holdings,_LLC day$Vol:0.3M USDUSD 1 United_States Real_Estate sales/price:0.1  cash:0.2 rec:0.08 inv:2.14 CA:2.43 L:1.03 mv:0.35 鸡肋:cash+rec+inv-L>MV
@@ -18,3 +17,5 @@ MTH Meritage_Homes_Corporation day$Vol:26.6M USDUSD 1 United_States Consumer_Cyc
 OPRT Oportun_Financial_Corporation day$Vol:1.1M USDUSD 1 United_States Financial_Services sales/price:5.5  cash:0.07 rec:2.89 inv:0.0 CA:3.04 L:2.7 mv:0.15 鸡肋:cash+rec+inv-L>MV
 REFI Chicago_Atlantic_Real_Estate_Finance,_Inc. day$Vol:0.5M USDUSD 1 United_States Real_Estate sales/price:0.2  cash:0.01 rec:0.28 inv:0.0 CA:0.29 L:0.02 mv:0.25 鸡肋:cash+rec+inv-L>MV
 SEVN Seven_Hills_Realty_Trust day$Vol:0.1M USDUSD 1 United_States Real_Estate sales/price:0.2  cash:0.05 rec:0.67 inv:0.0 CA:0.72 L:0.45 mv:0.14 鸡肋:cash+rec+inv-L>MV
+TANH Tantech_Holdings_Ltd day$Vol:0.1M USDUSD 1 China Consumer_Defensive sales/price:14.2  cash:0.04 rec:0.06 inv:0.0 CA:0.11 L:0.02 mv:0.0 CASH netnet, profit:227%
+TPH Tri_Pointe_Homes,_Inc. day$Vol:14.5M USDUSD 1 United_States Consumer_Cyclical sales/price:2.4  cash:0.27 rec:0.07 inv:3.49 CA:3.92 L:1.93 mv:1.67 鸡肋:cash+rec+inv-L>MV
