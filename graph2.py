@@ -272,7 +272,8 @@ def buttonCallback():
             print('using xueqiu total shares for china', TICKER, shares)
 
         # bsT['marketCap'] = bsT['priceOnOrAfter'] * shares
-        marketCapLast = si.get_quote_data(TICKER)['marketCap']
+        quoteData = si.get_quote_data(TICKER)
+        marketCapLast = quoteData['marketCap'] if 'marketCap' in quoteData else 0
         shares = marketCapLast / latestPrice
         # print(TICKER, 'shares', shares)
         bsT['marketCap'] = bsT['priceOnOrAfter'] * shares

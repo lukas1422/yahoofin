@@ -46,7 +46,7 @@ if MARKET == Market.US:
 
 elif MARKET == Market.HK:
     stock_df = pd.read_csv('list_HK_Tickers', dtype=object, sep=" "
-                           , index_col=False, names=['ticker', 'name'])
+                           , index_col=False, names=['ticker', 'name'], on_bad_lines='skip')
     stock_df['ticker'] = stock_df['ticker'].astype(str)
     stock_df['ticker'] = stock_df['ticker'].map(lambda x: convertHK(x))
     listStocks = stock_df['ticker'].tolist()
