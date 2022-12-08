@@ -7,8 +7,8 @@ from math import pi
 import numpy as np
 from bokeh.io import curdoc
 from bokeh.layouts import column, row
-from bokeh.models import TextInput, Button, RadioGroup, Paragraph, FactorRange, LabelSet
-from helperMethods import fill0Get, indicatorFunction, roundB, getFromDF, fill0GetLatest
+from bokeh.models import TextInput, Button, RadioGroup, Paragraph, FactorRange, LabelSet, Div
+from helperMethods import fill0Get, indicatorFunction, roundB, roundBString, getFromDF, fill0GetLatest
 from scrape_sharesOutstanding import scrapeTotalSharesXueqiu
 
 ANNUALLY = True
@@ -52,7 +52,10 @@ def my_text_input_handler(attr, old, new):
     print('new ticker is ', TICKER)
 
 
-infoParagraph = Paragraph(width=1000, height=500, text='Blank')
+infoParagraph = Paragraph(width=1000, text='Blank')
+# infoParagraph = Paragraph(width=1000, height=500, text='Blank')
+
+otherInfo = Div(text='initial text')
 lastTradingPrice = si.get_live_price(TICKER)
 # price chart
 gPrice = figure(title='prices chart', width=1000, x_axis_type="datetime")
@@ -286,6 +289,8 @@ def buttonCallback():
         bsT['PBText'] = bsT['PB'].transform(lambda x: str(round(x, 1)) if x != 0 else 'undef')
 
         totalAssets = getFromDF(bs, "totalAssets")
+        totalCurrentAssets = getFromDF(bs, "totalCurrentAssets")
+        currLiab = getFromDF(bs, "totalCurrentLiabilities")
         totalLiab = getFromDF(bs, "totalLiab")
         intangibles = getFromDF(bs, 'intangibleAssets')
         goodWill = getFromDF(bs, 'goodWill')
@@ -347,7 +352,6 @@ def buttonCallback():
                 lambda d: cfT[cfT.index == d]['depreciation'].item() * indicatorFunction(ANNUALLY))
         else:
             bsT['dep'] = 0
-
 
         bsT['capex'] = bsT.index.map(
             lambda d: cfT[cfT.index == d]['capitalExpenditures'].item() * -1 * indicatorFunction(ANNUALLY)) \
@@ -466,7 +470,28 @@ def buttonCallback():
                            + '__p%:' + str(oneYearPercentile) + ' ' + str(twoYearPercentile) + ' ' \
                            + str(threeYearPercentile) + '_list:' + str(listYear)
 
+        otherInfo.text = "***Financials***" + '</br>' + ' '.join(["current ratio components cash", bsCurr,
+                                                                  roundBString(getFromDF(bs, 'cash'), 1), 'rec',
+                                                                  roundBString(getFromDF(bs, 'netReceivables'), 1),
+                                                                  'inv',
+                                                                  roundBString(getFromDF(bs, 'inventory'), 1), 'currL',
+                                                                  roundBString(getFromDF(bs, 'totalCurrentLiabilities'),
+                                                                               1)])
+
+        # otherInfo.text += '</br>' + 'second line'
+        otherInfo.text += '</br>' + ' '.join(["A", roundBString(totalAssets / exRate, 1), "B", "(",
+                                              roundBString(totalCurrentAssets / exRate, 1), ' '
+                                                 , roundBString((totalAssets - totalCurrentAssets) / exRate, 1), ")"])
+        otherInfo.text += '</br>' + ' '.join(["L", roundBString(totalLiab / exRate, 1), "B", "(",
+                                              roundBString(currLiab / exRate, 1),' ',
+                                              roundBString((totalLiab - currLiab) / exRate, 1), ")"])
+        otherInfo.text += '</br>' + ' '.join(["E", roundBString((totalAssets - totalLiab) / exRate, 1), "B"])
+        otherInfo.text += '</br>' + ''.join(["Tangible Equity", roundBString(tangible_equity, 1), 'B  ', bsCurr,
+                                             roundBString(tangible_equity / exRate, 1), 'B  ', listCurr])
+
+        # otherInfo.text += '</br>' + ("Market Cap", str(roundB(marketPrice * shares, 2)) + "B", listCurr)
         # divPrice['yield'].iloc[-1]
+
         print("=============graph finished===============")
     except Exception as e:
         print(' big error is ', e)
@@ -658,4 +683,4 @@ def my_radio_handler(new):
 rg = RadioGroup(labels=['Annual', 'Quarterly'], active=0)
 rg.on_click(my_radio_handler)
 
-curdoc().add_root(column(row(button, button2), rg, text_input, grid, gPrice, gDiv, infoParagraph))
+curdoc().add_root(column(row(button, button2), rg, text_input, grid, gPrice, gDiv, infoParagraph, otherInfo))

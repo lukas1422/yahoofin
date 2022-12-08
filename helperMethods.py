@@ -40,6 +40,9 @@ def getFromDF(df, attribute):
 def roundB(num, decPlace):
     return round(num / 1000000000, decPlace)
 
+def roundBString(num, decPlace):
+    return str(round(num / 1000000000, decPlace))
+
 
 def getFromDFYearly(df, attribute, yearly):
     if not isinstance(df, pd.DataFrame):
