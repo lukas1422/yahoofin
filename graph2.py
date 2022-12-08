@@ -13,6 +13,7 @@ from scrape_sharesOutstanding import scrapeTotalSharesXueqiu
 
 ANNUALLY = True
 FIRST_TIME_GRAPHING = True
+SIMPLE = True
 
 from bokeh.layouts import gridplot
 from bokeh.models import ColumnDataSource, HoverTool
@@ -54,6 +55,7 @@ def my_text_input_handler(attr, old, new):
 
 infoParagraph = Paragraph(width=1000, text='Blank')
 # infoParagraph = Paragraph(width=1000, height=500, text='Blank')
+statusInfo = Div(text='status')
 
 otherInfo = Div(text='initial text')
 lastTradingPrice = si.get_live_price(TICKER)
@@ -167,6 +169,7 @@ def buttonCallback():
     try:
         print(' new ticker is ', TICKER)
         print('annual is ', ANNUALLY)
+        statusInfo.text = "status is running"
 
         try:
             listCurr = getListingCurrency(TICKER)
@@ -174,9 +177,11 @@ def buttonCallback():
             bsCurr = getBalanceSheetCurrency(TICKER, listCurr)
             print("ticker, listing currency, bs currency, ", TICKER, listCurr, bsCurr)
             exRate = currency_getExchangeRate.getExchangeRate(exchange_rate_dict, listCurr, bsCurr)
+            # statusInfo.text += 'exRate is ' + exRate + '</br>'
 
         except Exception as e:
             print(e)
+            statusInfo.text = 'error ' + str(e)
         try:
             info = si.get_company_info(TICKER)
             infoText = info.loc['country'].item() + "______________" + info.loc['industry'].item() + \
@@ -186,6 +191,7 @@ def buttonCallback():
             print(e)
             info = ''
             infoText = ''
+
         print('info text is ', infoText)
         infoParagraph.text = str(infoText)
 
@@ -469,32 +475,37 @@ def buttonCallback():
                            + (str(round(divYield2021))) + '%' \
                            + '__p%:' + str(oneYearPercentile) + ' ' + str(twoYearPercentile) + ' ' \
                            + str(threeYearPercentile) + '_list:' + str(listYear)
+        if not SIMPLE:
+            otherInfo.text = "***Financials***" + '</br>' + ' '.join(["current ratio components cash", bsCurr,
+                                                                      roundBString(getFromDF(bs, 'cash'), 1), 'rec',
+                                                                      roundBString(getFromDF(bs, 'netReceivables'), 1),
+                                                                      'inv',
+                                                                      roundBString(getFromDF(bs, 'inventory'), 1),
+                                                                      'currL',
+                                                                      roundBString(
+                                                                          getFromDF(bs, 'totalCurrentLiabilities'),
+                                                                          1)])
 
-        otherInfo.text = "***Financials***" + '</br>' + ' '.join(["current ratio components cash", bsCurr,
-                                                                  roundBString(getFromDF(bs, 'cash'), 1), 'rec',
-                                                                  roundBString(getFromDF(bs, 'netReceivables'), 1),
-                                                                  'inv',
-                                                                  roundBString(getFromDF(bs, 'inventory'), 1), 'currL',
-                                                                  roundBString(getFromDF(bs, 'totalCurrentLiabilities'),
-                                                                               1)])
-
-        # otherInfo.text += '</br>' + 'second line'
-        otherInfo.text += '</br>' + ' '.join(["A", roundBString(totalAssets / exRate, 1), "B", "(",
-                                              roundBString(totalCurrentAssets / exRate, 1), ' '
-                                                 , roundBString((totalAssets - totalCurrentAssets) / exRate, 1), ")"])
-        otherInfo.text += '</br>' + ' '.join(["L", roundBString(totalLiab / exRate, 1), "B", "(",
-                                              roundBString(currLiab / exRate, 1),' ',
-                                              roundBString((totalLiab - currLiab) / exRate, 1), ")"])
-        otherInfo.text += '</br>' + ' '.join(["E", roundBString((totalAssets - totalLiab) / exRate, 1), "B"])
-        otherInfo.text += '</br>' + ''.join(["Tangible Equity", roundBString(tangible_equity, 1), 'B  ', bsCurr,
-                                             roundBString(tangible_equity / exRate, 1), 'B  ', listCurr])
+            otherInfo.text += '</br>' + ' '.join(["A", roundBString(totalAssets / exRate, 1), "B", "(",
+                                                  roundBString(totalCurrentAssets / exRate, 1), ' '
+                                                     , roundBString((totalAssets - totalCurrentAssets) / exRate, 1),
+                                                  ")"])
+            otherInfo.text += '</br>' + ' '.join(["L", roundBString(totalLiab / exRate, 1), "B", "(",
+                                                  roundBString(currLiab / exRate, 1), ' ',
+                                                  roundBString((totalLiab - currLiab) / exRate, 1), ")"])
+            otherInfo.text += '</br>' + ' '.join(["E", roundBString((totalAssets - totalLiab) / exRate, 1), "B"])
+            otherInfo.text += '</br>' + ''.join(["Tangible Equity", roundBString(tangible_equity, 1), 'B  ', bsCurr,
+                                                 roundBString(tangible_equity / exRate, 1), 'B  ', listCurr])
 
         # otherInfo.text += '</br>' + ("Market Cap", str(roundB(marketPrice * shares, 2)) + "B", listCurr)
         # divPrice['yield'].iloc[-1]
 
+        statusInfo.text = datetime.now().strftime('%H:%M:%S') + ' status is done' + '</br>'
+
         print("=============graph finished===============")
     except Exception as e:
         print(' big error is ', e)
+        statusInfo.text = datetime.now().strftime('%H:%M:%S') + " big error is " + str(e)
         exc_type, exc_obj, exc_tb = sys.exc_info()
         fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
         print(exc_type, fname, exc_tb.tb_lineno)
@@ -680,7 +691,18 @@ def my_radio_handler(new):
     resetCallback()
 
 
+def complexHandler(new):
+    global SIMPLE
+    SIMPLE = True if new == 0 else False
+    print('simple is', SIMPLE)
+    resetCallback()
+
+
 rg = RadioGroup(labels=['Annual', 'Quarterly'], active=0)
 rg.on_click(my_radio_handler)
 
-curdoc().add_root(column(row(button, button2), rg, text_input, grid, gPrice, gDiv, infoParagraph, otherInfo))
+rgComplex = RadioGroup(labels=['simple', 'full'], active=0)
+rgComplex.on_click(complexHandler)
+
+curdoc().add_root(column(row(button, button2), statusInfo, rg, rgComplex, text_input, grid, gPrice, gDiv, infoParagraph,
+                         otherInfo))
