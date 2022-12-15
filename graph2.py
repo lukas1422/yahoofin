@@ -13,7 +13,7 @@ from scrape_sharesOutstanding import scrapeTotalSharesXueqiu
 
 ANNUALLY = True
 FIRST_TIME_GRAPHING = True
-SIMPLE = True
+SIMPLE = False
 
 from bokeh.layouts import gridplot
 from bokeh.models import ColumnDataSource, HoverTool
@@ -701,7 +701,7 @@ def complexHandler(new):
 rg = RadioGroup(labels=['Annual', 'Quarterly'], active=0)
 rg.on_click(my_radio_handler)
 
-rgComplex = RadioGroup(labels=['simple', 'full'], active=0)
+rgComplex = RadioGroup(labels=['simple', 'full'], active=1)
 rgComplex.on_click(complexHandler)
 
 curdoc().add_root(column(row(button, button2), statusInfo, rg, rgComplex, text_input, grid, gPrice, gDiv, infoParagraph,
