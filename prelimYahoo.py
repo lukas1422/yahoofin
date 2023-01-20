@@ -1,21 +1,24 @@
 import pandas as pd
 
-stockName = 'D01.SI'
-yearlyFlag = False
+stockName = '0001.HK'
+# yearlyFlag = False
+yearlyFlag = 'yearly'
 
 import statistics
 import os
 import sys
 from datetime import datetime, timedelta
-import yahoo_fin.stock_info as si
+# import yahoo_fin.stock_info as si
 from currency_scrapeYahoo import getBalanceSheetCurrency
 from currency_scrapeYahoo import getListingCurrency
 import currency_getExchangeRate
 import scrape_sharesOutstanding
 from helperMethods import getFromDF, getFromDFYearly, roundB
+import yfinance as yf
 
-ONE_YEAR_AGO = datetime.today() - timedelta(weeks=53)
-
+ONE_YEAR_AGO = datetime.today().date() - timedelta(weeks=53)
+# ONE_YEAR_AGO = pd.to_datetime('today').floor('D') - pd.Timedelta(53, unit='W')
+print(ONE_YEAR_AGO)
 # yearAgo = datetime.today() - timedelta(weeks=53)
 # START_DATE = (datetime.today() - timedelta(weeks=52 * 10)).strftime('%-m/%-d/%Y')
 PRICE_INTERVAL = '1wk'
@@ -24,18 +27,28 @@ PRICE_INTERVAL = '1wk'
 def getResults(stockName):
     exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
     try:
-        priceData = si.get_data(stockName, interval=PRICE_INTERVAL)
-        print('last trading day', priceData[priceData['volume'] != 0].index[-1].strftime('%Y/%-m/%-d'))
+        stockYF = yf.Ticker(stockName)
+        # priceData = si.get_data(stockName, interval=PRICE_INTERVAL)
+        priceData = stockYF.history(period='max', interval=PRICE_INTERVAL)
+        priceData['Date']=priceData.index
+        priceData = priceData.set_index(priceData['Date'].dt.date)
+        #priceData = priceData.set_index(pd.to_datetime(priceData.index))
+
+        print('last trading day', priceData[priceData['Volume'] != 0].index[-1].strftime('%Y/%-m/%-d'))
 
         # avgVolListingCurrency = (priceData[-10:]['close'] * priceData[-10:]['volume']).sum() / 10
-        medianVol = statistics.median(priceData[-10:]['close'] * priceData[-10:]['volume']) / 5
+        medianVol = statistics.median(priceData[-10:]['Close'] * priceData[-10:]['Volume']) / 5
+
         # print('data', data[-10:])
         # print('mean median', avgVolListingCurrency, medianVol)
         # print(' avg vol ', str(round(avgVolListingCurrency / 1000000, 1)) + "M")
 
         try:
-            info = si.get_company_info(stockName)
-            insiderPerc = float(si.get_holders(stockName).get('Major Holders')[0][0].rstrip("%"))
+            # info = si.get_company_info(stockName)
+            info = stockYF.info
+            # insiderPerc = float(si.get_holders(stockName).get('Major Holders')[0][0].rstrip("%"))
+            insiderPerc = float(stockYF.get_major_holders()[0][0].rstrip("%"))
+
             print(stockName, "insider percent", insiderPerc)
         except Exception as e:
             print(e)
@@ -46,37 +59,53 @@ def getResults(stockName):
             fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
             print(exc_type, fname, exc_tb.tb_lineno)
 
-        country = getFromDF(info, "country")
-        sector = getFromDF(info, 'sector')
-        industry = getFromDF(info, 'industry')
-        longName = getFromDF(info, 'longBusinessSummary')
+        # country = getFromDF(info, "country")
+        # sector = getFromDF(info, 'sector')
+        # industry = getFromDF(info, 'industry')
+        # longName = getFromDF(info, 'longBusinessSummary')
+        #
+        country = info["country"]
+        sector = info['sector']
+        industry = info['industry']
+        longName = info['longBusinessSummary']
 
         # insiderPerc = float(si.get_holders(stockName).get('Major Holders')[0][0].rstrip("%"))
         # print(stockName, country, sector, industry, insiderPerc)
 
         print(longName)
 
-        bs = si.get_balance_sheet(stockName, yearly=yearlyFlag)
+        # bs = si.get_balance_sheet(stockName, yearly=yearlyFlag)
+        # bs = stockYF.get_balance_sheet(freq=yearlyFlag)
+        bs = stockYF.balance_sheet
         print("balance sheet date:", bs.columns[0].strftime('%Y/%-m/%-d'))
-        #print("bs cols", bs.columns)
+        # print("bs cols", bs.columns)
 
-        retainedEarnings = getFromDF(bs, "retainedEarnings")
-        total_CA = getFromDF(bs, "totalCurrentAssets")
-        currLiab = getFromDF(bs, "totalCurrentLiabilities")
+        # retainedEarnings = getFromDF(bs, "retainedEarnings")
+        # total_CA = getFromDF(bs, "totalCurrentAssets")
+        # currLiab = getFromDF(bs, "totalCurrentLiabilities")
+        #
+        # totalAssets = getFromDF(bs, "totalAssets")
+        # totalLiab = getFromDF(bs, "totalLiab")
+        # intangibles = getFromDF(bs, 'intangibleAssets')
+        # goodWill = getFromDF(bs, 'goodWill')
 
-        totalAssets = getFromDF(bs, "totalAssets")
-        totalLiab = getFromDF(bs, "totalLiab")
-        intangibles = getFromDF(bs, 'intangibleAssets')
-        goodWill = getFromDF(bs, 'goodWill')
+        retainedEarnings = getFromDF(bs, "Retained Earnings")
+        total_CA = getFromDF(bs, "Current Assets")
+        currLiab = getFromDF(bs, "Current Liabilities")
+
+        totalAssets = getFromDF(bs, "Total Assets")
+        totalLiab = getFromDF(bs, "Total Liabilities Net Minority Interest")
+        intangibles = getFromDF(bs, 'Other Intangible Assets')
+        goodWill = getFromDF(bs, 'Goodwill')
 
         print('goodwill', goodWill, round(goodWill / totalAssets * 100), "%", 'intangibles', intangibles,
               round(intangibles / totalAssets * 100), "%")
 
         netAssets = totalAssets - totalLiab
         tangible_equity = totalAssets - totalLiab - goodWill - intangibles
-        cash = getFromDF(bs, 'cash')
-        receivables = getFromDF(bs, 'netReceivables')
-        inventory = getFromDF(bs, 'inventory')
+        cash = getFromDF(bs, 'Cash And Cash Equivalents')
+        receivables = getFromDF(bs, 'Accounts Receivable')
+        inventory = getFromDF(bs, 'Inventory')
 
         listingCurr = getListingCurrency(stockName)
         bsCurrency = getBalanceSheetCurrency(stockName, listingCurr)
@@ -84,29 +113,31 @@ def getResults(stockName):
 
         currRatio = (cash + receivables * 0.8 + inventory * 0.5) / currLiab
 
-        incomeStatement = si.get_income_statement(stockName, yearly=yearlyFlag)
+        # incomeStatement = si.get_income_statement(stockName, yearly=yearlyFlag)
+        incomeStatement = stockYF.income_stmt
         print("income statement date:", incomeStatement.columns[0].strftime('%Y/%-m/%-d'))
 
-        revenue = getFromDFYearly(incomeStatement, "totalRevenue", yearlyFlag)
-        ebit = getFromDFYearly(incomeStatement, "ebit", yearlyFlag)
-        netIncome = getFromDFYearly(incomeStatement, 'netIncome', yearlyFlag)
+        revenue = getFromDFYearly(incomeStatement, "Total Revenue", True)
+        ebit = getFromDFYearly(incomeStatement, "Operating Income", True)
+        netIncome = getFromDFYearly(incomeStatement, 'Net Income', True)
 
-        cf = si.get_cash_flow(stockName, yearly=yearlyFlag)
+        # cf = si.get_cash_flow(stockName, yearly=yearlyFlag)
+        cf = stockYF.cashflow
         print("cash flow statement date:", cf.columns[0].strftime('%Y/%-m/%-d'))
 
-        cfo = getFromDFYearly(cf, "totalCashFromOperatingActivities", yearlyFlag)
-        cfi = getFromDFYearly(cf, "totalCashflowsFromInvestingActivities", yearlyFlag)
-        cff = getFromDFYearly(cf, "totalCashFromFinancingActivities", yearlyFlag)
-        dep = getFromDFYearly(cf, "depreciation", yearlyFlag)
-        capex = getFromDFYearly(cf, "capitalExpenditures", yearlyFlag)
+        cfo = getFromDFYearly(cf, "Operating Cash Flow", True)
+        cfi = getFromDFYearly(cf, "Investing Cash Flow", True)
+        cff = getFromDFYearly(cf, "Financing Cash Flow", True)
+        dep = getFromDFYearly(cf, "Depreciation And Amortization", yearlyFlag)
+        capex = getFromDFYearly(cf, "Capital Expenditure", yearlyFlag)
 
         print('cfo', roundB(cfo, 1), 'B')
 
         cfoA = cfo / totalAssets
 
-        marketCapLast = si.get_quote_data(stockName)['marketCap']
-        marketPrice = si.get_live_price(stockName)
-        shares = si.get_quote_data(stockName)['sharesOutstanding']
+        marketCapLast = stockYF.info['marketCap']
+        marketPrice = stockYF.info['currentPrice']
+        shares = stockYF.info['sharesOutstanding']
         print("yahoo shares ", shares)
         impliedShares = marketCapLast / marketPrice
         print("implied shares ", impliedShares)
@@ -137,7 +168,7 @@ def getResults(stockName):
         pTangibleEquity = marketCap / (tangible_equity / exRate)
         tangibleRatio = tangible_equity / (totalAssets - totalLiab)
 
-        divs = si.get_dividends(stockName)
+        divs = stockYF.dividends.to_frame()
         # print('div', divs)
         # divsPastYear = divs.loc[divs.index > ONE_YEAR_AGO]
         # divSumPastYear = divsPastYear['dividend'].sum() if not divsPastYear.empty else 0
@@ -154,18 +185,18 @@ def getResults(stockName):
         div2021Yld = 0
         if not divs.empty:
             yearSpan = 2021 - priceData[:1].index.item().year + 1
-            divPrice = pd.merge(divs.groupby(by=lambda d: d.year)['dividend'].sum(),
-                                priceData.groupby(by=lambda d: d.year)['close'].mean(),
+            divPrice = pd.merge(divs.groupby(by=lambda d: d.year)['Dividends'].sum(),
+                                priceData.groupby(by=lambda d: d.year)['Close'].mean(),
                                 left_index=True, right_index=True)
-            divPrice['yield'] = divPrice['dividend'] / divPrice['close']
+            divPrice['yield'] = divPrice['Dividends'] / divPrice['Close']
             divYieldAll = divPrice[divPrice.index != 2022]['yield'].sum() / yearSpan \
                 if not divPrice[divPrice.index != 2022].empty else 0
             div2021Yld = divPrice.loc[2021]['yield'] if 2021 in divPrice.index else 0
-            #print('yield all', divYieldAll, 'lastyear', div2021Yld)
-
+            # print('yield all', divYieldAll, 'lastyear', div2021Yld)
+        # priceData.index = pd.to_datetime(priceData.index)
         data52w = priceData.loc[priceData.index > ONE_YEAR_AGO]
-        percentile = 100.0 * (marketPrice - data52w['low'].min()) / (data52w['high'].max() - data52w['low'].min())
-        #print('div history ', divs) if not divs.empty else print('div is empty ')
+        percentile = 100.0 * (marketPrice - data52w['Low'].min()) / (data52w['High'].max() - data52w['Low'].min())
+        # print('div history ', divs) if not divs.empty else print('div is empty ')
 
         # PRINTING*****
         print("listing Currency:", listingCurr, "bs currency:", bsCurrency, "ExRate:", exRate)
