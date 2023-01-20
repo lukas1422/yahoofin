@@ -1,6 +1,6 @@
 import pandas as pd
 
-stockName = '0001.HK'
+stockName = '2127.HK'
 # yearlyFlag = False
 yearlyFlag = 'yearly'
 
@@ -16,7 +16,7 @@ import scrape_sharesOutstanding
 from helperMethods import getFromDF, getFromDFYearly, roundB
 import yfinance as yf
 
-ONE_YEAR_AGO = datetime.today().date() - timedelta(weeks=53)
+ONE_YEAR_AGO = datetime.today() - timedelta(weeks=53)
 # ONE_YEAR_AGO = pd.to_datetime('today').floor('D') - pd.Timedelta(53, unit='W')
 print(ONE_YEAR_AGO)
 # yearAgo = datetime.today() - timedelta(weeks=53)
@@ -30,8 +30,9 @@ def getResults(stockName):
         stockYF = yf.Ticker(stockName)
         # priceData = si.get_data(stockName, interval=PRICE_INTERVAL)
         priceData = stockYF.history(period='max', interval=PRICE_INTERVAL)
-        priceData['Date']=priceData.index
-        priceData = priceData.set_index(priceData['Date'].dt.date)
+        priceData = priceData.set_index(priceData.index.map(lambda x: x.replace(tzinfo=None).to_pydatetime()))
+        #priceData['Date']=priceData.index
+        #priceData = priceData.set_index(priceData['Date'].dt.date)
         #priceData = priceData.set_index(pd.to_datetime(priceData.index))
 
         print('last trading day', priceData[priceData['Volume'] != 0].index[-1].strftime('%Y/%-m/%-d'))

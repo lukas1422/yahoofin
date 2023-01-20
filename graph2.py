@@ -10,6 +10,7 @@ from bokeh.layouts import column, row
 from bokeh.models import TextInput, Button, RadioGroup, Paragraph, FactorRange, LabelSet, Div
 from helperMethods import fill0Get, indicatorFunction, roundB, roundBString, getFromDF, fill0GetLatest
 from scrape_sharesOutstanding import scrapeTotalSharesXueqiu
+import yfinance as yf
 
 ANNUALLY = True
 FIRST_TIME_GRAPHING = True
@@ -18,7 +19,7 @@ SIMPLE = False
 from bokeh.layouts import gridplot
 from bokeh.models import ColumnDataSource, HoverTool
 from bokeh.plotting import figure
-import yahoo_fin.stock_info as si
+# import yahoo_fin.stock_info as si
 import currency_getExchangeRate
 from currency_scrapeYahoo import getListingCurrency, getBalanceSheetCurrency
 import pandas as pd
@@ -28,6 +29,7 @@ pd.set_option('display.expand_frame_repr', False)
 HALF_YEAR_WIDE = 15552000000
 
 TICKER = '0001.HK'
+stockYF = yf.Ticker(TICKER)
 
 global_source = ColumnDataSource(pd.DataFrame())
 stockData = ColumnDataSource(pd.DataFrame())
@@ -58,13 +60,16 @@ infoParagraph = Paragraph(width=1000, text='Blank')
 statusInfo = Div(text='status')
 
 otherInfo = Div(text='initial text')
-lastTradingPrice = si.get_live_price(TICKER)
+
+# lastTradingPrice = si.get_live_price(TICKER)
+lastTradingPrice = stockYF.info['currentPrice']
+
 # price chart
 gPrice = figure(title='prices chart', width=1000, x_axis_type="datetime")
 gPrice.xaxis.major_label_orientation = pi / 4
 gPrice.grid.grid_line_alpha = 0.3
-gPrice.add_tools(HoverTool(tooltips=[('date', '@date{%Y-%m-%d}'), ('close', '@close{0.0}')],
-                           formatters={'@date': 'datetime'}, mode='vline'))
+gPrice.add_tools(HoverTool(tooltips=[('Date', '@Date{%Y-%m-%d}'), ('Close', '@Close{0.0}')],
+                           formatters={'@Date': 'datetime'}, mode='vline'))
 
 # priceChart.background_fill_color = "#f5f5f5"
 gDiv = figure(title="divYld", width=1000)
@@ -169,7 +174,9 @@ def buttonCallback():
     try:
         print(' new ticker is ', TICKER)
         print('annual is ', ANNUALLY)
+
         statusInfo.text = "status is running"
+        stockYF = yf.Ticker(TICKER)
 
         try:
             listCurr = getListingCurrency(TICKER)
@@ -183,10 +190,12 @@ def buttonCallback():
             print(e)
             statusInfo.text = 'error ' + str(e)
         try:
-            info = si.get_company_info(TICKER)
-            infoText = info.loc['country'].item() + "______________" + info.loc['industry'].item() + \
-                       '______________' + info.loc['sector'].item() + "______________" + info.loc[
-                           'longBusinessSummary'].item()
+            # info = si.get_company_info(TICKER)
+            info = stockYF.info
+
+            infoText = info['country'] + "______________" + info['industry'] + \
+                       '______________' + info['sector'] + "______________" + info[
+                           'longBusinessSummary']
         except Exception as e:
             print(e)
             info = ''
@@ -195,83 +204,101 @@ def buttonCallback():
         print('info text is ', infoText)
         infoParagraph.text = str(infoText)
 
-        priceData = si.get_data(TICKER)
-        priceData.index.name = 'date'
+        # priceData = si.get_data(TICKER)
+        # priceData.index.name = 'date'
 
-        oneYearPercentile = round(100 * (priceData['adjclose'][-1] - min(priceData['low'][-250:])) /
-                                  (max(priceData['high'][-250:]) - min(priceData['low'][-250:])))
+        priceData = stockYF.history(period='max')
+        priceData = priceData.set_index(priceData.index.map(lambda x: x.replace(tzinfo=None).to_pydatetime()))
+        # priceData['date'] = priceData.index
+        # priceData = priceData.set_index(priceData['date'].dt.date)
 
-        twoYearPercentile = round(100 * (priceData['adjclose'][-1] - min(priceData['low'][-500:])) /
-                                  (max(priceData['high'][-500:]) - min(priceData['low'][-500:])))
+        oneYearPercentile = round(100 * (priceData['Close'][-1] - min(priceData['Low'][-250:])) /
+                                  (max(priceData['High'][-250:]) - min(priceData['Low'][-250:])))
 
-        threeYearPercentile = round(100 * (priceData['adjclose'][-1] - min(priceData['low'][-750:])) /
-                                    (max(priceData['high'][-750:]) - min(priceData['low'][-750:])))
+        twoYearPercentile = round(100 * (priceData['Close'][-1] - min(priceData['Low'][-500:])) /
+                                  (max(priceData['High'][-500:]) - min(priceData['Low'][-500:])))
+
+        threeYearPercentile = round(100 * (priceData['Close'][-1] - min(priceData['Low'][-750:])) /
+                                    (max(priceData['High'][-750:]) - min(priceData['Low'][-750:])))
 
         print("1 2 3 percentile", oneYearPercentile, twoYearPercentile, threeYearPercentile)
 
-        divData = si.get_dividends(TICKER)
+        # divData = si.get_dividends(TICKER)
+        divData = stockYF.dividends.to_frame()
         divPrice = pd.DataFrame()
 
         # print('divdata', divData)
 
         if not divData.empty:
             # divData.groupby(by=lambda a: a.year)['dividend'].sum()
-            divPrice = pd.merge(divData.groupby(by=lambda d: d.year)['dividend'].sum(),
-                                priceData.groupby(by=lambda d: d.year)['close'].mean(),
+            divPrice = pd.merge(divData.groupby(by=lambda d: d.year)['Dividends'].sum(),
+                                priceData.groupby(by=lambda d: d.year)['Close'].mean(),
                                 left_index=True, right_index=True)
             # print('divprice1', divPrice)
             divPrice.index.name = 'year'
-            divPrice['yield'] = divPrice['dividend'] / divPrice['close'] * 100
+            divPrice['yield'] = divPrice['Dividends'] / divPrice['Close'] * 100
             divPrice['yieldText'] = divPrice['yield'].transform(lambda x: str(round(x)))
             # print('divprice2', divPrice)
             divPriceData.data = ColumnDataSource.from_df(divPrice)
 
-        latestPrice = si.get_live_price(TICKER)
-        bs = si.get_balance_sheet(TICKER, yearly=ANNUALLY)
+        # latestPrice = si.get_live_price(TICKER)
+        latestPrice = stockYF.info['currentPrice']
+
+        # bs = si.get_balance_sheet(TICKER, yearly=ANNUALLY)
+        bs = stockYF.balance_sheet
         bsT = bs.T
-        bsT['REAssetsRatio'] = bsT['retainedEarnings'] / bsT['totalAssets'] if 'retainedEarnings' in bsT else 0
+        bsT['REAssetsRatio'] = bsT['Retained Earnings'] / bsT['Total Assets'] if 'Retained Earnings' in bsT else 0
         bsT['REAssetsRatioText'] = bsT['REAssetsRatio'].transform(lambda x: str(round(x, 1)))
 
-        if 'totalCurrentliabilities' not in bsT.index:
-            bsT['currentRatio'] = (fill0Get(bsT, 'cash') + 0.8 * fill0Get(bsT, 'netReceivables') +
-                                   0.5 * fill0Get(bsT, 'inventory')) / bsT['totalCurrentLiabilities']
+        if 'Current Liabilities' in bsT.index:
+            bsT['currentRatio'] = (fill0Get(bsT, 'Cash And Cash Equivalents') + 0.8 * fill0Get(bsT,
+                                                                                               'Account Receivable') +
+                                   0.5 * fill0Get(bsT, 'Inventory')) / bsT['Current Liabilities']
         else:
             bsT['currentRatio'] = 0
 
         bsT['currentRatioText'] = bsT['currentRatio'].transform(lambda x: str(round(x, 0)))
 
-        bsT['grossBook'] = bsT['totalAssets'] - bsT['totalLiab'] if 'totalLiab' in bsT else 0
-        bsT['grossBookB'] = bsT['grossBook'] / 1000000000 if 'grossBook' in bsT else 0
+        bsT['grossBook'] = bsT['Total Assets'] - bsT['Total Liabilities Net Minority Interest'] \
+            if 'Total Liabilities Net Minority Interest' in bsT else 0
+        bsT['grossBookB'] = bsT['Stockholders Equity'] / 1000000000 if 'Stockholders Equity' in bsT else 0
 
-        bsT['netBook'] = bsT['totalAssets'] - bsT['totalLiab'] - fill0Get(bsT, 'goodWill') \
-                         - fill0Get(bsT, 'intangibleAssets')
+        bsT['netBook'] = bsT['Total Assets'] - bsT['Total Liabilities Net Minority Interest'] \
+                         - fill0Get(bsT, 'GoodWill') \
+                         - fill0Get(bsT, 'Other Intangible Assets')
 
         bsT['netBook'] = bsT['netBook'].transform(lambda x: x if x > 0 else 0)
 
         # bsT['noncashAssets'] = bsT['netBook'] - bsT['cash']
-        bsT['tangibleRatio'] = bsT['netBook'] / (bsT['totalAssets'] - bsT['totalLiab'])
+        bsT['tangibleRatio'] = bsT['netBook'] / (bsT['Total Assets'] -
+                                                 bsT['Total Liabilities Net Minority Interest'])
         bsT['tangibleRatioText'] = bsT['tangibleRatio'].transform(lambda x: str(round(x, 1)))
 
         # bsT['DERatio'] = bsT['totalLiab'] / bsT['netBook'] if bsT['netBook'] != 0 else 0
-        bsT['DERatio'] = bsT['totalLiab'].div(bsT['netBook']).replace(np.inf, 0)
+        bsT['DERatio'] = bsT['Total Liabilities Net Minority Interest'].div(bsT['netBook']).replace(np.inf, 0)
         bsT['DERatioText'] = bsT['DERatio'].transform(lambda x: str(round(x, 1)) if x != 0 else 'undef')
 
-        bsT['priceOnOrAfter'] = bsT.index.map(lambda d: priceData[priceData.index >= d].iloc[0]['close'])
+        bsT['priceOnOrAfter'] = bsT.index.map(lambda d: priceData[priceData.index >= d].iloc[0]['Close'])
         # bsT['priceOnOrAfter'][0] = latestPrice
-        bsT['currentAssets'] = bsT['cash'] + fill0Get(bsT, 'netReceivables') + fill0Get(bsT, 'inventory')
-        bsT['noncashCurrentAssets'] = bsT['totalCurrentAssets'] - bsT['cash'] if 'totalCurrentAssets' in bsT else 0
-        bsT['nonCurrentAssets'] = bsT['totalAssets'] - bsT['totalCurrentAssets'] if 'totalCurrentAssets' in bsT else 0
+        bsT['currentAssets'] = \
+            bsT['Cash And Cash Equivalents'] + fill0Get(bsT, 'Account Receivable') + fill0Get(bsT, 'Inventory')
+        bsT['noncashCurrentAssets'] = bsT['Current Assets'] - bsT['Cash And Cash Equivalents'] \
+            if 'Current Assets' in bsT else 0
+        bsT['nonCurrentAssets'] = bsT['Total Assets'] - bsT['Current Assets'] if 'Total Assets' in bsT else 0
         bsT['noncashCurrentAssetsB'] = bsT['noncashCurrentAssets'] / 1000000000 if 'noncashCurrentAssets' in bsT else 0
         bsT['nonCurrentAssetsB'] = bsT['nonCurrentAssets'] / 1000000000 if 'nonCurrentAssets' in bsT else 0
 
-        bsT['totalLiabB'] = bsT['totalLiab'] / 1000000000 if 'totalLiab' in bsT else 0
-        bsT['totalAssetsB'] = bsT['totalAssets'] / 1000000000 if 'totalAssets' in bsT else 0
-        bsT['totalCurrentLiabB'] = bsT['totalCurrentLiabilities'] / 1000000000 \
-            if 'totalCurrentLiabilities' in bsT else 0
-        bsT['totalNoncurrentLiab'] = bsT['totalLiab'] - bsT['totalCurrentLiabilities']
+        bsT['totalLiabB'] = bsT['Total Liabilities Net Minority Interest'] / 1000000000 \
+            if 'Total Liabilities Net Minority Interest' in bsT else 0
+        bsT['totalAssetsB'] = bsT['Total Assets'] / 1000000000 if 'Total Assets' in bsT else 0
+        bsT['totalCurrentLiabB'] = bsT['Current Liabilities'] / 1000000000 \
+            if 'Current Liabilities' in bsT else 0
+
+        bsT['totalNoncurrentLiab'] = bsT['Total Liabilities Net Minority Interest'] - bsT['Current Liabilities']
         bsT['totalNoncurrentLiabB'] = bsT['totalNoncurrentLiab'] / 1000000000
-        bsT['goodWillB'] = bsT['goodWill'] / 1000000000 if 'goodWill' in bsT else 0
-        bsT['intangibleAssetsB'] = bsT['intangibleAssets'] / 1000000000 if 'intangibleAssets' in bsT else 0
+        bsT['goodWillB'] = bsT['Goodwill'] / 1000000000 if 'GoodWill' in bsT else 0
+        bsT['intangibleAssetsB'] = bsT['Other Intangible Assets'] / 1000000000 \
+            if 'Other Intangible Assets' in bsT else 0
 
         # print('bsT current assets', bsT['cash'], bsT['netReceivables'], bsT['inventory'])
         # shares = si.get_quote_data(TICKER)['sharesOutstanding']
@@ -281,8 +308,14 @@ def buttonCallback():
             print('using xueqiu total shares for china', TICKER, shares)
 
         # bsT['marketCap'] = bsT['priceOnOrAfter'] * shares
-        quoteData = si.get_quote_data(TICKER)
-        marketCapLast = quoteData['marketCap'] if 'marketCap' in quoteData else 0
+        # quoteData = si.get_quote_data(TICKER)
+        # marketCapLast = quoteData['marketCap'] if 'marketCap' in quoteData else 0
+
+        marketCapLast = stockYF.info['marketCap']
+
+        # progress
+        #######################
+
         shares = marketCapLast / latestPrice
         # print(TICKER, 'shares', shares)
         bsT['marketCap'] = bsT['priceOnOrAfter'] * shares
@@ -294,20 +327,22 @@ def buttonCallback():
         bsT['PB'] = bsT['marketCap'].div(bsT['netBook']).replace(np.inf, 0) * exRate
         bsT['PBText'] = bsT['PB'].transform(lambda x: str(round(x, 1)) if x != 0 else 'undef')
 
-        totalAssets = getFromDF(bs, "totalAssets")
-        totalCurrentAssets = getFromDF(bs, "totalCurrentAssets")
-        currLiab = getFromDF(bs, "totalCurrentLiabilities")
-        totalLiab = getFromDF(bs, "totalLiab")
-        intangibles = getFromDF(bs, 'intangibleAssets')
-        goodWill = getFromDF(bs, 'goodWill')
+        totalAssets = getFromDF(bs, "Total Assets")
+        totalCurrentAssets = getFromDF(bs, "Current Assets")
+        currLiab = getFromDF(bs, "Current Liabilities")
+        totalLiab = getFromDF(bs, "Total Liabilities Net Minority Interest")
+        intangibles = getFromDF(bs, 'Other Intangible Assets')
+        goodWill = getFromDF(bs, 'Goodwill')
         tangible_equity = totalAssets - totalLiab - goodWill - intangibles
 
-        income = si.get_income_statement(TICKER, yearly=ANNUALLY)
+        # income = si.get_income_statement(TICKER, yearly=ANNUALLY)
+        income = stockYF.income_stmt
+
         incomeT = income.T
         bsT['revenue'] = bsT.index.map(
-            lambda d: incomeT[incomeT.index == d]['totalRevenue'].item() * indicatorFunction(ANNUALLY))
+            lambda d: incomeT[incomeT.index == d]['Total Revenue'].item() * indicatorFunction(ANNUALLY))
         bsT['netIncome'] = bsT.index.map(
-            lambda d: incomeT[incomeT.index == d]['netIncome'].item() * indicatorFunction(ANNUALLY))
+            lambda d: incomeT[incomeT.index == d]['Net Income'].item() * indicatorFunction(ANNUALLY))
 
         bsT['netIncomeB'] = bsT['netIncome'] / 1000000000
         bsT['netIncomeBText'] = bsT['netIncomeB'].transform(lambda x: str(round(x)))
@@ -317,7 +352,7 @@ def buttonCallback():
         print('bstPE', bsT['PE'])
         bsT['PEText'] = bsT['PE'].transform(lambda x: str(round(x)) if x != 0 else 'undef')
 
-        bsT['SalesAssetsRatio'] = bsT['revenue'] / bsT['totalAssets']
+        bsT['SalesAssetsRatio'] = bsT['revenue'] / bsT['Total Assets']
         bsT['SalesAssetsRatioText'] = bsT['SalesAssetsRatio'].transform(lambda x: str(round(x, 1)))
 
         bsT['PriceSalesRatio'] = (bsT['marketCap'] * exRate) / bsT['revenue']
@@ -331,8 +366,8 @@ def buttonCallback():
 
         bsT['pspbText'] = bsT['pspb'].transform(lambda x: str(round(x)))
 
-        bsT['liq'] = bsT['cash'] + fill0Get(bsT, 'netReceivables') * 0.8 + fill0Get(bsT, 'inventory') * 0.5 - \
-                     bsT['totalLiab']
+        bsT['liq'] = bsT['Cash And Cash Equivalents'] + fill0Get(bsT, 'Accounts Receivable') * 0.8 \
+                     + fill0Get(bsT, 'Inventory') * 0.5 - bsT['Total Liabilities Net Minority Interest']
 
         print('bst liq', bsT['liq'])
 
@@ -347,21 +382,22 @@ def buttonCallback():
         # print('print pspliq', bsT['pspliq'])
         bsT['pspliqText'] = bsT['pspliq'].transform(lambda x: str(round(x)))
 
-        cf = si.get_cash_flow(TICKER, yearly=ANNUALLY)
+        # cf = si.get_cash_flow(TICKER, yearly=ANNUALLY)
+        cf = stockYF.cashflow
         cfT = cf.T
 
         bsT['CFO'] = bsT.index.map(
-            lambda d: cfT[cfT.index == d]['totalCashFromOperatingActivities'].item() * indicatorFunction(ANNUALLY))
+            lambda d: cfT[cfT.index == d]['Operating Cash Flow'].item() * indicatorFunction(ANNUALLY))
 
         if 'depreciation' in cf.index:
             bsT['dep'] = bsT.index.map(
-                lambda d: cfT[cfT.index == d]['depreciation'].item() * indicatorFunction(ANNUALLY))
+                lambda d: cfT[cfT.index == d]['Depreciation'].item() * indicatorFunction(ANNUALLY))
         else:
             bsT['dep'] = 0
 
         bsT['capex'] = bsT.index.map(
-            lambda d: cfT[cfT.index == d]['capitalExpenditures'].item() * -1 * indicatorFunction(ANNUALLY)) \
-            if 'capitalExpenditures' in cfT else 0
+            lambda d: cfT[cfT.index == d]['Capital Expenditure'].item() * -1 * indicatorFunction(ANNUALLY)) \
+            if 'Capital Expenditure' in cfT else 0
 
         bsT['FCF'] = bsT['CFO'] - bsT['dep']
 
@@ -389,23 +425,29 @@ def buttonCallback():
         bsT['DepCFOText'] = bsT['DepCFO'].transform(lambda x: str(round(x, 1)))
         bsT['CapexCFOText'] = bsT['CapexCFO'].transform(lambda x: str(round(x, 1)))
 
-        bsT['payAllDebtRatio'] = (bsT['cash'] + fill0Get(bsT, 'netReceivables') * 0.8 +
-                                  fill0Get(bsT, 'inventory') * 0.5) / bsT['totalLiab']
+        bsT['payAllDebtRatio'] = (bsT['Cash And Cash Equivalents']
+                                  + fill0Get(bsT, 'Accounts Receivable') * 0.8 +
+                                  fill0Get(bsT, 'Inventory') * 0.5) \
+                                 / bsT['Total Liabilities Net Minority Interest']
         bsT['payAllDebtText'] = bsT['payAllDebtRatio'].transform(lambda x: str(round(x, 1)))
 
-        bsT['netnetRatio'] = ((bsT['cash'] + fill0Get(bsT, 'netReceivables') * 0.8 +
-                               fill0Get(bsT, 'inventory') * 0.5) / (bsT['totalLiab'] + exRate * bsT['marketCap']))
+        bsT['netnetRatio'] = ((bsT['Cash And Cash Equivalents'] + fill0Get(bsT, 'Accounts Receivable') * 0.8 +
+                               fill0Get(bsT, 'Inventory') * 0.5) / (bsT['Total Liabilities Net Minority Interest']
+                                                                    + exRate * bsT['marketCap']))
         bsT['nnrText'] = bsT['netnetRatio'].transform(lambda x: str(round(x, 1)))
-        bsT['FCFAssetRatio'] = bsT['FCF'] / bsT['totalAssets']
+        bsT['FCFAssetRatio'] = bsT['FCF'] / bsT['Total Assets']
         bsT['FCFAssetRatioText'] = bsT['FCFAssetRatio'].transform(lambda x: str(round(x, 1)))
 
         bsT['dateStr'] = pd.to_datetime(bsT.index)
         bsT['dateStr'] = bsT['dateStr'].transform(lambda x: x.strftime('%Y-%m-%d'))
-        bsT['cashB'] = round(bsT['cash'] / 1000000000, 3) if 'cash' in bsT else 0
+
+        print('cash ', bsT['Cash And Cash Equivalents'])
+        bsT['cashB'] = round(bsT['Cash And Cash Equivalents'].astype(float) / 1000000000, 3) \
+            if 'Cash And Cash Equivalents' in bsT else 0
         bsT['cashBText'] = bsT['cashB'].fillna(0).transform(lambda x: str(round(x, 1))) if 'cashB' in bsT else ''
 
-        bsT['netReceivablesB'] = bsT['netReceivables'] / 1000000000 if 'netReceivables' in bsT else 0
-        bsT['inventoryB'] = bsT['inventory'] / 1000000000 if 'inventory' in bsT else 0
+        bsT['netReceivablesB'] = bsT['Accounts Receivable'] / 1000000000 if 'Accounts Receivable' in bsT else 0
+        bsT['inventoryB'] = bsT['Inventory'] / 1000000000 if 'Inventory' in bsT else 0
         bsT['netBookB'] = bsT['netBook'] / 1000000000 if 'netBook' in bsT else 0
         print('intang', bsT['intangibleAssetsB'])
         bsT['bookAllB'] = bsT['netBookB'] + bsT['goodWillB'] + bsT['intangibleAssetsB']
@@ -419,12 +461,13 @@ def buttonCallback():
         global_source.data = ColumnDataSource.from_df(bsT)
         stockData.data = ColumnDataSource.from_df(priceData)
 
-        latestLiqRatio = (bsT['cash'][0] + fill0GetLatest(bsT, 'netReceivables') * 0.8 +
-                          fill0GetLatest(bsT, 'inventory') * 0.5) / bsT['totalLiab'][0]
+        latestLiqRatio = (bsT['Cash And Cash Equivalents'][0] + fill0GetLatest(bsT, 'Accounts Receivable') * 0.8 +
+                          fill0GetLatest(bsT, 'Inventory') * 0.5) \
+                         / bsT['Total Liabilities Net Minority Interest'][0]
 
-        latestNetnetRatio = (bsT['cash'][0] + fill0GetLatest(bsT, 'netReceivables') * 0.8 +
-                             fill0GetLatest(bsT, 'inventory') * 0.5) / \
-                            (bsT['totalLiab'][0] + exRate * marketCapLast)
+        latestNetnetRatio = (bsT['Cash And Cash Equivalents'][0] + fill0GetLatest(bsT, 'Accounts Receivable') * 0.8 +
+                             fill0GetLatest(bsT, 'Inventory') * 0.5) / \
+                            (bsT['Total Liabilities Net Minority Interest'][0] + exRate * marketCapLast)
 
         # print("latest netnet ratio", latestNetnetRatio, 'cash', bsT['cash'][0], 'rec', fill0GetLatest(bsT, 'netReceivables')
         #       , 'inv', fill0GetLatest(bsT, 'inventory'), 'totalliab', bsT['totalLiab'][0], 'exrate', exRate,
@@ -446,10 +489,10 @@ def buttonCallback():
         updateGraphs()
         # print('pfcf info marketcap, exrate, lastfcf', marketCapLast, exRate, bsT['FCF'][0])
         try:
-            compName1 = info.loc['longBusinessSummary'].item().split(' ')[0] \
-                if 'longBusinessSummary' in info.index and len(info) != 0 else ""
-            compName2 = info.loc['longBusinessSummary'].item().split(' ')[1] \
-                if 'longBusinessSummary' in info.index and len(info) != 0 else ""
+            compName1 = info['longBusinessSummary'].split(' ')[0] \
+                if 'longBusinessSummary' in info.keys() and len(info) != 0 else ""
+            compName2 = info['longBusinessSummary'].split(' ')[1] \
+                if 'longBusinessSummary' in info.keys() and len(info) != 0 else ""
         # print(' comp name ', compName1, compName2, 'summary', info.loc['longBusinessSummary'].item().split(' '))
         except Exception as e:
             print('comp name fail exception:', e)
@@ -519,7 +562,7 @@ def updateGraphs():
     # lastPrice = round(stockData.data['close'][-1], 2) if 'close' in stockData.data else ''
     # lastPrice = round(stockData.data['close'][-1], 2) if 'close' in stockData.data else ''
     # yearsListed = priceData
-    gPrice.title.text = ' Price chart:' + TICKER + '____' + str(round(si.get_live_price(TICKER), 2))
+    gPrice.title.text = ' Price chart:' + TICKER + '____' + str(round(yf.Ticker(TICKER).info['currentPrice'], 2))
 
     for figu in [gMarketcap, gCash, gCurrentAssets, gAssetComposition, gALE, gBook, gTangibleRatio,
                  gCurrentRatio, gRetainedEarnings, gDE, gPB, gEarnings, gPE, gCFO, gFCF, gPFCF,
@@ -527,7 +570,7 @@ def updateGraphs():
         figu.x_range.factors = list(global_source.data['dateStr'][::-1])
 
     if FIRST_TIME_GRAPHING:
-        gPrice.line(x='date', y='close', source=stockData, color='#D06C8A')
+        gPrice.line(x='Date', y='Close', source=stockData, color='#D06C8A')
         gDiv.vbar(x='year', top='yield', source=divPriceData, width=0.8)
         gDiv.add_layout(LabelSet(x='year', y='yield', text='yieldText',
                                  source=divPriceData, text_align='center', render_mode='canvas'))
