@@ -209,8 +209,6 @@ def buttonCallback():
 
         priceData = stockYF.history(period='max')
         priceData = priceData.set_index(priceData.index.map(lambda x: x.replace(tzinfo=None).to_pydatetime()))
-        # priceData['date'] = priceData.index
-        # priceData = priceData.set_index(priceData['date'].dt.date)
 
         oneYearPercentile = round(100 * (priceData['Close'][-1] - min(priceData['Low'][-250:])) /
                                   (max(priceData['High'][-250:]) - min(priceData['Low'][-250:])))
@@ -281,7 +279,7 @@ def buttonCallback():
         bsT['priceOnOrAfter'] = bsT.index.map(lambda d: priceData[priceData.index >= d].iloc[0]['Close'])
         # bsT['priceOnOrAfter'][0] = latestPrice
         bsT['currentAssets'] = \
-            bsT['Cash And Cash Equivalents'] + fill0Get(bsT, 'Account Receivable') + fill0Get(bsT, 'Inventory')
+            bsT['Cash And Cash Equivalents'] + fill0Get(bsT, 'Accounts Receivable') + fill0Get(bsT, 'Inventory')
         bsT['noncashCurrentAssets'] = bsT['Current Assets'] - bsT['Cash And Cash Equivalents'] \
             if 'Current Assets' in bsT else 0
         bsT['nonCurrentAssets'] = bsT['Total Assets'] - bsT['Current Assets'] if 'Total Assets' in bsT else 0
@@ -389,7 +387,7 @@ def buttonCallback():
         bsT['CFO'] = bsT.index.map(
             lambda d: cfT[cfT.index == d]['Operating Cash Flow'].item() * indicatorFunction(ANNUALLY))
 
-        if 'depreciation' in cf.index:
+        if 'Depreciation' in cf.index:
             bsT['dep'] = bsT.index.map(
                 lambda d: cfT[cfT.index == d]['Depreciation'].item() * indicatorFunction(ANNUALLY))
         else:
@@ -452,8 +450,8 @@ def buttonCallback():
         print('intang', bsT['intangibleAssetsB'])
         bsT['bookAllB'] = bsT['netBookB'] + bsT['goodWillB'] + bsT['intangibleAssetsB']
         # print('bookallb', bsT['bookAllB'], bsT['bookAllB'].fillna(0))
-        bsT['bookAllBText'] = bsT['bookAllB'].fillna(0).transform(
-            lambda x: str(round(x, 1))) if 'bookAllB' in bsT else ''
+        bsT['bookAllBText'] = bsT['bookAllB'].fillna(0).transform(lambda x: str(round(x, 1))) \
+            if 'bookAllB' in bsT else ''
 
         # ['netBookB', 'goodWillB', 'intangibleAssetsB']
         # bsT['noncashAssetsB'] = bsT['noncashAssets'] / 1000000000 if 'noncashAssets' in bsT else 0
@@ -520,13 +518,16 @@ def buttonCallback():
                            + str(threeYearPercentile) + '_list:' + str(listYear)
         if not SIMPLE:
             otherInfo.text = "***Financials***" + '</br>' + ' '.join(["current ratio components cash", bsCurr,
-                                                                      roundBString(getFromDF(bs, 'cash'), 1), 'rec',
-                                                                      roundBString(getFromDF(bs, 'netReceivables'), 1),
+                                                                      roundBString(
+                                                                          getFromDF(bs, 'Cash And Cash Equivalents'),
+                                                                          1), 'rec',
+                                                                      roundBString(getFromDF(bs, 'Accounts Receivable'),
+                                                                                   1),
                                                                       'inv',
-                                                                      roundBString(getFromDF(bs, 'inventory'), 1),
+                                                                      roundBString(getFromDF(bs, 'Inventory'), 1),
                                                                       'currL',
                                                                       roundBString(
-                                                                          getFromDF(bs, 'totalCurrentLiabilities'),
+                                                                          getFromDF(bs, 'Current Liabilities'),
                                                                           1)])
 
             otherInfo.text += '</br>' + ' '.join(["A", roundBString(totalAssets / exRate, 1), "B", "(",
