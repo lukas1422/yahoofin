@@ -248,9 +248,10 @@ def buttonCallback():
         bsT['REAssetsRatio'] = bsT['Retained Earnings'] / bsT['Total Assets'] if 'Retained Earnings' in bsT else 0
         bsT['REAssetsRatioText'] = bsT['REAssetsRatio'].transform(lambda x: str(round(x, 1)))
 
-        if 'Current Liabilities' in bsT.index:
+        # if 'Current Liabilities' in bsT.index:
+        if 'Current Liabilities' in bsT.columns:
             bsT['currentRatio'] = (fill0Get(bsT, 'Cash And Cash Equivalents') + 0.8 * fill0Get(bsT,
-                                                                                               'Account Receivable') +
+                                                                                               'Accounts Receivable') +
                                    0.5 * fill0Get(bsT, 'Inventory')) / bsT['Current Liabilities']
         else:
             bsT['currentRatio'] = 0
@@ -262,7 +263,7 @@ def buttonCallback():
         bsT['grossBookB'] = bsT['Stockholders Equity'] / 1000000000 if 'Stockholders Equity' in bsT else 0
 
         bsT['netBook'] = bsT['Total Assets'] - bsT['Total Liabilities Net Minority Interest'] \
-                         - fill0Get(bsT, 'GoodWill') \
+                         - fill0Get(bsT, 'Goodwill') \
                          - fill0Get(bsT, 'Other Intangible Assets')
 
         bsT['netBook'] = bsT['netBook'].transform(lambda x: x if x > 0 else 0)
@@ -273,7 +274,13 @@ def buttonCallback():
         bsT['tangibleRatioText'] = bsT['tangibleRatio'].transform(lambda x: str(round(x, 1)))
 
         # bsT['DERatio'] = bsT['totalLiab'] / bsT['netBook'] if bsT['netBook'] != 0 else 0
-        bsT['DERatio'] = bsT['Total Liabilities Net Minority Interest'].div(bsT['netBook']).replace(np.inf, 0)
+
+        #bsT['DERatio'] = bsT['Total Liabilities Net Minority Interest'].div(bsT['netBook']).replace(np.inf, 0)
+
+        bsT['DERatio'] = bsT['Total Liabilities Net Minority Interest']\
+            .div(bsT['Total Assets'] - bsT['Total Liabilities Net Minority Interest'])
+
+
         bsT['DERatioText'] = bsT['DERatio'].transform(lambda x: str(round(x, 1)) if x != 0 else 'undef')
 
         bsT['priceOnOrAfter'] = bsT.index.map(lambda d: priceData[priceData.index >= d].iloc[0]['Close'])
@@ -317,6 +324,8 @@ def buttonCallback():
         shares = marketCapLast / latestPrice
         # print(TICKER, 'shares', shares)
         bsT['marketCap'] = bsT['priceOnOrAfter'] * shares
+
+        print('shares ', shares, 'mktCap last', marketCapLast)
         bsT['marketCapB'] = bsT['marketCap'] / 1000000000
         bsT['marketCapBText'] = bsT['marketCapB'].transform(lambda x: str(round(x)))
 
