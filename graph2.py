@@ -348,10 +348,19 @@ def buttonCallback():
         income = stockYF.income_stmt
 
         incomeT = income.T
+        # bsT['revenue'] = bsT.index.map(
+        #     lambda d: incomeT[incomeT.index == d]['Total Revenue'].item() * indicatorFunction(ANNUALLY))
+        # bsT['netIncome'] = bsT.index.map(
+        #     lambda d: incomeT[incomeT.index == d]['Net Income'].item() * indicatorFunction(ANNUALLY))
+
         bsT['revenue'] = bsT.index.map(
-            lambda d: incomeT[incomeT.index == d]['Total Revenue'].item() * indicatorFunction(ANNUALLY))
+            lambda d: incomeT[incomeT.index == d]['Total Revenue'].item() if d in incomeT.index else 0)
         bsT['netIncome'] = bsT.index.map(
-            lambda d: incomeT[incomeT.index == d]['Net Income'].item() * indicatorFunction(ANNUALLY))
+            lambda d: incomeT[incomeT.index == d]['Net Income'].item() if d in incomeT.index else 0)
+        # bsT = bsT.merge(incomeT['Total Revenue'], left_index=True, right_index=True, how='outer').fillna(0)
+        # bsT = bsT.merge(incomeT['Net Income'], left_index=True, right_index=True, how='outer').fillna(0)
+        # bsT['netIncome'] = bsT['Net Income']
+        # bsT['revenue'] = bsT['Total Revenue']
 
         bsT['netIncomeB'] = bsT['netIncome'] / 1000000000
         bsT['netIncomeBText'] = bsT['netIncomeB'].transform(lambda x: str(round(x)))
@@ -396,17 +405,19 @@ def buttonCallback():
         cfT = cf.T
 
         bsT['CFO'] = bsT.index.map(
-            lambda d: cfT[cfT.index == d]['Operating Cash Flow'].item() * indicatorFunction(ANNUALLY))
+            lambda d: cfT[cfT.index == d]['Operating Cash Flow'].item() * indicatorFunction(
+                ANNUALLY) if d in cfT.index else 0)
 
         if 'Depreciation' in cf.index:
             bsT['dep'] = bsT.index.map(
-                lambda d: cfT[cfT.index == d]['Depreciation'].item() * indicatorFunction(ANNUALLY))
+                lambda d: cfT[cfT.index == d]['Depreciation'].item() * indicatorFunction(ANNUALLY)
+                if d in cfT.index else 0)
         else:
             bsT['dep'] = 0
 
         bsT['capex'] = bsT.index.map(
-            lambda d: cfT[cfT.index == d]['Capital Expenditure'].item() * -1 * indicatorFunction(ANNUALLY)) \
-            if 'Capital Expenditure' in cfT else 0
+            lambda d: cfT[cfT.index == d]['Capital Expenditure'].item() * -1 * indicatorFunction(ANNUALLY)
+            if d in cfT.index else 0) if 'Capital Expenditure' in cfT else 0
 
         bsT['FCF'] = bsT['CFO'] - bsT['dep']
 
@@ -418,8 +429,9 @@ def buttonCallback():
         bsT['FCFBText'] = bsT['FCFB'].fillna(0).transform(lambda x: str(round(x)))
 
         bsT['PFCF'] = bsT['marketCap'] * exRate / bsT['FCF']
-        bsT['PFCF'] = bsT['PFCF'].transform(lambda x: x if x > 0 else 0)
-        bsT['PFCFText'] = bsT['PFCF'].fillna(0).transform(lambda x: str(round(x)) if x != 0 else 'undef')
+        print('PFCF', bsT['PFCF'])
+        bsT['PFCF'] = bsT['PFCF'].transform(lambda x: x if x > 0 or math.isinf(x) else 0)
+        bsT['PFCFText'] = bsT['PFCF'].fillna(0).transform(lambda x: str(round(x)) if x != 0 and not math.isinf(x) else 'undef')
 
         # print('fcf', bsT['FCF'])
         # print('pfcf', bsT['PFCF'])
