@@ -1,6 +1,6 @@
 import pandas as pd
 
-stockName = '2127.HK'
+stockName = '1317.HK'
 # yearlyFlag = False
 yearlyFlag = 'yearly'
 

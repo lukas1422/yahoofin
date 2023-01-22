@@ -240,7 +240,8 @@ def buttonCallback():
             divPriceData.data = ColumnDataSource.from_df(divPrice)
 
         # latestPrice = si.get_live_price(TICKER)
-        latestPrice = stockYF.info['currentPrice']
+        info = stockYF.info
+        latestPrice = info['currentPrice'] if 'currentPrice' in info else 0
 
         # bs = si.get_balance_sheet(TICKER, yearly=ANNUALLY)
         bs = stockYF.balance_sheet
@@ -275,11 +276,10 @@ def buttonCallback():
 
         # bsT['DERatio'] = bsT['totalLiab'] / bsT['netBook'] if bsT['netBook'] != 0 else 0
 
-        #bsT['DERatio'] = bsT['Total Liabilities Net Minority Interest'].div(bsT['netBook']).replace(np.inf, 0)
+        # bsT['DERatio'] = bsT['Total Liabilities Net Minority Interest'].div(bsT['netBook']).replace(np.inf, 0)
 
-        bsT['DERatio'] = bsT['Total Liabilities Net Minority Interest']\
+        bsT['DERatio'] = bsT['Total Liabilities Net Minority Interest'] \
             .div(bsT['Total Assets'] - bsT['Total Liabilities Net Minority Interest'])
-
 
         bsT['DERatioText'] = bsT['DERatio'].transform(lambda x: str(round(x, 1)) if x != 0 else 'undef')
 
@@ -572,7 +572,9 @@ def updateGraphs():
     # lastPrice = round(stockData.data['close'][-1], 2) if 'close' in stockData.data else ''
     # lastPrice = round(stockData.data['close'][-1], 2) if 'close' in stockData.data else ''
     # yearsListed = priceData
-    gPrice.title.text = ' Price chart:' + TICKER + '____' + str(round(yf.Ticker(TICKER).info['currentPrice'], 2))
+    info = yf.Ticker(TICKER).info
+    gPrice.title.text = ' Price chart:' + TICKER + '____' + \
+                        str(round(info['currentPrice'] if 'currentPrice' in info else 0, 2))
 
     for figu in [gMarketcap, gCash, gCurrentAssets, gAssetComposition, gALE, gBook, gTangibleRatio,
                  gCurrentRatio, gRetainedEarnings, gDE, gPB, gEarnings, gPE, gCFO, gFCF, gPFCF,
