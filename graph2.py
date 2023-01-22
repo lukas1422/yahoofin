@@ -289,7 +289,8 @@ def buttonCallback():
             bsT['Cash And Cash Equivalents'] + fill0Get(bsT, 'Accounts Receivable') + fill0Get(bsT, 'Inventory')
         bsT['noncashCurrentAssets'] = bsT['Current Assets'] - bsT['Cash And Cash Equivalents'] \
             if 'Current Assets' in bsT else 0
-        bsT['nonCurrentAssets'] = bsT['Total Assets'] - bsT['Current Assets'] if 'Total Assets' in bsT else 0
+        bsT['nonCurrentAssets'] = bsT['Total Assets'] - bsT['Current Assets'] \
+            if 'Total Assets' in bsT and 'Current Assets' in bsT else 0
         bsT['noncashCurrentAssetsB'] = bsT['noncashCurrentAssets'] / 1000000000 if 'noncashCurrentAssets' in bsT else 0
         bsT['nonCurrentAssetsB'] = bsT['nonCurrentAssets'] / 1000000000 if 'nonCurrentAssets' in bsT else 0
 
@@ -299,7 +300,8 @@ def buttonCallback():
         bsT['totalCurrentLiabB'] = bsT['Current Liabilities'] / 1000000000 \
             if 'Current Liabilities' in bsT else 0
 
-        bsT['totalNoncurrentLiab'] = bsT['Total Liabilities Net Minority Interest'] - bsT['Current Liabilities']
+        bsT['totalNoncurrentLiab'] = bsT['Total Liabilities Net Minority Interest'] - bsT['Current Liabilities'] if \
+            'Current Liabilities' in bsT and 'Total Liabilities Net Minority Interest' in bsT else 0
         bsT['totalNoncurrentLiabB'] = bsT['totalNoncurrentLiab'] / 1000000000
         bsT['goodWillB'] = bsT['Goodwill'] / 1000000000 if 'GoodWill' in bsT else 0
         bsT['intangibleAssetsB'] = bsT['Other Intangible Assets'] / 1000000000 \
