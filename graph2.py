@@ -241,7 +241,8 @@ def buttonCallback():
 
         # latestPrice = si.get_live_price(TICKER)
         info = stockYF.info
-        latestPrice = info['currentPrice'] if 'currentPrice' in info else 0
+        fast_info = stockYF.fast_info
+        latestPrice = fast_info['last_price'] if 'last_price' in fast_info else 0
 
         # bs = si.get_balance_sheet(TICKER, yearly=ANNUALLY)
         bs = stockYF.balance_sheet
@@ -318,7 +319,7 @@ def buttonCallback():
         # quoteData = si.get_quote_data(TICKER)
         # marketCapLast = quoteData['marketCap'] if 'marketCap' in quoteData else 0
 
-        marketCapLast = stockYF.info['marketCap']
+        marketCapLast = stockYF.fast_info['market_cap']
 
         # progress
         #######################

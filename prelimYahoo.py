@@ -1,7 +1,6 @@
 import pandas as pd
 
-stockName = '1317.HK'
-# yearlyFlag = False
+stockName = 'AAPL'
 yearlyFlag = 'yearly'
 
 import statistics
@@ -137,8 +136,8 @@ def getResults(stockName):
 
         cfoA = cfo / totalAssets
 
-        marketCapLast = stockYF.info['marketCap']
-        marketPrice = stockYF.info['currentPrice']
+        marketCapLast = stockYF.fast_info['market_cap']
+        marketPrice = stockYF.fast_info['last_price']
         shares = stockYF.info['sharesOutstanding']
         print("yahoo shares ", shares)
         impliedShares = marketCapLast / marketPrice
