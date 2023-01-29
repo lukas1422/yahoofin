@@ -51,6 +51,12 @@ def getResults(stockName):
             insiderPerc = float(stockYF.get_major_holders()[0][0].rstrip("%"))
 
             print(stockName, "insider percent", insiderPerc)
+            country = info["country"]
+            sector = info['sector']
+            industry = info['industry']
+            longName = info['longBusinessSummary']
+            print(longName)
+
         except Exception as e:
             print(e)
             print(priceData[-10:])
@@ -65,15 +71,11 @@ def getResults(stockName):
         # industry = getFromDF(info, 'industry')
         # longName = getFromDF(info, 'longBusinessSummary')
         #
-        country = info["country"]
-        sector = info['sector']
-        industry = info['industry']
-        longName = info['longBusinessSummary']
 
         # insiderPerc = float(si.get_holders(stockName).get('Major Holders')[0][0].rstrip("%"))
         # print(stockName, country, sector, industry, insiderPerc)
 
-        print(longName)
+
 
         # bs = si.get_balance_sheet(stockName, yearly=yearlyFlag)
         # bs = stockYF.get_balance_sheet(freq=yearlyFlag)
@@ -84,7 +86,6 @@ def getResults(stockName):
         # retainedEarnings = getFromDF(bs, "retainedEarnings")
         # total_CA = getFromDF(bs, "totalCurrentAssets")
         # currLiab = getFromDF(bs, "totalCurrentLiabilities")
-        #
         # totalAssets = getFromDF(bs, "totalAssets")
         # totalLiab = getFromDF(bs, "totalLiab")
         # intangibles = getFromDF(bs, 'intangibleAssets')
