@@ -2,7 +2,6 @@ import math
 import os
 import sys
 from datetime import datetime
-from math import pi
 
 import numpy as np
 from bokeh.io import curdoc
@@ -14,7 +13,7 @@ import yfinance as yf
 
 ANNUALLY = True
 FIRST_TIME_GRAPHING = True
-SIMPLE = False
+# SIMPLE = False
 
 from bokeh.layouts import gridplot
 from bokeh.models import ColumnDataSource, HoverTool
@@ -54,14 +53,14 @@ def my_text_input_handler(attr, old, new):
     print('new ticker is ', TICKER)
 
 
-infoParagraph = Paragraph(width=20, text='Blank')
+#infoParagraph = Paragraph(width=30, text='Blank')
 # infoParagraph = Paragraph(width=1000, height=500, text='Blank')
 statusInfo = Div(text='status')
 
 otherInfo = Div(text='initial text')
 
 # lastTradingPrice = si.get_live_price(TICKER)
-lastTradingPrice = stockYF.info['currentPrice']
+# lastTradingPrice = stockYF.info['currentPrice']
 
 # # price chart
 # gPrice = figure(title='prices chart', width=1000, x_axis_type="datetime")
@@ -163,7 +162,7 @@ def resetCallback():
     global_source.data = ColumnDataSource.from_df(pd.DataFrame())
     stockData.data = ColumnDataSource.from_df(pd.DataFrame())
     divPriceData.data = ColumnDataSource.from_df(pd.DataFrame())
-    infoParagraph.text = ""
+    #infoParagraph.text = ""
     text_input.title = ''
     # gPrice.title.text = ''
     print('cleared source')
@@ -171,40 +170,41 @@ def resetCallback():
 
 def buttonCallback():
     try:
-        print(' new ticker is ', TICKER)
-        print('annual is ', ANNUALLY)
+        #print(' new ticker is ', TICKER)
+        #print('annual is ', ANNUALLY)
 
         statusInfo.text = "status is running"
         stockYF = yf.Ticker(TICKER)
 
         try:
             listCurr = getListingCurrency(TICKER)
-            print('listCurr is ', listCurr)
+            # print('listCurr is ', listCurr)
             bsCurr = getBalanceSheetCurrency(TICKER, listCurr)
-            print("ticker, listing currency, bs currency, ", TICKER, listCurr, bsCurr)
+            # print("ticker, listing currency, bs currency, ", TICKER, listCurr, bsCurr)
             exRate = currency_getExchangeRate.getExchangeRate(exchange_rate_dict, listCurr, bsCurr)
             # statusInfo.text += 'exRate is ' + exRate + '</br>'
 
         except Exception as e:
             print(e)
             statusInfo.text = 'error ' + str(e)
-        try:
-            # info = si.get_company_info(TICKER)
-            info = stockYF.info
+        # try:
+        #     # info = si.get_company_info(TICKER)
+        #     #info = stockYF.info
+        #
+        #     # infoText = info['country'] + "______________" + info['industry'] + \
+        #     #            '______________' + info['sector'] + "______________" + info[
+        #     #                'longBusinessSummary']
+        # except Exception as e:
+        #     print(e)
+        #     info = ''
+        #     infoText = ''
 
-            infoText = info['country'] + "______________" + info['industry'] + \
-                       '______________' + info['sector'] + "______________" + info[
-                           'longBusinessSummary']
-        except Exception as e:
-            print(e)
-            info = ''
-            infoText = ''
-
-        print('info text is ', infoText)
+        #print('info text is ', infoText)
         # infoParagraph.text = str(infoText)
-        infoParagraph.text = info['country'] + '\n' + info['industry'] + \
-                             '\n' + info['sector'] + '\n' + info['longBusinessSummary']
-        # priceData = si.get_data(TICKER)
+
+        # infoParagraph.text = info['country'] + '\n' + info['industry'] + \
+        #                      '\n' + info['sector'] + '\n' + info['longBusinessSummary']
+        # # priceData = si.get_data(TICKER)
         # priceData.index.name = 'date'
 
         priceData = stockYF.history(period='max')
@@ -219,7 +219,7 @@ def buttonCallback():
         threeYearPercentile = round(100 * (priceData['Close'][-1] - min(priceData['Low'][-750:])) /
                                     (max(priceData['High'][-750:]) - min(priceData['Low'][-750:])))
 
-        print("1 2 3 percentile", oneYearPercentile, twoYearPercentile, threeYearPercentile)
+        # print("1 2 3 percentile", oneYearPercentile, twoYearPercentile, threeYearPercentile)
 
         # divData = si.get_dividends(TICKER)
         divData = stockYF.dividends.to_frame()
@@ -328,7 +328,7 @@ def buttonCallback():
         # print(TICKER, 'shares', shares)
         bsT['marketCap'] = bsT['priceOnOrAfter'] * shares
 
-        print('shares ', shares, 'mktCap last', marketCapLast)
+        #print('shares ', shares, 'mktCap last', marketCapLast)
         bsT['marketCapB'] = bsT['marketCap'] / 1000000000
         bsT['marketCapBText'] = bsT['marketCapB'].transform(lambda x: str(round(x)))
 
@@ -368,7 +368,7 @@ def buttonCallback():
 
         bsT['PE'] = bsT['marketCap'] * exRate / bsT['netIncome']
         bsT['PE'] = bsT['PE'].transform(lambda x: x if x > 0 and not math.isinf(x) else 0)
-        print('bstPE', bsT['PE'])
+        # print('bstPE', bsT['PE'])
         bsT['PEText'] = bsT['PE'].transform(lambda x: str(round(x)) if x != 0 else 'undef')
 
         bsT['SalesAssetsRatio'] = bsT['revenue'] / bsT['Total Assets']
@@ -377,8 +377,8 @@ def buttonCallback():
         bsT['PriceSalesRatio'] = (bsT['marketCap'] * exRate) / bsT['revenue']
         bsT['PriceSalesRatioText'] = bsT['PriceSalesRatio'].transform(lambda x: str(round(x, 1)))
 
-        print('pb', bsT['PB'])
-        print('rev', bsT['revenue'])
+        # print('pb', bsT['PB'])
+        # print('rev', bsT['revenue'])
 
         bsT['pspb'] = (bsT['marketCap'] * exRate) / bsT['revenue'] * bsT['PB'] * 10000
         bsT['pspb'] = bsT['pspb'].transform(lambda x: 0 if math.isinf(x) or math.isnan(x) else x)
@@ -388,7 +388,7 @@ def buttonCallback():
         bsT['liq'] = bsT['Cash And Cash Equivalents'] + fill0Get(bsT, 'Accounts Receivable') * 0.8 \
                      + fill0Get(bsT, 'Inventory') * 0.5 - bsT['Total Liabilities Net Minority Interest']
 
-        print('bst liq', bsT['liq'])
+        # print('bst liq', bsT['liq'])
 
         # bsT['liq'] = bsT['liq'].transform(lambda x: 0 if x < 0 else x)
 
@@ -430,7 +430,7 @@ def buttonCallback():
         bsT['FCFBText'] = bsT['FCFB'].fillna(0).transform(lambda x: str(round(x)))
 
         bsT['PFCF'] = bsT['marketCap'] * exRate / bsT['FCF']
-        print('PFCF', bsT['PFCF'])
+        # print('PFCF', bsT['PFCF'])
         bsT['PFCF'] = bsT['PFCF'].transform(lambda x: x if x > 0 or math.isinf(x) else 0)
         bsT['PFCFText'] = bsT['PFCF'].fillna(0).transform(
             lambda x: str(round(x)) if x != 0 and not math.isinf(x) else 'undef')
@@ -464,7 +464,7 @@ def buttonCallback():
         bsT['dateStr'] = pd.to_datetime(bsT.index)
         bsT['dateStr'] = bsT['dateStr'].transform(lambda x: x.strftime('%Y-%m-%d'))
 
-        print('cash ', bsT['Cash And Cash Equivalents'])
+        # print('cash ', bsT['Cash And Cash Equivalents'])
         bsT['cashB'] = round(bsT['Cash And Cash Equivalents'].astype(float) / 1000000000, 3) \
             if 'Cash And Cash Equivalents' in bsT else 0
         bsT['cashBText'] = bsT['cashB'].fillna(0).transform(lambda x: str(round(x, 1))) if 'cashB' in bsT else ''
@@ -472,7 +472,7 @@ def buttonCallback():
         bsT['netReceivablesB'] = bsT['Accounts Receivable'] / 1000000000 if 'Accounts Receivable' in bsT else 0
         bsT['inventoryB'] = bsT['Inventory'] / 1000000000 if 'Inventory' in bsT else 0
         bsT['netBookB'] = bsT['netBook'] / 1000000000 if 'netBook' in bsT else 0
-        print('intang', bsT['intangibleAssetsB'])
+        # print('intang', bsT['intangibleAssetsB'])
         bsT['bookAllB'] = bsT['netBookB'] + bsT['goodWillB'] + bsT['intangibleAssetsB']
         # print('bookallb', bsT['bookAllB'], bsT['bookAllB'].fillna(0))
         bsT['bookAllBText'] = bsT['bookAllB'].fillna(0).transform(lambda x: str(round(x, 1))) \
@@ -607,18 +607,18 @@ button2 = Button(label='Reset')
 button2.on_click(resetCallback)
 
 
-def my_radio_handler(new):
-    global ANNUALLY
-    ANNUALLY = True if new == 0 else False
-    print('ANNUAL IS', ANNUALLY)
-    resetCallback()
-
-
-def complexHandler(new):
-    global SIMPLE
-    SIMPLE = True if new == 0 else False
-    print('simple is', SIMPLE)
-    resetCallback()
+# def my_radio_handler(new):
+#     global ANNUALLY
+#     ANNUALLY = True if new == 0 else False
+#     print('ANNUAL IS', ANNUALLY)
+#     resetCallback()
+#
+#
+# def complexHandler(new):
+#     global SIMPLE
+#     SIMPLE = True if new == 0 else False
+#     print('simple is', SIMPLE)
+#     resetCallback()
 
 
 # rg = RadioGroup(labels=['Annual', 'Quarterly'], active=0)
@@ -626,4 +626,5 @@ def complexHandler(new):
 # rgComplex = RadioGroup(labels=['simple', 'full'], active=1)
 # rgComplex.on_click(complexHandler)
 
-curdoc().add_root(column(button, button2, statusInfo, text_input, otherInfo, infoParagraph))
+# curdoc().add_root(column(button, button2, statusInfo, text_input, otherInfo, infoParagraph))
+curdoc().add_root(column(button, button2, statusInfo, text_input, otherInfo))
