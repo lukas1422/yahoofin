@@ -59,101 +59,6 @@ statusInfo = Div(text='status')
 
 otherInfo = Div(text='initial text')
 
-# lastTradingPrice = si.get_live_price(TICKER)
-# lastTradingPrice = stockYF.info['currentPrice']
-
-# # price chart
-# gPrice = figure(title='prices chart', width=1000, x_axis_type="datetime")
-# gPrice.xaxis.major_label_orientation = pi / 4
-# gPrice.grid.grid_line_alpha = 0.3
-# gPrice.add_tools(HoverTool(tooltips=[('Date', '@Date{%Y-%m-%d}'), ('Close', '@Close{0.0}')],
-#                            formatters={'@Date': 'datetime'}, mode='vline'))
-#
-# # priceChart.background_fill_color = "#f5f5f5"
-# gDiv = figure(title="divYld", width=1000)
-# gDiv.add_tools(HoverTool(tooltips=[('year', '@year'), ("yield", "@yield{0.0}")], mode='vline'))
-#
-# gMarketcap = figure(title='cap(B)', x_range=FactorRange(factors=list()))
-# gMarketcap.title.text = 'cap(B) '
-# gMarketcap.add_tools(HoverTool(tooltips=[('dateStr', '@dateStr'), ("marketCap", "@marketCapB{0.0}")], mode='vline'))
-#
-# gCash = figure(title='cash(B)', x_range=FactorRange(factors=list()))
-# gCash.title.text = 'cash(B) '
-# gCash.add_tools(HoverTool(tooltips=[('dateStr', '@dateStr'), ("cash", "@cashB{0.0}")], mode='vline'))
-#
-# gCurrentAssets = figure(title='currentAssets', x_range=FactorRange(factors=list()),
-#                         tools="hover", tooltips="$name @dateStr: @$name{0.0}")
-# gCurrentAssets.title.text = 'currentAssets'
-# # gCurrentAssets.legend.orientation = "horizontal"
-# # gCurrentAssets.legend.location = "top_center"
-#
-# gAssetComposition = figure(title='Assets compo', x_range=FactorRange(factors=list()),
-#                            tools="hover", tooltips="$name @dateStr: @$name{0.0}")
-# gAssetComposition.title.text = 'Assets compo'
-#
-# gALE = figure(title='ALE', x_range=FactorRange(factors=list()), tools="hover", tooltips="$name @dateStr: @$name{0.0}")
-# gALE.title.text = 'ALE'
-#
-# gBook = figure(title='book(B)', x_range=FactorRange(factors=list()),
-#                tools="hover", tooltips="$name @dateStr: @$name{0.0}")
-# gBook.title.text = 'Book(B)'
-# # gBook.add_tools(HoverTool(tooltips=[('dateStr', '@dateStr'), ("bookB", "@netBookB")], mode='vline'))
-#
-# gTangibleRatio = figure(title='Tangible Ratio', x_range=FactorRange(factors=list()))
-# gTangibleRatio.title.text = 'Tangible Ratio'
-# gTangibleRatio.add_tools(
-#     HoverTool(tooltips=[('dateStr', '@dateStr'), ("tangibleRatio", "@tangibleRatio{0.0}")], mode='vline'))
-#
-# gCurrentRatio = figure(title='currentRatio', x_range=FactorRange(factors=list()))
-# gRetainedEarnings = figure(title='RetEarnings/A', x_range=FactorRange(factors=list()))
-# gDE = figure(title='D/E Ratio', x_range=FactorRange(factors=list()))
-# gPB = figure(title='P/B Ratio', x_range=FactorRange(factors=list()))
-# gEarnings = figure(title='Earnings(B)', x_range=FactorRange(factors=list()))
-# gPE = figure(title='P/E', x_range=FactorRange(factors=list()))
-# gCFO = figure(title='CFO(B)', x_range=FactorRange(factors=list()))
-# gFCF = figure(title='FCF(B)', x_range=FactorRange(factors=list()))
-# gPFCF = figure(title='P/FCF', x_range=FactorRange(factors=list()))
-# gDepCFO = figure(title='Dep/CFO', x_range=FactorRange(factors=list()))
-# gCapexCFO = figure(title='Capex/CFO', x_range=FactorRange(factors=list()))
-# gSA = figure(title='Sales/Assets Ratio', x_range=FactorRange(factors=list()))
-# gPS = figure(title='Price/Sales Ratio', x_range=FactorRange(factors=list()))
-# gNetnet = figure(title='netnet Ratio', x_range=FactorRange(factors=list()))
-# gPayAllDebt = figure(title='payAllDebt Ratio', x_range=FactorRange(factors=list()))
-# gFCFA = figure(title='FCF/A Ratio', x_range=FactorRange(factors=list()))
-# gPSPB = figure(title='PSPB', x_range=FactorRange(factors=list()))
-# gPSPLiq = figure(title='PSPLiq', x_range=FactorRange(factors=list()))
-#
-# gCurrentRatio.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("cr", "@currentRatio{0.0}")], mode='vline'))
-# gRetainedEarnings.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("Re/A", "@REAssetsRatio{0.0}")], mode='vline'))
-# gDE.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("DERatio", "@DERatio{0.0}")], mode='vline'))
-# gPB.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("PB", "@PB{0.0}")], mode='vline'))
-# gEarnings.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("netIncomeB", "@netIncomeB{0.0}")], mode='vline'))
-# gPE.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("PE", "@PE{0.0}")], mode='vline'))
-# gCFO.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("CFOB", "@CFOB{0.0}")], mode='vline'))
-# gFCF.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("FCFB", "@FCFB{0.0}")], mode='vline'))
-# gPFCF.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("PFCF", "@PFCF{0.0}")], mode='vline'))
-# gDepCFO.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("DepCFO", "@DepCFO{0.0}")], mode='vline'))
-# gCapexCFO.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("CapexCFO", "@CapexCFO{0.0}")], mode='vline'))
-# gSA.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("S/A Ratio", "@SalesAssetsRatio{0.0}")], mode='vline'))
-# gPS.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("P/S Ratio", "@PriceSalesRatio{0.0}")], mode='vline'))
-# gNetnet.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("netnet", "@netnetRatio{0.0}")], mode='vline'))
-# gPayAllDebt.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("payAllDebt", "@payAllDebtRatio{0.0}")], mode='vline'))
-# gFCFA.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("FCF/A", "@FCFAssetRatio{0.0}")], mode='vline'))
-# gPSPB.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("pspb", "@pspb{0.0}")], mode='vline'))
-# gPSPLiq.add_tools(HoverTool(tooltips=[('date', '@dateStr'), ("pspliq", "@pspliq{0.0}")], mode='vline'))
-#
-# for figu in [gPrice, gMarketcap, gCash, gCurrentAssets, gAssetComposition, gALE, gBook, gTangibleRatio,
-#              gDiv, gCurrentRatio, gRetainedEarnings, gDE, gPB, gEarnings, gPE, gCFO, gFCF, gPFCF, gDepCFO,
-#              gCapexCFO, gSA, gPS, gNetnet, gPayAllDebt, gFCFA, gPSPB, gPSPLiq]:
-#     figu.title.text_font_size = '18pt'
-#     figu.title.align = 'center'
-
-# grid = gridplot(
-#     [[gRetainedEarnings, gDE], [gCurrentRatio, gNetnet], [gPB, gPS], [gPSPB, gPSPLiq],
-#      [gCash, gCurrentAssets], [gAssetComposition, gALE], [gBook, gTangibleRatio]
-#         , [gMarketcap, gSA], [gCFO, gFCF], [gPFCF, gFCFA],
-#      [gEarnings, gPE], [gDepCFO, gCapexCFO], [gPayAllDebt, None]], width=500, height=500)
-
 exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 
 
@@ -522,7 +427,7 @@ def buttonCallback():
             compName1 = ''
             compName2 = ''
 
-        #text_input.title = compName1 + ' ' + compName2 + ' '
+        # text_input.title = compName1 + ' ' + compName2 + ' '
         # + '#:' + str(roundB(shares, 1)) + 'B ' \
         # + listCurr + bsCurr + '__MV:' + str(roundB(marketCapLast, 1)) + 'B' \
         # + "__NetB:" + str(roundB(bsT['netBook'][0] / exRate, 1)) + 'B' \
@@ -554,7 +459,7 @@ def buttonCallback():
                          + '___DE:' + str(round(bsT['DERatio'][0], 1)) \
                          + '</br>' + 'RE/A:' + str(round(bsT['REAssetsRatio'][0], 1)) \
                          + '___P/FCF:' + (str(round(marketCapLast * exRate / bsT['FCF'][0], 1))
-                                         if bsT['FCF'][0] > 0 else 'undef') \
+                                          if bsT['FCF'][0] > 0 else 'undef') \
                          + '</br>' + 'Div:' + (str(round(divYieldAll)) if 'yield' in divPrice else '') + '%' \
                          + '___2021Div:' \
                          + (str(round(divYield2021))) + '%' \
@@ -591,6 +496,9 @@ def buttonCallback():
         statusInfo.text = datetime.now().strftime('%H:%M:%S') + ' status is done' + '</br>'
 
         print("=============work finished===============")
+        global text_input
+        text_input.value = ''
+
     except Exception as e:
         print(' big error is ', e)
         statusInfo.text = datetime.now().strftime('%H:%M:%S') + " big error is " + str(e)
