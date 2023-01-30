@@ -54,7 +54,7 @@ def my_text_input_handler(attr, old, new):
     print('new ticker is ', TICKER)
 
 
-infoParagraph = Paragraph(width=130, text='Blank')
+infoParagraph = Paragraph(width=20, text='Blank')
 # infoParagraph = Paragraph(width=1000, height=500, text='Blank')
 statusInfo = Div(text='status')
 
@@ -165,7 +165,7 @@ def resetCallback():
     divPriceData.data = ColumnDataSource.from_df(pd.DataFrame())
     infoParagraph.text = ""
     text_input.title = ''
-    #gPrice.title.text = ''
+    # gPrice.title.text = ''
     print('cleared source')
 
 
@@ -201,8 +201,9 @@ def buttonCallback():
             infoText = ''
 
         print('info text is ', infoText)
-        infoParagraph.text = str(infoText)
-
+        # infoParagraph.text = str(infoText)
+        infoParagraph.text = info['country'] + '\n' + info['industry'] + \
+                             '\n' + info['sector'] + '\n' + info['longBusinessSummary']
         # priceData = si.get_data(TICKER)
         # priceData.index.name = 'date'
 
@@ -540,7 +541,7 @@ def buttonCallback():
         # + (str(round(divYield2021))) + '%' \
         # + '__p%:' + str(oneYearPercentile) + ' ' + str(twoYearPercentile) + ' ' \
         # + str(threeYearPercentile) + '_list:' + str(listYear)
-        #if not SIMPLE:
+        # if not SIMPLE:
         otherInfo.text = '#:' + str(roundB(shares, 1)) + 'B ' + listCurr + bsCurr \
                          + '</br>' + 'MV:' + str(roundB(marketCapLast, 1)) + 'B' \
                          + "__NetB:" + str(roundB(bsT['netBook'][0] / exRate, 1)) + 'B' \
@@ -560,21 +561,16 @@ def buttonCallback():
                          + '</br>' + 'p%:' + str(oneYearPercentile) + ' ' + str(twoYearPercentile) + ' ' \
                          + str(threeYearPercentile) + '_list:' + str(listYear)
         otherInfo.text += '</br>' + "***Financials***" + '</br>' + ' '.join(["cash", bsCurr,
-                                                                             roundBString(
-                                                                                 getFromDF(bs,
-                                                                                           'Cash And Cash Equivalents'),
-                                                                                 1), 'rec',
                                                                              roundBString(getFromDF(bs,
-                                                                                                    'Accounts Receivable'),
-                                                                                          1),
+                                                                                                    'Cash And Cash Equivalents'),
+                                                                                          1), 'rec',
+                                                                             roundBString(
+                                                                                 getFromDF(bs, 'Accounts Receivable'),
+                                                                                 1),
                                                                              'inv',
-                                                                             roundBString(
-                                                                                 getFromDF(bs, 'Inventory'), 1),
-                                                                             'currL',
-                                                                             roundBString(
-                                                                                 getFromDF(bs,
-                                                                                           'Current Liabilities'),
-                                                                                 1)])
+                                                                             roundBString(getFromDF(bs, 'Inventory'),
+                                                                                          1), ])
+        otherInfo.text += '</br>' + ' '.join(['currL', roundBString(getFromDF(bs, 'Current Liabilities'), 1)])
 
         otherInfo.text += '</br>' + ' '.join(["A", roundBString(totalAssets / exRate, 1), "B", "(",
                                               roundBString(totalCurrentAssets / exRate, 1), ' '
