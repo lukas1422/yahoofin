@@ -53,7 +53,7 @@ def my_text_input_handler(attr, old, new):
     print('new ticker is ', TICKER)
 
 
-#infoParagraph = Paragraph(width=30, text='Blank')
+# infoParagraph = Paragraph(width=30, text='Blank')
 # infoParagraph = Paragraph(width=1000, height=500, text='Blank')
 statusInfo = Div(text='status')
 
@@ -162,7 +162,7 @@ def resetCallback():
     global_source.data = ColumnDataSource.from_df(pd.DataFrame())
     stockData.data = ColumnDataSource.from_df(pd.DataFrame())
     divPriceData.data = ColumnDataSource.from_df(pd.DataFrame())
-    #infoParagraph.text = ""
+    # infoParagraph.text = ""
     text_input.title = ''
     # gPrice.title.text = ''
     print('cleared source')
@@ -170,8 +170,8 @@ def resetCallback():
 
 def buttonCallback():
     try:
-        #print(' new ticker is ', TICKER)
-        #print('annual is ', ANNUALLY)
+        # print(' new ticker is ', TICKER)
+        # print('annual is ', ANNUALLY)
 
         statusInfo.text = "status is running"
         stockYF = yf.Ticker(TICKER)
@@ -199,7 +199,7 @@ def buttonCallback():
         #     info = ''
         #     infoText = ''
 
-        #print('info text is ', infoText)
+        # print('info text is ', infoText)
         # infoParagraph.text = str(infoText)
 
         # infoParagraph.text = info['country'] + '\n' + info['industry'] + \
@@ -328,7 +328,7 @@ def buttonCallback():
         # print(TICKER, 'shares', shares)
         bsT['marketCap'] = bsT['priceOnOrAfter'] * shares
 
-        #print('shares ', shares, 'mktCap last', marketCapLast)
+        # print('shares ', shares, 'mktCap last', marketCapLast)
         bsT['marketCapB'] = bsT['marketCap'] / 1000000000
         bsT['marketCapBText'] = bsT['marketCapB'].transform(lambda x: str(round(x)))
 
@@ -542,15 +542,15 @@ def buttonCallback():
         # + '__p%:' + str(oneYearPercentile) + ' ' + str(twoYearPercentile) + ' ' \
         # + str(threeYearPercentile) + '_list:' + str(listYear)
         # if not SIMPLE:
-        otherInfo.text = '#:' + str(roundB(shares, 1)) + 'B ' + listCurr + bsCurr \
-                         + '</br>' + 'MV:' + str(roundB(marketCapLast, 1)) + 'B' \
-                         + "__NetB:" + str(roundB(bsT['netBook'][0] / exRate, 1)) + 'B' \
+        otherInfo.text = '# Shares:' + str(roundB(shares, 1)) + 'B ' + listCurr + bsCurr \
+                         + '</br>' + 'MV:' + str(roundB(marketCapLast, 0)) + 'B' + '</br>' \
+                         + "BV:" + str(roundB(bsT['netBook'][0] / exRate, 0)) + 'B' \
                          + '</br>' + "liqR:" + str(round(latestLiqRatio, 1)) \
                          + "__nnR:" + str(round(latestNetnetRatio, 1)) \
-                         + '__PS:' + (str(round(marketCapLast * exRate / bsT['revenue'][0], 1))
-                                      if bsT['revenue'][0] != 0 else "na") \
-                         + '</br>' + 'PB:' + str(round(marketCapLast * exRate / tangible_equity, 1)) \
-                         + '__CR:' + str(round(bsT['currentRatio'][0], 1)) \
+                         + '</br>' + 'PS:' + (str(round(marketCapLast * exRate / bsT['revenue'][0], 1))
+                                                if bsT['revenue'][0] != 0 else "na") \
+                         + '__PB:' + str(round(marketCapLast * exRate / tangible_equity, 1)) \
+                         + '</br>' + 'CR:' + str(round(bsT['currentRatio'][0], 1)) \
                          + '__DE:' + str(round(bsT['DERatio'][0], 1)) \
                          + '</br>' + 'RE/A:' + str(round(bsT['REAssetsRatio'][0], 1)) \
                          + '__P/FCF:' + (str(round(marketCapLast * exRate / bsT['FCF'][0], 1))
@@ -560,7 +560,7 @@ def buttonCallback():
                          + (str(round(divYield2021))) + '%' \
                          + '</br>' + 'p%:' + str(oneYearPercentile) + ' ' + str(twoYearPercentile) + ' ' \
                          + str(threeYearPercentile) + '_list:' + str(listYear)
-        otherInfo.text += '</br>' + "***Financials***" + '</br>' + ' '.join(["cash", bsCurr,
+        otherInfo.text += '</br>' + "***Financials***" + bsCurr + '</br>' + ' '.join(["csh",
                                                                              roundBString(getFromDF(bs,
                                                                                                     'Cash And Cash Equivalents'),
                                                                                           1), 'rec',
@@ -580,7 +580,7 @@ def buttonCallback():
                                               roundBString(currLiab / exRate, 1), ' ',
                                               roundBString((totalLiab - currLiab) / exRate, 1), ")"])
         otherInfo.text += '</br>' + ' '.join(["E", roundBString((totalAssets - totalLiab) / exRate, 1), "B"])
-        otherInfo.text += '</br>' + ''.join(["Eq", roundBString(tangible_equity, 1), 'B  ', bsCurr,
+        otherInfo.text += '</br>' + ''.join(["Eq:", roundBString(tangible_equity, 1), 'B  ', bsCurr,
                                              roundBString(tangible_equity / exRate, 1), 'B  ', listCurr])
 
         # otherInfo.text += '</br>' + ("Market Cap", str(roundB(marketPrice * shares, 2)) + "B", listCurr)
@@ -605,7 +605,6 @@ button.on_click(buttonCallback)
 
 button2 = Button(label='Reset')
 button2.on_click(resetCallback)
-
 
 # def my_radio_handler(new):
 #     global ANNUALLY
