@@ -522,7 +522,7 @@ def buttonCallback():
             compName1 = ''
             compName2 = ''
 
-        text_input.title = compName1 + ' ' + compName2 + ' '
+        #text_input.title = compName1 + ' ' + compName2 + ' '
         # + '#:' + str(roundB(shares, 1)) + 'B ' \
         # + listCurr + bsCurr + '__MV:' + str(roundB(marketCapLast, 1)) + 'B' \
         # + "__NetB:" + str(roundB(bsT['netBook'][0] / exRate, 1)) + 'B' \
@@ -542,33 +542,35 @@ def buttonCallback():
         # + '__p%:' + str(oneYearPercentile) + ' ' + str(twoYearPercentile) + ' ' \
         # + str(threeYearPercentile) + '_list:' + str(listYear)
         # if not SIMPLE:
-        otherInfo.text = '# Shares:' + str(roundB(shares, 1)) + 'B ' + listCurr + bsCurr \
+        otherInfo.text = compName1 + ' ' + compName2 + '___#Shs:' + str(roundB(shares, 1)) + 'B ' + listCurr + bsCurr \
                          + '</br>' + 'MV:' + str(roundB(marketCapLast, 0)) + 'B' + '</br>' \
                          + "BV:" + str(roundB(bsT['netBook'][0] / exRate, 0)) + 'B' \
                          + '</br>' + "liqR:" + str(round(latestLiqRatio, 1)) \
-                         + "__nnR:" + str(round(latestNetnetRatio, 1)) \
+                         + "___nnR:" + str(round(latestNetnetRatio, 1)) \
                          + '</br>' + 'PS:' + (str(round(marketCapLast * exRate / bsT['revenue'][0], 1))
-                                                if bsT['revenue'][0] != 0 else "na") \
-                         + '__PB:' + str(round(marketCapLast * exRate / tangible_equity, 1)) \
+                                              if bsT['revenue'][0] != 0 else "na") \
+                         + '___PB:' + str(round(marketCapLast * exRate / tangible_equity, 1)) \
                          + '</br>' + 'CR:' + str(round(bsT['currentRatio'][0], 1)) \
-                         + '__DE:' + str(round(bsT['DERatio'][0], 1)) \
+                         + '___DE:' + str(round(bsT['DERatio'][0], 1)) \
                          + '</br>' + 'RE/A:' + str(round(bsT['REAssetsRatio'][0], 1)) \
-                         + '__P/FCF:' + (str(round(marketCapLast * exRate / bsT['FCF'][0], 1))
+                         + '___P/FCF:' + (str(round(marketCapLast * exRate / bsT['FCF'][0], 1))
                                          if bsT['FCF'][0] > 0 else 'undef') \
                          + '</br>' + 'Div:' + (str(round(divYieldAll)) if 'yield' in divPrice else '') + '%' \
-                         + '__2021Div:' \
+                         + '___2021Div:' \
                          + (str(round(divYield2021))) + '%' \
                          + '</br>' + 'p%:' + str(oneYearPercentile) + ' ' + str(twoYearPercentile) + ' ' \
-                         + str(threeYearPercentile) + '_list:' + str(listYear)
+                         + str(threeYearPercentile) + '___list:' + str(listYear)
         otherInfo.text += '</br>' + "***Financials***" + bsCurr + '</br>' + ' '.join(["csh",
-                                                                             roundBString(getFromDF(bs,
-                                                                                                    'Cash And Cash Equivalents'),
-                                                                                          1), 'rec',
-                                                                             roundBString(
-                                                                                 getFromDF(bs, 'Accounts Receivable'),
-                                                                                 1),
-                                                                             'inv',
-                                                                             roundBString(getFromDF(bs, 'Inventory'),
+                                                                                      roundBString(getFromDF(bs,
+                                                                                                             'Cash And Cash Equivalents'),
+                                                                                                   1), 'rec',
+                                                                                      roundBString(
+                                                                                          getFromDF(bs,
+                                                                                                    'Accounts Receivable'),
+                                                                                          1),
+                                                                                      'inv',
+                                                                                      roundBString(
+                                                                                          getFromDF(bs, 'Inventory'),
                                                                                           1), ])
         otherInfo.text += '</br>' + ' '.join(['currL', roundBString(getFromDF(bs, 'Current Liabilities'), 1)])
 
@@ -597,14 +599,14 @@ def buttonCallback():
         print(exc_type, fname, exc_tb.tb_lineno)
 
 
-text_input = TextInput(value="0001.HK", title="Label:")
+text_input = TextInput(value="0001.HK")
 text_input.on_change("value", my_text_input_handler)
 
 button = Button(label="Get Data")
 button.on_click(buttonCallback)
 
-button2 = Button(label='Reset')
-button2.on_click(resetCallback)
+# button2 = Button(label='Reset')
+# button2.on_click(resetCallback)
 
 # def my_radio_handler(new):
 #     global ANNUALLY
@@ -626,4 +628,4 @@ button2.on_click(resetCallback)
 # rgComplex.on_click(complexHandler)
 
 # curdoc().add_root(column(button, button2, statusInfo, text_input, otherInfo, infoParagraph))
-curdoc().add_root(column(button, button2, statusInfo, text_input, otherInfo))
+curdoc().add_root(column(button, text_input, otherInfo, statusInfo))
