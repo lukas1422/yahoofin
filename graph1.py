@@ -32,6 +32,7 @@ stockYF = yf.Ticker(TICKER)
 global_source = ColumnDataSource(pd.DataFrame())
 stockData = ColumnDataSource(pd.DataFrame())
 divPriceData = ColumnDataSource(pd.DataFrame())
+bsCurrOverride = ''
 
 
 def getWidthDivGraph():
@@ -51,6 +52,11 @@ def my_text_input_handler(attr, old, new):
         TICKER = new.upper()
 
     print('new ticker is ', TICKER)
+
+
+def bsCurrOverride_handler(attr, old, new):
+    global bsCurrOverride
+    bsCurrOverride = new.upper()
 
 
 # infoParagraph = Paragraph(width=30, text='Blank')
@@ -84,7 +90,7 @@ def buttonCallback():
         try:
             listCurr = getListingCurrency(TICKER)
             # print('listCurr is ', listCurr)
-            bsCurr = getBalanceSheetCurrency(TICKER, listCurr)
+            bsCurr = bsCurrOverride if bsCurrOverride != '' else getBalanceSheetCurrency(TICKER, listCurr)
             # print("ticker, listing currency, bs currency, ", TICKER, listCurr, bsCurr)
             exRate = currency_getExchangeRate.getExchangeRate(exchange_rate_dict, listCurr, bsCurr)
             # statusInfo.text += 'exRate is ' + exRate + '</br>'
@@ -510,6 +516,10 @@ def buttonCallback():
 text_input = TextInput(value="0001.HK")
 text_input.on_change("value", my_text_input_handler)
 
+bsCurrInput = TextInput(value="")
+bsCurrInput.title = 'Currency Override'
+bsCurrInput.on_change("value", bsCurrOverride_handler)
+
 button = Button(label="Get Data")
 button.on_click(buttonCallback)
 
@@ -536,4 +546,4 @@ button.on_click(buttonCallback)
 # rgComplex.on_click(complexHandler)
 
 # curdoc().add_root(column(button, button2, statusInfo, text_input, otherInfo, infoParagraph))
-curdoc().add_root(column(button, text_input, otherInfo, statusInfo))
+curdoc().add_root(column(button, text_input, bsCurrInput, otherInfo, statusInfo))
