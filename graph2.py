@@ -19,7 +19,6 @@ SIMPLE = False
 from bokeh.layouts import gridplot
 from bokeh.models import ColumnDataSource, HoverTool
 from bokeh.plotting import figure
-# import yahoo_fin.stock_info as si
 import currency_getExchangeRate
 from currency_scrapeYahoo import getListingCurrency, getBalanceSheetCurrency
 import pandas as pd
@@ -30,6 +29,7 @@ HALF_YEAR_WIDE = 15552000000
 
 TICKER = '0001.HK'
 stockYF = yf.Ticker(TICKER)
+bsCurrOverride = ''
 
 global_source = ColumnDataSource(pd.DataFrame())
 stockData = ColumnDataSource(pd.DataFrame())
@@ -46,13 +46,16 @@ def getWidthDivGraph():
 
 def my_text_input_handler(attr, old, new):
     global TICKER
-
     if str.isdigit(new):
         TICKER = new.zfill(4) + '.HK'
     else:
         TICKER = new.upper()
-
     print('new ticker is ', TICKER)
+
+
+def bsCurrOverride_handler(attr, old, new):
+    global bsCurrOverride
+    bsCurrOverride = new.upper()
 
 
 infoParagraph = Paragraph(width=1000, text='Blank')
@@ -181,7 +184,7 @@ def buttonCallback():
         try:
             listCurr = getListingCurrency(TICKER)
             print('listCurr is ', listCurr)
-            bsCurr = getBalanceSheetCurrency(TICKER, listCurr)
+            bsCurr = bsCurrOverride if bsCurrOverride != '' else getBalanceSheetCurrency(TICKER, listCurr)
             print("ticker, listing currency, bs currency, ", TICKER, listCurr, bsCurr)
             exRate = currency_getExchangeRate.getExchangeRate(exchange_rate_dict, listCurr, bsCurr)
             # statusInfo.text += 'exRate is ' + exRate + '</br>'
@@ -432,7 +435,8 @@ def buttonCallback():
         bsT['PFCF'] = bsT['marketCap'] * exRate / bsT['FCF']
         print('PFCF', bsT['PFCF'])
         bsT['PFCF'] = bsT['PFCF'].transform(lambda x: x if x > 0 or math.isinf(x) else 0)
-        bsT['PFCFText'] = bsT['PFCF'].fillna(0).transform(lambda x: str(round(x)) if x != 0 and not math.isinf(x) else 'undef')
+        bsT['PFCFText'] = bsT['PFCF'].fillna(0).transform(
+            lambda x: str(round(x)) if x != 0 and not math.isinf(x) else 'undef')
 
         # print('fcf', bsT['FCF'])
         # print('pfcf', bsT['PFCF'])
@@ -587,9 +591,9 @@ def updateGraphs():
     # lastPrice = round(stockData.data['close'][-1], 2) if 'close' in stockData.data else ''
     # lastPrice = round(stockData.data['close'][-1], 2) if 'close' in stockData.data else ''
     # yearsListed = priceData
-    info = yf.Ticker(TICKER).info
+    fast_info = yf.Ticker(TICKER).fast_info
     gPrice.title.text = ' Price chart:' + TICKER + '____' + \
-                        str(round(info['currentPrice'] if 'currentPrice' in info else 0, 2))
+                        str(round(fast_info['last_price'] if 'last_price' in fast_info else 0, 2))
 
     for figu in [gMarketcap, gCash, gCurrentAssets, gAssetComposition, gALE, gBook, gTangibleRatio,
                  gCurrentRatio, gRetainedEarnings, gDE, gPB, gEarnings, gPE, gCFO, gFCF, gPFCF,
@@ -744,8 +748,12 @@ def updateGraphs():
         FIRST_TIME_GRAPHING = False
 
 
-text_input = TextInput(value="0001.HK", title="Label:")
+text_input = TextInput(value="0001.HK", title="Company name:")
 text_input.on_change("value", my_text_input_handler)
+
+bsCurrInput = TextInput(value="")
+bsCurrInput.title = 'Currency Override'
+bsCurrInput.on_change("value", bsCurrOverride_handler)
 
 button = Button(label="Get Data")
 button.on_click(buttonCallback)
@@ -774,5 +782,6 @@ rg.on_click(my_radio_handler)
 rgComplex = RadioGroup(labels=['simple', 'full'], active=1)
 rgComplex.on_click(complexHandler)
 
-curdoc().add_root(column(row(button, button2), statusInfo, rg, rgComplex, text_input, grid, gPrice, gDiv, infoParagraph,
-                         otherInfo))
+curdoc().add_root(
+    column(row(button, button2), statusInfo, rg, rgComplex, text_input, bsCurrInput, grid, gPrice, gDiv, infoParagraph,
+           otherInfo))
