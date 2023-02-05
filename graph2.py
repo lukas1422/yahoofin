@@ -547,15 +547,15 @@ def buttonCallback():
         if not SIMPLE:
             otherInfo.text = "***Financials***" + '</br>' + ' '.join(["current ratio components cash", bsCurr,
                                                                       roundBString(
-                                                                          getFromDF(bs, 'Cash And Cash Equivalents'),
+                                                                          getFromDF(bs, 'Cash And Cash Equivalents')/exRate,
                                                                           1), 'rec',
-                                                                      roundBString(getFromDF(bs, 'Accounts Receivable'),
+                                                                      roundBString(getFromDF(bs, 'Accounts Receivable')/exRate,
                                                                                    1),
                                                                       'inv',
-                                                                      roundBString(getFromDF(bs, 'Inventory'), 1),
+                                                                      roundBString(getFromDF(bs, 'Inventory')/exRate, 1),
                                                                       'currL',
                                                                       roundBString(
-                                                                          getFromDF(bs, 'Current Liabilities'),
+                                                                          getFromDF(bs, 'Current Liabilities')/exRate,
                                                                           1)])
 
             otherInfo.text += '</br>' + ' '.join(["A", roundBString(totalAssets / exRate, 1), "B", "(",
