@@ -427,6 +427,9 @@ def buttonCallback():
                 if 'longBusinessSummary' in info.keys() and len(info) != 0 else ""
             compName2 = info['longBusinessSummary'].split(' ')[1] \
                 if 'longBusinessSummary' in info.keys() and len(info) != 0 else ""
+            sector = info['sector'] if 'sector' in info.keys() and len(info) != 0 else ""
+            description = info['longBusinessSummary'] \
+                if 'longBusinessSummary' in info.keys() and len(info) != 0 else ""
         # print(' comp name ', compName1, compName2, 'summary', info.loc['longBusinessSummary'].item().split(' '))
         except Exception as e:
             print('comp name fail exception:', e)
@@ -453,7 +456,9 @@ def buttonCallback():
         # + '__p%:' + str(oneYearPercentile) + ' ' + str(twoYearPercentile) + ' ' \
         # + str(threeYearPercentile) + '_list:' + str(listYear)
         # if not SIMPLE:
-        otherInfo.text = compName1 + ' ' + compName2 + '___#Shs:' + str(roundB(shares, 1)) + 'B ' + listCurr + bsCurr \
+        otherInfo.text = TICKER + ' ' + compName1 + ' ' + compName2 + '___#Shs:' + str(
+            roundB(shares, 1)) + 'B ' + listCurr + bsCurr \
+                         + '</br>' + sector \
                          + '</br>' + 'MV:' + str(roundB(marketCapLast, 0)) + 'B' + '</br>' \
                          + "BV:" + str(roundB(bsT['netBook'][0] / exRate, 0)) + 'B' \
                          + '</br>' + "liqR:" + str(round(latestLiqRatio, 1)) \
@@ -471,18 +476,11 @@ def buttonCallback():
                          + (str(round(divYield2021))) + '%' \
                          + '</br>' + 'p%:' + str(oneYearPercentile) + ' ' + str(twoYearPercentile) + ' ' \
                          + str(threeYearPercentile) + '___list:' + str(listYear)
-        otherInfo.text += '</br>' + "***Financials***" + bsCurr + '</br>' + ' '.join(["csh",
-                                                                                      roundBString(getFromDF(bs,
-                                                                                                             'Cash And Cash Equivalents'),
-                                                                                                   1), 'rec',
-                                                                                      roundBString(
-                                                                                          getFromDF(bs,
-                                                                                                    'Accounts Receivable'),
-                                                                                          1),
-                                                                                      'inv',
-                                                                                      roundBString(
-                                                                                          getFromDF(bs, 'Inventory'),
-                                                                                          1), ])
+        otherInfo.text += '</br>' + "***Financials***" + bsCurr + '</br>' \
+                          + ' '.join(
+            ["csh", roundBString(getFromDF(bs, 'Cash And Cash Equivalents') / exRate, 1), 'rec',
+             roundBString(getFromDF(bs, 'Accounts Receivable') / exRate, 1),
+             'inv', roundBString(getFromDF(bs, 'Inventory') / exRate, 1), ])
         otherInfo.text += '</br>' + ' '.join(['currL', roundBString(getFromDF(bs, 'Current Liabilities'), 1)])
 
         otherInfo.text += '</br>' + ' '.join(["A", roundBString(totalAssets / exRate, 1), "B", "(",
@@ -495,6 +493,7 @@ def buttonCallback():
         otherInfo.text += '</br>' + ' '.join(["E", roundBString((totalAssets - totalLiab) / exRate, 1), "B"])
         otherInfo.text += '</br>' + ''.join(["Eq:", roundBString(tangible_equity, 1), 'B  ', bsCurr,
                                              roundBString(tangible_equity / exRate, 1), 'B  ', listCurr])
+        otherInfo.text += '</br>' + description
 
         # otherInfo.text += '</br>' + ("Market Cap", str(roundB(marketPrice * shares, 2)) + "B", listCurr)
         # divPrice['yield'].iloc[-1]
@@ -525,14 +524,11 @@ button.on_click(buttonCallback)
 
 # button2 = Button(label='Reset')
 # button2.on_click(resetCallback)
-
 # def my_radio_handler(new):
 #     global ANNUALLY
 #     ANNUALLY = True if new == 0 else False
 #     print('ANNUAL IS', ANNUALLY)
 #     resetCallback()
-#
-#
 # def complexHandler(new):
 #     global SIMPLE
 #     SIMPLE = True if new == 0 else False
