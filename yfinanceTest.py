@@ -1,7 +1,7 @@
 import statistics
 from datetime import datetime, timedelta
 import sys, os
-import yahoo_fin.stock_info as si
+# import yahoo_fin.stock_info as si
 import pandas as pd
 from Market import Market
 from currency_scrapeYahoo import getBalanceSheetCurrency
@@ -31,7 +31,7 @@ exchange_rate_dict = currency_getExchangeRate.getExchangeRateDict()
 fileOutput = open('list_results_hk', 'w')
 
 stock_df = pd.read_csv('list_HK_Tickers', dtype=object, sep=" ", index_col=False,
-                       names=['ticker', 'name'], error_bad_lines=False)
+                       names=['ticker', 'name'], on_bad_lines='skip')
 
 #
 stock_df['ticker'] = stock_df['ticker'].astype(str)
